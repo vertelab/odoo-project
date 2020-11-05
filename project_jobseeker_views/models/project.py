@@ -4,7 +4,9 @@ from datetime import datetime
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
+    _order = "project_next_task_due_date desc"
 
+    personal_number = fields.Char(related='partner_id.company_registry', string="Personal Number")
     case_number = fields.Char(related='sale_order_id.client_order_ref', string="Case Number")
     service = fields.Many2one(related='sale_line_id.product_id', string="Service")
     project_next_task = fields.Many2one('project.task', string="Next Task", compute='_update_fields')

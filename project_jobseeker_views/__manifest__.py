@@ -20,14 +20,14 @@
 ##############################################################################
 {
 'name': 'Project Job Seeker',
-'version': '0.1',
+'version': '0.2',
 'summary': 'Project Job Seeker',
 'category': 'project',
-'description': """LProject Job Seeker.
+'description': """Project Job Seeker.
 """,
 'author': 'Vertel AB',
 'website': 'http://www.vertel.se',
-'depends': ['project', 'sale', 'sale_timesheet'],
+'depends': ['project', 'sale', 'sale_timesheet', 'partner_view_360'],
 'data': [
     'views/project_view.xml',
 ],
