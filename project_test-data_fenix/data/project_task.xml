@@ -4,7 +4,7 @@
             <field name="planned_hours" eval="40.0"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="priority">0</field>
-            <field name="project_id" ref="fenix_test_project.project_project_fenix"/>
+            <field name="project_id" ref="project_test-data_fenix.project_project_fenix"/>
             <field name="name">Meeting Client</field>
             <field name="stage_id" ref="project.project_stage_data_0"/>
             <field name="color">3</field>
@@ -13,7 +13,7 @@
             <field name="planned_hours" eval="32.0"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="priority">0</field>
-            <field name="project_id" ref="fenix_test_project.project_project_fenix"/>
+            <field name="project_id" ref="project_test-data_fenix.project_project_fenix"/>
             <field name="name">BA Meeting</field>
             <field name="stage_id" ref="project.project_stage_data_0"/>
         </record>
@@ -22,7 +22,7 @@
             <field name="planned_hours" eval="40.0"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="priority">0</field>
-            <field name="project_id" ref="fenix_test_project.project_project_research"/>
+            <field name="project_id" ref="project_test-data_fenix.project_project_research"/>
             <field name="name">Sprint Planning</field>
             <field name="stage_id" ref="project.project_stage_data_0"/>
             <field name="color">3</field>
@@ -31,7 +31,7 @@
             <field name="planned_hours" eval="32.0"/>
             <field name="user_id" ref="base.user_admin"/>
             <field name="priority">0</field>
-            <field name="project_id" ref="fenix_test_project.project_project_research"/>
+            <field name="project_id" ref="project_test-data_fenix.project_project_research"/>
             <field name="name">Risk Analysis</field>
             <field name="stage_id" ref="project.project_stage_data_0"/>
         </record>

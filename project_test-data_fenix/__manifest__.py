@@ -8,8 +8,7 @@
     "website": "https://vertel.se/",
     "category": "Tools",
     "depends": [
-        "base",
-        "project",
+        "project"
     ],
     "external_dependencies": [],
     "data": [
