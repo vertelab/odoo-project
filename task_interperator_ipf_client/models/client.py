@@ -31,7 +31,7 @@ _logger = logging.getLogger(__name__)
 
 
 class ClientConfig(models.AbstractModel):
-    _name = 'ipf.tlr.client'
+    _name = 'ipf.interpreter.client'
     _description = 'Task Interperator IPF client'
 
     @api.model
