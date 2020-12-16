@@ -109,8 +109,9 @@ class ClientConfig(models.AbstractModel):
     def get_api(self):
         return self
 
-    def post_tolkbokningar(self, mail_activity):
-        
+
+    def post_tolkbokningar(self, activity):
+        params = activity.preprocessing_activity_data()
         return self.get_request('/tolkbokningar', params, 'POST')
 
     def get_tolksprak(self):

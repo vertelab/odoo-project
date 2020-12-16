@@ -1,3 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_ipf_client_test,access_ipf_client_test,model_ipf_interpreter_client,base.group_system,1,1,1,1
+access_ipf_interpreter_client_test,access_ipf_interpreter_client_test,model_ipf_interpreter_client_test,base.group_system,1,1,1,1
 access_ipf_request_history,access_ipf_request_history,model_ipf_request_history,base.group_system,1,1,1,1
