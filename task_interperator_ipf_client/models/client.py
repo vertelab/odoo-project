@@ -25,7 +25,7 @@ import json
 import uuid
 import logging
 import requests
-from odoo import api, http, models, tools, SUPERUSER_ID, fields
+from odoo import api, http, models, tools, SUPERUSER_ID, fields, _
 
 _logger = logging.getLogger(__name__)
 
@@ -111,7 +111,23 @@ class ClientConfig(models.AbstractModel):
 
 
     def post_tolkbokningar(self, activity):
-        params = activity.preprocessing_activity_data()
+        params = activity.preprocessing_activity_data(activity)
+        _logger.warn('post_tolkbokningar: %s' % params)
+        id = self.env['mail.message'].create({
+                    'body': _("Interprester medssage %s \n" % (params)),
+                    'subject': "post_tolkbokningar",
+                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    'res_id': activity.res_id,
+                    'model': activity.res_model_id._name,
+                    })
+        _logger.warn('post_tolk: %s' % {
+                    'body': _("Interprester medssage %s \n" % (params)),
+                    'subject': "post_tolkbokningar",
+                    'author_id': self.env['res.users'].browse(self.env.uid).partner_id.id,
+                    'res_id': activity.res_id,
+                    'model': activity.res_model_id.model,
+                    })
+            
         return self.get_request('/tolkbokningar', params, 'POST')
 
     def get_tolksprak(self):

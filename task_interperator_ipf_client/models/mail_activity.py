@@ -27,20 +27,20 @@ class MailActivity(models.Model):
     _inherit = "mail.activity"
 
     @api.model
-    def preprocessing_activity_data(self):
+    def preprocessing_activity_data(self,mail_activity):
         return {
             'tolkbokning': {
-                'distanstolkTypId': self.location_type,
-                'fromDatumTid': str(self.time_start),
-                'tomDatumTid': str(self.time_end),
-                'tolksprakId': self.interpreter_language,
-                'tolkkonId': self.interpreter_gender_preference,
-                'bestallandeKAnr': self.department_id and self.department_id.ka_ref or None,
+                'distanstolkTypId': mail_activity.location_type,
+                'fromDatumTid': str(mail_activity.time_start),
+                'tomDatumTid': str(mail_activity.time_end),
+                'tolksprakId': mail_activity.interpreter_language,
+                'tolkkonId': mail_activity.interpreter_gender_preference,
+                'bestallandeKAnr': mail_activity.department_id and mail_activity.department_id.ka_ref or None,
                 'adress': {
-                    'adress': self.street,
-                    'gatuadress': self.street2,
-                    'postnr': self.zip,
-                    'ort': self.city,
+                    'adress': mail_activity.street,
+                    'gatuadress': mail_activity.street2,
+                    'postnr': mail_activity.zip,
+                    'ort': mail_activity.city,
                     'adressat': 'ipsum',
                 },
             },
