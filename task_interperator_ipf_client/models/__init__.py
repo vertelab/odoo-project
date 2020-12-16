@@ -24,3 +24,4 @@ from . import client
 from . import client_test
 from . import request_history
 from . import res_config_settings
+from . import mail_activity

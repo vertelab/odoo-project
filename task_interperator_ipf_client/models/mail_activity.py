@@ -20,24 +20,28 @@
 #
 ################################################################################
 
-import logging
-from odoo import models, fields
-
-_logger = logging.getLogger(__name__)
+from odoo import api, models
 
 
-class IpfRequestHistory(models.Model):
-    _name = 'ipf.request.history'
-    _description = 'IPF Request History'
-    _rec_name = 'url'
+class MailActivity(models.Model):
+    _inherit = "mail.activity"
 
-    config_id = fields.Many2one('ipf.interpreter.client.test',
-                                string="Config ID")
-    url = fields.Char(string='Url')
-    method = fields.Char(string='Method')
-    payload = fields.Char(string='Payload')
-    request_headers = fields.Char(string='Request Headers')
-    response_headers = fields.Char(string='Response Headers')
-    params = fields.Char(string='Params')
-    response_code = fields.Char(string='Response Code')
-    message = fields.Char(string='Message')
+    @api.model
+    def preprocessing_activity_data(self):
+        return {
+            'tolkbokning': {
+                'distanstolkTypId': self.location_type,
+                'fromDatumTid': str(self.time_start),
+                'tomDatumTid': str(self.time_end),
+                'tolksprakId': self.interpreter_language,
+                'tolkkonId': self.interpreter_gender_preference,
+                'bestallandeKAnr': self.department_id and self.department_id.ka_ref or None,
+                'adress': {
+                    'adress': self.street,
+                    'gatuadress': self.street2,
+                    'postnr': self.zip,
+                    'ort': self.city,
+                    'adressat': 'ipsum',
+                },
+            },
+        }

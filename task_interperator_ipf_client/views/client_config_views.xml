@@ -3,7 +3,7 @@
 <data>
     <record model="ir.ui.view" id="ipf_client_config_view_list">
         <field name="name">IPF Client Config View List</field>
-        <field name="model">ipf.client.test</field>
+        <field name="model">ipf.interpreter.client.test</field>
         <field name="arch" type="xml">
             <tree>
                 <field name="url"/>
@@ -13,7 +13,7 @@
 
     <record model="ir.ui.view" id="ipf_client_config_view_form">
         <field name="name">IPF  Client Config View Form</field>
-        <field name="model">ipf.client.test</field>
+        <field name="model">ipf.interpreter.client.test</field>
         <field name="arch" type="xml">
             <form>
                 <header>
@@ -75,7 +75,7 @@
 
     <record model="ir.actions.act_window" id="ipf_client_config_action_window">
         <field name="name">IPF Client Config</field>
-        <field name="res_model">ipf.client.test</field>
+        <field name="res_model">ipf.interpreter.client.test</field>
         <field name="view_mode">tree,form</field>
     </record>
 

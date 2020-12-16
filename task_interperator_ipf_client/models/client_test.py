@@ -29,8 +29,8 @@ _logger = logging.getLogger(__name__)
 
 
 class ClientConfig(models.Model):
-    _inherit = 'ipf.tlr.client'
-    _name = 'ipf.client.test'
+    _inherit = 'ipf.interpreter.client'
+    _name = 'ipf.interpreter.client.test'
     _description = 'IPF Client Test'
     _rec_name = 'url'
 
@@ -104,7 +104,7 @@ class ClientConfig(models.Model):
             'longitud': 45786675,
             'adressat': 'ipsum',
         }
-        return super(ClientConfig, self).post_tolkbokningar(data)
+        return self.get_request('/tolkbokningar', params, 'POST')
 
     def get_tolkbokningar(self, object_id):
         return super(ClientConfig, self).get_tolkbokningar_id('35636')
