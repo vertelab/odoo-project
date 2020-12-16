@@ -29,7 +29,6 @@ _logger = logging.getLogger(__name__)
 
 
 class ClientConfig(models.Model):
-    _inherit = 'ipf.tlr.client'
     _name = 'ipf.client.test'
     _description = 'IPF Client Test'
     _rec_name = 'url'
