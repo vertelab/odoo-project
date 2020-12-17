@@ -54,6 +54,11 @@ class ClientConfig(models.AbstractModel):
         return self.env["ir.config_parameter"].sudo().get_param(
             "api_ipf.client_id")
 
+    @api.model
+    def get_system_id(self):
+        return self.env["ir.config_parameter"].sudo().get_param(
+            "api_ipf.ipf_system_id")
+
     def request_call(self, method, url, payload=None,
                      headers=None, params=None):
 
@@ -62,7 +67,8 @@ class ClientConfig(models.AbstractModel):
             url=url,
             data=payload,
             headers=headers,
-            params=params
+            params=params,
+            verify=False
         )
 
         return response
@@ -70,10 +76,10 @@ class ClientConfig(models.AbstractModel):
     def get_headers(self):
         tracking_id = pycompat.text_type(uuid.uuid1())
         headers = {
-            'x-amf-mediaType': "application/json",
+            'Content-Type': "application/json",
             'AF-TrackingId': tracking_id,
-            'AF-SystemId': "AF-SystemId",
-            'AF-EndUserId': "AF-EndUserId",
+            'AF-SystemId': self.get_system_id(),
+            'AF-EndUserId': "*sys*",
             'AF-Environment': self.get_environment(),
         }
         return headers
@@ -128,23 +134,23 @@ class ClientConfig(models.AbstractModel):
                     'model': activity.res_model_id.model,
                     })
             
-        return self.get_request('/tolkbokningar', params, 'POST')
+        return self.get_request('/tolkportalen-tolkbokning/v1/tolkbokningar', params, 'POST')
 
     def get_tolksprak(self):
-        return self.get_request('/tolksprak')
+        return self.get_request('/tolkportalen-tolkbokning/v1/tolksprak')
 
     def get_kon(self):
-        return self.get_request('/kon')
+        return self.get_request('/tolkportalen-tolkbokning/v1/kon')
 
     def get_tolktyp(self):
-        return self.get_request('/tolktyp')
+        return self.get_request('/tolkportalen-tolkbokning/v1/tolktyp')
 
     def get_distanstolktyp(self):
-        return self.get_request('/distanstolktyp')
+        return self.get_request('/tolkportalen-tolkbokning/v1/distanstolktyp')
 
     def get_tolkbokningar_id(self, object_id):
-        return self.get_request('/tolkbokningar/%s' % object_id)
+        return self.get_request('/tolkportalen-tolkbokning/v1/tolkbokningar/%s' % object_id)
 
     def put_tolkbokningar_id_inleverera(self, object_id, params):
         return self.get_request(
-            '/tolkbokningar/%s/inleverera' % object_id, params, 'PUT')
+            '/tolkportalen-tolkbokning/v1/tolkbokningar/%s/inleverera' % object_id, params, 'PUT')
