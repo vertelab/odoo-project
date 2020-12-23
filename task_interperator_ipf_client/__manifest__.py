@@ -25,7 +25,9 @@
     'version': '12.0.1.0.2',
     'category': 'Outplacement',
     'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
-(Later from the DAFA-server to the Tolkportalen service.)""",
+    (Later from the DAFA-server to the Tolkportalen service.)\n
+    v12.0.1.0.2 - added the name Interpretor on several places to differentiate from other modules.\n
+    """,
 
     'author': "N-development",
     'license': 'AGPL-3',
