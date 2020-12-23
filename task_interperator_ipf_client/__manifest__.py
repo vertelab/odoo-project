@@ -21,11 +21,11 @@
 ################################################################################
 
 {
-    'name': 'IPF TLR Client',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """Implementation of Fenix-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
-(Later from the Fenix-server to the Tolkportalen service.)""",
+    'name': 'Outplacement Intepretor IPF Client',
+    'version': '12.0.1.0.2',
+    'category': 'Outplacement',
+    'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
+(Later from the DAFA-server to the Tolkportalen service.)""",
 
     'author': "N-development",
     'license': 'AGPL-3',
