@@ -20,21 +20,8 @@
 #
 ################################################################################
 
-{
-    'name': 'IPF TLR Server',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """
-
-            """,
-    'author': "N-development",
-    'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
-    'depends': [
-        'base_setup',
-    ],
-    'installable': False,
-    'images': [
-        'static/description/img.png'
-    ],
-}
+from . import client
+from . import client_test
+from . import request_history
+from . import res_config_settings
+from . import mail_activity

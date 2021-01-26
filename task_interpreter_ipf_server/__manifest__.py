@@ -33,7 +33,7 @@
     'depends': [
         'base_setup',
     ],
-    'installable': False,
+    'installable': True,
     'images': [
         'static/description/img.png'
     ],

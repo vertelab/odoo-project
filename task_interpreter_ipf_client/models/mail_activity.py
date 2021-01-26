@@ -20,21 +20,28 @@
 #
 ################################################################################
 
-{
-    'name': 'IPF TLR Server',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """
+from odoo import api, models
 
-            """,
-    'author': "N-development",
-    'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
-    'depends': [
-        'base_setup',
-    ],
-    'installable': False,
-    'images': [
-        'static/description/img.png'
-    ],
-}
+
+class MailActivity(models.Model):
+    _inherit = "mail.activity"
+
+    @api.model
+    def preprocessing_activity_data(self,mail_activity):
+        return {
+            'tolkbokning': {
+                'distanstolkTypId': mail_activity.location_type,
+                'fromDatumTid': str(mail_activity.time_start),
+                'tomDatumTid': str(mail_activity.time_end),
+                'tolksprakId': mail_activity.interpreter_language,
+                'tolkkonId': mail_activity.interpreter_gender_preference,
+                'bestallandeKAnr': mail_activity.department_id and mail_activity.department_id.ka_ref or None,
+                'adress': {
+                    'adress': mail_activity.street,
+                    'gatuadress': mail_activity.street2,
+                    'postnr': mail_activity.zip,
+                    'ort': mail_activity.city,
+                    'adressat': 'ipsum',
+                },
+            },
+        }

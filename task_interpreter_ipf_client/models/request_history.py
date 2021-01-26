@@ -20,21 +20,24 @@
 #
 ################################################################################
 
-{
-    'name': 'IPF TLR Server',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """
+import logging
+from odoo import models, fields
 
-            """,
-    'author': "N-development",
-    'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
-    'depends': [
-        'base_setup',
-    ],
-    'installable': False,
-    'images': [
-        'static/description/img.png'
-    ],
-}
+_logger = logging.getLogger(__name__)
+
+
+class IpfRequestHistory(models.Model):
+    _name = 'ipf.request.history'
+    _description = 'IPF Request History'
+    _rec_name = 'url'
+
+    config_id = fields.Many2one('ipf.interpreter.client.test',
+                                string="Config ID")
+    url = fields.Char(string='Url')
+    method = fields.Char(string='Method')
+    payload = fields.Char(string='Payload')
+    request_headers = fields.Char(string='Request Headers')
+    response_headers = fields.Char(string='Response Headers')
+    params = fields.Char(string='Params')
+    response_code = fields.Char(string='Response Code')
+    message = fields.Char(string='Message')

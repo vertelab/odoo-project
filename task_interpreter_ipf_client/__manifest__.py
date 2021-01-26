@@ -21,19 +21,26 @@
 ################################################################################
 
 {
-    'name': 'IPF TLR Server',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """
+    'name': 'Outplacement Intepretor IPF Client',
+    'version': '12.0.1.0.2',
+    'category': 'Outplacement',
+    'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
+    (Later from the DAFA-server to the Tolkportalen service.)\n
+    v12.0.1.0.2 - added the name Interpretor on several places to differentiate from other modules.\n
+    """,
 
-            """,
     'author': "N-development",
     'license': 'AGPL-3',
     'website': 'https://www.n-development.com',
-    'depends': [
-        'base_setup',
+    "depends": ['res_interpreter_language',
+                'mail',
     ],
-    'installable': False,
+    'data': [
+        "security/ir.model.access.csv",
+        'views/client_config_views.xml',
+        'views/res_config_settings_views.xml',
+    ],
+    'installable': True,
     'images': [
         'static/description/img.png'
     ],

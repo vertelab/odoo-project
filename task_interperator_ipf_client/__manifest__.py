@@ -32,15 +32,15 @@
     'author': "N-development",
     'license': 'AGPL-3',
     'website': 'https://www.n-development.com',
-    "depends": [
-        'mail',
+    "depends": ['res_interpreter_language',
+                'mail',
     ],
     'data': [
         "security/ir.model.access.csv",
         'views/client_config_views.xml',
         'views/res_config_settings_views.xml',
     ],
-    'installable': True,
+    'installable': False,
     'images': [
         'static/description/img.png'
     ],
