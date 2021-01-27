@@ -21,7 +21,7 @@
 ################################################################################
 
 {
-    'name': 'IPF TLR Server',
+    'name': 'DEPRICATED - IPF TLR Server',
     'version': '12.0.0.0.1',
     'category': 'Tools',
     'description': """
