@@ -21,7 +21,7 @@
 ################################################################################
 
 {
-    'name': 'Outplacement Intepretor IPF Client',
+    'name': 'DEPRICATED - Outplacement Intepretor IPF Client',
     'version': '12.0.1.0.2',
     'category': 'Outplacement',
     'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
@@ -32,15 +32,15 @@
     'author': "N-development",
     'license': 'AGPL-3',
     'website': 'https://www.n-development.com',
-    "depends": [
-        'mail',
+    "depends": ['res_interpreter_language',
+                'mail',
     ],
     'data': [
         "security/ir.model.access.csv",
         'views/client_config_views.xml',
         'views/res_config_settings_views.xml',
     ],
-    'installable': True,
+    'installable': False,
     'images': [
         'static/description/img.png'
     ],
