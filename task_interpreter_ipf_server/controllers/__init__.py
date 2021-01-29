@@ -1,5 +1,3 @@
-# -*- coding: UTF-8 -*-
-
 ################################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -20,21 +18,6 @@
 #
 ################################################################################
 
-{
-    'name': 'DEPRICATED - IPF TLR Server',
-    'version': '12.0.0.0.1',
-    'category': 'Tools',
-    'description': """
-
-            """,
-    'author': "N-development",
-    'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
-    'depends': [
-        'base_setup',
-    ],
-    'installable': False,
-    'images': [
-        'static/description/img.png'
-    ],
-}
+from . import main
+from . import token
+from . import responses

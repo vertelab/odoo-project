@@ -21,7 +21,7 @@
 ################################################################################
 
 {
-    'name': 'DEPRICATED - IPF TLR Server',
+    'name': 'IPF TLR Server',
     'version': '12.0.0.0.1',
     'category': 'Tools',
     'description': """
@@ -33,7 +33,7 @@
     'depends': [
         'base_setup',
     ],
-    'installable': False,
+    'installable': True,
     'images': [
         'static/description/img.png'
     ],

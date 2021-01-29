@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<data>
+    <record model="ir.ui.view" id="ipf_client_config_view_list">
+        <field name="name">IPF Interpreter Client Config View List</field>
+        <field name="model">ipf.interpreter.client.test</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="url"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="ipf_client_config_view_form">
+        <field name="name">IPF Interpreter Client Config View Form</field>
+        <field name="model">ipf.interpreter.client.test</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button class="btn-secondary" type="object"
+                            string="tolkbokningar"
+                            name="post_tolkbokningar"/>
+                    <button class="btn-secondary" type="object"
+                            string="tolksprak"
+                            name="get_tolksprak"/>
+                    <button class="btn-secondary" type="object"
+                            string="kon"
+                            name="get_kon"/>
+                    <button class="btn-secondary" type="object"
+                            string="tolktyp"
+                            name="get_tolktyp"/>
+                    <button class="btn-secondary" type="object"
+                            string="distanstolktyp"
+                            name="get_distanstolktyp"/>
+                    <button class="btn-secondary" type="object"
+                            string="tolkbokningar"
+                            name="get_tolkbokningar"/>
+                    <button class="btn-secondary" type="object"
+                            string="tolkbokningar inleverera"
+                            name="put_tolkbokningar_id_inleverera"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="url"/>
+                        </group>
+                        <group string="Requests" colspan="4">
+                            <field name="request_history_ids" nolabel="1"
+                                   colspan="4">
+                                <tree>
+                                    <field name="url"/>
+                                    <field name="method"/>
+                                    <field name="response_code"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="url"/>
+                                        <field name="method"/>
+                                        <field name="payload"/>
+                                        <field name="request_headers"/>
+                                        <field name="params"/>
+                                        <field name="response_code"/>
+                                        <field name="response_headers"/>
+                                        <field name="message"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ipf_client_config_action_window">
+        <field name="name">IPF Interpreter Client Config</field>
+        <field name="res_model">ipf.interpreter.client.test</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="ipf_client_config"
+              name="IPF Interpreter Client Test"
+              action="ipf_client_config_action_window"
+              parent="base.menu_custom"
+              sequence="120"/>
+</data>
