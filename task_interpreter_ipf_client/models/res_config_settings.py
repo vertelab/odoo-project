@@ -28,5 +28,4 @@ class IpfConfigSettings(models.TransientModel):
 
     @api.multi
     def update_languages(self):
-        _logger.warn('NILS2')
         self.env['ipf.interpreter.client'].populate_res_intepreter_language()
