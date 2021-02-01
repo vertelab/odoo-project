@@ -42,8 +42,8 @@ class ClientConfig(models.Model):
     url = fields.Char(string='Url',
                       required=True,
                       default=_get_default_url)
-    request_history_ids = fields.One2many('ipf.request.history',
-                                          'config_id',
+    request_history_ids = fields.One2many(comodel_name='ipf.interpreter.request.history',
+                                          inverse_name='config_id',
                                           string='Requests')
 
     def get_url(self, path):
@@ -86,7 +86,7 @@ class ClientConfig(models.Model):
             values.update(message=response.text)
         except json.decoder.JSONDecodeError:
             pass
-        self.env['ipf.request.history'].create(values)
+        self.env['ipf.interpreter.request.history'].create(values)
 
     # test functions
     def post_tolkbokningar(self, params):

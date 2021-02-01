@@ -27,11 +27,11 @@ _logger = logging.getLogger(__name__)
 
 
 class IpfRequestHistory(models.Model):
-    _name = 'ipf.request.history'
+    _name = 'ipf.interpreter.request.history'
     _description = 'IPF Request History'
     _rec_name = 'url'
 
-    config_id = fields.Many2one('ipf.interpreter.client.test',
+    config_id = fields.Many2one(comodel_name='ipf.interpreter.client.test',
                                 string="Config ID")
     url = fields.Char(string='Url')
     method = fields.Char(string='Method')
