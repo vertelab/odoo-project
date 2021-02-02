@@ -59,7 +59,7 @@ class ClientConfig(models.AbstractModel):
         return self.env["ir.config_parameter"].sudo().get_param(
             "api_ipf.ipf_system_id")
 
-    def _is_params_set(self):
+    def is_params_set(self):
         return all[self.get_environment(),
                    self.get_server_url(),
                    self.get_client_secret(),
@@ -117,8 +117,8 @@ class ClientConfig(models.AbstractModel):
     def post_tolkbokningar(self, activity):
         params = activity.preprocessing_activity_data(activity)
         _logger.warn('post_tolkbokningar: %s' % params)
-        self.env['mail.message'].create({
-            'body': _("Interprester medssage %s \n" % (params)),
+        message_id = self.env['mail.message'].create({
+            'body': _("Interpreter message %s \n" % (params)),
             'subject': "post_tolkbokningar",
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,
@@ -126,12 +126,11 @@ class ClientConfig(models.AbstractModel):
             'model': activity.res_model_id._name,
             })
         _logger.warn('post_tolk: %s' % {
-                    'body': _("Interpreter message %s \n" % (params)),
-                    'subject': "post_tolkbokningar",
-                    'author_id': self.env['res.users'].browse(
-                        self.env.uid).partner_id.id,
-                    'res_id': activity.res_id,
-                    'model': activity.res_model_id.model,
+                    'body': message_id.body,
+                    'subject': message_id.subject,
+                    'author_id': message_id.author_id,
+                    'res_id': message_id.res_id,
+                    'model': message_id.model,
                     })
 
         return self.get_request(
@@ -148,14 +147,13 @@ class ClientConfig(models.AbstractModel):
                          f'{result.status_code} and message: {result.text}')
             return False
         self.env['res.interpreter.language'].search([]).unlink()
-        _logger.warn('NILS: ' + str(len(json.loads(result.text))))
         for lang in json.loads(result.text):
             self.env['res.interpreter.language'].create(
                 {'name': lang['namn'], 'code': lang['id']})
         return True
 
     def populate_language_cronjob(self):
-        if self._is_params_set():
+        if self.is_params_set():
             self.populate_res_intepreter_language()
 
     def get_kon(self):
@@ -171,6 +169,8 @@ class ClientConfig(models.AbstractModel):
         return self.get_request(
             '/tolkportalen-tolkbokning/v1/tolkbokningar/%s' % object_id)
 
-    def put_tolkbokningar_id_inleverera(self, object_id, params):
+    def put_tolkbokningar_id_inleverera(self, obj_id, params):
         return self.get_request(
-            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{object_id}/inleverera', params, 'PUT')  # noqa:E501
+            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}/inleverera',
+            params,
+            'PUT')
