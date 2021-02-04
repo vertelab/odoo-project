@@ -60,10 +60,10 @@ class ClientConfig(models.AbstractModel):
             "api_ipf.ipf_system_id")
 
     def is_params_set(self):
-        return all[self.get_environment(),
+        return all([self.get_environment(),
                    self.get_server_url(),
                    self.get_client_secret(),
-                   self.get_client_id()]
+                   self.get_client_id()])
 
     def request_call(self, method, url, payload=None,
                      headers=None, params=None):
@@ -140,17 +140,52 @@ class ClientConfig(models.AbstractModel):
         return self.get_request('/tolkportalen-tolkbokning/v1/tolksprak')
 
     @api.model
-    def populate_res_intepreter_language(self):
-        result = self.get_tolksprak()
+    def populate_all_data(self, silent=False):
+        if not (self.is_params_set() or silent):
+            raise Warning('All parameters are not set in config')
+        ok = True
+        for method, name, fields in (
+                (self.get_tolksprak, 'res.interpreter.language',
+                 (('name', 'namn'), ('code', 'id'))),
+                (self.get_kon, 'res.interpreter.gender_preference',
+                 (('name', 'namn'), ('code', 'id')))
+                ):
+
+            if not self._populate_data(method, name, fields):
+                msg = f'Failed to populate data for {name}'
+                _logger.warn(msg)
+                if not silent:
+                    raise Warning(msg)
+                ok = False
+        return ok
+
+    @api.model
+    def _populate_data(self, method, model_name, fields):
+        result = method()
         if result.status_code not in (200, 201):
-            _logger.warn('Failed to populate languages with code: '
+            _logger.warn(f'Failed to populate {model_name} with code: '
                          f'{result.status_code} and message: {result.text}')
             return False
-        self.env['res.interpreter.language'].search([]).unlink()
-        for lang in json.loads(result.text):
-            self.env['res.interpreter.language'].create(
-                {'name': lang['namn'], 'code': lang['id']})
+        self.env[model_name].search([]).unlink()
+        for entry in json.loads(result.text):
+            self.env[model_name].create(
+                {field_name: entry[result_name] for field_name, result_name in
+                 fields})
         return True
+
+    def populate_res_intepreter_language(self):
+        self._populate_data(self.get_tolksprak,
+                            'res.interpreter.gender.preference',
+                            (('name', 'namn'), ('code', 'id')))
+
+    def populate_res_interpreter_gender_preference(self):
+        self._populate_data(self.get_tolksprak,
+                            'res.interpreter.language',
+                            (('name', 'namn'), ('code', 'id')))
+
+    def populate_interpreter_data_cronjob(self):
+        if self.is_params_set():
+            self.populate_all_data(silent=True)
 
     def populate_language_cronjob(self):
         if self.is_params_set():
@@ -167,7 +202,7 @@ class ClientConfig(models.AbstractModel):
 
     def get_tolkbokningar_id(self, object_id):
         return self.get_request(
-            '/tolkportalen-tolkbokning/v1/tolkbokningar/%s' % object_id)
+            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{object_id}')
 
     def put_tolkbokningar_id_inleverera(self, obj_id, params):
         return self.get_request(
