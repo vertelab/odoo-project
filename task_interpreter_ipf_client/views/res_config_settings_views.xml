@@ -57,7 +57,9 @@
                         </div>
                         <h2>Update data</h2>
                         <div>
+                            <button type="object" name="update_all_data" string="Update all Intepreter data"/>
                             <button type="object" name="update_languages" string="Update Intepreter languages"/>
+                            <button type="object" name="update_gender_preference" string="Update Intepreter gender preferences"/>
                         </div>
                     </div>
                 </xpath>

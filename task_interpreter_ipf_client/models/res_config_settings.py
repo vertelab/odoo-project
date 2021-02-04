@@ -27,5 +27,13 @@ class IpfConfigSettings(models.TransientModel):
                                        config_parameter='api_ipf.environment')
 
     @api.multi
+    def update_all_data(self):
+        self.env['ipf.interpreter.client'].populate_all_data()
+
+    @api.multi
     def update_languages(self):
         self.env['ipf.interpreter.client'].populate_res_intepreter_language()
+
+    @api.multi
+    def update_gender_preference(self):
+        self.env['ipf.interpreter.client'].populate_res_interpreter_gender_preference()  # noqa:E501
