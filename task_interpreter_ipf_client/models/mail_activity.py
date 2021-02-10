@@ -20,7 +20,11 @@
 #
 ###############################################################################
 
+import logging
+
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 
 class MailActivity(models.Model):
@@ -28,22 +32,26 @@ class MailActivity(models.Model):
 
     @api.model
     def preprocessing_activity_data(self, mail_activity):
-        return {
-            'tolkbokning': {
-                'distanstolkTypId': mail_activity.location_type,
-                'fromDatumTid': str(mail_activity.time_start),
-                'tomDatumTid': str(mail_activity.time_end),
-                'tolksprakId': mail_activity.interpreter_language,
-                'tolkkonId': mail_activity.interpreter_gender_preference,
-                'bestallandeKAnr': (mail_activity.department_id and
-                                    mail_activity.department_id.ka_ref or
-                                    None),
-                'adress': {
-                    'adress': mail_activity.street,
-                    'gatuadress': mail_activity.street2,
-                    'postnr': mail_activity.zip,
-                    'ort': mail_activity.city,
-                    'adressat': 'ipsum',
+        perf_op = mail_activity.get_outplacement_value(
+            'performing_operation_id')
+        payload = {
+            'tolkTypId': int(mail_activity.interpreter_type.code),
+            'fromDatumTid':
+                mail_activity.time_start.strftime('%Y-%m-%dT%H:%M:%S'),
+            'tomDatumTid':
+                mail_activity.time_end.strftime('%Y-%m-%dT%H:%M:%S'),
+            'tolksprakId': mail_activity.interpreter_language.code,
+            'tolkkonId': int(mail_activity.interpreter_gender_preference.code),
+            'bestallandeKANr': int(perf_op.ka_nr),
+            'adressat': '',
+            'adress': {
+                'gatuadress': mail_activity.street or '',
+                'postnr': mail_activity.zip or '',
+                'ort': mail_activity.city or '',
                 },
-            },
-        }
+            }
+        distanstolkTypId = mail_activity.interpreter_remote_type.code
+        if distanstolkTypId:
+            payload['distanstolkTypId'] = int(distanstolkTypId)
+        _logger.debug(payload)
+        return payload

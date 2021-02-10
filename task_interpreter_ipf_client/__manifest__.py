@@ -33,15 +33,18 @@
     'license': 'AGPL-3',
     'website': 'https://www.n-development.com',
     "depends": ['res_interpreter_language',
+                'res_interpreter_gender_preference',
+                'res_interpreter_type',
+                'res_interpreter_remote_type',
                 'mail',
-    ],
+                ],
     'data': [
         "security/ir.model.access.csv",
         'views/client_config_views.xml',
         'views/res_config_settings_views.xml',
-    ],
+        ],
     'installable': True,
     'images': [
         'static/description/img.png'
-    ],
+        ],
 }
