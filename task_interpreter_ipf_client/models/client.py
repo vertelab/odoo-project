@@ -156,10 +156,12 @@ class ClientConfig(models.AbstractModel):
             f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}',
             {'kanr': kanr})
 
-    def put_tolkbokningar_id_inleverera(self, obj_id, params):
+    def put_tolkbokningar_id_inleverera(
+            self, obj_id, params=None, payload=None):
         return self.get_request(
             f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}/inleverera',
             params,
+            payload,
             'PUT')
 
     @api.model

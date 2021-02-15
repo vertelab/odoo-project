@@ -53,5 +53,4 @@ class MailActivity(models.Model):
         distanstolkTypId = mail_activity.interpreter_remote_type.code
         if distanstolkTypId:
             payload['distanstolkTypId'] = int(distanstolkTypId)
-        _logger.debug(payload)
         return payload
