@@ -37,3 +37,11 @@ class IpfConfigSettings(models.TransientModel):
     @api.multi
     def update_gender_preference(self):
         self.env['ipf.interpreter.client'].populate_res_interpreter_gender_preference()  # noqa:E501
+
+    @api.multi
+    def update_type(self):
+        self.env['ipf.interpreter.client'].populate_res_interpreter_type()
+
+    @api.multi
+    def update_remote_type(self):
+        self.env['ipf.interpreter.client'].populate_res_interpreter_remote_type()  # noqa:E501

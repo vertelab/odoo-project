@@ -60,6 +60,8 @@
                             <button type="object" name="update_all_data" string="Update all Intepreter data"/>
                             <button type="object" name="update_languages" string="Update Intepreter languages"/>
                             <button type="object" name="update_gender_preference" string="Update Intepreter gender preferences"/>
+                            <button type="object" name="update_type" string="Update Intepreter types"/>
+                            <button type="object" name="update_remote_type" string="Update Intepreter remote types"/>
                         </div>
                     </div>
                 </xpath>
