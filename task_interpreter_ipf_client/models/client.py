@@ -128,12 +128,12 @@ class ClientConfig(models.AbstractModel):
             'model': activity.res_model_id._name,
             })
         _logger.debug('post_tolk: %s' % {
-                    'body': message_id.body,
-                    'subject': message_id.subject,
-                    'author_id': message_id.author_id,
-                    'res_id': message_id.res_id,
-                    'model': message_id.model,
-                    })
+            'body': message_id.body,
+            'subject': message_id.subject,
+            'author_id': message_id.author_id,
+            'res_id': message_id.res_id,
+            'model': message_id.model,
+            })
 
         return self.get_request('/tolkportalen-tolkbokning/v1/tolkbokningar',
                                 payload=json.dumps(payload),
