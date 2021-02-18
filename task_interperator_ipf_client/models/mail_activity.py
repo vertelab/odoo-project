@@ -1,6 +1,6 @@
 # -*- coding: UTF-8 -*-
 
-################################################################################
+###############################################################################
 #
 #    OpenERP, Open Source Management Solution
 #    Copyright (C) 2019 N-Development (<https://n-development.com>).
@@ -18,16 +18,20 @@
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-################################################################################
+###############################################################################
+import logging
 
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
     @api.model
-    def preprocessing_activity_data(self,mail_activity):
+    def preprocessing_activity_data(self, mail_activity):
+        _logger.warn(mail_activity.street)
         return {
             'tolkbokning': {
                 'distanstolkTypId': mail_activity.location_type,
@@ -35,7 +39,10 @@ class MailActivity(models.Model):
                 'tomDatumTid': str(mail_activity.time_end),
                 'tolksprakId': mail_activity.interpreter_language,
                 'tolkkonId': mail_activity.interpreter_gender_preference,
-                'bestallandeKAnr': mail_activity.department_id and mail_activity.department_id.ka_ref or None,
+                'bestallandeKAnr':
+                    mail_activity.department_id and
+                    mail_activity.department_id.ka_ref or
+                    None,
                 'adress': {
                     'adress': mail_activity.street,
                     'gatuadress': mail_activity.street2,
