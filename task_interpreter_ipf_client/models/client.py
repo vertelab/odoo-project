@@ -67,7 +67,6 @@ class ClientConfig(models.AbstractModel):
 
     def request_call(self, method, url, payload=None,
                      headers=None, params=None):
-
         response = requests.request(
             method=method,
             url=url,
@@ -142,6 +141,28 @@ class ClientConfig(models.AbstractModel):
     def get_tolksprak(self):
         return self.get_request('/tolkportalen-tolkbokning/v1/tolksprak')
 
+    def get_kon(self):
+        return self.get_request('/tolkportalen-tolkbokning/v1/kon')
+
+    def get_tolktyp(self):
+        return self.get_request('/tolkportalen-tolkbokning/v1/tolktyp')
+
+    def get_distanstolktyp(self):
+        return self.get_request('/tolkportalen-tolkbokning/v1/distanstolktyp')
+
+    def get_tolkbokningar_id(self, obj_id, kanr):
+        return self.get_request(
+            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}',
+            {'kanr': kanr})
+
+    def put_tolkbokningar_id_inleverera(
+            self, obj_id, params=None, payload=None):
+        return self.get_request(
+            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}/inleverera',
+            params,
+            payload,
+            'PUT')
+
     @api.model
     def populate_all_data(self, silent=False):
         if not (self.is_params_set() or silent):
@@ -193,88 +214,3 @@ class ClientConfig(models.AbstractModel):
     def populate_language_cronjob(self):
         if self.is_params_set():
             self.populate_res_intepreter_language()
-
-    def get_kon(self):
-        return self.get_request('/tolkportalen-tolkbokning/v1/kon')
-
-    def get_tolktyp(self):
-        return self.get_request('/tolkportalen-tolkbokning/v1/tolktyp')
-
-    def get_distanstolktyp(self):
-        return self.get_request('/tolkportalen-tolkbokning/v1/distanstolktyp')
-
-    def get_tolkbokningar_id(self, obj_id, kanr):
-        return self.get_request(
-            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}',
-            {'kanr': kanr})
-
-    def put_tolkbokningar_id_inleverera(
-            self, obj_id, params=None, payload=None):
-        return self.get_request(
-            f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}/inleverera',
-            params,
-            payload,
-            'PUT')
-
-    @api.model
-    def populate_all_data(self, silent=False):
-        if not (self.is_params_set() or silent):
-            raise Warning('All parameters are not set in config')
-        ok = True
-        default = (('name', 'namn'), ('code', 'id'))
-        for method, model_name, fields in (
-                (self.get_tolksprak, 'res.interpreter.language', default),
-                (self.get_kon, 'res.interpreter.gender_preference', default),
-                (self.get_tolktyp, 'res.interpreter.type', default),
-                (self.get_distanstolktyp, 'res.interpreter.remote_type',
-                 default)):
-            try:
-                result = self._populate_data(method, model_name, fields)
-            except Exception:
-                result = False
-                _logger.exception('Populate all data got an exception')
-            if not result:
-                msg = f'Failed to populate data for {model_name}'
-                _logger.warn(msg)
-                if not silent:
-                    raise Warning(msg)
-                ok = False
-        return ok
-
-    @api.model
-    def _populate_data(self, method, model_name, fields):
-        result = method()
-        if result.status_code not in (200, 201):
-            _logger.warn(f'Failed to populate {model_name} with code: '
-                         f'{result.status_code} and message: {result.text}')
-            return False
-        self.env[model_name].search([]).unlink()
-        for entry in json.loads(result.text):
-            self.env[model_name].create(
-                {field_name: entry[result_name] for field_name, result_name in
-                 fields})
-        return True
-
-    def populate_res_intepreter_language(self):
-        self._populate_data(self.get_tolksprak,
-                            'res.interpreter.gender.preference',
-                            (('name', 'namn'), ('code', 'id')))
-
-    def populate_res_interpreter_gender_preference(self):
-        self._populate_data(self.get_tolksprak,
-                            'res.interpreter.language',
-                            (('name', 'namn'), ('code', 'id')))
-
-    def populate_res_interpreter_type(self):
-        self._populate_data(self.get_tolktyp,
-                            'res.interpreter.type',
-                            (('name', 'namn'), ('code', 'id')))
-
-    def populate_res_interpreter_remote_type(self):
-        self._populate_data(self.get_distanstolktyp,
-                            'res.interpreter.remote_type',
-                            (('name', 'namn'), ('code', 'id')))
-
-    def populate_interpreter_data_cronjob(self):
-        if self.is_params_set():
-            self.populate_all_data(silent=True)
