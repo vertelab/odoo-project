@@ -20,9 +20,11 @@
 #
 ###############################################################################
 
+import datetime
 import logging
 
 from odoo import api, models
+import pytz
 
 _logger = logging.getLogger(__name__)
 
@@ -32,14 +34,23 @@ class MailActivity(models.Model):
 
     @api.model
     def preprocessing_activity_data(self, mail_activity):
+        def change_tz(timestamp, tz_name='Europe/Stockholm'):
+            timezone = pytz.timezone(tz_name)
+            if not timestamp.tzinfo:
+                timestamp = timestamp.replace(tzinfo=datetime.timezone.utc)
+            return timestamp.astimezone(timezone)
+        _logger.warn(change_tz(mail_activity.time_start))
+
         perf_op = mail_activity.get_outplacement_value(
             'performing_operation_id')
         payload = {
             'tolkTypId': int(mail_activity.interpreter_type.code),
             'fromDatumTid':
-                mail_activity.time_start.strftime('%Y-%m-%dT%H:%M:%S'),
+                change_tz(mail_activity.time_start).strftime(
+                    '%Y-%m-%dT%H:%M:00'),
             'tomDatumTid':
-                mail_activity.time_end.strftime('%Y-%m-%dT%H:%M:%S'),
+                change_tz(mail_activity.time_end).strftime(
+                    '%Y-%m-%dT%H:%M:00'),
             'tolksprakId': mail_activity.interpreter_language.code,
             'tolkkonId': int(mail_activity.interpreter_gender_preference.code),
             'bestallandeKANr': int(perf_op.ka_nr),
