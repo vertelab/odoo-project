@@ -136,7 +136,7 @@ class ClientConfig(models.AbstractModel):
 
         return self.get_request('/tolkportalen-tolkbokning/v1/tolkbokningar',
                                 payload=json.dumps(payload),
-                                method='POST')
+                                method='POST'), payload
 
     def get_tolksprak(self):
         return self.get_request('/tolkportalen-tolkbokning/v1/tolksprak')
