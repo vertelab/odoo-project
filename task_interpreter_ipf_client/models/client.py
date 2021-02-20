@@ -172,6 +172,10 @@ class ClientConfig(models.AbstractModel):
                 (self.get_tolksprak, 'res.interpreter.language',
                  (('name', 'namn'), ('code', 'id'))),
                 (self.get_kon, 'res.interpreter.gender_preference',
+                 (('name', 'namn'), ('code', 'id'))),
+                (self.get_tolktyp, 'res.interpreter.type',
+                 (('name', 'namn'), ('code', 'id'))),
+                (self.get_distanstolktyp, 'res.interpreter.remote_type',
                  (('name', 'namn'), ('code', 'id')))
                 ):
 
@@ -199,12 +203,22 @@ class ClientConfig(models.AbstractModel):
 
     def populate_res_intepreter_language(self):
         self._populate_data(self.get_tolksprak,
-                            'res.interpreter.gender.preference',
+                            'res.interpreter.language',
                             (('name', 'namn'), ('code', 'id')))
 
     def populate_res_interpreter_gender_preference(self):
-        self._populate_data(self.get_tolksprak,
-                            'res.interpreter.language',
+        self._populate_data(self.get_kon,
+                            'res.interpreter.gender_preference',
+                            (('name', 'namn'), ('code', 'id')))
+
+    def populate_res_interpreter_remote_type(self):
+        self._populate_data(self.get_distanstolktyp,
+                            'res.interpreter.remote_type',
+                            (('name', 'namn'), ('code', 'id')))
+
+    def populate_res_interpreter_type(self):
+        self._populate_data(self.get_tolktyp,
+                            'res.interpreter.type',
                             (('name', 'namn'), ('code', 'id')))
 
     def populate_interpreter_data_cronjob(self):
