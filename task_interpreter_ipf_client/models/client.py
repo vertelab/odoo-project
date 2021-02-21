@@ -124,7 +124,7 @@ class ClientConfig(models.AbstractModel):
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,
             'res_id': activity.res_id,
-            'model': activity.res_model_id._name,
+            'model': activity.res_model,
             })
         _logger.debug('post_tolk: %s' % {
             'body': message_id.body,
