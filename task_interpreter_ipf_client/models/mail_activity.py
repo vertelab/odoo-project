@@ -39,7 +39,11 @@ class MailActivity(models.Model):
             if not timestamp.tzinfo:
                 timestamp = timestamp.replace(tzinfo=datetime.timezone.utc)
             return timestamp.astimezone(timezone)
-        _logger.warn(change_tz(mail_activity.time_start))
+        _logger.warn('#'*80)
+        _logger.warn(f'# Before handling: {mail_activity.time_start}'.ljust(79) + '#')
+        _logger.warn(f'# With TZ: {change_tz(mail_activity.time_start)}'.ljust(79) + '#')
+        _logger.warn(f"# Sent to Server: {change_tz(mail_activity.time_start).strftime('%Y-%m-%dT%H:%M:00')}".ljust(79) + '#')
+        _logger.warn('#'*80)
 
         perf_op = mail_activity.get_outplacement_value(
             'performing_operation_id')
