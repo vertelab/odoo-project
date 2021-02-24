@@ -117,15 +117,26 @@ class ClientConfig(models.AbstractModel):
         return self
 
     def post_tolkbokningar(self, activity):
+        def format_msg(msg, indent=0):
+            out = []
+            space = '&nbsp'*4*indent
+            for key, value in msg.items():
+                if isinstance(value, dict):
+                    out.append(f'{space}{key}:<br>')
+                    out.append(format_msg(value, indent+1))
+                else:
+                    out.append(f'{space}{key}: {value}<br>')
+            return ''.join(out)
         payload = activity.preprocessing_activity_data(activity)
         message_id = self.env['mail.message'].create({
-            'body': (f"{_('Interpreter message')} {payload} \n"),
+            'body': (f"{_('Interpreter message')} {format_msg(payload)}"),
             'subject': "post_tolkbokningar",
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,
             'res_id': activity.res_id,
             'model': activity.res_model,
             })
+        _logger.debug(payload)
         _logger.debug('post_tolk: %s' % {
             'body': message_id.body,
             'subject': message_id.subject,
