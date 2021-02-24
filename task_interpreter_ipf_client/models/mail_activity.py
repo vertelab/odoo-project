@@ -35,15 +35,11 @@ class MailActivity(models.Model):
     @api.model
     def preprocessing_activity_data(self, mail_activity):
         def change_tz(timestamp, tz_name='Europe/Stockholm'):
+            # Tolk portalen wants timestamps in local swedish time.
             timezone = pytz.timezone(tz_name)
             if not timestamp.tzinfo:
                 timestamp = timestamp.replace(tzinfo=datetime.timezone.utc)
             return timestamp.astimezone(timezone)
-        _logger.warn('#'*80)
-        _logger.warn(f'# Before handling: {mail_activity.time_start}'.ljust(79) + '#')
-        _logger.warn(f'# With TZ: {change_tz(mail_activity.time_start)}'.ljust(79) + '#')
-        _logger.warn(f"# Sent to Server: {change_tz(mail_activity.time_start).strftime('%Y-%m-%dT%H:%M:00')}".ljust(79) + '#')
-        _logger.warn('#'*80)
 
         perf_op = mail_activity.get_outplacement_value(
             'performing_operation_id')
