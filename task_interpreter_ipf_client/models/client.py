@@ -129,7 +129,7 @@ class ClientConfig(models.AbstractModel):
             return ''.join(out)
         payload = activity.preprocessing_activity_data(activity)
         message_id = self.env['mail.message'].create({
-            'body': (f"{_('Interpreter message')} {format_msg(payload)}"),
+            'body': (f"{_('Interpreter message')}<br>{format_msg(payload)}"),
             'subject': "post_tolkbokningar",
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,
