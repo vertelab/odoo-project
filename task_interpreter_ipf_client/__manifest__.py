@@ -22,7 +22,7 @@
 
 {
     'name': 'Outplacement Intepretor IPF Client',
-    'version': '12.0.1.1.0',
+    'version': '12.0.1.1.1',
     'category': 'Outplacement',
     'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
     (Later from the DAFA-server to the Tolkportalen service.)\n
