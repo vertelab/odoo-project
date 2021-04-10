@@ -4,21 +4,30 @@
             <field name="name">project.versioning.project.form</field>
             <field name="model">project.versioning.project</field>
             <field name="arch" type="xml">
-                <form string="Project Versioning">
+                <form string="Project Versioning" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="change_to_version" string="Revert to Version" type="object" class="oe_highlight"/>
+                    </header>
                     <sheet string="Project Versioning">
-                        <div class="oe_title pr-0">
-                            <h1 class="d-flex flex-row justify-content-between">
-                                <field name="name" class="o_task_name text-truncate" placeholder="Project Title..."/>
-                            </h1>
-                        </div>
-                        <group>
+                        <group string="Versioning">
                             <group>
-                                <field name="project_id"/>
-                                <field name="partner_id"/>
-                                <field name="company_id"/>
-                                <field name="user_id"/>
+                                <field name="name"/>
                             </group>
                             <group>
+                                <field name="date_created"/>
+                            </group>
+                        </group>
+
+                        <group string="Projects">
+                            <group>
+                                <field name="project_id" invisible="1"/>
+                                <field name="project_name"/>
+                                <field name="label_tasks"/>
+                                <field name="partner_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
                                 <field name="date"/>
                                 <field name="subtask_project_id"/>
                                 <field name="privacy_visibility"/>
@@ -29,10 +38,7 @@
                                 <field name="task_ids">
                                     <tree editable="top">
                                         <field name="name"/>
-                                        <field name="create_date"/>
-                                        <field name="write_date"/>
-                                        <field name="manager_id"/>
-                                        <field name="notes"/>
+                                        <field name="date_created"/>
                                     </tree>
                                 </field>
 
@@ -53,9 +59,9 @@
             <field name="name">project.versioning.project.tree</field>
             <field name="model">project.versioning.project</field>
             <field name="arch" type="xml">
-                <tree string="Project Versioning">
+                <tree string="Project Versioning" create="false" edit="false">
                     <field name="name"/>
-                    <field name="project_id"/>
+                    <field name="project_name"/>
                     <field name="user_id"/>
                     <field name="date"/>
                 </tree>
