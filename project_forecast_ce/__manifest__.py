@@ -11,6 +11,7 @@
     'summary': 'Forecast your projects ',
     'depends': [
         'project',
+        'hr_timesheet',
     ],
     'description': "",
     'data': [
