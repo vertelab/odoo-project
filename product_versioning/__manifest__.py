@@ -3,7 +3,7 @@
 
 {
     'name': 'Product Versioning',
-    'version': '1.1',
+    'version': '13.0.1.1.0',
     'website': 'https://www.vertelab.com',
     'category': 'Operations/Project',
     'sequence': 10,
