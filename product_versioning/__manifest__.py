@@ -14,11 +14,11 @@
     'description': """
         Product Versioning
         ====================
-        It shall be possible to switch between different versions of project plans.
+        It shall be possible to switch between different versions of project plans.\n
         
-        Certain data shall be the same between all versions of the project plan, for an example time reporting
+        Certain data shall be the same between all versions of the project plan, for an example time reporting\n
         
-        Other data is unique for for each project plan and therefore needs to be saved with that version
+        Other data is unique for for each project plan and therefore needs to be saved with that version\n
     """,
     'data': [
         'security/ir.model.access.csv',
