@@ -15,8 +15,8 @@
     ],
     'description': "",
     'data': [
-        'report/project_report_views.xml',
-        'views/project_views.xml',
+        # ~ 'report/project_report_views.xml',
+        # ~ 'views/project_views.xml',
     ],
 #    'demo': ['data/project_demo.xml'],
     'test': [

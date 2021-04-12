@@ -1,3 +1,3 @@
 # -*- coding: utf-8 -*-
-
-import project_issue
+# ~ from . import models
+from . import report
