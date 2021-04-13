@@ -3,6 +3,7 @@
 
 from odoo import fields, models, tools
 
+from odoo.exceptions import UserError
 
 class ReportProjectTaskUser(models.Model):
     _inherit = "report.project.task.user"
@@ -12,12 +13,13 @@ class ReportProjectTaskUser(models.Model):
 
 
     def _select(self):
-        return super(ReportProjectTaskUser,self)._select() 
-        # ~ + \
-            # ~ """,
+        return super(ReportProjectTaskUser,self)._select() + \
+            """,
+            t.total_hours_spent + t.remaining_hours as forecast_hours,
+            t.remaining_hours / NULLIF(t.planned_hours + t.remaining_hours,0) * 100 as forecast_percent
+            """
             # ~ t.total_hours_spent + t.remaining_hours as forecast_hours,
-            # ~ t.remaining_hours / (t.planned_hours + t.remaining_hours) * 100 as forecast_percent,
-            # ~ """
+            # ~ t.remaining_hours / (t.planned_hours + t.remaining_hours) * 100 as forecast_percent
 
 
         # ~ select_str = """
