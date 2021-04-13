@@ -1,0 +1,86 @@
+<odoo>
+    <data>
+        <record id="project_versioning_project_form_view" model="ir.ui.view">
+            <field name="name">project.versioning.project.form</field>
+            <field name="model">project.versioning.project</field>
+            <field name="arch" type="xml">
+                <form string="Project Versioning" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="change_to_version" string="Revert to Version" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet string="Project Versioning">
+                        <group string="Versioning">
+                            <group>
+                                <field name="name"/>
+                            </group>
+                            <group>
+                                <field name="date_created"/>
+                            </group>
+                        </group>
+
+                        <group string="Projects">
+                            <group>
+                                <field name="project_id" invisible="1"/>
+                                <field name="project_name"/>
+                                <field name="label_tasks"/>
+                                <field name="partner_id"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="user_id"/>
+                                <field name="date"/>
+                                <field name="subtask_project_id"/>
+                                <field name="privacy_visibility"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Task Versioning">
+                                <field name="task_ids">
+                                    <tree editable="top">
+                                        <field name="name"/>
+                                        <field name="date_created"/>
+                                    </tree>
+                                </field>
+
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+
+            </field>
+        </record>
+
+        <record id="project_versioning_project_tree_view" model="ir.ui.view">
+            <field name="name">project.versioning.project.tree</field>
+            <field name="model">project.versioning.project</field>
+            <field name="arch" type="xml">
+                <tree string="Project Versioning" create="false" edit="false">
+                    <field name="name"/>
+                    <field name="project_name"/>
+                    <field name="user_id"/>
+                    <field name="date"/>
+                </tree>
+            </field>
+        </record>
+
+
+        <record id="open_view_project_versioning_project" model="ir.actions.act_window">
+            <field name="name">Projects Versioning</field>
+            <field name="res_model">project.versioning.project</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="project_versioning_project_tree_view"/>
+        </record>
+
+        <menuitem id="menu_product_versioning" name="Versioning" parent="project.menu_main_pm"
+            sequence="90"/>
+
+        <menuitem id="menu_project_versioning" name="Project Versioning" parent="product_versioning.menu_product_versioning"
+            sequence="10" action="product_versioning.open_view_project_versioning_project"/>
+
+    </data>
+</odoo>

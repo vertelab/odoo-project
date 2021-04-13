@@ -1,0 +1,84 @@
+<odoo>
+    <data>
+        <record id="project_versioning_task_form_view" model="ir.ui.view">
+            <field name="name">project.versioning.task.form</field>
+            <field name="model">project.versioning.task</field>
+            <field name="arch" type="xml">
+                <form string="Task Versioning" create="false" edit="false" delete="false">
+                    <header>
+                        <button name="change_to_version" string="Revert to Version" type="object" class="oe_highlight"/>
+                    </header>
+                    <sheet string="Task Versioning">
+                        <group string="Versioning">
+                            <group>
+                                <field name="name"/>
+                                <field name="date_created"/>
+                            </group>
+                        </group>
+
+                        <group string="Task">
+                            <group>
+                                <field name="project_id" invisible="1"/>
+                                <field name="task_id" invisible="1"/>
+                                <field name="task_name"/>
+                                <field name="company_id"/>
+                                <field name="user_id"/>
+                            </group>
+                            <group>
+                                <field name="date_deadline"/>
+                                <field name="tag_ids" widget="many2many_tags"/>
+                                <field name="manager_id"/>
+                            </group>
+
+                        </group>
+                        <notebook>
+                            <page string="Extra Info">
+                                <group>
+                                    <group>
+                                        <field name="sequence"/>
+                                        <field name="partner_id"/>
+                                        <field name="email_cc"/>
+                                    </group>
+                                    <group>
+                                        <field name="date_assign"/>
+                                        <field name="date_last_stage_update"/>
+                                    </group>
+                                </group>
+                                <field name="description"/>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers" groups="base.group_user"/>
+                        <field name="activity_ids" widget="mail_activity"/>
+                        <field name="message_ids" widget="mail_thread"/>
+                    </div>
+                </form>
+            </field>
+        </record>
+
+        <record id="project_versioning_task_tree_view" model="ir.ui.view">
+            <field name="name">project.versioning.task.tree</field>
+            <field name="model">project.versioning.task</field>
+            <field name="arch" type="xml">
+                <tree string="Task Versioning" create="false" edit="false">
+                    <field name="name"/>
+                    <field name="task_name"/>
+                    <field name="user_id"/>
+                </tree>
+            </field>
+        </record>
+
+
+<!--        <record id="open_view_project_task_project" model="ir.actions.act_window">-->
+<!--            <field name="name">Task Versioning</field>-->
+<!--            <field name="res_model">project.versioning.task</field>-->
+<!--            <field name="view_mode">tree,form</field>-->
+<!--            <field name="view_id" ref="project_versioning_task_tree_view"/>-->
+<!--        </record>-->
+
+<!--        <menuitem id="menu_task_versioning" name="Task Versioning" parent="product_versioning.menu_product_versioning"-->
+<!--            sequence="20" action="product_versioning.open_view_project_task_project"/>-->
+
+    </data>
+</odoo>
