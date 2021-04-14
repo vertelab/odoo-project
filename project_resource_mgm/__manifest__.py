@@ -14,8 +14,6 @@
     ],
     'description': "Project Resource Management",
     'data': [
-        # 'security/ir.model.access.csv',
-
         # Views
         'views/project_view.xml',
         'wizard/project_resources_wizard_view.xml',

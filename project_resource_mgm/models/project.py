@@ -1,5 +1,4 @@
 from odoo import models, fields, api, _
-from odoo.exceptions import ValidationError, UserError
 
 
 class ProjectProject(models.Model):

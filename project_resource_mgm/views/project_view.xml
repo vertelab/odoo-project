@@ -52,7 +52,6 @@
                 </xpath>
                 <field name="user_id" position="after">
                     <field name="project_member_ids" widget="many2many_tags"/>
-<!--                    <field name="other_project_member_ids" widget="many2many_tags"/>-->
                 </field>
             </field>
         </record>

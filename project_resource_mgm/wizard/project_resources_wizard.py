@@ -40,6 +40,5 @@ class ProjectResources(models.TransientModel):
 
     def copy_resources(self):
         if self.targeted_project_id:
-            print(self.members_ids)
             self.targeted_project_id.project_member_ids = [(4, _id.id) for _id in self.members_ids]
 
