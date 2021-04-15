@@ -3,33 +3,32 @@
         <record id="project_project_form_view_extend" model="ir.ui.view">
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="version_project" string="Create Versioning" type="object" class="oe_highlight"/>
+                    <button name="version_project" string="Create Versioning" type="object" class="oe_highlight" />
                 </xpath>
                 <xpath expr="//page[last()]" position="after">
                     <page string="Versioning">
                         <group>
                             <group>
-                                <field name="allow_versioning"/>
+                                <field name="allow_versioning" />
                             </group>
                             <group>
-                                <field name="version_id"/>
+                                <field name="version_id" domain="[('project_id', '=', active_id)]" />
                             </group>
                         </group>
                     </page>
                 </xpath>
             </field>
         </record>
-
         <record id="project_task_form_view_extend" model="ir.ui.view">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="inherit_id" ref="project.view_task_form2" />
             <field name="arch" type="xml">
                 <xpath expr="//header" position="inside">
-                    <button name="version_project_task" string="Create Versioning" type="object" class="oe_highlight"/>
+                    <button name="version_project_task" string="Create Versioning" type="object" class="oe_highlight" />
                 </xpath>
             </field>
         </record>
