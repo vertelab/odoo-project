@@ -5,8 +5,8 @@ import uuid
 class ProjectProject(models.Model):
     _inherit = 'project.project'
 
-    allow_versioning = fields.Boolean(string="Allow Versioning")
-    version_id = fields.Many2one('project.versioning.project', string="Project Version")
+    allow_versioning = fields.Boolean(string="Allow Versioning", copy=False)
+    version_id = fields.Many2one('project.versioning.project', string="Project Version", copy=False)
 
     def version_project(self):
         if self.allow_versioning:

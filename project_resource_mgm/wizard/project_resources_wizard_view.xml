@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+        <record id="project_resource_wizard_form" model="ir.ui.view">
+            <field name="name">project.resources.wizard.form</field>
+            <field name="model">project.resources.wizard</field>
+            <field name="arch" type="xml">
+                <form string="Upload Bank Statements">
+                    <form>
+                        <group>
+                            <field name="copy_from"/>
+                            <field name="hr_department_id" attrs="{'invisible': [('copy_from', '=', 'project.project')]}"/>
+                            <field name="project_id" attrs="{'invisible': [('copy_from', '=', 'hr.department')]}"/>
+                            <field name="members_ids"/>
+                            <field name="targeted_project_id"/>
+                        </group>
+                    </form>
+                    <footer>
+                        <button name="copy_resources" string="Copy" type="object" class="btn-primary" />
+                        <button string="Cancel" class="btn-secondary" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_view_project_resource_wizard" model="ir.actions.act_window">
+            <field name="name">Project Resources</field>
+            <field name="res_model">project.resources.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="target">new</field>
+            <field name="binding_model_id" ref="project.model_project_project" />
+            <field name="binding_view_types">form</field>
+        </record>
+    </data>
+</odoo>
