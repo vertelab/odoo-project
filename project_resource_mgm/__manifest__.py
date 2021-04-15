@@ -10,7 +10,7 @@
     'summary': 'Project Resource Management',
     'depends': [
         'project',
-        'project_hr',
+        'hr',
     ],
     'description': "Project Resource Management",
     'data': [

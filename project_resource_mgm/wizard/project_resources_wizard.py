@@ -35,8 +35,7 @@ class ProjectResources(models.TransientModel):
         rec.members_ids = [(4, _id.id) for _id in member_ids]
 
     members_ids = fields.Many2many('res.users', string="Members", compute=_compute_members)
-    targeted_project_id = fields.Many2one('project.project', string="To Project", domain=[('is_template', '=', False)],
-                                          required=True)
+    targeted_project_id = fields.Many2one('project.project', string="To Project", required=True,) # domain=[('is_template', '=', False)],
 
     def copy_resources(self):
         if self.targeted_project_id:

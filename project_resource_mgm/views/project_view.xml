@@ -4,7 +4,7 @@
         <record model="ir.ui.view" id="quick_create_task_form">
             <field name="name">project.task.form.quick_create</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project_hr.quick_create_task_form"/>
+            <field name="inherit_id" ref="project.quick_create_task_form"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="replace">
                     <field name="user_id" options="{'no_open': True,'no_create': True}"/>
@@ -15,7 +15,7 @@
         <record model="ir.ui.view" id="view_task_tree2">
             <field name="name">project.task.tree</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project_hr.view_task_tree2"/>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
             <field name="arch" type="xml">
                 <field name="user_id" position="replace">
                     <field name="user_id" options="{'no_open': True,'no_create': True}"/>
@@ -23,6 +23,7 @@
             </field>
         </record>
 
+<!--
         <record model="ir.ui.view" id="view_task_form2">
             <field name="name">project.task.tree</field>
             <field name="model">project.task</field>
@@ -39,6 +40,7 @@
                 </field>
             </field>
         </record>
+-->
 
         <record model="ir.ui.view" id="edit_project">
             <field name="name">project.project.form</field>
