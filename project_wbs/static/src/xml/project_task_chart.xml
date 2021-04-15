@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+    <t t-name="ProjectTaskChartOverview">
+        <div id="chart-container"/>
+    </t>
+</templates>

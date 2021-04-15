@@ -1,0 +1,25 @@
+<odoo>
+    <data>
+        <record id="action_project_chart_overview" model="ir.actions.client">
+            <field name="name">Project Chart</field>
+            <field name="tag">project_task_chart_overview</field>
+            <field name="target">main</field>
+            <field name="binding_model_id" ref="project.model_project_project"/>
+             <field name="binding_type">action</field>
+             <field name="binding_view_types">form</field>
+        </record>
+
+        <record id="project_project_kanban_view" model="ir.ui.view">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <xpath expr="//t[@t-name='kanban-box']//div[hasclass('o_project_kanban_main')]/div[hasclass('o_kanban_card_manage_pane')]/div[hasclass('o_kanban_card_manage_section')]" position="inside">
+                    <div role="menuitem">
+                        <a name="%(project_wbs.action_project_chart_overview)d" type="action">View Chart</a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

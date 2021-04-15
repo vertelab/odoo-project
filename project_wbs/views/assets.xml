@@ -1,0 +1,8 @@
+<odoo>
+    <template id="assets" inherit_id="web.assets_backend" name="Editor assets">
+        <xpath expr="." position="inside">
+            <script type="text/javascript" src="/project_wbs/static/src/js/project_task_chart.js"/>
+            <link rel="stylesheet" href="/project_wbs/static/src/scss/project_task_chart.scss"/>
+        </xpath>
+    </template>
+</odoo>
