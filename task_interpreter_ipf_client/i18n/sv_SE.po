@@ -8,7 +8,7 @@ msgstr ""
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2021-04-19 13:35+0000\n"
 "PO-Revision-Date: 2021-04-19 13:35+0000\n"
-"Last-Translator: <>\n"
+"Last-Translator: Nils Nyman-Waara <nils.nyman-waara@vertel.se>\n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -210,12 +210,12 @@ msgstr "Anrop"
 #. module: task_interpreter_ipf_client
 #: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__response_code
 msgid "Response Code"
-msgstr "Svart Kod"
+msgstr "SvarsKod"
 
 #. module: task_interpreter_ipf_client
 #: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__response_headers
 msgid "Response Headers"
-msgstr "Svars huvud"
+msgstr "Svarshuvud"
 
 #. module: task_interpreter_ipf_client
 #: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
@@ -235,7 +235,7 @@ msgstr ""
 #. module: task_interpreter_ipf_client
 #: model:ir.model,name:task_interpreter_ipf_client.model_ipf_interpreter_client
 msgid "Task Interpreter IPF client"
-msgstr ""
+msgstr "IPF Klient för Tolkbokning"
 
 #. module: task_interpreter_ipf_client
 #: selection:res.config.settings,ipf_environment:0
