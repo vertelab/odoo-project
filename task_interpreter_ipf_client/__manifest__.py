@@ -33,9 +33,9 @@
     v12.0.1.1.4 - AFC-2145 Updated Log message when Interpreter activity created..
     """,
 
-    'author': "N-development",
+    'author': "Vertel AB",
     'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
+    'website': 'https://www.vertel.se',
     "depends": ['res_interpreter_language',
                 'res_interpreter_gender_preference',
                 'res_interpreter_type',
