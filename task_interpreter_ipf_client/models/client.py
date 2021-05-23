@@ -19,12 +19,12 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-
 from odoo.tools import pycompat
 import json
 import uuid
 import logging
 import requests
+
 from odoo import api, models, _
 
 _logger = logging.getLogger(__name__)
@@ -129,8 +129,19 @@ class ClientConfig(models.AbstractModel):
             return ''.join(out)
         payload = activity.preprocessing_activity_data(activity)
         msg = _('Interpreter Booking made:')
+        msg += "<br/>"
+        if activity.interpreter_type.name == 'platstolk':
+            msg += _(
+                'Interpreter request has been sent at the time %s & %s, with the language %s to the %s and waiting for'
+                ' the confirmation from the Interpreter portal.' % (str(activity.time_start), str(activity.time_end),
+                                                                    activity.interpreter_language.name, activity.street))
+        else:
+            msg += _(
+                'Interpreter request has been sent at the time %s & %s, with the language %s and waiting for'
+                ' the confirmation from the Interpreter portal.' % (str(activity.time_start), str(activity.time_end),
+                                                                    activity.interpreter_language.name))
         message_id = self.env['mail.message'].create({
-            'body': (f"{msg}<br>{format_msg(payload)}"),
+            'body': msg,
             'subject': "post_tolkbokningar",
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,
