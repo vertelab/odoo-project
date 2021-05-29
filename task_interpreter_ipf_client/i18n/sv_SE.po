@@ -147,12 +147,6 @@ msgid "IT"
 msgstr ""
 
 #. module: task_interpreter_ipf_client
-#: code:addons/task_interpreter_ipf_client/models/client.py:131
-#, python-format
-msgid "Interpreter Booking made:"
-msgstr "Tolkbokning genomförd:"
-
-#. module: task_interpreter_ipf_client
 #: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client____last_update
 #: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test____last_update
 #: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history____last_update
