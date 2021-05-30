@@ -22,7 +22,7 @@
 
 {
     'name': 'Outplacement Intepreter IPF Client',
-    'version': '12.0.1.1.4',
+    'version': '12.0.1.1.5',
     'category': 'Outplacement',
     'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
     (Later from the DAFA-server to the Tolkportalen service.)\n
@@ -30,7 +30,8 @@
     v12.0.1.1.0 - Read field addressat from the UI.
     v12.0.1.1.2 - Minor log message fix
     v12.0.1.1.3 - Translations.
-    v12.0.1.1.4 - AFC-2145 Updated Log message when Interpreter activity created..
+    v12.0.1.1.4 - AFC-2145 Updated Log message when Interpreter activity created.
+    v12.0.1.1.5 - AFC-2405 Updated Log message of Interpreter booking creation.
     """,
 
     'author': "Vertel AB",

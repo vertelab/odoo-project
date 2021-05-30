@@ -24,6 +24,7 @@ import json
 import uuid
 import logging
 import requests
+from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, _
 
@@ -128,18 +129,22 @@ class ClientConfig(models.AbstractModel):
                     out.append(f'{space}{key}: {value}<br>')
             return ''.join(out)
         payload = activity.preprocessing_activity_data(activity)
-        msg = _('Interpreter Booking made:')
-        msg += "<br/>"
+        date = activity.time_start.strftime("%Y-%m-%d")
+        time_start = activity.time_start + relativedelta(hours=2)
+        time_start_hour = time_start.hour
+        time_start_min = time_start.minute
+        time_end = activity.time_end + relativedelta(hours=2)
+        time_end_hour = time_end.hour
+        time_end_min = time_end.minute
         if activity.interpreter_type.name == 'platstolk':
-            msg += _(
-                'Interpreter request has been sent at the time %s & %s, with the language %s to the %s and waiting for'
-                ' the confirmation from the Interpreter portal.' % (str(activity.time_start), str(activity.time_end),
-                                                                    activity.interpreter_language.name, activity.street))
+            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s till %s." \
+                  % (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
+                 str(time_end_min), activity.interpreter_language.name, activity.street)
         else:
-            msg += _(
-                'Interpreter request has been sent at the time %s & %s, with the language %s and waiting for'
-                ' the confirmation from the Interpreter portal.' % (str(activity.time_start), str(activity.time_end),
-                                                                    activity.interpreter_language.name))
+            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s. " %\
+                  (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
+                 str(time_end_min), activity.interpreter_language.name)
+
         message_id = self.env['mail.message'].create({
             'body': msg,
             'subject': "post_tolkbokningar",
