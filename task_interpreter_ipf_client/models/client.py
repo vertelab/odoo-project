@@ -19,12 +19,13 @@
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-
 from odoo.tools import pycompat
 import json
 import uuid
 import logging
 import requests
+from dateutil.relativedelta import relativedelta
+
 from odoo import api, models, _
 
 _logger = logging.getLogger(__name__)
@@ -128,8 +129,24 @@ class ClientConfig(models.AbstractModel):
                     out.append(f'{space}{key}: {value}<br>')
             return ''.join(out)
         payload = activity.preprocessing_activity_data(activity)
+        date = activity.time_start.strftime("%Y-%m-%d")
+        time_start = activity.time_start + relativedelta(hours=2)
+        time_start_hour = time_start.hour
+        time_start_min = time_start.minute
+        time_end = activity.time_end + relativedelta(hours=2)
+        time_end_hour = time_end.hour
+        time_end_min = time_end.minute
+        if activity.interpreter_type.name == 'platstolk':
+            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s till %s." \
+                  % (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
+                 str(time_end_min), activity.interpreter_language.name, activity.street)
+        else:
+            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s. " %\
+                  (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
+                 str(time_end_min), activity.interpreter_language.name)
+
         message_id = self.env['mail.message'].create({
-            'body': (f"{_('Interpreter message')}<br>{format_msg(payload)}"),
+            'body': msg,
             'subject': "post_tolkbokningar",
             'author_id': self.env['res.users'].browse(
                 self.env.uid).partner_id.id,

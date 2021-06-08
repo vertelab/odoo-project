@@ -21,17 +21,22 @@
 ################################################################################
 
 {
-    'name': 'Outplacement Intepretor IPF Client',
-    'version': '12.0.1.0.2',
+    'name': 'Outplacement Intepreter IPF Client',
+    'version': '12.0.1.1.5',
     'category': 'Outplacement',
     'description': """Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
     (Later from the DAFA-server to the Tolkportalen service.)\n
     v12.0.1.0.2 - added the name Interpretor on several places to differentiate from other modules.\n
+    v12.0.1.1.0 - Read field addressat from the UI.
+    v12.0.1.1.2 - Minor log message fix
+    v12.0.1.1.3 - Translations.
+    v12.0.1.1.4 - AFC-2145 Updated Log message when Interpreter activity created.
+    v12.0.1.1.5 - AFC-2405 Updated Log message of Interpreter booking creation.
     """,
 
-    'author': "N-development",
+    'author': "Vertel AB",
     'license': 'AGPL-3',
-    'website': 'https://www.n-development.com',
+    'website': 'https://www.vertel.se',
     "depends": ['res_interpreter_language',
                 'res_interpreter_gender_preference',
                 'res_interpreter_type',

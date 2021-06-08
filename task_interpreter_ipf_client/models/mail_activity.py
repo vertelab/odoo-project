@@ -54,7 +54,7 @@ class MailActivity(models.Model):
             'tolksprakId': mail_activity.interpreter_language.code,
             'tolkkonId': int(mail_activity.interpreter_gender_preference.code),
             'bestallandeKANr': int(perf_op.ka_nr),
-            'adressat': '',
+            'adressat': mail_activity.interpreter_receiver or '',
             'adress': {
                 'gatuadress': mail_activity.street or '',
                 'postnr': mail_activity.zip or '',

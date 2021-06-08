@@ -1,0 +1,303 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+#	* task_interpreter_ipf_client
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 12.0-20210131\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-04-19 13:35+0000\n"
+"PO-Revision-Date: 2021-04-19 13:35+0000\n"
+"Last-Translator: Nils Nyman-Waara <nils.nyman-waara@vertel.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model,name:task_interpreter_ipf_client.model_mail_activity
+msgid "Activity"
+msgstr "Aktivitet"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Add IPF Client ID"
+msgstr "Lägg till IPF Klient ID"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Add IPF Client Secret"
+msgstr "Lägg till IPF Klient hemlighet"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Add IPF Server URL"
+msgstr "Lägg till IPF server URL"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Choose server environment"
+msgstr "Välj miljö"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_res_config_settings__ipf_client_id
+msgid "Client ID"
+msgstr "Klient ID"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_res_config_settings__ipf_client_secret
+msgid "Client Secret"
+msgstr "Klient hemlighet"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Common settings"
+msgstr "Gemensamma inställningar"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__config_id
+msgid "Config ID"
+msgstr "Konfig ID"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model,name:task_interpreter_ipf_client.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurations Inställningar"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__create_uid
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__create_uid
+msgid "Created by"
+msgstr "Skapad av"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__create_date
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__create_date
+msgid "Created on"
+msgstr "Skapad den"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client__display_name
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__display_name
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_res_config_settings__ipf_environment
+msgid "Environment"
+msgstr "Miljö"
+
+#. module: task_interpreter_ipf_client
+#: selection:res.config.settings,ipf_environment:0
+msgid "I1"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client__id
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__id
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__id
+msgid "ID"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "IPF Client ID."
+msgstr "IPF Klient ID"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "IPF Client Secret."
+msgstr "IPF Klient Hemlighet"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model,name:task_interpreter_ipf_client.model_ipf_interpreter_client_test
+msgid "IPF Client Test"
+msgstr "IPF Klient Test"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "IPF Interpreter Client"
+msgstr "IPF Tolk klient"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.actions.act_window,name:task_interpreter_ipf_client.ipf_client_config_action_window
+msgid "IPF Interpreter Client Config"
+msgstr "IPF Tolk Klient Konfiguration"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.ui.menu,name:task_interpreter_ipf_client.ipf_client_config
+msgid "IPF Interpreter Client Test"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model,name:task_interpreter_ipf_client.model_ipf_interpreter_request_history
+msgid "IPF Request History"
+msgstr "IPF Anrops Historik"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "IPF Server URL."
+msgstr "IPF Server URL"
+
+#. module: task_interpreter_ipf_client
+#: selection:res.config.settings,ipf_environment:0
+msgid "IT"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client____last_update
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test____last_update
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__write_uid
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__write_uid
+msgid "Last Updated by"
+msgstr "Senast uppdaterad av"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__write_date
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__write_date
+msgid "Last Updated on"
+msgstr "Senast uppdaterad"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__message
+msgid "Message"
+msgstr "Meddelande"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__method
+msgid "Method"
+msgstr "Metod"
+
+#. module: task_interpreter_ipf_client
+#: selection:res.config.settings,ipf_environment:0
+msgid "PROD"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__params
+msgid "Params"
+msgstr "Parametrar"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__payload
+msgid "Payload"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__request_headers
+msgid "Request Headers"
+msgstr "Anrops Huvud"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__request_history_ids
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "Requests"
+msgstr "Anrop"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__response_code
+msgid "Response Code"
+msgstr "SvarsKod"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__response_headers
+msgid "Response Headers"
+msgstr "Svarshuvud"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Server Environment."
+msgstr "Server Miljö"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_res_config_settings__ipf_server_url
+msgid "Server URL"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: selection:res.config.settings,ipf_environment:0
+msgid "T2"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model,name:task_interpreter_ipf_client.model_ipf_interpreter_client
+msgid "Task Interpreter IPF client"
+msgstr "IPF Klient för Tolkbokning"
+
+#. module: task_interpreter_ipf_client
+#: selection:res.config.settings,ipf_environment:0
+msgid "U1"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update Intepreter gender preferences"
+msgstr "Uppdatera Tolkkönspreferenser"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update Intepreter languages"
+msgstr "Uppdatera Tolk språk"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update Intepreter remote types"
+msgstr "Uppdatera Distanstolks typer "
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update Intepreter types"
+msgstr "Uppdatera Tolk varianter"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update all Intepreter data"
+msgstr "Uppdatera alla Tolk datalager"
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.res_config_settings_view_form
+msgid "Update data"
+msgstr "Uppdatera data"
+
+#. module: task_interpreter_ipf_client
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_client_test__url
+#: model:ir.model.fields,field_description:task_interpreter_ipf_client.field_ipf_interpreter_request_history__url
+msgid "Url"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "distanstolktyp"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "kon"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "tolkbokningar"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "tolkbokningar inleverera"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "tolksprak"
+msgstr ""
+
+#. module: task_interpreter_ipf_client
+#: model_terms:ir.ui.view,arch_db:task_interpreter_ipf_client.ipf_client_config_view_form
+msgid "tolktyp"
+msgstr ""
