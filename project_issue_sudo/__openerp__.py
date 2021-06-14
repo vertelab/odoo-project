@@ -19,19 +19,19 @@
 #
 ##############################################################################
 {
-'name': 'Project Issue Sudo',
-'version': '0.1',
-'summary': 'Login as a customer',
-'category': 'project',
-'description': """Login and reproduce an error that has been reported by a customer.
+    'name': 'Project Issue Sudo',
+    'version': '0.1',
+    'summary': 'Login as a customer',
+    'category': 'project',
+    'description': """Login and reproduce an error that has been reported by a customer.
     * List users connected to a project.issue
     * Change current user-id using a button
     * Change current user to a user that is employee is not possible
 
 """,
-'author': 'Vertel AB',
-'website': 'http://www.vertel.se',
-'depends': ['project',],
-'data': ['project_issue_view.xml', 'templates.xml'],
-'installable': True,
+    'author': 'Vertel AB',
+    'website': 'http://www.vertel.se',
+    'depends': ['project', ],
+    'data': ['project_issue_view.xml', 'templates.xml'],
+    'installable': True,
 }

@@ -5,12 +5,12 @@
             <field name="model_id" ref="task_interpreter_ipf_client"/>
             <field name="state">code</field>
             <field name="code">model.populate_interpreter_data_cronjob()</field>
-            <field name="user_id" ref="base.user_root" />
+            <field name="user_id" ref="base.user_root"/>
             <field name="nextcall">2020-09-30 05:00:00</field>
             <field name="interval_number">24</field>
             <field name="interval_type">hours</field>
             <field name="numbercall">-1</field>
-            <field eval="False" name="doall" />
+            <field eval="False" name="doall"/>
         </record>
     </data>
 </odoo>

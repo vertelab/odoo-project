@@ -22,6 +22,7 @@
 
 import logging
 from datetime import timedelta
+
 from odoo import http, api, fields
 from .token import valid_response, invalid_response
 

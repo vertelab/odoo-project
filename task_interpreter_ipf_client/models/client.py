@@ -1,5 +1,10 @@
 # -*- coding: UTF-8 -*-
 
+import json
+import logging
+import requests
+import uuid
+from dateutil.relativedelta import relativedelta
 ###############################################################################
 #
 #    OpenERP, Open Source Management Solution
@@ -20,11 +25,6 @@
 #
 ###############################################################################
 from odoo.tools import pycompat
-import json
-import uuid
-import logging
-import requests
-from dateutil.relativedelta import relativedelta
 
 from odoo import api, models, _
 
@@ -62,9 +62,9 @@ class ClientConfig(models.AbstractModel):
 
     def is_params_set(self):
         return all([self.get_environment(),
-                   self.get_server_url(),
-                   self.get_client_secret(),
-                   self.get_client_id()])
+                    self.get_server_url(),
+                    self.get_client_secret(),
+                    self.get_client_id()])
 
     def request_call(self, method, url, payload=None,
                      headers=None, params=None):
@@ -120,14 +120,15 @@ class ClientConfig(models.AbstractModel):
     def post_tolkbokningar(self, activity):
         def format_msg(msg, indent=0):
             out = []
-            space = '&nbsp'*4*indent
+            space = '&nbsp' * 4 * indent
             for key, value in msg.items():
                 if isinstance(value, dict):
                     out.append(f'{space}{key}:<br>')
-                    out.append(format_msg(value, indent+1))
+                    out.append(format_msg(value, indent + 1))
                 else:
                     out.append(f'{space}{key}: {value}<br>')
             return ''.join(out)
+
         payload = activity.preprocessing_activity_data(activity)
         date = activity.time_start.strftime("%Y-%m-%d")
         time_start = activity.time_start + relativedelta(hours=2)
@@ -139,11 +140,11 @@ class ClientConfig(models.AbstractModel):
         if activity.interpreter_type.name == 'platstolk':
             msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s till %s." \
                   % (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
-                 str(time_end_min), activity.interpreter_language.name, activity.street)
+                     str(time_end_min), activity.interpreter_language.name, activity.street)
         else:
-            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s. " %\
+            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s. " % \
                   (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
-                 str(time_end_min), activity.interpreter_language.name)
+                   str(time_end_min), activity.interpreter_language.name)
 
         message_id = self.env['mail.message'].create({
             'body': msg,
@@ -152,7 +153,7 @@ class ClientConfig(models.AbstractModel):
                 self.env.uid).partner_id.id,
             'res_id': activity.res_id,
             'model': activity.res_model,
-            })
+        })
         _logger.debug(payload)
         _logger.debug('post_tolk: %s' % {
             'body': message_id.body,
@@ -160,7 +161,7 @@ class ClientConfig(models.AbstractModel):
             'author_id': message_id.author_id,
             'res_id': message_id.res_id,
             'model': message_id.model,
-            })
+        })
 
         return self.get_request('/tolkportalen-tolkbokning/v1/tolkbokningar',
                                 payload=json.dumps(payload),
@@ -205,7 +206,7 @@ class ClientConfig(models.AbstractModel):
                  (('name', 'namn'), ('code', 'id'))),
                 (self.get_distanstolktyp, 'res.interpreter.remote_type',
                  (('name', 'namn'), ('code', 'id')))
-                ):
+        ):
 
             if not self._populate_data(method, name, fields):
                 msg = f'Failed to populate data for {name}'
