@@ -26,13 +26,31 @@ from openerp.http import request
 import random
 
 import logging
+import logging
+import random
+from openerp import SUPERUSER_ID
+from openerp import http
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
+from openerp.http import request
+import logging
+import random
+from openerp import SUPERUSER_ID
+from openerp import http
+from openerp import models, fields, api, _
+from openerp.exceptions import Warning
+from openerp.http import request
+
 _logger = logging.getLogger(__name__)
 
 
 class project_issue_sudo_login_url(models.TransientModel):
     _name = 'project.issue.sudo.login.url'
+    _description = "Project Issue Sudo Login URL"
 
-    sudo_login_url = fields.Char(string='Sudo Login url', help='Copy the link above to an incognito window or a new web browser to login.', readonly=True)
+    sudo_login_url = fields.Char(string='Sudo Login url',
+                                 help='Copy the link above to an incognito window or a new web browser to login.',
+                                 readonly=True)
 
 
 class project_issue(models.Model):
@@ -57,7 +75,8 @@ class project_issue(models.Model):
         self.sudo_id.sudo_pw = '%032x' % random.getrandbits(256)
         return {
             'type': 'ir.actions.act_url',
-            'url': '/sudo_login_as?user_id=%s&login=%s&password=%s' %(self.sudo_id.id, self.sudo_id.login, self.sudo_id.sudo_pw),
+            'url': '/sudo_login_as?user_id=%s&login=%s&password=%s' %(self.sudo_id.id, self.sudo_id.login,
+                                                                      self.sudo_id.sudo_pw),
             'target': 'new',
         }
 
@@ -105,7 +124,10 @@ class MainController(http.Controller):
     def sudo_login_as(self, **post):
         if request.params['user_id'] and request.params['login'] and request.params['password']:
             user = request.env['res.users'].sudo().browse(int(request.params['user_id']))
-            sale_order_id = request.env['sale.order'].sudo().search([('partner_id', '=', user.partner_id.commercial_partner_id.id), ('section_id', '=', request.env.ref('website.salesteam_website_sales').id), ('state', '=', 'draft')], order='date_order desc', limit=1)
+            sale_order_id = request.env['sale.order'].sudo().\
+                search([('partner_id', '=', user.partner_id.commercial_partner_id.id),
+                        ('section_id', '=', request.env.ref('website.salesteam_website_sales').id),
+                        ('state', '=', 'draft')], order='date_order desc', limit=1)
             request.session['context']['lang'] = user.lang
             request.session['context']['uid'] = user.id
             request.session['uid'] = user.id
@@ -117,7 +139,8 @@ class MainController(http.Controller):
     @http.route('/sudo_login_as_url', type='http', auth='public', website=True)
     def sudo_login_as_url(self, **post):
         if request.params['db'] and request.params['login'] and request.params['password']:
-            return request.render('web.login', {'db': request.params['db'] ,'login': request.params['login'], 'password': request.params['password']})
+            return request.render('web.login', {'db': request.params['db'] ,
+                'login': request.params['login'], 'password': request.params['password']})
 
 
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:

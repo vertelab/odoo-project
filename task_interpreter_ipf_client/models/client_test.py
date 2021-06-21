@@ -23,6 +23,7 @@
 import json
 import logging
 from datetime import timedelta
+
 from odoo import models, fields
 
 _logger = logging.getLogger(__name__)
@@ -31,7 +32,6 @@ _logger = logging.getLogger(__name__)
 class ClientConfig(models.Model):
     _inherit = 'ipf.interpreter.client'
     _name = 'ipf.interpreter.client.test'
-
     _description = 'IPF Client Test'
     _rec_name = 'url'
 

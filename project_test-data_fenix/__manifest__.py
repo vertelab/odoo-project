@@ -14,7 +14,6 @@
     "data": [
         'data/project_project.xml',
         'data/project_task.xml',
-
     ],
     "application": True,
     "installable": True,

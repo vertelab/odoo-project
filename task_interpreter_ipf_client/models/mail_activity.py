@@ -22,9 +22,9 @@
 
 import datetime
 import logging
+import pytz
 
 from odoo import api, models
-import pytz
 
 _logger = logging.getLogger(__name__)
 
@@ -59,8 +59,8 @@ class MailActivity(models.Model):
                 'gatuadress': mail_activity.street or '',
                 'postnr': mail_activity.zip or '',
                 'ort': mail_activity.city or '',
-                },
-            }
+            },
+        }
         distanstolkTypId = mail_activity.interpreter_remote_type.code
         if distanstolkTypId:
             payload['distanstolkTypId'] = int(distanstolkTypId)

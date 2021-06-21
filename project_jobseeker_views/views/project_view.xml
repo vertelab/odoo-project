@@ -38,7 +38,8 @@
                 <xpath expr="//filter[@name='Partner']" position="after">
                     <filter string="Start Date" name="Start" context="{'group_by': 'date_start'}"/>
                     <filter string="Expiration Date" name="Expiration" context="{'group_by': 'date'}"/>
-                    <filter string="Next Task Due Date" name="Next Task Due Date" context="{'group_by': 'project_next_task_due_date'}"/>
+                    <filter string="Next Task Due Date" name="Next Task Due Date"
+                            context="{'group_by': 'project_next_task_due_date'}"/>
                 </xpath>
             </field>
         </record>
