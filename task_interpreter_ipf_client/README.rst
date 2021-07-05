@@ -1,11 +1,7 @@
-==================================
 Outplacement Intepreter IPF Client
 ==================================
-
 Implementation of DAFA-IntepreatorBookings integration for REST-calls from the client-module to the server-module.
-
 (Later from the DAFA-server to the Tolkportalen service.)
-
 The module is maintained here: https://github.com/vertelab/odoo-project/tree/Dev-12.0-Fenix-Sprint-02/task_interpreter_ipf_client
 
 Different version submitted
@@ -21,4 +17,4 @@ Different version submitted
 Maintainers
 ~~~~~~~~~~~
 
-This module is maintained by Vertal.
+This module is maintained by Vertel.
