@@ -16,8 +16,9 @@ Different version submitted
 4. v12.0.1.1.3 - Translations.
 5. v12.0.1.1.4 - AFC-2145 Updated Log message when Interpreter activity created.
 6. v12.0.1.1.5 - AFC-2405 Updated Log message of Interpreter booking creation.
+7. v12.0.1.1.6 - Removed Vertal and wrong new line.
 
 Maintainers
 ~~~~~~~~~~~
 
-This module is maintained by Vertel..
+This module is maintained by Vertel.
