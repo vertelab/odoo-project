@@ -80,8 +80,35 @@
     </record>
 
     <menuitem id="ipf_client_config"
-              name="IPF Interpreter Client Test"
+              name="IPF Interpreter"
               action="ipf_client_config_action_window"
-              parent="base.menu_custom"
-              sequence="120"/>
+              parent="api_ipf.api_client_config_parent_menu"
+              sequence="7"/>
+    <record model="ir.ui.view" id="ipf_interpreter_client_test_request_history">
+        <field name="name">IPF Interpreter Client Request History View List</field>
+        <field name="model">ipf.interpreter.request.history</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="config_id"/>
+                <field name="url"/>
+                <field name="method"/>
+                <field name="payload"/>
+                <field name="request_headers"/>
+                <field name="response_headers"/>
+                <field name="params"/>
+                <field name="response_code"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="ipf_interpreter_client_test_request_history_action_window">
+        <field name="name">IPF Interpreter Client Test Request History</field>
+        <field name="res_model">ipf.interpreter.request.history</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <menuitem id="ipf_interpreter_client_test_request_history"
+              name="IPF Interpreter"
+              action="ipf_interpreter_client_test_request_history_action_window"
+              parent="api_ipf.client_config_request_history_parent_menu"
+              sequence="7"/>
 </data>

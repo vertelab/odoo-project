@@ -22,7 +22,7 @@
 
 {
     'name': 'Outplacement Intepreter IPF Client',
-    'version': '12.0.1.1.5',
+    'version': '12.0.1.1.7',
     'category': 'Outplacement',
     'author': "Vertel AB",
     'license': 'AGPL-3',
@@ -32,6 +32,7 @@
                 'res_interpreter_type',
                 'res_interpreter_remote_type',
                 'mail',
+                'api_ipf'
                 ],
     'data': [
         "security/ir.model.access.csv",
