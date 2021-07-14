@@ -106,7 +106,7 @@
         <field name="res_model">ipf.interpreter.request.history</field>
         <field name="view_mode">tree</field>
     </record>
-    <menuitem id="ipf_interpreter_client_test_request_history"
+    <menuitem id="menu_ipf_interpreter_client_test_request_history"
               name="IPF Interpreter"
               action="ipf_interpreter_client_test_request_history_action_window"
               parent="api_ipf.client_config_request_history_parent_menu"
