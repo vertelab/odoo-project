@@ -26,14 +26,15 @@ from dateutil.relativedelta import relativedelta
 ###############################################################################
 from odoo.tools import pycompat
 
-from odoo import api, models, _
+from odoo import api, models, fields, _
 
 _logger = logging.getLogger(__name__)
 
 
-class ClientConfig(models.AbstractModel):
+class ClientConfig(models.Model):
     _name = 'ipf.interpreter.client'
     _description = 'Task Interpreter IPF client'
+    _rec_name = 'ipf_server_url'
 
     @api.model
     def get_environment(self):
@@ -60,11 +61,22 @@ class ClientConfig(models.AbstractModel):
         return self.env["ir.config_parameter"].sudo().get_param(
             "api_ipf.ipf_system_id")
 
+    ipf_server_url = fields.Char(string='IPF Server URL', default=get_server_url, required=True)
+    ipf_client_secret = fields.Char(string='IPF Client Secret', default=get_client_secret, required=True)
+    ipf_client_id = fields.Char(string='IPF Client ID', default=get_client_id, required=True)
+    ipf_system_id = fields.Char(string='IPF System ID', default=get_system_id, required=True)
+    ipf_environment = fields.Selection(selection=[('U1', 'U1'),
+                                                  ('I1', 'I1'),
+                                                  ('T1', 'IT'),
+                                                  ('T2', 'T2'),
+                                                  ('PROD', 'PROD'), ],
+                                       string='IPF Environment',
+                                       default=get_environment,
+                                       required=True)
+    request_history_ids = fields.One2many('ipf.interpreter.client.request.history', 'config_id')
+
     def is_params_set(self):
-        return all([self.get_environment(),
-                    self.get_server_url(),
-                    self.get_client_secret(),
-                    self.get_client_id()])
+        return all([self.ipf_client_id, self.ipf_client_secret, self.ipf_environment, self.ipf_server_url])
 
     def request_call(self, method, url, payload=None,
                      headers=None, params=None):
@@ -84,22 +96,40 @@ class ClientConfig(models.AbstractModel):
         headers = {
             'Content-Type': "application/json",
             'AF-TrackingId': tracking_id,
-            'AF-SystemId': self.get_system_id() or "AFDAFA",
+            'AF-SystemId': self.ipf_system_id or "AFDAFA",
             'AF-EndUserId': "*sys*",
-            'AF-Environment': self.get_environment(),
+            'AF-Environment': self.ipf_environment,
         }
         return headers
 
     def get_url(self, path):
-        server_url = self.get_server_url()
+        server_url = self.ipf_server_url
         return f'{server_url.strip("/")}/{path.lstrip("/")}'
+
+    def create_request_history(self, method, url, response, payload=None,
+                               headers=None, params=None):
+        values = {
+            'config_id': self.id,
+            'method': method,
+            'url': url,
+            'payload': payload,
+            'request_headers': headers,
+            'response_headers': response.headers,
+            'params': params,
+            'response_code': response.status_code,
+        }
+        try:
+            values.update(message=json.loads(response.content))
+        except json.decoder.JSONDecodeError:
+            pass
+        self.env['ipf.interpreter.client.request.history'].create(values)
 
     def get_request(self, url, params=None, payload=None, method="GET"):
         _logger.debug(f'Params:\n{params}')
         _logger.debug(f'Payload:\n{payload}')
         querystring = {
-            "client_secret": self.get_client_secret(),
-            "client_id": self.get_client_id()
+            "client_secret": self.ipf_client_secret,
+            "client_id": self.ipf_client_id
         }
         if params:
             querystring.update(params)
@@ -111,6 +141,13 @@ class ClientConfig(models.AbstractModel):
             params=querystring,
             payload=payload
         )
+        self.create_request_history(method=method,
+                                    url=url,
+                                    response=response,
+                                    payload=payload,
+                                    headers=self.get_headers(),
+                                    params=querystring)
+
         return response
 
     @api.model
@@ -257,3 +294,41 @@ class ClientConfig(models.AbstractModel):
     def populate_language_cronjob(self):
         if self.is_params_set():
             self.populate_res_intepreter_language()
+
+    @api.multi
+    def update_all_data(self):
+        self.populate_all_data()
+
+    @api.multi
+    def update_languages(self):
+        self.populate_res_intepreter_language()
+
+    @api.multi
+    def update_gender_preference(self):
+        self.populate_res_interpreter_gender_preference()  # noqa:E501
+
+    @api.multi
+    def update_type(self):
+        self.populate_res_interpreter_type()
+
+    @api.multi
+    def update_remote_type(self):
+        self.populate_res_interpreter_remote_type()  # noqa:E501
+
+
+class IPFInterpreterClientReqHistory(models.Model):
+    _name = "ipf.interpreter.client.request.history"
+    _description = "IPF Interpreter Client Request History"
+
+    rec_name = 'url'
+
+    config_id = fields.Many2one(comodel_name='ipf.interpreter.client',
+                                string="Config ID")
+    url = fields.Char(string='Url')
+    method = fields.Char(string='Method')
+    payload = fields.Char(string='Payload')
+    request_headers = fields.Char(string='Request Headers')
+    response_headers = fields.Char(string='Response Headers')
+    params = fields.Char(string='Params')
+    response_code = fields.Char(string='Response Code')
+    message = fields.Char(string='Message')
