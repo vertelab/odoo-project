@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <data>
-    <record model="ir.ui.view" id="ipf_interpreter_client_config_view_list">
-        <field name="name">IPF Interpreter Client Config View List</field>
+    <!-- IPF Interpreter Client Test Config -->
+    <record model="ir.ui.view" id="ipf_interpreter_client_test_config_view_list">
+        <field name="name">IPF Interpreter Client Test Config View List</field>
         <field name="model">ipf.interpreter.client.test</field>
         <field name="arch" type="xml">
             <tree>
@@ -11,8 +12,8 @@
         </field>
     </record>
 
-    <record model="ir.ui.view" id="ipf_interpreter_client_config_view_form">
-        <field name="name">IPF Interpreter Client Config View Form</field>
+    <record model="ir.ui.view" id="ipf_interpreter_client_test_config_view_form">
+        <field name="name">IPF Interpreter Client Test Config View Form</field>
         <field name="model">ipf.interpreter.client.test</field>
         <field name="arch" type="xml">
             <form>
@@ -73,15 +74,15 @@
         </field>
     </record>
 
-    <record model="ir.actions.act_window" id="ipf_interpreter_client_config_action_window">
-        <field name="name">IPF Interpreter Client Config</field>
+    <record model="ir.actions.act_window" id="ipf_interpreter_client_test_config_action_window">
+        <field name="name">IPF Interpreter Client Test Config</field>
         <field name="res_model">ipf.interpreter.client.test</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem id="menu_ipf_intrepreter_client_config"
-              name="IPF Interpreter"
-              action="ipf_interpreter_client_config_action_window"
+    <menuitem id="menu_ipf_intrepreter_client_test_config"
+              name="IPF Interpreter Test"
+              action="ipf_interpreter_client_test_config_action_window"
               parent="api_ipf.api_client_config_parent_menu"
               sequence="7"/>
 
@@ -108,8 +109,113 @@
         <field name="view_mode">tree</field>
     </record>
     <menuitem id="menu_ipf_interpreter_client_test_request_history"
-              name="IPF Interpreter"
+              name="IPF Interpreter Test"
               action="ipf_interpreter_client_test_request_history_action_window"
               parent="api_ipf.client_config_request_history_parent_menu"
               sequence="7"/>
+
+    <!-- IPF Interpreter Client Config -->
+    <record model="ir.ui.view" id="ipf_interpreter_client_config_view_tree">
+        <field name="name">IPF Interpreter Client Config View List</field>
+        <field name="model">ipf.interpreter.client</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="ipf_server_url"/>
+                <field name="ipf_client_id"/>
+                <field name="ipf_client_secret"/>
+                <field name="ipf_environment"/>
+            </tree>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="ipf_interpreter_client_config_form_view">
+        <field name="name">IPF Interpreter Client Config View Form</field>
+        <field name="model">ipf.interpreter.client</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button type="object" name="update_all_data" string="Update all Intepreter data"/>
+                    <button type="object" name="update_languages" string="Update Intepreter languages"/>
+                    <button type="object" name="update_gender_preference"
+                            string="Update Intepreter gender preferences"/>
+                    <button type="object" name="update_type" string="Update Intepreter types"/>
+                    <button type="object" name="update_remote_type" string="Update Intepreter remote types"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="ipf_server_url"/>
+                            <field name="ipf_client_id"/>
+                            <field name="ipf_client_secret"/>
+                            <field name="ipf_system_id"/>
+                            <field name="ipf_environment"/>
+                        </group>
+                        <group string="Requests" colspan="4">
+                            <field name="request_history_ids" nolabel="1"
+                                   colspan="4">
+                                <tree>
+                                    <field name="url"/>
+                                    <field name="method"/>
+                                    <field name="response_code"/>
+                                </tree>
+                                <form>
+                                    <group>
+                                        <field name="url"/>
+                                        <field name="method"/>
+                                        <field name="payload"/>
+                                        <field name="request_headers"/>
+                                        <field name="params"/>
+                                        <field name="response_code"/>
+                                        <field name="response_headers"/>
+                                        <field name="message"/>
+                                    </group>
+                                </form>
+                            </field>
+                        </group>
+                    </group>
+                </sheet>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="ipf_interpreter_client_config_action">
+        <field name="name">IPF Interpreter Client Config</field>
+        <field name="res_model">ipf.interpreter.client</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem id="ipf_intrepreter_client_config_menu"
+              name="IPF Interpreter"
+              action="ipf_interpreter_client_config_action"
+              parent="api_ipf.api_client_config_parent_menu"
+              sequence="8"/>
+
+    <record model="ir.ui.view" id="ipf_interpreter_client_request_history">
+        <field name="name">IPF Interpreter Client Request History View List</field>
+        <field name="model">ipf.interpreter.client.request.history</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="config_id"/>
+                <field name="url"/>
+                <field name="method"/>
+                <field name="payload"/>
+                <field name="request_headers"/>
+                <field name="response_headers"/>
+                <field name="params"/>
+                <field name="response_code"/>
+                <field name="message"/>
+            </tree>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="ipf_interpreter_client_request_history_action_window">
+        <field name="name">IPF Interpreter Client Request History</field>
+        <field name="res_model">ipf.interpreter.client.request.history</field>
+        <field name="view_mode">tree</field>
+    </record>
+    <menuitem id="menu_ipf_interpreter_client_request_history"
+              name="IPF Interpreter"
+              action="ipf_interpreter_client_request_history_action_window"
+              parent="api_ipf.client_config_request_history_parent_menu"
+              sequence="8"/>
 </data>

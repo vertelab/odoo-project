@@ -17,6 +17,8 @@ Different version submitted
 6. v12.0.1.1.5 - AFC-2405 Updated Log message of Interpreter booking creation.
 7. v12.0.1.1.6 - Removed Vertal and wrong new line.
 8. v12.0.1.1.7 - AFC-2566 Added request history to technical menu
+9. v12.0.1.1.8 - AFC- Removed Interpreter Client config from General setting. Added Interpreter Client Config menu
+and Request History for that.
 
 Maintainers
 ~~~~~~~~~~~

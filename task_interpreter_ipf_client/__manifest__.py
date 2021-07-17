@@ -22,7 +22,7 @@
 
 {
     'name': 'Outplacement Intepreter IPF Client',
-    'version': '12.0.1.1.7',
+    'version': '12.0.1.1.8',
     'category': 'Outplacement',
     'author': "Vertel AB",
     'license': 'AGPL-3',
@@ -37,7 +37,8 @@
     'data': [
         "security/ir.model.access.csv",
         'views/client_config_views.xml',
-        'views/res_config_settings_views.xml',
+        # 'views/res_config_settings_views.xml',
+        # Removing from General setting. For now kept in comment if approve then remove
     ],
     'installable': True,
     'images': [
