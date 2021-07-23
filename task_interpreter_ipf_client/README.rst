@@ -20,6 +20,7 @@ Different version submitted
 9. v12.0.1.1.8 - AFC- Removed Interpreter Client config from General setting. Added Interpreter Client Config menu
 and Request History for that.
 10. v12.0.1.1.9 - #701 - Added Form and Search view for Interpreter client response history.
+11. v12.0.1.2.0 - AFC-2627 - Added '1' for Interpreter Gender Preference if Interpreter Gender Preference is not selected in activity.
 
 Maintainers
 ~~~~~~~~~~~
