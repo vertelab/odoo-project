@@ -52,7 +52,8 @@ class MailActivity(models.Model):
                 change_tz(mail_activity.time_end).strftime(
                     '%Y-%m-%dT%H:%M:00'),
             'tolksprakId': mail_activity.interpreter_language.code,
-            'tolkkonId': int(mail_activity.interpreter_gender_preference.code),
+            'tolkkonId': int(mail_activity.interpreter_gender_preference.code) if \
+                mail_activity.interpreter_gender_preference and mail_activity.interpreter_gender_preference.code else 1,
             'bestallandeKANr': int(perf_op.ka_nr),
             'adressat': mail_activity.interpreter_receiver or '',
             'adress': {

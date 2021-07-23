@@ -22,7 +22,7 @@
 
 {
     'name': 'Outplacement Intepreter IPF Client',
-    'version': '12.0.1.1.8',
+    'version': '12.0.1.2.0',
     'category': 'Outplacement',
     'author': "Vertel AB",
     'license': 'AGPL-3',

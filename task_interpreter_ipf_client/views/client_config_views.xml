@@ -91,22 +91,56 @@
         <field name="model">ipf.interpreter.request.history</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="config_id"/>
                 <field name="url"/>
                 <field name="method"/>
                 <field name="payload"/>
                 <field name="request_headers"/>
                 <field name="response_headers"/>
-                <field name="params"/>
                 <field name="response_code"/>
                 <field name="message"/>
             </tree>
         </field>
     </record>
+    <record model="ir.ui.view" id="ipf_interpreter_client_test_request_history_form">
+        <field name="name">IPF Interpreter Client Request History View Form</field>
+        <field name="model">ipf.interpreter.request.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="config_id"/>
+                    <field name="url"/>
+                    <field name="method"/>
+                    <field name="payload"/>
+                    <field name="request_headers"/>
+                    <field name="response_headers"/>
+                    <field name="params"/>
+                    <field name="response_code"/>
+                    <field name="message"/>
+                </group>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="ipf_interpreter_client_test_request_history_search">
+        <field name="name">IPF Interpreter Client Request History View Search</field>
+        <field name="model">ipf.interpreter.request.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="url"/>
+                <separator/>
+                <filter name="create_date" string="Create Date" date="create_date" groups="base.group_no_one"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Response Code" name="response_code" context="{'group_by': 'response_code'}"/>
+                    <filter string="Created On" name="create_date" context="{'group_by': 'create_date'}"
+                            groups="base.group_no_one"/>
+                </group>
+            </search>
+        </field>
+    </record>
     <record model="ir.actions.act_window" id="ipf_interpreter_client_test_request_history_action_window">
         <field name="name">IPF Interpreter Client Test Request History</field>
         <field name="res_model">ipf.interpreter.request.history</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="menu_ipf_interpreter_client_test_request_history"
               name="IPF Interpreter Test"
@@ -196,22 +230,59 @@
         <field name="model">ipf.interpreter.client.request.history</field>
         <field name="arch" type="xml">
             <tree>
-                <field name="config_id"/>
                 <field name="url"/>
                 <field name="method"/>
                 <field name="payload"/>
                 <field name="request_headers"/>
                 <field name="response_headers"/>
-                <field name="params"/>
                 <field name="response_code"/>
                 <field name="message"/>
             </tree>
         </field>
     </record>
+
+    <record model="ir.ui.view" id="ipf_interpreter_client_request_history_form">
+        <field name="name">IPF Interpreter Client Request History View Form</field>
+        <field name="model">ipf.interpreter.client.request.history</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="config_id"/>
+                    <field name="url"/>
+                    <field name="method"/>
+                    <field name="payload"/>
+                    <field name="params"/>
+                    <field name="request_headers"/>
+                    <field name="response_headers"/>
+                    <field name="response_code"/>
+                    <field name="message"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="ipf_interpreter_client_request_history_search">
+        <field name="name">IPF Interpreter Client Request History View Search</field>
+        <field name="model">ipf.interpreter.client.request.history</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="url"/>
+                <separator/>
+                <filter name="create_date" string="Create Date" date="create_date" groups="base.group_no_one"/>
+                <separator/>
+                <group expand="0" string="Group By">
+                    <filter string="Response Code" name="response_code" context="{'group_by': 'response_code'}"/>
+                    <filter string="Created On" name="create_date" context="{'group_by': 'create_date'}"
+                            groups="base.group_no_one"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record model="ir.actions.act_window" id="ipf_interpreter_client_request_history_action_window">
         <field name="name">IPF Interpreter Client Request History</field>
         <field name="res_model">ipf.interpreter.client.request.history</field>
-        <field name="view_mode">tree</field>
+        <field name="view_mode">tree,form</field>
     </record>
     <menuitem id="menu_ipf_interpreter_client_request_history"
               name="IPF Interpreter"
