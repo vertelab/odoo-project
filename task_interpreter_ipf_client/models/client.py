@@ -234,7 +234,7 @@ class ClientConfig(models.Model):
         if not (self.is_params_set() or silent):
             raise Warning('All parameters are not set in config')
         ok = True
-        for method, name, fields in (
+        for method, name, field_spec in (
                 (self.get_tolksprak, 'res.interpreter.language',
                  (('name', 'namn'), ('code', 'id'))),
                 (self.get_kon, 'res.interpreter.gender_preference',
@@ -245,26 +245,38 @@ class ClientConfig(models.Model):
                  (('name', 'namn'), ('code', 'id')))
         ):
 
-            if not self._populate_data(method, name, fields):
+            if not self._populate_data(method, name, field_spec):
                 msg = f'Failed to populate data for {name}'
-                _logger.warn(msg)
+                _logger.warning(msg)
                 if not silent:
                     raise Warning(msg)
                 ok = False
         return ok
 
     @api.model
-    def _populate_data(self, method, model_name, fields):
+    def _populate_data(self, method, model_name, field_spec):
         result = method()
         if result.status_code not in (200, 201):
-            _logger.warn(f'Failed to populate {model_name} with code: '
-                         f'{result.status_code} and message: {result.text}')
+            _logger.warning(f'Failed to populate {model_name} with code: '
+                            f'{result.status_code} and message: {result.text}')
             return False
-        self.env[model_name].search([]).unlink()
-        for entry in json.loads(result.text):
-            self.env[model_name].create(
-                {field_name: entry[result_name] for field_name, result_name in
-                 fields})
+        res = json.loads(result.text)
+        search_terms = [(field_name,
+                         'in',
+                         [r[result_name] for r in res])
+                        for field_name, result_name in field_spec]
+        # Removing entries that have been removed.
+        in_db = self.env[model_name].search([])
+        matching = self.env[model_name].search(search_terms)
+        (in_db - matching).unlink()
+
+        # Adding missing entries.
+        for entry in res:
+            terms = [(field_name, '=', entry[result_name]) for field_name, result_name in field_spec]
+            if not self.env[model_name].search(terms):
+                self.env[model_name].create(
+                    {field_name: entry[result_name] for
+                     field_name, result_name in field_spec})
         return True
 
     def populate_res_intepreter_language(self):
