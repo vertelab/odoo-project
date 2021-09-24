@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from odoo import models, fields, api
+from odoo import models, fields, api, _
 
 class ProjectTask(models.Model):
     _inherit = 'project.task'
@@ -12,7 +12,7 @@ class ProjectTask(models.Model):
             arranger_id = rec.user_id.partner_id.id
             vals = {
                         'name': rec.name,
-                        'description': 'Planned event',
+                        'description': _('Planned task'),
                         'start': rec.date_deadline,
                         'stop': rec.date_deadline,
                         'allday': True,
