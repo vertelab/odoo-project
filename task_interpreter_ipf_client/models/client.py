@@ -234,37 +234,75 @@ class ClientConfig(models.Model):
         if not (self.is_params_set() or silent):
             raise Warning('All parameters are not set in config')
         ok = True
-        for method, name, fields in (
-                (self.get_tolksprak, 'res.interpreter.language',
-                 (('name', 'namn'), ('code', 'id'))),
-                (self.get_kon, 'res.interpreter.gender_preference',
-                 (('name', 'namn'), ('code', 'id'))),
-                (self.get_tolktyp, 'res.interpreter.type',
-                 (('name', 'namn'), ('code', 'id'))),
-                (self.get_distanstolktyp, 'res.interpreter.remote_type',
-                 (('name', 'namn'), ('code', 'id')))
-        ):
-
-            if not self._populate_data(method, name, fields):
+        for method, key, name, field_spec in (
+                (self.get_tolksprak, 'code', 'res.interpreter.language',
+                 {'name': 'namn', 'code': 'id'}),
+                (self.get_kon, 'code', 'res.interpreter.gender_preference',
+                 {'name': 'namn', 'code': 'id'}),
+                (self.get_tolktyp, 'code', 'res.interpreter.type',
+                 {'name': 'namn', 'code': 'id'}),
+                (self.get_distanstolktyp, 'code', 'res.interpreter.remote_type',
+                 {'name': 'namn', 'code': 'id'})):
+            if not self._populate_data(method, key, name, field_spec):
                 msg = f'Failed to populate data for {name}'
-                _logger.warn(msg)
+                _logger.warning(msg)
                 if not silent:
                     raise Warning(msg)
                 ok = False
         return ok
 
     @api.model
-    def _populate_data(self, method, model_name, fields):
+    def _populate_data(self, method, key, model_name, field_spec):
+        """
+        Populates interpreter res storages with data.
+
+        Removes entries that does not exists anymore, updates changed
+        elements and creates new if they dont exists in db yet.
+        """
         result = method()
         if result.status_code not in (200, 201):
-            _logger.warn(f'Failed to populate {model_name} with code: '
-                         f'{result.status_code} and message: {result.text}')
+            _logger.warning(f'Failed to populate {model_name} with code: '
+                            f'{result.status_code} and message: {result.text}')
             return False
-        self.env[model_name].search([]).unlink()
-        for entry in json.loads(result.text):
-            self.env[model_name].create(
-                {field_name: entry[result_name] for field_name, result_name in
-                 fields})
+        mod = self.env[model_name]
+        res = json.loads(result.text)
+
+        # Removing entries that have been removed.
+        remove = mod.search([(key, 'not in', [r[field_spec[key]] for r in res])])
+        _logger.debug(f'Unlinking: {remove}')
+        remove.unlink()
+
+        # Finding unchanged elements.
+        domain = []
+        for r in res:
+            # Add OR between the elements.
+            if domain:
+                domain.insert(0, '|')
+            # Add AND between current objects fields.
+            for x in range(len(field_spec) - 1):
+                domain.append('&')
+            for field in field_spec:
+                domain.append((field, '=',  r[field_spec[field]]))
+        unchanged = mod.search(domain)
+        _logger.debug(f'Unchanged records, keep: {unchanged}')
+
+        # Adding missing or changed entries.
+        for entry in res:
+            # Not changed, do nothing.
+            record = unchanged.filtered(
+                lambda x: getattr(x, key) == entry[field_spec[key]])
+            if record:
+                continue
+            obj_dict = {field: entry[field_spec[field]] for field in field_spec}
+            record = mod.search([(key, '=', entry[field_spec[key]])])
+            # Already exists but changed, update db.
+            if record:
+                _logger.debug(f'Updating: {obj_dict}')
+                record.write(obj_dict)
+            # Does not exist, add it to db.
+            else:
+                _logger.debug(f'Creating: {obj_dict}')
+                self.env[model_name].create(obj_dict)
         return True
 
     def populate_res_intepreter_language(self):
