@@ -266,24 +266,33 @@ class ClientConfig(models.Model):
             return False
         mod = self.env[model_name]
         res = json.loads(result.text)
-        search_term = [(key, 'in', [r[field_spec[key]] for r in res])]
-        # Removing entries that have been removed.
-        in_db = mod.search([])
-        matching = mod.search(search_term)
-        _logger.debug(f'Unlinking: {in_db - matching}')
-        (in_db - matching).unlink()
 
-        unchanged = mod.search([(field,
-                                 'in',
-                                 [r[field_spec[field]] for r in res])
-                                for field in field_spec]).mapped(key)
-        _logger.debug(unchanged)
-        # Adding missing entries.
+        # Removing entries that have been removed.
+        remove = mod.search([(key, 'not in', [r[field_spec[key]] for r in res])])
+        _logger.debug(f'Unlinking: {remove}')
+        remove.unlink()
+
+        # Finding unchanged elements.
+        domain = []
+        for r in res:
+            # Add OR between the elements.
+            if domain:
+                domain.insert(0, '|')
+            # Add AND between current objects fields.
+            for x in range(len(field_spec) - 1):
+                domain.append('&')
+            for field in field_spec:
+                domain.append((field, '=',  r[field_spec[field]]))
+        unchanged = mod.search(domain)
+        _logger.debug(f'Unchanged records, keep: {unchanged}')
+
+        # Adding missing or changed entries.
         for entry in res:
             # Not changed, do nothing.
-            if str(entry[field_spec[key]]) in unchanged:
+            record = unchanged.filtered(
+                lambda x: getattr(x, key) == entry[field_spec[key]])
+            if record:
                 continue
-
             obj_dict = {field: entry[field_spec[field]] for field in field_spec}
             record = mod.search([(key, '=', entry[field_spec[key]])])
             # Already exists but changed, update db.
