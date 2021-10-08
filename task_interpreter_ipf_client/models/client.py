@@ -67,7 +67,7 @@ class ClientConfig(models.Model):
     ipf_system_id = fields.Char(string='IPF System ID', default=get_system_id, required=True)
     ipf_environment = fields.Selection(selection=[('U1', 'U1'),
                                                   ('I1', 'I1'),
-                                                  ('T1', 'IT'),
+                                                  ('T1', 'T1'),
                                                   ('T2', 'T2'),
                                                   ('PROD', 'PROD'), ],
                                        string='IPF Environment',
@@ -228,6 +228,11 @@ class ClientConfig(models.Model):
             params,
             payload,
             'PUT')
+
+    def cancel_interpreter(self, obj_id, ka_nr):
+        """Cancels an interpreter booking in Tolkportalen."""
+        url = f'/tolkportalen-tolkbokning/v1/tolkbokningar/{obj_id}/avbestall'
+        return self.get_request(url, params={'kanr': ka_nr}, method='PUT')
 
     @api.model
     def populate_all_data(self, silent=False):
