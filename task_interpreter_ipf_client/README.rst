@@ -21,6 +21,7 @@ Different version submitted
 and Request History for that.
 10. v12.0.1.1.9 - #701 - Added Form and Search view for Interpreter client response history.
 11. v12.0.1.2.0 - AFC-2627 - Added '1' for Interpreter Gender Preference if Interpreter Gender Preference is not selected in activity.
+12. v12.0.1.3.0 - AFC-2858 - Added possibility to cancel interpreter.
 
 Maintainers
 ~~~~~~~~~~~
