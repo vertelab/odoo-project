@@ -1,8 +1,9 @@
 {
     'name': 'Project Task Timesheet Activities - Begin/End Hours',
     'version': '14.0.1.0.1',
-    'author': 'Verified Email Europe AB',
-    'website': 'https://verified-email.com/',
+    'author': 'Vertel AB',
+    'contributors': 'Verified Email Europe AB,Hemangi Rupareliya,Vertel AB,',
+    'website': 'https://vertel.se/',
     'license': 'AGPL-3',
     'category': 'Tools',
     'depends': [
