@@ -168,20 +168,15 @@ class ClientConfig(models.Model):
 
         payload = activity.preprocessing_activity_data(activity)
         date = activity.time_start.strftime("%Y-%m-%d")
-        time_start = activity.time_start + relativedelta(hours=2)
-        time_start_hour = time_start.hour
-        time_start_min = time_start.minute
-        time_end = activity.time_end + relativedelta(hours=2)
-        time_end_hour = time_end.hour
-        time_end_min = time_end.minute
-        if activity.interpreter_type.name == 'platstolk':
-            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s till %s." \
-                  % (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
-                     str(time_end_min), activity.interpreter_language.name, activity.street)
-        else:
-            msg = "Tolkbokning genomförd: <br/> Din tolk är beställd till %s klockan %s:%s till %s:%s för %s. " % \
-                  (str(date), str(time_start_hour), str(time_start_min), str(time_end_hour),
-                   str(time_end_min), activity.interpreter_language.name)
+        time_start = activity.change_tz(
+            activity.time_start, 'utc', 'Europe/Stockholm').strftime('%H:%M')
+        time_end = activity.change_tz(
+            activity.time_end, 'utc', 'Europe/Stockholm').strftime('%H:%M')
+        msg = (f"Tolkbokning genomförd: <br/>"
+               f"Din tolk är beställd till {date} klockan {time_start} till"
+               f" {time_end} för {activity.interpreter_language.name}")
+        if activity.interpreter_type.name == 'Platstolk':
+            msg += f" till {activity.street}"
 
         message_id = self.env['mail.message'].create({
             'body': msg,
