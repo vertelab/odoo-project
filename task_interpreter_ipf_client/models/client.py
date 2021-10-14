@@ -168,8 +168,10 @@ class ClientConfig(models.Model):
 
         payload = activity.preprocessing_activity_data(activity)
         date = activity.time_start.strftime("%Y-%m-%d")
-        time_start = (activity.time_start + relativedelta(hours=2)).strftime('%H:%M')
-        time_end = (activity.time_end + relativedelta(hours=2)).strftime('%H:%M')
+        time_start = activity.change_tz(
+            activity.time_start, 'utc', 'Europe/Stockholm').strftime('%H:%M')
+        time_end = activity.change_tz(
+            activity.time_end, 'utc', 'Europe/Stockholm').strftime('%H:%M')
         msg = (f"Tolkbokning genomförd: <br/>"
                f"Din tolk är beställd till {date} klockan {time_start} till"
                f" {time_end} för {activity.interpreter_language.name}")

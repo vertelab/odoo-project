@@ -32,24 +32,35 @@ _logger = logging.getLogger(__name__)
 class MailActivity(models.Model):
     _inherit = "mail.activity"
 
+    @staticmethod
+    def change_tz(date: datetime.datetime,
+                  tz_from: str = 'Europe/Stockholm',
+                  tz_to: str = 'utc') -> datetime:
+        """
+        Convert naive datetime from one tz to another tz while keeping
+        it naive.
+        """
+        # Make sure that we got a date and not None or False as its the
+        # default value of some fields.
+        if date:
+            tz_from = pytz.timezone(tz_from)
+            tz_to = pytz.timezone(tz_to)
+            return tz_from.localize(date).astimezone(tz_to).replace(tzinfo=None)
+        return False
+
     @api.model
     def preprocessing_activity_data(self, mail_activity):
-        def change_tz(timestamp, tz_name='Europe/Stockholm'):
-            # Tolk portalen wants timestamps in local swedish time.
-            timezone = pytz.timezone(tz_name)
-            if not timestamp.tzinfo:
-                timestamp = timestamp.replace(tzinfo=datetime.timezone.utc)
-            return timestamp.astimezone(timezone)
-
         perf_op = mail_activity.get_outplacement_value(
             'performing_operation_id')
         payload = {
             'tolkTypId': int(mail_activity.interpreter_type.code),
             'fromDatumTid':
-                change_tz(mail_activity.time_start).strftime(
+                self.change_tz(
+                    mail_activity.time_start, 'utc', 'Europe/Stockholm').strftime(
                     '%Y-%m-%dT%H:%M:00'),
             'tomDatumTid':
-                change_tz(mail_activity.time_end).strftime(
+                self.change_tz(
+                    mail_activity.time_end, 'utc', 'Europe/Stockholm').strftime(
                     '%Y-%m-%dT%H:%M:00'),
             'tolksprakId': mail_activity.interpreter_language.code,
             'tolkkonId': int(mail_activity.interpreter_gender_preference.code) if \
