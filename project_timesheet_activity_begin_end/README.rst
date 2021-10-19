@@ -25,3 +25,4 @@ Dependencies
 Version History
 ---------------
 
+1. v14.0.1.0.2 - Added widget on Begin and End hours.
