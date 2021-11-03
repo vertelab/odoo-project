@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+  <data>
+
+    <record id="create_offer_line_1" model="ir.server.object.lines">
+      <field name="col1" ref="sale.field_sale_order__partner_id"/>
+      <field name="evaluation_type">equation</field>
+      <field name="value">record.partner_id.id</field>
+    </record>
+
+    <record id="create_project_task_offer" model="ir.actions.server">
+      <field name="name">Skapa Offert</field>
+      <field name="model_id" ref="project.model_project_task"/>
+      <field name="crud_model_id" ref="sale.model_sale_order"/>
+      <field name="link_field_id" ref="sale_project.field_project_task__sale_order_id"></field>
+      <field name="state">object_create</field>
+      <field name="fields_lines" eval="[(6, 0, [ ref('sks_sale.sync_kontorsdatabasen_line_1')])]"/>
+    </record>
+  </data>
+</odoo>
