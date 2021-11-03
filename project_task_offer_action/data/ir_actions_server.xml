@@ -14,7 +14,7 @@
       <field name="crud_model_id" ref="sale.model_sale_order"/>
       <field name="link_field_id" ref="sale_project.field_project_task__sale_order_id"></field>
       <field name="state">object_create</field>
-      <field name="fields_lines" eval="[(6, 0, [ ref('sks_sale.sync_kontorsdatabasen_line_1')])]"/>
+      <field name="fields_lines" eval="[(6, 0, [ ref('project_task_offer_action.create_offer_line_1')])]"/>
     </record>
   </data>
 </odoo>
