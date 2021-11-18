@@ -6,6 +6,7 @@
     <field name="arch" type="xml">
          <field name="tag_ids" position="after">
             <field name="email_from"/>
+            <field name="partner_phone"/>
          </field> 
     </field>
 </record>
