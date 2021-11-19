@@ -28,3 +28,5 @@ Version History
 1. v14.0.1.0.2 - Added widget on Begin and End hours.
 
 2. v14.0.1.0.3 - Added calendar view for timesheet.
+
+3. v14.0.1.0.4 - Added Begin hours and End hours on timesheet calendar view.
