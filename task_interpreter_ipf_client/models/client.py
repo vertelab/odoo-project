@@ -234,16 +234,12 @@ class ClientConfig(models.Model):
         if not (self.is_params_set() or silent):
             raise Warning('All parameters are not set in config')
         ok = True
-        for method, key, name, field_spec in (
-                (self.get_tolksprak, 'code', 'res.interpreter.language',
-                 {'name': 'namn', 'code': 'id'}),
-                (self.get_kon, 'code', 'res.interpreter.gender_preference',
-                 {'name': 'namn', 'code': 'id'}),
-                (self.get_tolktyp, 'code', 'res.interpreter.type',
-                 {'name': 'namn', 'code': 'id'}),
-                (self.get_distanstolktyp, 'code', 'res.interpreter.remote_type',
-                 {'name': 'namn', 'code': 'id'})):
-            if not self._populate_data(method, key, name, field_spec):
+        for name, method in (
+                ('res.interpreter.language', self.populate_res_intepreter_language),
+                ('res.interpreter.gender_preference', self.populate_res_interpreter_gender_preference),
+                ('res.interpreter.remote_type', self.populate_res_interpreter_remote_type),
+                ('res.interpreter.type', self.populate_res_interpreter_type)):
+            if not method():
                 msg = f'Failed to populate data for {name}'
                 _logger.warning(msg)
                 if not silent:
@@ -306,24 +302,28 @@ class ClientConfig(models.Model):
         return True
 
     def populate_res_intepreter_language(self):
-        self._populate_data(self.get_tolksprak,
-                            'res.interpreter.language',
-                            (('name', 'namn'), ('code', 'id')))
+        return self._populate_data(self.get_tolksprak,
+                                   'code',
+                                   'res.interpreter.language',
+                                   (('name', 'namn'), ('code', 'id')))
 
     def populate_res_interpreter_gender_preference(self):
-        self._populate_data(self.get_kon,
-                            'res.interpreter.gender_preference',
-                            (('name', 'namn'), ('code', 'id')))
+        return self._populate_data(self.get_kon,
+                                   'code',
+                                   'res.interpreter.gender_preference',
+                                   (('name', 'namn'), ('code', 'id')))
 
     def populate_res_interpreter_remote_type(self):
-        self._populate_data(self.get_distanstolktyp,
-                            'res.interpreter.remote_type',
-                            (('name', 'namn'), ('code', 'id')))
+        return self._populate_data(self.get_distanstolktyp,
+                                   'code',
+                                   'res.interpreter.remote_type',
+                                   (('name', 'namn'), ('code', 'id')))
 
     def populate_res_interpreter_type(self):
-        self._populate_data(self.get_tolktyp,
-                            'res.interpreter.type',
-                            (('name', 'namn'), ('code', 'id')))
+        return self._populate_data(self.get_tolktyp,
+                                   'code',
+                                   'res.interpreter.type',
+                                   (('name', 'namn'), ('code', 'id')))
 
     def populate_interpreter_data_cronjob(self):
         if self.is_params_set():
