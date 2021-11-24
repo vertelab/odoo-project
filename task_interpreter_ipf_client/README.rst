@@ -24,6 +24,7 @@ and Request History for that.
 12. v12.0.1.3.0 - AFC-2858 - Added possibility to cancel interpreter.
 13. v12.0.1.3.1 - AFC-2875 - Log message no longer strips zeroes.
 14. v12.0.1.3.2 - AFC-3133 - Bugfix, functions to update data from tolkportalen calls with the right amount of args.
+15. v12.0.1.3.3 - AFC-3133 - Bugfix, fixed additional errors detected in testing.
 
 Maintainers
 ~~~~~~~~~~~
