@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+       <record model="ir.actions.server" id="project_add_default_types">
+            <field name="name">Add default stages to projects</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="binding_model_id" ref="project.model_project_project"/>
+            <field name="binding_type">action</field>
+            <field name="groups_id" eval="[(4, ref('base.group_system'))]"/>
+            <field name="state">code</field>
+            <field name="code">
+                    env['project.task.type'].projects_add_defaults()
+            </field>
+        </record>
+    </data>
+</odoo>
