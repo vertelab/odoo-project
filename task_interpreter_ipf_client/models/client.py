@@ -304,6 +304,7 @@ class ClientConfig(models.Model):
     def populate_res_intepreter_language(self):
         """Populate interpreter language storage with updated info."""
         return self._populate_data(self.get_tolksprak,
+                                   'code',
                                    'res.interpreter.language',
                                    {'name': 'namn', 'code': 'id'})
 
@@ -313,18 +314,21 @@ class ClientConfig(models.Model):
         updated info.
         """
         return self._populate_data(self.get_kon,
+                                   'code',
                                    'res.interpreter.gender_preference',
                                    {'name': 'namn', 'code': 'id'})
 
     def populate_res_interpreter_remote_type(self):
         """Populate interpreter remote type storage with updated info."""
         return self._populate_data(self.get_distanstolktyp,
+                                   'code',
                                    'res.interpreter.remote_type',
                                    {'name': 'namn', 'code': 'id'})
 
     def populate_res_interpreter_type(self):
         """Populate interpreter type storage with updated info."""
         return self._populate_data(self.get_tolktyp,
+                                   'code',
                                    'res.interpreter.type',
                                    {'name': 'namn', 'code': 'id'})
 
