@@ -19,7 +19,7 @@
 ##############################################################################
 
 {
-    'name': 'Project Task Calendar',
+    'name': 'Deprecated Project Task Calendar',
     'version': '14.0.0.0.1',
     'category': '',
     'summary': 'Ties project tasks to the calendar',
@@ -30,6 +30,8 @@
             * Updates the calendar post if the assigned user is changed.\n
             * Removes the calendar post when the project task is deleted.\n\n
         This module is maintained from: https://github.com/vertelab/odoo-project/tree/14.0/project_task_calendar/ \n
+        
+        Deprecated Issues: https://vertel.se/web#id=1841&action=448&active_id=109&model=project.task&view_type=form&cids=1&menu_id=334 \n 
 """,
     'author': "Vertel AB",
     'license': "AGPL-3",
