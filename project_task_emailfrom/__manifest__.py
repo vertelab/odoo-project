@@ -23,10 +23,10 @@
 #
 {
     'name': 'Project Task Emailfrom',
-    'version': '14.0.1.1.0',
+    'version': '14.0.1.1.1',
     'summary': 'Exposes the email_from field in project tasks',
     'category': 'Administration',
-    'description': """This module exposes the email and phone from the website project form on the selected projects task-view. \n
+    'description': """This module exposes the customers (res_partner.email and res_partner.phone) on the  project_task-view. \n
     The module is maintained from: https://github.com/vertelab/odoo-project/ \n
     """,
     'author': 'Vertel AB <robin.calvin@vertel.se>',
