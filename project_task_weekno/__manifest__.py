@@ -24,7 +24,7 @@
     'summary': 'Project Task WeekNo',
     'author': 'Vertel AB',
     'category': 'Project Task WeekNo',
-    "version": "14.0.0.0.0",
+    "version": "14.0.0.1.0",
     'license': 'AGPL-3',
     'website': 'https://vertel.se/',
     "description": """

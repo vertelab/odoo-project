@@ -13,8 +13,17 @@ class ProjectTask(models.Model):
     @api.constrains('week')
     def _check_year(self):
         for _rec in self:
-            if int(_rec.week) > 52 or int(_rec.week) <= 0:
-                raise ValidationError(_('Enter week between 1-52.'))
+            try:
+                if isinstance(_rec.week , str) and (int(_rec.week) > 53 or int(_rec.week) < 1):
+                    raise ValidationError(_('Enter week between 1-53 or leave blank.'))
+            except ValueError:
+                raise ValidationError(_('Enter week between 1-53 or leave blank.'))
+
+    @api.onchange('week')
+    def _zeropad_week(self):
+        for _rec in self:
+            if _rec.week:
+                _rec.week = _rec.week.zfill(2)
 
     @api.model
     def _read_group_year_week(self, stages, domain, order):
