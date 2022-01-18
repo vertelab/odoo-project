@@ -1,0 +1,42 @@
+<odoo>
+    <data>
+        <record id="act_project_project_2_project_task_wcag" model="ir.actions.act_window">
+            <field name="name">Wcags</field>
+            <field name="res_model">project.task.wcag</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[('task_id', '=', active_id)]</field>
+            <field name="context">{
+                'task_id': active_id,
+            }</field>
+        </record>
+        
+        <record id="project_task_form_view" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+                    <button class="oe_stat_button" type="action"
+                                name="%(act_project_project_2_project_task_wcag)d" icon="fa-tasks">
+                                <field string="Wcags" name="rule_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+
+<!--
+        <record id="project_task_search_view" model="ir.ui.view">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group[1]/filter[@name='project']" position="after">
+                    <filter string="Week" name="week" context="{'group_by': 'week'}"/>
+                </xpath>
+            </field>
+        </record>
+-->
+    </data>
+</odoo>
+
+
