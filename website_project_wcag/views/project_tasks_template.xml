@@ -1,0 +1,50 @@
+<odoo>
+    <template id="is_wcag_project_tasks" name="WCAG Project Tasks">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Tasks</t>
+            </t>
+            <t t-if="not grouped_tasks">
+                <div class="alert alert-warning mt8" role="alert">
+                    There are no WCAG Tasks.
+                </div>
+            </t>
+             <t t-if="grouped_tasks">
+                <t t-call="portal.portal_table">
+                    <t t-foreach="grouped_tasks" t-as="tasks">
+                        <thead>
+                            <tr t-attf-class="{{'thead-light' if not groupby == 'none' else ''}}">
+                                <th class="text-left">Ref</th>
+                                <th>
+                                    <em class="font-weight-normal text-muted"><span t-field="tasks[0].sudo().project_id.label_tasks"/> for project:</em>
+                                    <span t-field="tasks[0].sudo().project_id.name"/>
+                                </th>
+                                <th class="text-center">
+                                    <em class="font-weight-normal text-muted">Stage</em>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <t t-foreach="tasks" t-as="task">
+                                <tr>
+                                    <td class="text-left">
+                                        #<span t-esc="task.id"/>
+                                    </td>
+                                    <td>
+                                        <a t-attf-href="/wcag-project-task/#{task.id}{{ keep_query() }}/wcags"><span t-field="task.name"/></a>
+                                    </td>
+                                    <td class="text-center">
+                                        <span class="badge badge-pill badge-info" title="Current stage of the task" t-esc="task.stage_id.name" />
+                                    </td>
+                                </tr>
+                            </t>
+                        </tbody>
+                    </t>
+                </t>
+            </t>
+        </t>
+    </template>
+
+</odoo>
