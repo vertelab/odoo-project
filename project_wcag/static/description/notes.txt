@@ -1,0 +1,13 @@
+2022-01-21
+
+List of WCAG states:
+
+DIGG status tracker for WCAG
+
+Klar		ok
+Delvis OK	partial	
+Ej godkänd	fail
+Ej relevant	n/a
+Ej granskad	(Fältet saknar innehåll)
+
+https://webbriktlinjer.se/checklistor/
