@@ -5,12 +5,17 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.edit_project"/>
             <field name="arch" type="xml">
+                <xpath expr="//div[@name='options_active']/div[1]" position="after">
+                    <div>
+                        <label for="is_wcag" class="oe_inline" string="Is a Wcag Project:"/>
+                        <field name="is_wcag" class="oe_inline oe_input_align"/>
+                    </div>
+                </xpath>
                 <page name="settings" position="after">
-                    <page name="Wcag" string="Wcag">
+                    <page name="Wcag" string="Wcag" attrs="{'invisible':[('is_wcag', '=', False)]}">
                             <group>
                                 <group>
-                                    <field name="is_wcag" string="Wcag State" />
-                                    <field name="wcag_state_ids"/>
+                                    <field name="wcag_rule_ids"/>
                                 </group>
                             </group>
                     </page>
@@ -28,6 +33,7 @@
                     <field name="wcag_id"/>
                     <field name="task_id"/>
                     <field name="wcag_state"/>
+                    <field name="notes"/>
                 </tree>
             </field>
         </record>
@@ -60,43 +66,11 @@
                                 <field name="description" />
                             </group>
                         </group>
-                        <group string="Wcag Stages">
-                            <field name="wcag_state_ids" />
+                        <group string="Wcag Projects">
+                            <field name="project_ids" />
                         </group>
                         <group string="Wcag Tasks">
                             <field name="task_wcag_ids" />
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        
-    <record model="ir.ui.view" id="wcag_state_tree">
-            <field name="name">Wcag State Tree</field>
-            <field name="model">wcag.state</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-              <tree>
-                    <field name="name"/>
-                    <field name="wcag_rule_ids" />
-                </tree>
-            </field>
-        </record>
-        
-        <record model="ir.ui.view" id="wcag_state_form">
-            <field name="name">Wcag state Form</field>
-            <field name="model">wcag.state</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-              <form string="Wcag Rule" delete="0">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="name"/>
-                            </group>
-                        </group>
-                        <group string="Rules">
-                            <field name="wcag_rule_ids" />
                         </group>
                     </sheet>
                 </form>
@@ -115,24 +89,12 @@
             </field>
     </record>
     
-     <record id="action_view_wcag_states" model="ir.actions.act_window">
-            <field name="name">Wcag States</field>
-            <field name="res_model">wcag.state</field>
-            <field name="view_mode">tree,form</field>
-            <field name="help" type="html">
-                <p class="o_view_nocontent_smiling_face">
-                    No states found. Let's create one!
-                </p>
-            </field>
-    </record>
     
     <menuitem id="menu_wcag" name="Wcag Configuration" parent="project.menu_main_pm"/>
 
     <menuitem name="Wcag Rules" id="menu_wcag_rules" parent="menu_wcag"
             action="action_view_wcag_rules" sequence="2" />
 
-    <menuitem name="Wcag States" id="menu_wcag_states" parent="menu_wcag"
-            action="action_view_wcag_states" sequence="2" />
         
     </data>
 </odoo>
