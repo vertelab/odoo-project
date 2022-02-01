@@ -1,0 +1,29 @@
+<odoo>
+    <template id="portal_layout" name="Portal layout: project menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'wcag_project' or project" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not project else ''}">
+                <a t-if="project" t-attf-href="/wcag-projects?{{ keep_query() }}">WCAG Projects</a>
+                <t t-else="">WCAG Projects</t>
+            </li>
+            <li t-if="project" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="project.name"/>
+            </li>
+
+            <li t-if="page_name == 'wcag_task' or task" t-attf-class="breadcrumb-item #{'active ' if not task else ''}">
+                <a t-if="task" t-attf-href="/wcag-projects/#{project.id}{{ keep_query() }}/tasks">WCAG Tasks</a>
+                <t t-else="">WCAG Tasks</t>
+            </li>
+            <li t-if="task" class="breadcrumb-item active col-8 col-lg-10 text-truncate">
+                <span t-field="task.name"/>
+            </li>
+
+            <li t-if="page_name == 'wcags' or wcag" t-attf-class="breadcrumb-item #{'active ' if not wcag else ''}">
+                <a t-if="wcag" t-attf-href="/wcag-project-task/#{task.id}{{ keep_query() }}/wcags">WCAGs</a>
+                <t t-else="">WCAGs</t>
+            </li>
+            <li t-if="wcag" class="breadcrumb-item active col-8 col-lg-10 text-truncate">
+                <span t-field="wcag.wcag_id.name"/>
+            </li>
+        </xpath>
+    </template>
+</odoo>
