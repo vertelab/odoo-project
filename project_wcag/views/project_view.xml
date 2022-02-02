@@ -31,7 +31,7 @@
             <field name="arch" type="xml">
               <tree editable="top">
                     <field name="wcag_id" optional="show"/>
-                    <field name="task_id" optional="show"/>
+                    <field name="task_id" optional="hide"/>
                     <field name="wcag_state" optional="show"/>
                     <field name="notes" optional="show"/>
                 </tree>
