@@ -4,7 +4,7 @@ from odoo.exceptions import ValidationError
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
 
-#Gonna be a list of rules based on a excel arc
+#Gonna be a list of rules based on a excel spread sheet
 class WcagRule(models.Model):
     _name = 'wcag.rule'
     
@@ -18,7 +18,7 @@ class ProjectTaskWcag(models.Model):
     _name = 'project.task.wcag'
     wcag_id = fields.Many2one(comodel_name = "wcag.rule", string = "Wcag Rule")
     task_id = fields.Many2one(comodel_name = "project.task",string = "Project Task")
-    wcag_state = fields.Selection([ ('not_reviewed', 'Not reviewed'),('done', 'Done'),('partially_ok', 'Partially Ok'),('not_approved ', 'Not approved'),('not_relevant', 'Not Relevant'),],'State', default='not_reviewed')
+    wcag_state = fields.Selection([ ('done', 'OK'), ('partially_ok', 'Partial'),('not_approved ', 'Failed'),('not_relevant', 'Not relevant'),('not_reviewed', '*blank*')],'State', default='partially_ok')
     notes = fields.Char(String = "Notes")
 
 
