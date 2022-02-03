@@ -31,7 +31,7 @@
             <field name="arch" type="xml">
               <tree editable="top">
                     <field name="wcag_id" optional="show"/>
-                    <field name="task_id" optional="hide"/>
+                    <field name="task_id" optional="show"/>
                     <field name="wcag_state" optional="show"/>
                     <field name="notes" optional="show"/>
                 </tree>
@@ -46,7 +46,7 @@
             <field name="arch" type="xml">
               <tree>
                     <field name="w3c_no" optional="show"/>
-                    <field name="name" optional="show"/>
+                    <field name="wcag_name" optional="show"/>
                     <field name="description" optional="hide"/>
                 </tree>
             </field>
@@ -61,7 +61,7 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="name"/>
+                                <field name="wcag_name"/>
                                 <field name="w3c_no"/>
                                 <field name="description" />
                             </group>
