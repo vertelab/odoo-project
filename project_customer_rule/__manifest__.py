@@ -21,8 +21,8 @@
 {
     'name': 'Project as Portal User',
     'version': '0.1',
-    'summary': 'see projects and tasks that has me as customer',
-    'category': 'hr',
+    'summary': 'See projects and tasks that has me as customer',
+    'category': 'project',
     'description': """As a customer I want to log in backend and will only see projects that has me as customer""",
     'author': 'Vertel AB',
     'license': 'AGPL-3',
