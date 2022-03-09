@@ -28,6 +28,9 @@
     'license': 'AGPL-3',
     'website': 'https://www.vertel.se',
     'depends': ['project', 'project_scrum'],
-    'data': ['security/security.xml'],
+    'data': [
+        'security/security.xml',
+        'views/menu.xml'
+    ],
     'installable': True,
 }

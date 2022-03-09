@@ -23,5 +23,11 @@
             <field name="perm_write" eval="True"/>
             <field name="global" eval="False"/>
         </record>
+
+        <record id="group_advanced_internal" model="res.groups">
+            <field name="name">Show More Internal Menu</field>
+            <field name="category_id" ref="base.module_category_hidden"/>
+            <field name="implied_ids" eval="[(4, ref('base.group_user')),(4, ref('hr.group_hr_user'))]"/>
+        </record>
     </data>
 </odoo>

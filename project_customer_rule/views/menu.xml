@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+<!--        <menuitem id="calendar.mail_menu_calendar" name="Calendar" sequence="2" action="calendar.action_calendar_event" web_icon="calendar,static/description/icon.png" groups="project_customer_rule.group_advanced_internal"/>-->
+<!--        <menuitem id="mail.menu_root_discuss" name="Discuss" action="mail.action_discuss" web_icon="mail,static/description/icon.png" groups="project_customer_rule.group_advanced_internal" sequence="1"/>-->
+
+        <function name="write" model="ir.ui.menu">
+            <function name="search" model="ir.ui.menu">
+                <value eval="[('name', '=', 'Calendar')]" />
+            </function>
+            <value eval="{'groups_id': [(6, 0, [ref('project_customer_rule.group_advanced_internal')])]}" />
+        </function>
+
+        <function name="write" model="ir.ui.menu">
+            <function name="search" model="ir.ui.menu">
+                <value eval="[('name', '=', 'Discuss')]" />
+            </function>
+            <value eval="{'groups_id': [(6, 0, [ref('project_customer_rule.group_advanced_internal')])]}" />
+        </function>
+
+        <function name="write" model="ir.ui.menu">
+            <function name="search" model="ir.ui.menu">
+                <value eval="[('name', '=', 'Website')]" />
+            </function>
+            <value eval="{'groups_id': [(6, 0, [ref('project_customer_rule.group_advanced_internal')])]}" />
+        </function>
+
+        <function name="write" model="ir.ui.menu">
+            <function name="search" model="ir.ui.menu">
+                <value eval="[('name', '=', 'Employees')]" />
+            </function>
+            <value eval="{'groups_id': [(6, 0, [ref('project_customer_rule.group_advanced_internal')])]}" />
+        </function>
+    </data>
+</odoo>
