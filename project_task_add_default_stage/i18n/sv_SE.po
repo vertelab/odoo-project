@@ -24,3 +24,8 @@ msgstr "Lägg till standardetapper på projekt"
 #: model:ir.model.fields,field_description:project_task_default_stage.field_project_task_type__is_default
 msgid "Default stage"
 msgstr "Standardetapp"
+
+#. module: project_task_default_stage
+#: model:ir.model.fields,field_description:project_task_default_stage.field_project_project__use_default_types
+msgid "Use default stages"
+msgstr "Använd standardetapper"
