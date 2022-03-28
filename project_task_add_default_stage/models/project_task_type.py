@@ -18,7 +18,7 @@ class ProjectTask(models.Model):
             [("is_default", "=", True)]
         )
         default_types_ids = default_types.mapped("id")
-        projects = self.env["project.project"].search_read([], ["id", "type_ids"])
+        projects = self.env["project.project"].search_read([("use_default_types", "=", True)], ["id", "type_ids"])
         if default_types:
             for project in projects:
                 types_diff = set(default_types_ids).difference(project["type_ids"])
