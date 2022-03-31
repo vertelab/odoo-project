@@ -36,7 +36,7 @@
     'author': "Vertel AB",
     'license': "AGPL-3",
     'website': 'https://www.vertel.se',
-    'depends': ['project','calendar'],
-    'data': [],
+    'depends': ['project', 'calendar'],
+    'data': ['views/project_task_view.xml'],
     'installable': True,
 }
