@@ -12,11 +12,6 @@ class ProjectTask(models.Model):
     # Writes a new post in the calendar that corresponds with the project task
     def create_event(self):
         for rec in self:
-            _logger.warning("create_event")
-            _logger.warning("create_event")
-            _logger.warning("create_event")
-            _logger.warning("create_event")
-            _logger.warning("create_event")
             _logger.warning(f"rec.user_id:{rec.user_id}")
             arranger_id = rec.user_id.partner_id.id
             vals = {
@@ -33,16 +28,6 @@ class ProjectTask(models.Model):
                 rec.calendar_event_id.with_context(no_mail_to_attendees=True).write(vals)
             elif rec.calendar_event_id and not rec.user_id:
                 # ~ rec.calendar_event_id.unlink()
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
-                _logger.warning("create_event IF ELSE")
                 rec.calendar_event_id.write({
                     'user_id': False,
                     'partner_ids': [(5, 0, 0)],
@@ -53,7 +38,6 @@ class ProjectTask(models.Model):
     # Calls create_event when the deadline or the assigned user on the project task is changed
     def write(self, values):
         res = super(ProjectTask, self).write(values)
-        _logger.warning(f"write values{values}")
         # ~ if values.get('date_deadline') or values.get('user_id'):
         if 'date_deadline' in values or 'user_id' in values:
             self.create_event()
