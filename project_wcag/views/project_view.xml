@@ -24,21 +24,8 @@
         </record>
         
         
-        <record model="ir.ui.view" id="wcag_rule_task_tree">
-            <field name="name">Wcag Task Tree</field>
-            <field name="model">project.task.wcag</field>
-            <field name="type">tree</field>
-            <field name="arch" type="xml">
-              <tree editable="top">
-                    <field name="wcag_id" optional="show"/>
-                    <field name="task_id" optional="show"/>
-                    <field name="wcag_state" optional="show"/>
-                    <field name="notes" optional="show"/>
-                </tree>
-            </field>
-        </record>
-                     
-    
+        
+        
         <record model="ir.ui.view" id="wcag_rule_tree">
             <field name="name">Wcag Rule Tree</field>
             <field name="model">wcag.rule</field>
@@ -94,6 +81,8 @@
 
     <menuitem name="Wcag Rules" id="menu_wcag_rules" parent="menu_wcag"
             action="action_view_wcag_rules" sequence="2" />
+            
+            
 
         
     </data>

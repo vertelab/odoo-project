@@ -1,9 +1,10 @@
 <odoo>
     <data>
+        
         <record id="act_project_project_2_project_task_wcag" model="ir.actions.act_window">
             <field name="name">Wcags</field>
             <field name="res_model">project.task.wcag</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">tree</field>
             <field name="domain">[('task_id', '=', active_id)]</field>
             <field name="context">{
                 'task_id': active_id,
@@ -23,6 +24,114 @@
                 </xpath>
             </field>
         </record>
+        
+        
+        <record id="view_wcag_task_search" model="ir.ui.view">
+            <field name="name">view_wcag_task_search</field>
+            <field name="model">project.task.wcag</field>
+            <field name="arch" type="xml">
+                  <search string="Wcag Tasks">
+                    <field name="wcag_id" string="Wcag Id"/>
+                    <field name="task_project_id" string="Project"/>
+                    <field name="task_id" string="Task"/>
+                    <field name="wcag_state" string="State"/>
+                </search>
+                </field>
+            </record>
+        
+        
+        <record model="ir.ui.view" id="wcag_rule_form">
+            <field name="name">Wcag Rule Form</field>
+            <field name="model">wcag.rule</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+              <form string="Wcag Rule" delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="wcag_name"/>
+                                <field name="w3c_no"/>
+                                <field name="description" />
+                            </group>
+                        </group>
+                        <group string="Wcag Projects">
+                            <field name="project_ids" />
+                        </group>
+                        <group string="Wcag Tasks">
+                            <field name="task_wcag_ids" />
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="wcag_task_form">
+            <field name="name">Wcag Task Form</field>
+            <field name="model">project.task.wcag</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <form string="Wcag Rule" delete="0">
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="task_project_id"/>
+                                <field name="task_id" />
+                                <field name="wcag_id"/>
+                            </group>
+                        </group>
+                        <group string="Notes">
+                            <field name="notes"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="wcag_task_tree">
+            <field name="name">Wcag Task Tree</field>
+            <field name="model">project.task.wcag</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+              <tree editable="top">
+                    <field name="wcag_id" optional="show"/>
+                    <field name="task_project_id" optional="hide"/>
+                    <field name="task_id" optional="hide"/>
+                    <field name="wcag_state" optional="show"/>
+                    <field name="notes" optional="show"/>
+                    <button name="action_read_task_rule" type="object" string="Details"/>
+
+                </tree>
+            </field>
+        </record>
+        
+        <record model="ir.ui.view" id="wcag_task_pivot">
+            <field name="name">Wcag Task Pivot</field>
+            <field name="model">project.task.wcag</field>
+            <field name="type">pivot</field>
+            <field name="arch" type="xml">
+            
+                <pivot string="Pivot View">
+                    <field name="task_project_id"  type="row"/>
+                     <field name="task_id" type="row"/>
+                     <field name="wcag_state" type="measure"/>
+                     <field name="notes" type="measure"/>
+                </pivot>
+            </field>
+        </record>
+        
+        
+        
+        <record id="act_project_project_project_task_wcag_task_report" model="ir.actions.act_window">
+            <field name="name">Wcags Report</field>
+            <field name="res_model">project.task.wcag</field>
+            <field name="view_mode">pivot</field>
+            <field name="domain">[]</field>
+            <field name="context">{
+            }</field>
+        </record>
+
+    <menuitem name="Wcag Task Report" id="wcag_task_report" parent="project.menu_project_report"
+            action="act_project_project_project_task_wcag_task_report" sequence="4" />
 
 <!--
         <record id="project_task_search_view" model="ir.ui.view">

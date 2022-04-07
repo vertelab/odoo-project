@@ -3,6 +3,8 @@ from odoo.exceptions import ValidationError
 
 from datetime import datetime, date
 from dateutil.relativedelta import relativedelta
+import logging
+_logger = logging.getLogger(__name__)
 
 
 class Project(models.Model):
@@ -14,6 +16,7 @@ class Project(models.Model):
         # ~ for task in project_tasks:
 
     def add_project_task_wcag(self):
+        _logger.warning("add_project_task_wcag"*100)
         for record in self:
             tasks = self.env['project.task'].search([('project_id','=',record.id)])
             for task in tasks:
