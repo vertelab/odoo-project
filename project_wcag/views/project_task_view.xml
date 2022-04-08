@@ -30,6 +30,13 @@
             <field name="name">view_wcag_task_search</field>
             <field name="model">project.task.wcag</field>
             <field name="arch" type="xml">
+
+                    <filter string="" name="Failed" domain="[('wcag_state','=','1')]" />
+                    <filter string="" name="Blank" domain="[('wcag_state','=','2')]" />
+                    <filter string="" name="Not relevant" domain="[('wcag_state','=','3')]" />
+                    <filter string="" name="Partial" domain="[('wcag_state','=','4')]" />
+                    <filter string="" name="OK" domain="[('wcag_state','=','5')]" />
+
                   <search string="Wcag Tasks">
                     <field name="wcag_id" string="Wcag Id"/>
                     <field name="task_project_id" string="Project"/>
@@ -38,32 +45,6 @@
                 </search>
                 </field>
             </record>
-        
-        
-        <record model="ir.ui.view" id="wcag_rule_form">
-            <field name="name">Wcag Rule Form</field>
-            <field name="model">wcag.rule</field>
-            <field name="type">form</field>
-            <field name="arch" type="xml">
-              <form string="Wcag Rule" delete="0">
-                    <sheet>
-                        <group>
-                            <group>
-                                <field name="wcag_name"/>
-                                <field name="w3c_no"/>
-                                <field name="description" />
-                            </group>
-                        </group>
-                        <group string="Wcag Projects">
-                            <field name="project_ids" />
-                        </group>
-                        <group string="Wcag Tasks">
-                            <field name="task_wcag_ids" />
-                        </group>
-                    </sheet>
-                </form>
-            </field>
-        </record>
         
         <record model="ir.ui.view" id="wcag_task_form">
             <field name="name">Wcag Task Form</field>
@@ -74,9 +55,13 @@
                     <sheet>
                         <group>
                             <group>
+<!--
+                                <field name="name"/>
+-->
                                 <field name="task_project_id"/>
                                 <field name="task_id" />
                                 <field name="wcag_id"/>
+                                <field name="validate_method"/>
                             </group>
                         </group>
                         <group string="Notes">
@@ -93,11 +78,13 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
               <tree editable="top">
+                    <field name="name" optional="hide"/>
                     <field name="wcag_id" optional="show"/>
                     <field name="task_project_id" optional="hide"/>
                     <field name="task_id" optional="hide"/>
                     <field name="wcag_state" optional="show"/>
                     <field name="notes" optional="show"/>
+                    <field name="validate_method" optional="hide"/>
                     <button name="action_read_task_rule" type="object" string="Details"/>
 
                 </tree>

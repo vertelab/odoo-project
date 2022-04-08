@@ -11,7 +11,10 @@ class Project(models.Model):
     _inherit = 'project.project'
     is_wcag = fields.Boolean(default=False, string="Wcag Project")
     wcag_rule_ids = fields.Many2many(comodel_name = "wcag.rule", relation ="wcag_rule_project", string = "Wcag Rules", help = "The wcag rules we are measuring each object against")
-# ~ @api.models
+    
+    #################
+    # ~ wcag_rule_ids = fields.Many2many(comodel_name = "wcag.project.rule", relation ="wcag_rule_project", string = "Wcag Rules", help = "The wcag rules we are measuring each object against")
+    # ~ @api.models
     # ~ def add_wcag_task_based_on_state(self):
         # ~ for task in project_tasks:
 

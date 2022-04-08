@@ -32,9 +32,15 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
               <tree>
-                    <field name="w3c_no" optional="show"/>
-                    <field name="wcag_name" optional="show"/>
+                    <field name="display_wcag_name" optional="show"/>
+                    <field name="w3c_no" optional="hide"/>
+                    <field name="conformance_level" optional="hide"/>
+<!--
+                    <field name="wcag_name" optional="hide"/>
+-->
                     <field name="description" optional="hide"/>
+                    <field name="wcag_url" optional="hide" widget="url"/>
+                    <field name="validate_method" optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -48,9 +54,15 @@
                     <sheet>
                         <group>
                             <group>
-                                <field name="wcag_name"/>
+                                <field name="display_wcag_name"/>
                                 <field name="w3c_no"/>
+                                <field name="conformance_level"/>
+<!--
+                                <field name="wcag_name"/>
+-->
                                 <field name="description" />
+                                <field name="wcag_url" widget="url"/>
+                                <field name="validate_method"/>
                             </group>
                         </group>
                         <group string="Wcag Projects">
