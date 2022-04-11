@@ -1,0 +1,352 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_wcag
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210312\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-04-11 14:12+0000\n"
+"PO-Revision-Date: 2022-04-11 16:25+0200\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 2.3\n"
+"Last-Translator: \n"
+"Language: sv\n"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__wcag_rules
+msgid "'Wcag Rules'"
+msgstr "'Wcag Regler'"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__2
+msgid "*blank*"
+msgstr "Blank"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.add_wcag_rule_wizard_form
+#: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
+msgid "Add Wcag Rules"
+msgstr "Lägg till Wcag Regler"
+
+#. module: project_wcag
+#: model:ir.actions.act_window,name:project_wcag.add_wcag_rule_wizard_form_action
+msgid "Add Wcag Rules To Project"
+msgstr "Lägg till Wcag Regler Till Projekt"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__validate_method__auto
+#: model:ir.model.fields.selection,name:project_wcag.selection__wcag_project_rule__validate_method__auto
+#: model:ir.model.fields.selection,name:project_wcag.selection__wcag_rule__validate_method__auto
+msgid "Automatic"
+msgstr "Automatisk"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.add_wcag_rule_wizard_form
+msgid "Cancel"
+msgstr "Avbryt"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.add_wcag_rule_wizard_form
+msgid "Choose Wcag Rules To Add"
+msgstr "Välj Wcag-regler att lägga till"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__conformance_level
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__conformance_level
+msgid "Conformance Level"
+msgstr "Överensstämmelsenivå"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
+msgid "Create Wcag Tasks"
+msgstr "Skapa Wcag-uppgifter"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__create_uid
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__create_uid
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__create_uid
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__create_uid
+msgid "Created by"
+msgstr "Skapad Av"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__create_date
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__create_date
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__create_date
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__create_date
+msgid "Created on"
+msgstr "Skapad på"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__description
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__description
+msgid "Description"
+msgstr "Beskrivning"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_task_tree
+msgid "Details"
+msgstr "Detaljer"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__display_name
+#: model:ir.model.fields,field_description:project_wcag.field_project_project__display_name
+#: model:ir.model.fields,field_description:project_wcag.field_project_task__display_name
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__display_name
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__display_name
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__display_wcag_name
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__display_wcag_name
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__display_wcag_name
+msgid "Display Wcag Name"
+msgstr "Visa Wcag-namn"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__1
+msgid "Failed"
+msgstr "Misslyckades"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__id
+#: model:ir.model.fields,field_description:project_wcag.field_project_project__id
+#: model:ir.model.fields,field_description:project_wcag.field_project_task__id
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__id
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__id
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__id
+msgid "ID"
+msgstr ""
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
+msgid "Is a Wcag Project:"
+msgstr "Är ett Wcag-projekt:"
+
+#. module: project_wcag
+#: model:ir.model.fields,help:project_wcag.field_project_task__task_wcag_ids
+msgid "Is a list of wcag criteria for this task/object"
+msgstr "Är en lista med wcag-kriterier för denna uppgift/objekt"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard____last_update
+#: model:ir.model.fields,field_description:project_wcag.field_project_project____last_update
+#: model:ir.model.fields,field_description:project_wcag.field_project_task____last_update
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag____last_update
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule____last_update
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__write_uid
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__write_uid
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__write_uid
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__write_date
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__write_date
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__write_date
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__validate_method__manual
+#: model:ir.model.fields.selection,name:project_wcag.selection__wcag_project_rule__validate_method__manual
+#: model:ir.model.fields.selection,name:project_wcag.selection__wcag_rule__validate_method__manual
+msgid "Manual"
+msgstr "Manuell"
+
+#. module: project_wcag
+#: model_terms:ir.actions.act_window,help:project_wcag.action_view_wcag_rules
+msgid "No rules found. Let's create one!"
+msgstr "Inga regler hittades. Låt oss skapa en!"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__3
+msgid "Not relevant"
+msgstr "Inte relevant"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__notes
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_task_form
+msgid "Notes"
+msgstr "Anteckningar"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__5
+msgid "OK"
+msgstr "OK"
+
+#. module: project_wcag
+#: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__4
+msgid "Partial"
+msgstr "Delvis"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_task_pivot
+msgid "Pivot View"
+msgstr "Pivotvy"
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_project_project
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__task_project_id
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__project_id
+#: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
+msgid "Project"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__wcag_state
+msgid "State"
+msgstr "Status"
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_project_task
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__task_id
+#: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
+msgid "Task"
+msgstr "Uppgift"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task__rule_count
+msgid "Task Count"
+msgstr "Uppgifter"
+
+#. module: project_wcag
+#: model:ir.model.fields,help:project_wcag.field_wcag_project_rule__project_id
+msgid "The project which this rule belongs to"
+msgstr "Projektet som denna regel tillhör"
+
+#. module: project_wcag
+#: model:ir.model.fields,help:project_wcag.field_project_project__project_wcag_rule_ids
+msgid "The wcag rules we are measuring each object against, specific to each project"
+msgstr "Wcag-reglerna vi mäter varje objekt mot, specifika för varje projekt"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__validate_method
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__validate_method
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__validate_method
+msgid "Validate Method"
+msgstr "Validera metod"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__w3c_no
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__w3c_no
+msgid "W3C No"
+msgstr "W3C Nummer"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
+msgid "Wcag"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.actions.act_window,name:project_wcag.action_view_wcag_rules
+msgid "Wcag "
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.ui.menu,name:project_wcag.menu_wcag
+msgid "Wcag Configuration"
+msgstr "Wcag-konfiguration"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
+msgid "Wcag Id"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_project__is_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_project_rule_form
+msgid "Wcag Project"
+msgstr "Wcag-Projekt"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__wcag_project_id
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_project_rule_form
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_project_rule_tree
+msgid "Wcag Project Rule"
+msgstr "Wcag-projektregel"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_project__project_wcag_rule_ids
+msgid "Wcag Project Rules"
+msgstr "Wcag-projektregler"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__wcag_id
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__wcag_id
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_rule_form
+#: model_terms:ir.ui.view,arch_db:project_wcag.wcag_task_form
+msgid "Wcag Rule"
+msgstr "Wcag-regel"
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_add_wcag_rule_wizard
+msgid "Wcag Rule Import Wizard"
+msgstr "Wcag-regel Import Wizard"
+
+#. module: project_wcag
+#: model:ir.ui.menu,name:project_wcag.menu_wcag_rules
+msgid "Wcag Rules"
+msgstr "Wcag regler"
+
+#. module: project_wcag
+#: model:ir.ui.menu,name:project_wcag.wcag_task_report
+msgid "Wcag Task Report"
+msgstr "Wcag-uppgiftsrapport"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
+msgid "Wcag Tasks"
+msgstr "Wcag-uppgifter"
+
+#. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__wcag_url
+#: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__wcag_url
+msgid "Wcag Url"
+msgstr "Wcag Address"
+
+#. module: project_wcag
+#: model:ir.actions.act_window,name:project_wcag.act_project_project_2_project_task_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task__task_wcag_ids
+#: model_terms:ir.ui.view,arch_db:project_wcag.project_task_form_view
+msgid "Wcags"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.actions.act_window,name:project_wcag.act_project_project_project_task_wcag_task_report
+msgid "Wcags Report"
+msgstr "Wcags rapport"
+
+#. module: project_wcag
+#: model_terms:ir.ui.view,arch_db:project_wcag.add_wcag_rule_wizard_form
+msgid "or"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_project_task_wcag
+msgid "project.task.wcag"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_wcag_project_rule
+msgid "wcag.project.rule"
+msgstr ""
+
+#. module: project_wcag
+#: model:ir.model,name:project_wcag.model_wcag_rule
+msgid "wcag.rule"
+msgstr ""

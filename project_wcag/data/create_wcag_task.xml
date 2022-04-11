@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+<!--
        <record model="ir.actions.server" id="set_account_type">
             <field name="name">Create Wcag Tasks</field>
             <field name="model_id" ref="project.model_project_project"/>
@@ -11,6 +12,7 @@
                     record.add_project_task_wcag()
             </field>
         </record>
+-->
         
 <!--
         <function model = "account.account" name="fix_account_types"/>

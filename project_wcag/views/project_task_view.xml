@@ -14,7 +14,7 @@
         <record id="project_task_form_view" model="ir.ui.view">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
             <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
                     <button class="oe_stat_button" type="action"
@@ -26,25 +26,25 @@
         </record>
         
         
+
         <record id="view_wcag_task_search" model="ir.ui.view">
-            <field name="name">view_wcag_task_search</field>
-            <field name="model">project.task.wcag</field>
-            <field name="arch" type="xml">
-
-                    <filter string="" name="Failed" domain="[('wcag_state','=','1')]" />
-                    <filter string="" name="Blank" domain="[('wcag_state','=','2')]" />
-                    <filter string="" name="Not relevant" domain="[('wcag_state','=','3')]" />
-                    <filter string="" name="Partial" domain="[('wcag_state','=','4')]" />
-                    <filter string="" name="OK" domain="[('wcag_state','=','5')]" />
-
-                  <search string="Wcag Tasks">
-                    <field name="wcag_id" string="Wcag Id"/>
-                    <field name="task_project_id" string="Project"/>
-                    <field name="task_id" string="Task"/>
-                    <field name="wcag_state" string="State"/>
-                </search>
-                </field>
-            </record>
+        <field name="name">view_wcag_task_search</field>
+        <field name="model">project.task.wcag</field>
+        <field name="arch" type="xml">
+              <search string="Wcag Tasks">
+                <filter string="" name="Failed" domain="[('wcag_state','=','1')]" />
+                <filter string="" name="Blank" domain="[('wcag_state','=','2')]" />
+                <filter string="" name="Not relevant" domain="[('wcag_state','=','3')]" />
+                <filter string="" name="Partial" domain="[('wcag_state','=','4')]" />
+                <filter string="" name="OK" domain="[('wcag_state','=','5')]" />
+                <field name="wcag_id" string="Wcag Id"/>
+                <field name="task_project_id" string="Project"/>
+                <field name="task_id" string="Task"/>
+            </search>
+            </field>
+        </record>
+            
+            
         
         <record model="ir.ui.view" id="wcag_task_form">
             <field name="name">Wcag Task Form</field>
@@ -55,11 +55,9 @@
                     <sheet>
                         <group>
                             <group>
-<!--
-                                <field name="name"/>
--->
                                 <field name="task_project_id"/>
                                 <field name="task_id" />
+                                <field name="wcag_project_id"/>
                                 <field name="wcag_id"/>
                                 <field name="validate_method"/>
                             </group>
@@ -78,8 +76,9 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
               <tree editable="top">
-                    <field name="name" optional="hide"/>
+                    <field name="display_wcag_name" optional="hide"/>
                     <field name="wcag_id" optional="show"/>
+                    <field name="wcag_project_id" optional="hide"/>
                     <field name="task_project_id" optional="hide"/>
                     <field name="task_id" optional="hide"/>
                     <field name="wcag_state" optional="show"/>
@@ -105,8 +104,6 @@
                 </pivot>
             </field>
         </record>
-        
-        
         
         <record id="act_project_project_project_task_wcag_task_report" model="ir.actions.act_window">
             <field name="name">Wcags Report</field>

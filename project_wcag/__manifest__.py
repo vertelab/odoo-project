@@ -35,6 +35,7 @@
     ],
     "data": [
         "security/ir.model.access.csv",
+        "wizard/add_rules_to_project_wizard.xml",
         "views/project_task_view.xml",
         "views/project_view.xml",
         "data/wcag_rules.xml",
