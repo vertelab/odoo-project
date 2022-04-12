@@ -31,7 +31,7 @@
                                     #<span t-esc="wcag.wcag_id.w3c_no"/>
                                 </td>
                                 <td>
-                                    <a t-attf-href="#"><span t-field="wcag.wcag_id.name"/></a>
+                                    <a t-attf-href="#"><span t-field="wcag.wcag_id.display_wcag_name"/></a>
                                 </td>
                                 <td class="text-center">
                                     <span class="badge badge-pill badge-info" title="Current stage of the task" t-esc="wcag.wcag_state" />
