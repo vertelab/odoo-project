@@ -143,7 +143,7 @@ class ProjectWCAGeController(http.Controller):
         task_wcag_count = request.env['project.task.wcag'].sudo().search_count(domain)
         # pager
         pager = portal_pager(
-            url="/wcag-project-task/<int:task_id>/wcags",
+            url="/wcag-project-task/%s/wcags" % task_id,
             url_args={'date_begin': date_begin, 'date_end': date_end, 'sortby': sortby, 'filterby': filterby,
                       'groupby': groupby, 'search_in': search_in, 'search': search},
             total=task_wcag_count,
@@ -161,7 +161,7 @@ class ProjectWCAGeController(http.Controller):
             'date_end': date_end,
             'wcags': wcag,
             'page_name': 'wcags',
-            'default_url': '/wcag-project-task/<int:task_id>/wcags',
+            'default_url': '/wcag-project-task/%s/wcags' % task_id,
             'pager': pager,
             'searchbar_inputs': searchbar_inputs,
             'search_in': search_in,

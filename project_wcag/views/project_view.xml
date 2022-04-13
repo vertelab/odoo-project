@@ -13,31 +13,24 @@
                 </xpath>
                 <page name="settings" position="after">
                     <page name="Wcag" string="Wcag" attrs="{'invisible':[('is_wcag', '=', False)]}">
-                            <group>
-                                <group>
-                                    <div>
-                                        <button string="Add Wcag Rules" name="%(project_wcag.add_wcag_rule_wizard_form_action)d" type="action" class="oe_highlight" />
-                                    </div>
-                                </group>
-                                <group>
-<!--
-                                    <field name="wcag_rule_ids"/>TODO REMOVE
--->
-                                    <field name="project_wcag_rule_ids"/>
-                                </group>
-                                <group>
-                                    <div>
-                                        <button string="Create Wcag Tasks" name="add_project_task_wcag" type="object" class="oe_highlight" />
-                                    </div>
-                                </group>
-                            </group>
+                        <group>
+                            <div>
+                                <button string="Add Wcag Rules" name="%(project_wcag.add_wcag_rule_wizard_form_action)d" type="action" class="oe_highlight" />
+                            </div>
+                        </group>
+                        <group>
+                            <field name="project_wcag_rule_ids" nolabel="1"/>
+                        </group>
+                        <group>
+                            <div>
+                                <button string="Create Wcag Tasks" name="add_project_task_wcag" type="object" class="oe_highlight" />
+                            </div>
+                        </group>
                     </page>
                 </page>
             </field>
         </record>
-        
-        
-        
+
         
         <record model="ir.ui.view" id="wcag_rule_tree">
             <field name="name">Wcag Rule Tree</field>
