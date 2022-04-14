@@ -112,7 +112,7 @@ class ProjectTaskWcag(models.Model):
     wcag_state = fields.Selection(
             [('1', 'Failed'),('2', '*blank*'),('3', 'Not relevant'), ('4', 'Partial'), ('5', 'OK')],
             'State',
-            default='3',
+            default=False,
             group_operator="max")
     notes = fields.Text(String = "Notes", group_operator="max")
     display_wcag_name = fields.Char()
