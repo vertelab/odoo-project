@@ -246,7 +246,7 @@ msgstr "Wcag-reglerna vi mäter varje objekt mot, specifika för varje projekt"
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__validate_method
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__validate_method
 msgid "Validate Method"
-msgstr "Validera metod"
+msgstr "Valideringsmetod"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__w3c_no
