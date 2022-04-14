@@ -76,9 +76,9 @@
             <field name="model">project.task.wcag</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-              <tree editable="top">
-                    <field name="display_wcag_name" optional="hide"/>
-                    <field name="wcag_id" optional="show"/>
+              <tree editable="top" default_order="display_wcag_name">
+                    <field name="display_wcag_name" optional="show"/>
+                    <field name="wcag_id" optional="hide"/>
                     <field name="wcag_project_id" optional="hide"/>
                     <field name="task_project_id" optional="hide"/>
                     <field name="task_id" optional="hide"/>
