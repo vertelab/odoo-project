@@ -32,5 +32,8 @@
         'security/security.xml',
         'views/menu.xml'
     ],
+    'pre_init_hook': 'test_pre_init_hook',
+    'post_init_hook': 'test_post_init_hook',
+    'uninstall_hook': 'test_uninstall_hook',
     'installable': True,
 }
