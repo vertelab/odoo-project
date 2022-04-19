@@ -1,6 +1,6 @@
 <odoo>
     <data>
-        
+
         <record id="act_project_project_2_project_task_wcag" model="ir.actions.act_window">
             <field name="name">Wcags</field>
             <field name="res_model">project.task.wcag</field>
@@ -10,7 +10,7 @@
                 'task_id': active_id,
             }</field>
         </record>
-        
+
         <record id="project_task_form_view" model="ir.ui.view">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
@@ -24,8 +24,8 @@
                 </xpath>
             </field>
         </record>
-        
-        
+
+
 
         <record id="view_wcag_task_search" model="ir.ui.view">
         <field name="name">view_wcag_task_search</field>
@@ -43,9 +43,9 @@
             </search>
             </field>
         </record>
-            
-            
-        
+
+
+
         <record model="ir.ui.view" id="wcag_task_form">
             <field name="name">Wcag Task Form</field>
             <field name="model">project.task.wcag</field>
@@ -59,6 +59,7 @@
                                 <field name="task_id" />
                                 <field name="wcag_project_id"/>
                                 <field name="wcag_id"/>
+                                <field name="wcag_url"/>
                                 <field name="validate_method"/>
                             </group>
                         </group>
@@ -69,18 +70,19 @@
                 </form>
             </field>
         </record>
-        
+
         <record model="ir.ui.view" id="wcag_task_tree">
             <field name="name">Wcag Task Tree</field>
             <field name="model">project.task.wcag</field>
             <field name="type">tree</field>
             <field name="arch" type="xml">
-              <tree editable="top">
-                    <field name="display_wcag_name" optional="hide"/>
-                    <field name="wcag_id" optional="show"/>
+              <tree editable="top" default_order="display_wcag_name">
+                    <field name="display_wcag_name" optional="show"/>
+                    <field name="wcag_id" optional="hide"/>
                     <field name="wcag_project_id" optional="hide"/>
                     <field name="task_project_id" optional="hide"/>
                     <field name="task_id" optional="hide"/>
+                    <field name="wcag_url" optional="show" widget="url"/>
                     <field name="wcag_state" optional="show"/>
                     <field name="notes" optional="show"/>
                     <field name="validate_method" optional="hide"/>
@@ -89,13 +91,13 @@
                 </tree>
             </field>
         </record>
-        
+
         <record model="ir.ui.view" id="wcag_task_pivot">
             <field name="name">Wcag Task Pivot</field>
             <field name="model">project.task.wcag</field>
             <field name="type">pivot</field>
             <field name="arch" type="xml">
-            
+
                 <pivot string="Pivot View">
                     <field name="task_project_id"  type="row"/>
                      <field name="task_id" type="row"/>
@@ -104,7 +106,7 @@
                 </pivot>
             </field>
         </record>
-        
+
         <record id="act_project_project_project_task_wcag_task_report" model="ir.actions.act_window">
             <field name="name">Wcags Report</field>
             <field name="res_model">project.task.wcag</field>

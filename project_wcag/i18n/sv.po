@@ -6,8 +6,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20220322\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-04-12 12:04+0000\n"
-"PO-Revision-Date: 2022-04-12 12:04+0000\n"
+"POT-Creation-Date: 2022-04-14 09:03+0000\n"
+"PO-Revision-Date: 2022-04-14 09:03+0000\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "MIME-Version: 1.0\n"
@@ -246,7 +246,7 @@ msgstr "Wcag-reglerna vi mäter varje objekt mot, specifika för varje projekt"
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__validate_method
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__validate_method
 msgid "Validate Method"
-msgstr "Validera metod"
+msgstr "Valideringsmetod"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__w3c_no
@@ -321,6 +321,7 @@ msgid "Wcag Tasks"
 msgstr "Wcag-uppgifter"
 
 #. module: project_wcag
+#: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__wcag_url
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__wcag_url
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__wcag_url
 msgid "Wcag Url"
@@ -357,4 +358,3 @@ msgstr ""
 #: model:ir.model,name:project_wcag.model_wcag_rule
 msgid "wcag.rule"
 msgstr ""
-
