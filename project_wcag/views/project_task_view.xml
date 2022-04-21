@@ -65,6 +65,7 @@
                         </group>
                         <group string="Notes">
                             <field name="notes"/>
+                            <field name="extra_notes"/>
                         </group>
                     </sheet>
                 </form>
@@ -85,6 +86,8 @@
                     <field name="wcag_url" optional="show" widget="url"/>
                     <field name="wcag_state" optional="show"/>
                     <field name="notes" optional="show"/>
+                    <field name="extra_notes" optional="show"/>
+
                     <field name="validate_method" optional="hide"/>
                     <button name="action_read_task_rule" type="object" string="Details"/>
 
@@ -103,6 +106,7 @@
                      <field name="task_id" type="row"/>
                      <field name="wcag_state" type="measure"/>
                      <field name="notes" type="measure"/>
+                     <field name="extra_notes" type="measure"/>
                 </pivot>
             </field>
         </record>
