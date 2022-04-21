@@ -21,6 +21,9 @@ class ProjectTask(models.Model):
     def _compute_rule_count(self):
         self.rule_count = len(self.task_wcag_ids) or 0
 
+    unfinished_rule_count = fields.Integer(compute='_compute_unfinished_rule_count', string="Unfinished Task Count")
+    def _compute_unfinished_rule_count(self):
+        self.unfinished_rule_count = len([x for x in self.task_wcag_ids if x.wcag_state is False]) or 0
 
     def add_ainspector_file(self, ainspector_value):
         try:
