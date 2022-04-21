@@ -27,10 +27,14 @@
     'author': 'Vertel AB',
     'license': 'AGPL-3',
     'website': 'https://www.vertel.se',
-    'depends': ['project', 'project_scrum'],
+    'depends': ['project', 'project_scrum', 'hr_timesheet'],
     'data': [
         'security/security.xml',
-        'views/menu.xml'
+        'views/menu.xml',
+        'views/project_view.xml',
+    ],
+    "qweb": [
+        'static/src/xml/top_bar.xml',
     ],
     'pre_init_hook': 'test_pre_init_hook',
     'post_init_hook': 'test_post_init_hook',
