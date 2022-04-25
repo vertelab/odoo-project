@@ -116,6 +116,7 @@ class ProjectTaskWcag(models.Model):
             default=False,
             group_operator="max")
     notes = fields.Text(String = "Notes", group_operator="max")
+    extra_notes = fields.Text(String = "Extra Notes", group_operator="max")
     display_wcag_name = fields.Char()
 
     def get_project_id(self):
