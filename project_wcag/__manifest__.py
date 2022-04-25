@@ -40,6 +40,7 @@
         "views/project_view.xml",
         "data/wcag_rules.xml",
         "data/create_wcag_task.xml",
+        "data/server_action.xml",
     ],
     "demo": [],
     "installable": True,

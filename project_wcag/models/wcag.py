@@ -27,7 +27,11 @@ class WcagRule(models.Model):
 
     @api.model
     def create(self, vals):
-        display_wcag_name = vals.get('w3c_no') or "" + " " + vals.get('conformance_level') or "" + " " +  vals.get('description') or ""
+        
+        w3c_no = vals.get('w3c_no') or ""
+        conformance_level = vals.get('conformance_level') or ""
+        description = vals.get('description') or ""
+        display_wcag_name = f"{w3c_no}{conformance_level}: {description}"
         vals['display_wcag_name'] = display_wcag_name
         res = super(WcagRule, self).create(vals)
          # ~ if res.self.task_id:
@@ -42,6 +46,15 @@ class WcagRule(models.Model):
             values['display_wcag_name'] = f"{w3c_no}{conformance_level}: {description}"
         res = super(WcagRule, self).write(values)
         return res
+        
+    @api.model
+    def set_display_name(self):
+        records = self.env['wcag.rule'].search([])
+        for record in records:
+            w3c_no = record.w3c_no or self.w3c_no or ""
+            conformance_level = record.conformance_level or ""
+            description = record.description or self.description or ""
+            record.display_wcag_name = f"{w3c_no}{conformance_level}: {description}"
 
     @api.model
     def set_urls(self):
@@ -97,6 +110,13 @@ class WcagProjectRule(models.Model):
 
         res = super(WcagProjectRule, self).write(values)
         return res
+        
+    def set_display_name(self):
+        for record in self:
+            w3c_no = record.w3c_no or self.w3c_no or ""
+            conformance_level = record.conformance_level or ""
+            description = record.description or self.description or ""
+            record.display_wcag_name = f"{w3c_no}{conformance_level}: {description}"
 
 
 # ~ ##############
@@ -126,7 +146,7 @@ class ProjectTaskWcag(models.Model):
             return False
 
     task_project_id = fields.Many2one(comodel_name="project.project", default=get_project_id, readonly=True, string = "Project")
-
+        
     @api.model
     def create(self, vals):
         if vals.get('task_id'):

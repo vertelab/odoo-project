@@ -1,0 +1,40 @@
+
+
+<odoo>
+  <data>
+    <record model="ir.actions.server" id="set_url">
+            <field name="name">Get Url For Rules</field>
+            <field name="model_id" ref="project_wcag.model_wcag_rule"/>
+            <field name="state">code</field>
+            <field name="binding_model_id" ref="project_wcag.model_wcag_rule"/>
+            <field name="binding_type">action</field>
+            <field name="code">
+                    record.set_urls()
+            </field>
+        </record>
+        
+            <record model="ir.actions.server" id="set_display_name_wcag_rule">
+                <field name="name">Set Display Name For Rules</field>
+                <field name="model_id" ref="project_wcag.model_wcag_rule"/>
+                <field name="state">code</field>
+                <field name="binding_model_id" ref="project_wcag.model_wcag_rule"/>
+                <field name="binding_type">action</field>
+                <field name="code">
+                        record.set_display_name()
+                </field>
+        </record>
+        
+            <record model="ir.actions.server" id="set_display_name_wcag_project_rule">
+                <field name="name">Set Display Name For Project Rules</field>
+                <field name="model_id" ref="project.model_project_project"/>
+                <field name="state">code</field>
+                <field name="binding_model_id" ref="project.model_project_project"/>
+                <field name="binding_type">action</field>
+                <field name="code">
+                    for record in records:
+                        record.set_display_name_wcag_rules()
+                </field>
+        </record>
+        
+    </data>
+</odoo>

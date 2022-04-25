@@ -35,3 +35,7 @@ class Project(models.Model):
                             'task_id': task.id})
                     
                 
+        
+    def set_display_name_wcag_rules(self):
+        for rule in self.project_wcag_rule_ids:
+            rule.set_display_name()
