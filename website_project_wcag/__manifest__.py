@@ -32,7 +32,8 @@
     """,
     "depends": [
         "project",
-        "project_wcag"
+        "project_wcag",
+        "website",
     ],
     "data": [
         'views/portal_templates.xml',
