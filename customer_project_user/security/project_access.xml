@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+        <record model="ir.model.access" id="access_menu_project">
+            <field name="name">project for project customer user</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_menu_project_task">
+            <field name="name">project task for project customer user</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_menu_project_task_type">
+            <field name="name">project task type for project customer user</field>
+            <field name="model_id" ref="project.model_project_task_type"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+
+         <!-- project rights -->
+        <record model="ir.rule" id="project_customer_rule">
+            <field name="name">Project Customer: Only invited users</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="domain_force">[
+            '|',
+                ('privacy_visibility', '!=', 'followers'),
+                ('allowed_internal_user_ids', 'in', user.ids),
+                ('partner_id','=',user.partner_id.id)
+            ]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+        </record>
+
+        <record id="customer_read_own_project" model="ir.rule">
+            <field name="name">res_partner: project read access on customer project</field>
+            <field name="model_id" ref="project.model_project_project"/>
+            <field name="domain_force">[('partner_id','=',user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="perm_write" eval="False"/>
+            <field name="global" eval="False"/>
+        </record>
+
+        <record id="customer_read_own_project_task" model="ir.rule">
+            <field name="name">res_partner: project task read access on customer project</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="domain_force">['|',('partner_id','=',user.partner_id.id),('allowed_user_ids', 'in', user.ids)]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="perm_write" eval="True"/>
+            <field name="global" eval="False"/>
+        </record>
+    </data>
+</odoo>
+
