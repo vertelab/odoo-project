@@ -8,4 +8,5 @@
     <menuitem name="Tasks" id="project.menu_project_management" parent="project.menu_main_pm" action="project.action_view_all_task" sequence="2" groups="base.group_no_one,project.group_project_user,customer_project_user.group_project_customer_user"/>
 
     <menuitem id="base.menu_users" name="Users &amp; Companies" parent="base.menu_administration" sequence="1" groups="base.group_user"/>
+
 </odoo>
