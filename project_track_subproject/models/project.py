@@ -8,7 +8,7 @@ _logger = logging.getLogger(__name__)
 class Project(models.Model):
     _inherit = 'project.project'
 
-    #allow_subtasks = fields.Boolean(tracking=True)
+    allow_subtasks = fields.Boolean(tracking=True)
 
     def write(self, vals):
         if 'allow_subtasks' in vals:
