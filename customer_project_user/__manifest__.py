@@ -27,7 +27,7 @@
     'author': 'Vertel AB',
     'license': 'AGPL-3',
     'website': 'https://www.vertel.se',
-    'depends': ['project', 'base', 'hr_timesheet', 'dms', 'contacts', 'portal', 'web', 'project_scrum'],
+    'depends': ['project', 'base', 'hr_timesheet', 'dms', 'contacts', 'portal', 'web', 'project_scrum', 'calendar', 'mail', 'sale_project', 'sale_timesheet'],
     'data': [
         'security/groups.xml',
         'security/project_access.xml',
