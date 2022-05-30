@@ -7,6 +7,7 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="week"/>
+                    <field name="active_week" invisible="1"/>
                 </field>
             </field>
         </record>
@@ -19,6 +20,18 @@
                 <xpath expr="//group[1]/filter[@name='project']" position="after">
                     <filter string="Week" name="week" context="{'group_by': 'week'}"/>
                 </xpath>
+
+                 <field name="project_id" position="after">
+                    <field name="active_week"/>
+                 </field>
+
+                <filter name="my_tasks" position="after">
+                    <filter string="Active Week" name="active_week" domain="[('active_week', '&lt;=', (context_today()+relativedelta(weeks=0, weekday=-1)).strftime('%Y-%m-%d')), ('active_week', '&gt;=', (context_today()-relativedelta(weeks=1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                </filter>
+
+                <filter name="my_tasks" position="after">
+                    <filter string="My Task &amp; Current Week" name="active_week" domain="[('user_id', '=', uid), ('active_week', '&lt;=', (context_today()+relativedelta(weeks=0, weekday=-1)).strftime('%Y-%m-%d')), ('active_week', '&gt;=', (context_today()-relativedelta(weeks=1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                </filter>
             </field>
         </record>
     </data>

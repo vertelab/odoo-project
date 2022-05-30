@@ -51,4 +51,24 @@ class ProjectTask(models.Model):
 
         return domain
 
+    @api.onchange('week')
+    def current_week(self):
+        for rec in self:
+            if rec.week:
+                rec.active_week = datetime.strptime('%s-%s-%s' % (date.today().year, rec.week, 1), '%G-%V-%u').strftime('%Y-%m-%d')
+            else:
+                rec.active_week = False
+
+    active_week = fields.Char(string="Active Week", related='computed_active_week', store=True)
+
+    @api.depends('week')
+    def _compute_current_week(self):
+        for rec in self:
+            if rec.week:
+                rec.computed_active_week = datetime.strptime('%s-%s-%s' % (date.today().year, rec.week, 1), '%G-%V-%u').strftime('%Y-%m-%d')
+            else:
+                rec.computed_active_week = False
+    
+    computed_active_week = fields.Char(string="Active Week", compute=_compute_current_week)
+
 
