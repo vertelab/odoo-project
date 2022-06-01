@@ -31,6 +31,7 @@
     'data': [
         'security/groups.xml',
         'security/project_access.xml',
+        'security/mail_access.xml',
         'views/menu.xml'
     ],
     "qweb": [

@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
-from datetime import timedelta
 
-from odoo import api, fields, models, tools
-from odoo.addons.rating.models.rating import RATING_LIMIT_SATISFIED, RATING_LIMIT_OK, RATING_LIMIT_MIN
-from odoo.osv import expression
+from odoo import _, fields, models
 
 
 class RatingMixin(models.AbstractModel):
@@ -15,3 +12,4 @@ class RatingMixin(models.AbstractModel):
     rating_last_value = fields.Float('Rating Last Value', groups='base.group_user,customer_project_user.group_project_customer_user', compute='_compute_rating_last_value', compute_sudo=True, store=True)
     rating_last_feedback = fields.Text('Rating Last Feedback', groups='base.group_user,customer_project_user.group_project_customer_user', related='rating_ids.feedback')
     rating_last_image = fields.Binary('Rating Last Image', groups='base.group_user,customer_project_user.group_project_customer_user', related='rating_ids.rating_image')
+

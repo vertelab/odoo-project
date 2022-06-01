@@ -81,28 +81,7 @@
         </record>
 
 
-        <record model="ir.model.access" id="mail_menu_project_customer">
-            <field name="name">mail access for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_channel_partner"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
-            <field name="perm_read">1</field>
-            <field name="perm_write">0</field>
-            <field name="perm_create">0</field>
-            <field name="perm_unlink">0</field>
-        </record>
-
-        <record id="menu_mail_project_customer_rule" model="ir.rule">
-            <field name="name">menu mail channel for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_channel_partner"/>
-            <field name="domain_force">[]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
-            <field name="perm_write" eval="True"/>
-            <field name="global" eval="True"/>       <!-- To set a rule as global -->
-        </record>
-
+        
         <record model="ir.model.access" id="access_menu_bus_presence_project_customer">
             <field name="name">bus presence access for project customer user</field>
             <field name="model_id" ref="bus.model_bus_presence"/>
@@ -126,28 +105,7 @@
         </record>
 
 
-        <record model="ir.model.access" id="access_menu_mail_notification">
-            <field name="name">mail notification for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_notification"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
-            <field name="perm_read">1</field>
-            <field name="perm_write">0</field>
-            <field name="perm_create">0</field>
-            <field name="perm_unlink">0</field>
-        </record>
-
-        <record id="group_mail_notification_project_customer_rule" model="ir.rule">
-            <field name="name">mail notification for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_notification"/>
-            <field name="domain_force">[('res_partner_id', '=', user.id)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_create" eval="False"/>
-            <field name="perm_unlink" eval="False"/>
-            <field name="perm_write" eval="False"/>
-            <field name="global" eval="False"/>       <!-- To set a rule as global -->
-        </record>
-
+        
         <record model="ir.model.access" id="access_menu_ir_attachment">
             <field name="name">ir attachement for project customer user</field>
             <field name="model_id" ref="base.model_ir_attachment"/>
@@ -356,49 +314,6 @@
             <field name="groups_id" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
-        <record model="ir.model.access" id="access_mail_message_project_customer_rule">
-            <field name="name">mail_message for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_message"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
-            <field name="perm_read">1</field>
-            <field name="perm_write">1</field>
-            <field name="perm_create">1</field>
-            <field name="perm_unlink">1</field>
-        </record>
-
-        <record id="group_mail_message_project_customer_rule" model="ir.rule">
-            <field name="name">mail_message for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_message"/>
-            <field name="domain_force">[]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
-            <field name="perm_write" eval="True"/>
-            <field name="global" eval="False"/>       <!-- To set a rule as global -->
-        </record>
-
-        <record model="ir.model.access" id="access_mail_message_subtype_project_customer_rule">
-            <field name="name">mail_message_subtype for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_message_subtype"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
-            <field name="perm_read">1</field>
-            <field name="perm_write">1</field>
-            <field name="perm_create">1</field>
-            <field name="perm_unlink">1</field>
-        </record>
-
-        <record id="group_mail_message_subtype_project_customer_rule" model="ir.rule">
-            <field name="name">mail_message_subtype for project customer user</field>
-            <field name="model_id" ref="mail.model_mail_message_subtype"/>
-            <field name="domain_force">[]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
-            <field name="perm_read" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
-            <field name="perm_write" eval="True"/>
-            <field name="global" eval="False"/>     
-        </record> 
 
         <record model="ir.model.access" id="access_ir_sequence_project_customer_rule">
             <field name="name">ir.sequence for project customer user</field>
@@ -445,10 +360,15 @@
             <field name="global" eval="False"/>     
         </record>
 
-
-
-
-
+        <record model="ir.model.access" id="access_ir_model_project_customer_rule">
+            <field name="name">ir model for project customer user</field>
+            <field name="model_id" ref="base.model_ir_model"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
 
     </data>
 </odoo>
