@@ -191,6 +191,16 @@
             <field name="perm_create">1</field>
             <field name="perm_unlink">1</field>
         </record>
+
+        <record model="ir.model.access" id="access_mail_followers_project_customer_rule">
+            <field name="name">mail followers for project customer user</field>
+            <field name="model_id" ref="mail.model_mail_followers"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
  
 
     </data>
