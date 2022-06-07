@@ -23,7 +23,6 @@ class WcagRule(models.Model):
     w3c_no = fields.Char()
     conformance_level = fields.Char()
     description = fields.Char()
-    validate_method = fields.Selection(VALIDATION_SELECTIONS,'Validate Method', default='manual')
 
     @api.model
     def create(self, vals):
@@ -84,7 +83,6 @@ class WcagProjectRule(models.Model):
     w3c_no = fields.Char()
     conformance_level = fields.Char()
     description = fields.Char()
-    validate_method = fields.Selection(VALIDATION_SELECTIONS,'Validate Method', default='manual')
     project_id = fields.Many2one(comodel_name = "project.project", string = "Project", help = "The project which this rule belongs to",ondelete='cascade')
 
     @api.model
@@ -95,7 +93,6 @@ class WcagProjectRule(models.Model):
             vals['w3c_no'] = self.env['wcag.rule'].browse(vals['wcag_id']).w3c_no
             vals['conformance_level'] = self.env['wcag.rule'].browse(vals['wcag_id']).conformance_level
             vals['description'] = self.env['wcag.rule'].browse(vals['wcag_id']).description
-            vals['validate_method'] = self.env['wcag.rule'].browse(vals['wcag_id']).validate_method
             vals['display_wcag_name'] = self.env['wcag.rule'].browse(vals['wcag_id']).display_wcag_name
         res = super(WcagProjectRule, self).create(vals)
 
@@ -128,7 +125,7 @@ class ProjectTaskWcag(models.Model):
     wcag_id = fields.Many2one(comodel_name = "wcag.rule", string = "Wcag Rule", readonly=True)
     wcag_project_id = fields.Many2one(comodel_name = "wcag.project.rule", string = "Wcag Project Rule", required=True)
     wcag_url = fields.Char(related='wcag_id.wcag_url')
-    validate_method = fields.Selection(VALIDATION_SELECTIONS,'Validate Method', default='manual')
+    validate_method = fields.Selection(VALIDATION_SELECTIONS,'Validate Method', default=False)
     task_id = fields.Many2one(comodel_name = "project.task",string = "Task",ondelete='cascade')
     wcag_state = fields.Selection(
             [('1', 'Failed'),('2', '*blank*'),('3', 'Not relevant'), ('4', 'Partial'), ('5', 'OK')],
@@ -155,11 +152,9 @@ class ProjectTaskWcag(models.Model):
             vals['task_project_id'] = False
 
         if vals.get('wcag_project_id'):
-             vals['validate_method'] = self.env['wcag.project.rule'].browse(vals['wcag_project_id']).validate_method
              vals['wcag_id'] = self.env['wcag.project.rule'].browse(vals['wcag_project_id']).wcag_id.id
              vals['display_wcag_name'] = self.env['wcag.project.rule'].browse(vals['wcag_project_id']).display_wcag_name
         else:
-            vals['validate_method'] = False
             vals['wcag_id'] = False
         res = super(ProjectTaskWcag, self).create(vals)
         return res
@@ -174,6 +169,9 @@ class ProjectTaskWcag(models.Model):
         if 'wcag_project_id' in values:
             values['wcag_id'] = self.env['wcag.project.rule'].browse(values['wcag_project_id']).wcag_id.id
             values['display_wcag_name'] = self.env['wcag.project.rule'].browse(values['wcag_project_id']).display_wcag_name
+
+        if self.task_id and self.task_id.parsing_data is False and any(val in ('notes', 'wcag_state') for val in values):
+            values['validate_method'] = 'mixed' if self.validate_method == 'auto' else 'manual' 
 
         res = super(ProjectTaskWcag, self).write(values)
         return res

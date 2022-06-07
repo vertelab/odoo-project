@@ -46,7 +46,6 @@
 -->
                     <field name="description" optional="hide"/>
                     <field name="wcag_url" optional="hide" widget="url"/>
-                    <field name="validate_method" optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -65,7 +64,6 @@
                                 <field name="conformance_level"/>
                                 <field name="description" />
                                 <field name="wcag_url" widget="url"/>
-                                <field name="validate_method"/>
                             </group>
                         </group>
                     </sheet>
@@ -90,7 +88,6 @@
 -->
                     <field name="description" optional="hide"/>
                     <field name="wcag_url" optional="hide" widget="url"/>
-                    <field name="validate_method" optional="hide"/>
                 </tree>
             </field>
         </record>
@@ -113,7 +110,6 @@
 -->
                                 <field name="description" />
                                 <field name="wcag_url" widget="url"/>
-                                <field name="validate_method"/>
                             </group>
                         </group>
                         <group string="Wcag Project">
