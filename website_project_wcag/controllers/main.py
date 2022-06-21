@@ -128,16 +128,38 @@ class ProjectWCAGeController(http.Controller):
 
         searchbar_inputs = {
             'all': {'input': 'all', 'label': _('Search in All')},
+            'state': {'input': 'state', 'label': _('Search in State')},
+        }
+
+        searchbar_sortings = {
+            'name': {'label': _('Name (A-Z)'), 'order': 'display_wcag_name'},
+            'name_desc': {'label': _('Name (Z-A)'), 'order': 'display_wcag_name desc'},
+            'state': {'label': _('State'), 'order': 'wcag_state'},
         }
 
         if not sortby:
-            sortby = 'wcag_state'
+            sortby = 'name'
+
+        order = searchbar_sortings[sortby]['order']
+
+        searchbar_filters = {
+            'all': {'label': _('All'), 'domain': []},
+            'state': {'label': _('State'), 'domain': []},
+        }
+
+        if not filterby:
+            filterby = 'all'
+        domain += searchbar_filters[filterby]['domain']
+
 
         # search
         if search and search_in:
             search_domain = []
-            if search_in in ('content', 'all'):
+            if search_in in ('all'):
                 search_domain = OR([search_domain, [('display_wcag_name', 'ilike', search)]])
+            if search_in in ('state'):
+                print()
+                search_domain = OR([search_domain, [('wcag_state', 'ilike', search)]])
             domain += search_domain
 
         # task count
@@ -152,10 +174,8 @@ class ProjectWCAGeController(http.Controller):
             step=CustomerPortal._items_per_page
         )
 
-        wcag = request.env['project.task.wcag'].sudo().search(domain, limit=CustomerPortal._items_per_page, offset=pager['offset'])
+        wcag = request.env['project.task.wcag'].sudo().search(domain, order=order, limit=CustomerPortal._items_per_page, offset=pager['offset'])
         request.session['my_wcag_history'] = wcag.ids[:100]
-
-        grouped_tasks = [wcag]
 
         values.update({
             'date': date_begin,
@@ -169,6 +189,10 @@ class ProjectWCAGeController(http.Controller):
             'searchbar_inputs': searchbar_inputs,
             'search_in': search_in,
             'search': search,
+            'searchbar_sortings': searchbar_sortings,
+            'sortby': sortby,
+            'searchbar_filters': OrderedDict(sorted(searchbar_filters.items())),
+            'filterby': filterby,
         })
         return request.render("website_project_wcag.project_task_wcags", values)
 
@@ -213,3 +237,13 @@ class ProjectWCAGeController(http.Controller):
             'page_name': 'task_wcag',
         })
         return request.render("website_project_wcag.wcag_details", values)
+
+
+class CustomerPortal(CustomerPortal):
+
+    def _prepare_home_portal_values(self, counters):
+        values = super()._prepare_home_portal_values(counters)
+        if 'wcag_project_count' in counters:
+            values['wcag_project_count'] = request.env['project.project'].search_count([('is_wcag', '=', True)]) \
+                if request.env['project.project'].check_access_rights('read', raise_exception=False) else 0
+        return values

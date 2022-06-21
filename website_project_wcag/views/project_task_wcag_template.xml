@@ -50,20 +50,19 @@
 
             <t t-if="wcags" t-call="portal.portal_table">
 
-                <div class="table-responsive-lg" style="overflow-x: auto;">
+                <div class="table-responsive-lg" style="overflow-x: auto; margin-top: 50px;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th scope="col"></th>
+                                <th scope="col" style="min-width: 200px;"></th>
                                 <t t-foreach="wcags" t-as="wcag">
-                                    <th class="text-left">
+                                    <th class="text-left" style="min-width: 120px;">
                                         <span t-esc="wcag.w3c_no"/> <span t-esc="wcag.conformance_level"/>
                                     </th>
                                 </t>
                             </tr>
                         </thead>
                         <tbody>
-                    
                             <t t-foreach="tasks" t-as="task">
                                 <tr>
                                     <th scope="col">
