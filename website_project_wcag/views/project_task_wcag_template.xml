@@ -50,7 +50,7 @@
 
             <t t-if="wcags" t-call="portal.portal_table">
 
-                <div class="table-responsive-lg" style="overflow-x: auto; margin-top: 50px;">
+                <div class="table-responsive-lg" style="overflow-x: auto;">
                     <table class="table table-striped">
                         <thead>
                             <tr>
