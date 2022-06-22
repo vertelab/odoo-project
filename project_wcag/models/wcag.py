@@ -124,7 +124,7 @@ class ProjectTaskWcag(models.Model):
     _rec_name = 'display_wcag_name'
     wcag_id = fields.Many2one(comodel_name = "wcag.rule", string = "Wcag Rule", readonly=True)
     wcag_project_id = fields.Many2one(comodel_name = "wcag.project.rule", string = "Wcag Project Rule", required=True)
-    wcag_url = fields.Char(related='wcag_id.wcag_url')
+    wcag_url = fields.Char(related='wcag_id.wcag_url', store=True, group_operator="max")
     validate_method = fields.Selection(VALIDATION_SELECTIONS,'Validate Method', default=False)
     task_id = fields.Many2one(comodel_name = "project.task",string = "Task",ondelete='cascade')
     wcag_state = fields.Selection(

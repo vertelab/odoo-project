@@ -123,6 +123,7 @@
                      <field name="wcag_state" type="measure"/>
                      <field name="notes" type="measure"/>
                      <field name="extra_notes" type="measure"/>
+                     <field name="wcag_url" type="measure"/>
                 </pivot>
             </field>
         </record>
@@ -153,5 +154,3 @@
 -->
     </data>
 </odoo>
-
-
