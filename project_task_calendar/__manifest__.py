@@ -1,7 +1,8 @@
+# -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    OpenERP, Open Source Management Solution, third party addon
-#    Copyright (C) 2004-2021 Vertel AB (<http://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -14,15 +15,16 @@
 #    GNU Affero General Public License for more details.
 #
 #    You should have received a copy of the GNU Affero General Public License
-#    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#    along with this program. If not, see <http://www.gnu.org/licenses/>.
 #
 ##############################################################################
 
 {
-    'name': 'Deprecated Project Task Calendar',
-    'version': '14.0.0.0.1',
-    'category': '',
+    'name': 'Project: Task Calendar (Deprecated Project)',
+    'version': '14.0.0.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Ties project tasks to the calendar',
+    'category': 'Project',
     'description': """
         Project tasks that have a date_deadline set will appear in the calendar for the assigned user.\n\n
         Features:\n
@@ -32,11 +34,17 @@
         This module is maintained from: https://github.com/vertelab/odoo-project/tree/14.0/project_task_calendar/ \n
         
         Deprecated Issues: https://vertel.se/web#id=1841&action=448&active_id=109&model=project.task&view_type=form&cids=1&menu_id=334 \n 
-""",
-    'author': "Vertel AB",
-    'license': "AGPL-3",
-    'website': 'https://www.vertel.se',
+    """,
+    #'sequence': '1',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-project/project_task_calendar',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['project', 'calendar'],
     'data': ['views/project_task_view.xml'],
     'installable': True,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
