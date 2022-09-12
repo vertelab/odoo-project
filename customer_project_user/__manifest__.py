@@ -22,7 +22,7 @@
     'name': 'Project Customer User',
     'version': '14.0.0.1.0',
     'summary': 'A user type for project customers',
-    'category': 'project',
+    'category': 'Project',
     'description': """A user type for project customers""",
     'author': 'Vertel AB',
     'license': 'AGPL-3',
