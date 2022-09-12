@@ -22,10 +22,10 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Project Archiving',
+    'name': 'Project: Archiving',
     'version': '14.0.0.0',
     'summary': '',
-    'category': 'Administration', 
+    'category': 'Project', 
     'description': """ """,
     'author': 'Vertel AB <robin.calvin@vertel.se>',
     'website': 'https://vertel.se/apps/',
