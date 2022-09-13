@@ -23,7 +23,7 @@
     "name": "Project Team Task Group By",
     'summary': 'Adds a group by option for project teams on tasks',
     'author': 'Vertel AB',
-    'category': '',
+    'category': 'Project',
     "version": "14.0.0.1.0",
     'license': 'AGPL-3',
     'website': 'https://vertel.se/',
