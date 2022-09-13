@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo SA, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,16 +20,22 @@
 ##############################################################################
 
 {
-    "name": "Website Project WCAG",
+    'name': 'Project: Website Project WCAG',
+    'version': '14.0.0.1.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Website Project WCAG',
-    'author': 'Vertel AB',
     'category': 'Project',
-    "version": "14.0.0.1.0",
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/',
-    "description": """
+    'description': """
         Show Project WCAG on Website
     """,
+    #'sequence': '1',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-project/website_project_wcag',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-project',
     "depends": [
         "project",
         "project_wcag",
@@ -45,3 +51,4 @@
     "installable": True,
     "application": False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
