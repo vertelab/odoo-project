@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Odoo SA, Open Source Enterprise Management Solution, third party addon
-#    Copyright (C) 2021- Vertel AB (<https://vertel.se>).
+#    Odoo SA, Open Source Management Solution, third party addon
+#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,16 +20,22 @@
 ##############################################################################
 
 {
-    "name": "Project Track Subtask",
+    'name': 'Project: Track Subproject',
+    'version': '14.0.0.0.0',
+    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Project Track Subtask',
-    'author': 'Vertel AB',
-    'category': '',
-    "version": "14.0.0.0.0",
-    'license': 'AGPL-3',
-    'website': 'https://vertel.se/',
-    "description": """
+    'category': 'Project',
+    'description': """
         Adds tracking to changes to Project Subtask, to find why this setting keeps switching.
     """,
+    #'sequence': '1',
+    'author': 'Vertel AB',
+    'website': 'https://vertel.se/apps/odoo-project/project_track_subproject',
+    'images': ['static/description/banner.png'], # 560x280 px.
+    'license': 'AGPL-3',
+    'contributor': '',
+    'maintainer': 'Vertel AB',
+    'repository': 'https://github.com/vertelab/odoo-project',
     "depends": [
         "project",
     ],
@@ -39,3 +45,4 @@
     "installable": True,
     "application": False,
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
