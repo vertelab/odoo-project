@@ -23,7 +23,7 @@
     "name": "Website Project WCAG",
     'summary': 'Website Project WCAG',
     'author': 'Vertel AB',
-    'category': '',
+    'category': 'Project',
     "version": "14.0.0.1.0",
     'license': 'AGPL-3',
     'website': 'https://vertel.se/',
