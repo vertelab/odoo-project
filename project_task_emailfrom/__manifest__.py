@@ -27,7 +27,8 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Exposes the email_from field in project tasks',
     'category': 'Project',
-    'description': """This module exposes the customers (res_partner.email and res_partner.phone) on the  project_task-view. \n
+    'description': """
+    This module exposes the customers (res_partner.email and res_partner.phone) on the  project_task-view. \n
     The module is maintained from: https://github.com/vertelab/odoo-project/ \n
     """,
     #'sequence': '1',
