@@ -25,7 +25,9 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'See projects and tasks that has me as customer',
     'category': 'Project',
-    'description': """As a customer I want to log in backend and will only see projects that has me as customer""",
+    'description': """
+    As a customer I want to log in backend and will only see projects that has me as customer.
+    """,
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_customer_rule',
