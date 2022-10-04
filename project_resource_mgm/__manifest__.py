@@ -25,7 +25,9 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Project Resource Management.',
     'category': 'Project',
-    'description': 'Project Resource Management.',
+    'description': """
+    Project Resource Management.
+    """,
     'sequence': '10',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_resource_mgm',
@@ -34,7 +36,6 @@
     'contributor': 'Han Wong <han.wong@vertel.se>',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'description': 'Project Resource Management',
     'depends': [
         'project',
         'hr',
