@@ -28,7 +28,7 @@
         As a service provider, we want a way to bill clients when extra hours are spent.
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_customer_rule',
+    'website': 'https://vertel.se/apps/odoo-project/project_extra_hours',
     'images': ['static/description/banner.png'],  # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
