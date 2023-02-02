@@ -33,6 +33,7 @@
             <field name="global" eval="False"/>       <!-- To set a rule as global -->
         </record>
 
+<!--
         <record model="ir.model.access" id="access_dms_project_customer">
             <field name="name">dms directory users access rules</field>
             <field name="model_id" ref="dms.model_dms_directory"/>
@@ -42,8 +43,10 @@
             <field name="perm_create">0</field>
             <field name="perm_unlink">0</field>
         </record>
+-->
 
 
+<!--
         <record id="project_customer_user_dms_rule" model="ir.rule">
             <field name="name">dms_directory: read access to dms</field>
             <field name="model_id" ref="dms.model_dms_directory"/>
@@ -53,8 +56,11 @@
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
             <field name="perm_write" eval="False"/>
-            <field name="global" eval="False"/>       <!-- To set a rule as global -->
+            <field name="global" eval="False"/>    -->   <!-- To set a rule as global -->
+
+<!--
         </record>
+-->
 
 
 
