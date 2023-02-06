@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <menuitem name="Tasks" id="project.menu_project_management" parent="project.menu_main_pm"
-                action="project.action_view_all_task" sequence="1" groups="base.group_no_one,project.group_project_user"/>
 
     <record id="project.action_view_all_task" model="ir.actions.act_window">
         <field name="name">Tasks</field>
