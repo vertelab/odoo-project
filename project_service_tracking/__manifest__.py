@@ -32,10 +32,7 @@
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    "depends": [
-        "sale_project",
-        "sale"
-    ],
+    'depends': ['sale_project','sale',],
     "data": [
         'views/product_views.xml'
 
