@@ -36,10 +36,7 @@
     'contributor': 'Han Wong <han.wong@vertel.se>',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'depends': [
-        'project',
-        'hr',
-    ],
+    'depends': ['project','hr',],
     'data': [
         'security/ir.model.access.csv',
         'views/project_views.xml',
