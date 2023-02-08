@@ -36,11 +36,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    "depends": [
-        "project",
-        "project_wcag",
-        "website",
-    ],
+    'depends': ['project','project_wcag','website',],
     "data": [
         'views/portal_templates.xml',
         'views/project_template.xml',

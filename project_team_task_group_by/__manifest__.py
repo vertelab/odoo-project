@@ -36,10 +36,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'depends': [
-        'project',
-        'project_team',
-    ],
+    'depends': ['project','project_team',],
     'data': [
         'views/project_task_view.xml',
         'views/project_view.xml',

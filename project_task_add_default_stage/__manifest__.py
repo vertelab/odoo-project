@@ -39,9 +39,7 @@
     "contributor": "Daniel Eriksson",
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    "depends": [
-        "project",
-    ],
+    'depends': ['project',],
     "data": [
         "views/task_type_view.xml",
         "views/project_view.xml",

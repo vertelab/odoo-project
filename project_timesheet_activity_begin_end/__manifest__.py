@@ -36,9 +36,8 @@
     'contributor': 'Verified Email Europe AB, Hemangi Rupareliya, Vertel AB,',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'depends': [
-        'hr_timesheet_activity_begin_end' #https://github.com/OCA/timesheet/tree/14.0/hr_timesheet_activity_begin_end
-    ],
+    'depends': ['hr_timesheet_activity_begin_end',],
+    # https://github.com/OCA/timesheet/tree/14.0/hr_timesheet_activity_begin_end
     'data': {
         'views/project_views.xml'
     },
