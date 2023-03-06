@@ -22,16 +22,17 @@ class SaleOrder(models.Model):
         # search so lines from SO of current so lines having their project generated, in order to check if the
         # current one can create its own project, or reuse the one of its order.
         map_so_project = {}
-        if so_line_new_project:
+        if so_line_new_project or so_line_task_to_target_project:
             order_ids = self.mapped('order_id').ids
             so_lines_with_project = self.search([
                 ('order_id', 'in', order_ids), ('project_id', '!=', False),
-                ('product_id.service_tracking', 'in', ['project_only', 'task_in_project']),
+                ('product_id.service_tracking', 'in', ['project_only', 'task_in_project', 'tasks_target_project']),
                 ('product_id.project_template_id', '=', False)])
+
             map_so_project = {sol.order_id.id: sol.project_id for sol in so_lines_with_project}
             so_lines_with_project_templates = self.search([('order_id', 'in', order_ids), ('project_id', '!=', False),
                                                            ('product_id.service_tracking', 'in',
-                                                            ['project_only', 'task_in_project']),
+                                                            ['project_only', 'task_in_project', 'tasks_target_project']),
                                                            ('product_id.project_template_id', '!=', False)])
             map_so_project_templates = {
                 (sol.order_id.id, sol.product_id.project_template_id.id): sol.project_id for sol in
@@ -121,3 +122,4 @@ class SaleOrder(models.Model):
                     'email_from': self.order_id.partner_id.email,
                     'sale_order_id': self.order_id,
                 })
+                self.write({'task_id': new_task.id})
