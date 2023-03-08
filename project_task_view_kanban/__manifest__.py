@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Show Tasks first',
     'category': 'Project',
-    "description": """
+    'description': """
         Change Project sequence to show tasks first instead of project
     """,
     #'sequence': '1',
@@ -37,7 +37,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['project',],
-    "data": [
+    'data': [
         "views/menu.xml",
     ],
     "installable": True,
