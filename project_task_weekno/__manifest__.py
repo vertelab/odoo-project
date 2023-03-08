@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Project Task WeekNo',
     'category': 'Project',
-    "description": """
+    'description': """
         Helps to plan the week
     """,
     #'sequence': '1',
@@ -37,7 +37,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['project',],
-    "data": [
+    'data': [
         "views/project_task_view.xml"
     ],
     "demo": [],
