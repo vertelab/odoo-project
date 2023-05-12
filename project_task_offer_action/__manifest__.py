@@ -25,7 +25,7 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': ' Creates an offer from a project task.',
     'category': 'Project',
-    "description": """
+    'description': """
         Creates an offer from a project task. \n
         14.0.0.0.0 - Initial version \n
     """,
@@ -38,7 +38,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['sale',],
-    "data": [
+    'data': [
         "data/ir_actions_server.xml",
     ],
     "demo": [],
