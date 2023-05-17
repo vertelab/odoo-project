@@ -38,16 +38,60 @@ class ProjectEstimate(models.Model):
         pass
 
     def action_view_invoice(self):
-        pass
+        invoice_view = self.env.ref('account.view_in_invoice_tree')
+        return {
+            'name': _('Invoices'),
+            'domain': [("project_id", "=", self.project_id.id)],
+            'res_model': 'account.move',
+            'type': 'ir.actions.act_window',
+            'view_id': invoice_view.id,
+            'views': [(invoice_view.id, 'tree'), (False, 'form')],
+            'view_mode': 'tree,form',
+        }
 
-    def action_view_project_id(self):
-        pass
+    def action_view_project(self):
+        return {
+            'name': _('Projects'),
+            'res_model': 'project.project',
+            'type': 'ir.actions.act_window',
+            'views': [(False, 'form')],
+            'view_mode': 'form',
+            'res_id': self.project_id.id
+        }
 
     def action_sale_order(self):
-        pass
+        return {
+            'name': _('Sale Order'),
+            'res_model': 'sale.order',
+            'type': 'ir.actions.act_window',
+            'views': [(False, 'form')],
+            'view_mode': 'form',
+            'res_id': self.project_id.sale_order_id.id
+        }
 
     def action_receive_shipment(self):
-        pass
+        picking_view = self.env.ref('stock.vpicktree')
+        return {
+            'name': _('Incoming Shipments'),
+            'domain': [("project_id", "=", self.project_id.id)],
+            'res_model': 'stock.picking',
+            'type': 'ir.actions.act_window',
+            'view_id': picking_view.id,
+            'views': [(picking_view.id, 'tree'), (False, 'form')],
+            'view_mode': 'tree,form',
+        }
+
+    def action_unbuild_order(self):
+        unbuild_view = self.env.ref('pways_raw_multi_unbuild.sorting_order_tree_view')
+        return {
+            'name': _('Unbuild Orders'),
+            'domain': [("project_id", "=", self.project_id.id)],
+            'res_model': 'sorting.order',
+            'type': 'ir.actions.act_window',
+            'view_id': unbuild_view.id,
+            'views': [(unbuild_view.id, 'tree'), (False, 'form')],
+            'view_mode': 'tree,form',
+        }
 
 
 class ProjectEstimateLine(models.Model):

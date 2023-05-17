@@ -36,7 +36,7 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'depends': ['project', 'base', 'pways_raw_multi_unbuild', 'portal'],
+    'depends': ['project', 'base', 'pways_raw_multi_unbuild', 'portal', 'sale_project'],
     'data': [
         'security/ir.model.access.csv',
         'views/project_estimate_view.xml',

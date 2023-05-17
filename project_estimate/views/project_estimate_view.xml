@@ -23,9 +23,24 @@
                                     <span class="o_stat_text">Invoices</span>
                                 </div>
                             </button>
-                            <button type="object" name="action_view_project_id" class="oe_stat_button" icon="fa-puzzle-piece">
+                            <button type="object" name="action_view_project" class="oe_stat_button" icon="fa-puzzle-piece">
                                 <div class="o_field_widget o_stat_info">
                                     <span class="o_stat_text">Project</span>
+                                </div>
+                            </button>
+                            <button type="object" name="action_sale_order" class="oe_stat_button" icon="fa-dollar">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Sale Order</span>
+                                </div>
+                            </button>
+                            <button type="object" name="action_receive_shipment" class="oe_stat_button" icon="fa-truck">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Shipment</span>
+                                </div>
+                            </button>
+                            <button type="object" name="action_unbuild_order" class="oe_stat_button" icon="fa-gear">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Unbuild</span>
                                 </div>
                             </button>
                         </div>
