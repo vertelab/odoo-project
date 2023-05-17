@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="view_task_tree_custom" model="ir.ui.view">
+            <field name="name">project.task.tree.custom</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="priority_icon" widget="html" string="Priority"/>
+                </xpath>
+                <xpath expr="//field[@name='sequence']" position="replace">
+                    <field name="sequence" invisible="0" readonly="1" widget="handle"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+
