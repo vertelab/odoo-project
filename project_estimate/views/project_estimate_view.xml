@@ -47,12 +47,13 @@
                         <group>
                             <group>
                                 <field name="name"/>
-                                <field name="estimated_income"/>
+                                <field name="currency_id" invisible="1"/>
+                                <field name="estimated_income" widget="monetary"/>
 
                             </group>
                             <group>
                                 <field name="partner_id"/>
-                                <field name="estimated_expenses"/>
+                                <field name="estimated_expenses" widget="monetary"/>
                                 <field name="estimated_revenue_percentage"/>
                             </group>
                         </group>
@@ -60,6 +61,7 @@
                             <page string="Estimate Items">
                                 <field name="line_ids">
                                     <tree editable="bottom">
+                                        <field name="currency_id" invisible="1"/>
                                         <field name="product_id"/>
                                         <field name="unbuild_template_id"/>
                                         <field name="description"/>
@@ -74,6 +76,7 @@
                             <page string="Unbuild Product Items">
                                 <field name="unbuild_line_ids">
                                     <tree editable="bottom">
+                                        <field name="currency_id" invisible="1"/>
                                         <field name="product_id"/>
                                         <field name="unbuild_template_id"/>
                                         <field name="qty"/>

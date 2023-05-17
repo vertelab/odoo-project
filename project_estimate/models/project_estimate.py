@@ -10,7 +10,8 @@ class ProjectEstimate(models.Model):
     state = fields.Selection([('draft', 'Draft'), ('done', 'Done')], string="State", default="draft")
     line_ids = fields.One2many("project.estimate.line", "project_estimate_id", string="Line Items",
                                domain=([('parent_id', '=', False)]))
-    currency_id = fields.Many2one("res.currency", string="Currency")
+    currency_id = fields.Many2one("res.currency", string="Currency",
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
 
     unbuild_line_ids = fields.One2many("unbuild.estimate.line", "project_estimate_id", string="Unbuild Items")
 
@@ -25,12 +26,15 @@ class ProjectEstimate(models.Model):
             )
 
     estimated_expenses = fields.Monetary(string="Estimated Expenses", compute=_compute_expenses)
-    estimated_income = fields.Monetary(string="Estimated Income")
+    estimated_income = fields.Monetary(string="Estimated Income", compute=_compute_expenses)
 
     @api.depends("estimated_expenses", "estimated_income")
     def _compute_revenue_percentage(self):
         for rec in self:
-            rec.estimated_revenue_percentage = ((rec.estimated_income + rec.estimated_expenses) / rec.estimated_income) * 100
+            if rec.estimated_income != 0:
+                rec.estimated_revenue_percentage = ((rec.estimated_income + rec.estimated_expenses) / rec.estimated_income) * 100
+            else:
+                rec.estimated_revenue_percentage = 0
 
     estimated_revenue_percentage = fields.Float(string="Revenue (%)", compute=_compute_revenue_percentage)
 
@@ -128,7 +132,8 @@ class ProjectEstimateLine(models.Model):
                 rec.sub_total = rec.qty * rec.price
 
     sub_total = fields.Monetary(string="Total", compute=_cal_subtotal)
-    currency_id = fields.Many2one("res.currency", string="Currency")
+    currency_id = fields.Many2one("res.currency", string="Currency",
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
     qty = fields.Float(string="Qty", default=1.0)
     price = fields.Float(string="Price")
 
@@ -166,7 +171,8 @@ class UnbuildItems(models.Model):
     unbuild_template_id = fields.Many2one("sorting.template", string="Unbuild")
     qty = fields.Float(string="Qty", default=1.0)
     price = fields.Monetary(string="Price")
-    currency_id = fields.Many2one("res.currency", string="Currency")
+    currency_id = fields.Many2one("res.currency", string="Currency",
+                                  default=lambda self: self.env.user.company_id.currency_id.id)
 
     @api.depends('qty', 'price')
     def _cal_subtotal(self):
