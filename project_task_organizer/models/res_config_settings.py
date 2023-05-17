@@ -8,4 +8,4 @@ class ResConfigSettings(models.TransientModel):
         # Define the selection options dynamically
         return [('1', 'Default'), ('2', 'Last')]
 
-    my_field = fields.Selection(selection=_get_selection_options, config_parameter='task.order', required=True, default='1')
+    my_field = fields.Selection(selection=_get_selection_options, config_parameter='task.order', required=True, default='1', translate=True)
