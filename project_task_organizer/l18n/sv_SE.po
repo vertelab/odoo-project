@@ -1,0 +1,76 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_task_organizer
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20220126\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2023-05-17 12:38+0000\n"
+"PO-Revision-Date: 2023-05-17 15:56+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv_SE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.3.1\n"
+
+#. module: project_task_organizer
+#: model_terms:ir.ui.view,arch_db:project_task_organizer.res_config_settings_view_form
+msgid "<b>Select New Task Order</b>"
+msgstr "<b>Välj Ny Aktivitetsordning</b>"
+
+#. module: project_task_organizer
+#: model:ir.model,name:project_task_organizer.model_res_config_settings
+msgid "Config Settings"
+msgstr "Konfigurationsinställningar"
+
+#. module: project_task_organizer
+#: model:ir.model.fields,field_description:project_task_organizer.field_project_task__display_name
+#: model:ir.model.fields,field_description:project_task_organizer.field_res_config_settings__display_name
+msgid "Display Name"
+msgstr "Visningsnamn"
+
+#. module: project_task_organizer
+#: model:ir.model.fields,field_description:project_task_organizer.field_project_task__id
+#: model:ir.model.fields,field_description:project_task_organizer.field_res_config_settings__id
+msgid "ID"
+msgstr ""
+
+#. module: project_task_organizer
+#: model:ir.model.fields,field_description:project_task_organizer.field_project_task____last_update
+#: model:ir.model.fields,field_description:project_task_organizer.field_res_config_settings____last_update
+msgid "Last Modified on"
+msgstr "Senast redigerad"
+
+#. module: project_task_organizer
+#: model:ir.model.fields,field_description:project_task_organizer.field_res_config_settings__my_field
+msgid "My Field"
+msgstr ""
+
+#. module: project_task_organizer
+#: model_terms:ir.ui.view,arch_db:project_task_organizer.view_task_tree_custom
+msgid "Priority"
+msgstr "Prioritet"
+
+#. module: project_task_organizer
+#: model:ir.model.fields,field_description:project_task_organizer.field_project_task__priority_icon
+msgid "Priority Icon"
+msgstr ""
+
+#. module: project_task_organizer
+#: model_terms:ir.ui.view,arch_db:project_task_organizer.res_config_settings_view_form
+msgid "Project Task Settings"
+msgstr "Projekt Aktivitet Inställning"
+
+#. module: project_task_organizer
+#: model:ir.actions.act_window,name:project_task_organizer.project_last_task_config_settings_action
+msgid "Settings"
+msgstr ""
+
+#. module: project_task_organizer
+#: model:ir.model,name:project_task_organizer.model_project_task
+msgid "Task"
+msgstr "Aktivitet"
