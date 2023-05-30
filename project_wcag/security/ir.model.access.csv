@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-wcag_rule_access,project users can access,model_wcag_rule,project.group_project_user,1,1,1,1
-wcag_rule_project_access,project users can access,model_wcag_project_rule,project.group_project_user,1,1,1,1
-wcag_rule_task_access,project users can access,model_project_task_wcag,project.group_project_user,1,1,1,1
-wcag_rule_wizard_access,project users can access,model_add_wcag_rule_wizard,project.group_project_user,1,1,1,1
-
-

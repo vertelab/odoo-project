@@ -1,0 +1,29 @@
+<odoo>
+    <data>
+        <record id="calendar_event_form_view" model="ir.ui.view">
+            <field name="name">calendar.event.for</field>
+            <field name="model">calendar.event</field>
+            <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+            <field name="arch" type="xml">
+                <field name="start_date" position="before">
+                    <field name="project_id"/>
+                </field>
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_view_chat" type="object" icon="fa-comment" groups="project.group_project_manager">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_text">
+                                Chats
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='set_discuss_videocall_location']" position="after">
+                    <button name="action_videocall_channel" type="object" class="btn btn-link"
+                        attrs="{'invisible': [('videocall_channel_id', '!=', False)]}">
+                        <span class="fa fa-plus"></span><span> Create Channel</span>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

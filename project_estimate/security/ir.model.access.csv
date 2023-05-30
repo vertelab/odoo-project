@@ -1,7 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_model_project_estimate,project.estimate,model_project_estimate,base.group_user,1,1,1,1
-access_model_project_estimate_line,project.estimate.line,model_project_estimate_line,base.group_user,1,1,1,1
-access_model_unbuild_estimate_line,unbuild.estimate.line,model_unbuild_estimate_line,base.group_user,1,1,1,1
-
-
-

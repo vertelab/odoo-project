@@ -1,7 +1,0 @@
-<odoo>
-    <data>
-        <record id="customer_project_user.customer_read_own_project" model="ir.rule">
-            <field name="domain_force">['|', ('partner_id','=',user.partner_id.id), ('allowed_portal_user_ids','in',user.ids)]</field>
-        </record>
-    </data>
-</odoo>
