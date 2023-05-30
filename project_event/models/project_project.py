@@ -13,6 +13,10 @@ class Project(models.Model):
                 ("project_id", "=", rec.id)
             ])
 
+    def set_invitees(self):
+        invitees = self.collaborator_ids.mapped("partner_id") + self.message_partner_ids
+        return invitees
+
     def action_view_meeting(self):
         calendar_view = self.env.ref('calendar.view_calendar_event_calendar')
         return {
@@ -24,7 +28,8 @@ class Project(models.Model):
             'views': [(calendar_view.id, 'calendar'), (False, 'tree'), (False, 'form')],
             'view_mode': 'calendar,tree,form',
             'context': {
-                'default_project_id': self.id
+                'default_project_id': self.id,
+                'default_partner_ids': self.set_invitees().ids,
             }
         }
 
