@@ -6,7 +6,7 @@
             <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
             <field name="arch" type="xml">
                 <field name="recurrency" position="before">
-                    <field name="project_id"/>
+                    <field name="project_id" readonly="1"/>
                 </field>
                 <xpath expr="//div[@name='button_box']" position="inside">
                     <button class="oe_stat_button" name="action_view_chat" type="object" icon="fa-comment" groups="project.group_project_manager">
