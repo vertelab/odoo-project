@@ -40,7 +40,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['base', 'calendar', 'event', 'project'],
+    'depends': ['base', 'calendar', 'event', 'project', 'mail_message_retrieve'],
 
     # always loaded
     'data': [

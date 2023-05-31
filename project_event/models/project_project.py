@@ -41,7 +41,7 @@ class Project(models.Model):
             'res_model': 'mail.channel',
             'type': 'ir.actions.act_window',
             'view_id': channel_view.id,
-            'views': [(channel_view.id, 'kanban'), (False, 'form')],
-            'view_mode': 'kanban,form',
+            'views': [(channel_view.id, 'kanban'), (False, 'tree'), (False, 'form')],
+            'view_mode': 'kanban,tree,form',
         }
 

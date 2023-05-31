@@ -17,3 +17,6 @@ class CalendarEvent(models.Model):
             'target': 'new',
             'url': link,
         }
+
+    def action_download_chat(self):
+        return self.env.ref("mail_message_retrieve.chat_action_report").report_action(self)
