@@ -27,19 +27,20 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_form2"/>
             <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="is_wcag" invisible="1"/>
+                    <field name="ainspector_report" class="oe_edit_only" attrs="{'invisible': [('is_wcag', '=', False)]}"/>
+                </field>
                 <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
-                    <button class="oe_stat_button" type="action"
+                    <button class="oe_stat_button" type="action" attrs="{'invisible': [('is_wcag', '=', False)]}"
                                 name="%(act_project_project_2_project_task_wcag)d" icon="fa-tasks">
                         <field string="Wcags" name="rule_count" widget="statinfo"/>
                     </button>
-                    <button class="oe_stat_button" type="action"
+                    <button class="oe_stat_button" type="action" attrs="{'invisible': [('is_wcag', '=', False)]}"
                         name="%(act_project_project_2_project_task_wcag_todo)d" icon="fa-tasks">
                         <field string="Wcags todo" name="unfinished_rule_count" widget="statinfo"/>
                     </button>
                 </xpath>
-                <field name="partner_id" position="after">
-                    <field name="ainspector_report" class="oe_edit_only"/>
-                </field>
             </field>
         </record>
 
