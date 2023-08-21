@@ -9,4 +9,6 @@
 
     <menuitem id="base.menu_users" name="Users &amp; Companies" parent="base.menu_administration" sequence="1" groups="base.group_user"/>
 
+    <menuitem id="note.menu_note_notes" groups="base.group_user" name="Notes" sequence="3" action="note.action_note_note" web_icon="note,static/description/icon.png"/>
+
 </odoo>
