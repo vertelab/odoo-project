@@ -16,9 +16,13 @@ class ProjectTask(models.Model):
     _inherit = 'project.task'
     task_wcag_ids = fields.One2many(comodel_name='project.task.wcag', string="Wcags", help="Is a list of wcag criteria for this task/object", inverse_name='task_id', ondelete='cascade')
     ainspector_report = fields.Binary()
-
+    is_wcag = fields.Boolean(default=False, string="Wcag Project")
     rule_count = fields.Integer(compute='_compute_rule_count', string="Task Count")
     parsing_data = fields.Boolean(default=False)
+    
+    is_wcag = fields.Boolean(related="project_id.is_wcag")
+
+    
     def _compute_rule_count(self):
         self.rule_count = len(self.task_wcag_ids) or 0
 
