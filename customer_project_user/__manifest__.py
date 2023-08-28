@@ -42,7 +42,8 @@
         'security/groups.xml',
         'security/project_access.xml',
         'security/mail_access.xml',
-        'views/menu.xml'
+        'views/menu.xml',
+        'views/project_view.xml',
     ],
     "qweb": [
         'static/src/xml/top_bar.xml',

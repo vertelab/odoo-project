@@ -37,10 +37,11 @@
             <field name="name">Project Customer: Only invited users</field>
             <field name="model_id" ref="project.model_project_project"/>
             <field name="domain_force">[
-            '|',
+            '|','|',
                 ('privacy_visibility', '!=', 'followers'),
                 ('allowed_internal_user_ids', 'in', user.ids),
-                ('partner_id','=',user.partner_id.id)
+                ('partner_id','=',user.partner_id.id),
+                ('customer_ids', 'in', user.partner_id.id)
             ]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
         </record>
@@ -60,7 +61,7 @@
         <record id="customer_read_own_project_task" model="ir.rule">
             <field name="name">res_partner: project task read access on customer project</field>
             <field name="model_id" ref="project.model_project_task"/>
-            <field name="domain_force">['|',('partner_id','=',user.partner_id.id),('allowed_user_ids', 'in', user.ids)]</field>
+            <field name="domain_force">['|','|',('partner_id','=',user.partner_id.id),('allowed_user_ids', 'in', user.ids), ('project_id.customer_ids', 'in', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -82,7 +83,7 @@
         <record id="group_project_scrum_project_us_customer_rule" model="ir.rule">
             <field name="name">project scrum us for project customer user</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_us"/>
-            <field name="domain_force">[('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="domain_force">['|',('project_id.partner_id', '=', user.partner_id.id),('project_id.customer_ids', 'in', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -104,7 +105,7 @@
         <record id="group_project_scrum_sprint_project_customer_rule" model="ir.rule">
             <field name="name">project scrum sprint for project customer user</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_sprint"/>
-            <field name="domain_force">[('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="domain_force">['|',('project_id.partner_id', '=', user.partner_id.id),('project_id.customer_ids', 'in', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -126,7 +127,7 @@
         <record id="group_project_scrum_meeting_project_customer_rule" model="ir.rule">
             <field name="name">project scrum meeting for project customer user</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_meeting"/>
-            <field name="domain_force">[('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="domain_force">['|',('project_id.partner_id', '=', user.partner_id.id),('project_id.customer_ids', 'in', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -148,7 +149,7 @@
         <record id="group_project_scrum_test_project_customer_rule" model="ir.rule">
             <field name="name">project scrum test for project customer user</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_test"/>
-            <field name="domain_force">[('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="domain_force">['|',('project_id.partner_id', '=', user.partner_id.id),('project_id.customer_ids', 'in', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>

@@ -34,9 +34,10 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'depends': ['maintenance'],
+    'depends': ['maintenance', 'maintenance_project'],
     'data': [
-        'security/security.xml',
+        #'security/security.xml',
+        'views/project_views.xml',
     ],
     'installable': True,
 }

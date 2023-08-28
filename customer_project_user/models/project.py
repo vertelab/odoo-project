@@ -9,10 +9,15 @@ from odoo.osv.expression import OR
 from odoo.addons.mail.models.mail_thread import MailThread
 
 
+class ProjectProject(models.Model):
+    _inherit = "project.project"
+    
+    customer_ids = fields.Many2many(comodel_name="res.partner", string="Customers")
+
 
 class NewTask(models.Model):
     _inherit = "project.task"
-
+    
     def _notify_get_groups(self, msg_vals=None):
         """ Handle project users and managers recipients that can assign
         tasks and create new one directly from notification emails. Also give
