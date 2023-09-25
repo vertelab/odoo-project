@@ -8,7 +8,28 @@
             <field name="partner_id" position="after">
                 <field name="date_start"/>
                 <field name="date"/>
+                <field name="color" widget="color_picker"/>
             </field>
         </field>
     </record>
+    
+    
+    <record id="project_timeline.project_project_timeline" model="ir.ui.view">
+        <field name="model">project.project</field>
+        <field name="type">timeline</field>
+        <field name="arch" type="xml">
+            <timeline
+                date_start="date_start"
+                date_stop="date"
+                default_group_by="partner_id"
+                event_open_popup="true"
+                colors="white: color == 0; #f06050: color == '1'; #f4a460: color == '2'; #f7cd1f: color == '3'; #6cc1ed: color == '4'; #814968: color == '5'; #eb7e7f: color == '6' 
+                ; #2c8397: color == '7'; #475577: color == '8'; #d6145f: color == '9'; #30c381: color == '10'; #9365b8: color == '11'"
+            />
+        </field>
+    </record>
+    
+    
+    
+    
 </odoo>
