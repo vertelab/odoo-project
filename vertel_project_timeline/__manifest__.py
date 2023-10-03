@@ -11,9 +11,16 @@
     "website": "https://github.com/vertel/odoo-project",
     "author": "Vertel AB",
     "license": "AGPL-3",
-    "depends": ["project_timeline"],
+    "depends": ["project_timeline", "web_timeline_fix"],
     "data": [
         "views/project_project_view.xml",
         "views/project_task_view.xml",
     ],
+    'assets': {
+        'web.assets_backend': [
+            "vertel_project_timeline/static/src/js/timeline_controller_esm.js",
+            "vertel_project_timeline/static/src/js/timeline_model.js"
+            # 'vertel_project_timeline/static/src/js/timeline_arch_parser.js',
+        ]
+    }
 }
