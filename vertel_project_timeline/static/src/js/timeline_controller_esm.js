@@ -19,12 +19,9 @@ export default AbstractController.include({
         });
         var domains = params.domain || this.renderer.last_domains || [];
 
-        if (this.model.modelName == 'project.task') {
-            domains = [['project_id', '=', 1]]
-        }
-
         const contexts = params.context || [];
         const group_bys = params.groupBy || this.renderer.last_group_bys || [];
+
         this.last_domains = domains;
         this.last_contexts = contexts;
         // Select the group by
@@ -38,16 +35,22 @@ export default AbstractController.include({
         let fields = this.renderer.fieldNames;
         fields = _.uniq(fields.concat(n_group_bys));
 
+        var kwargs = {
+                    fields: fields,
+                    domain: domains,
+                    order: [{name: this.renderer.arch.attrs.default_group_by}],
+
+        }
+        if (this.modelName == 'project.task') {
+             kwargs['timeline'] = true
+        }
+
         $.when(
             res,
             this._rpc({
                 model: this.model.modelName,
                 method: "search_read",
-                kwargs: {
-                    fields: fields,
-                    domain: domains,
-                    order: [{name: this.renderer.arch.attrs.default_group_by}],
-                },
+                kwargs: kwargs,
                 context: this.getSession().user_context,
             }).then((data) =>
                 this.renderer.on_data_loaded(data, n_group_bys, defaults.adjust_window)
