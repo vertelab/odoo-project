@@ -18,6 +18,7 @@
     ],
     'assets': {
         'web.assets_backend': [
+            "vertel_project_timeline/static/src/scss/web_timeline.scss",
             "vertel_project_timeline/static/src/js/timeline_controller_esm.js",
             "vertel_project_timeline/static/src/js/timeline_model.js"
             # 'vertel_project_timeline/static/src/js/timeline_arch_parser.js',

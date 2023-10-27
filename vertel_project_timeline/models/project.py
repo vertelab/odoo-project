@@ -8,11 +8,11 @@ class ProjectTask(models.Model):
     @api.model
     def search_read(self, domain=None, fields=None, offset=0, limit=None, order=None, **kwargs):
         if kwargs.get('timeline', False):
-            print(domain)
+            # print(domain)
             for onedomain in domain:
                 if type(onedomain) == list and 'display_project_id' == onedomain[0]:
                     onedomain[0] = "project_id"
-            print(domain)
+            # print(domain)
         # if 'project_id' in self.env.context:
         #     tag_ids = self._name_search()
         #     domain = expression.AND([domain, [('id', 'in', tag_ids)]])

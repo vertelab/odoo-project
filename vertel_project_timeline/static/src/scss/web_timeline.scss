@@ -1,0 +1,13 @@
+
+.vis-panel.vis-center, .vis-panel.vis-top, .vis-panel.vis-bottom {
+    .vis-content {
+        position: relative;
+        transform: translateY(0px) !important;
+    }
+}
+
+.vis-panel.vis-left {
+    .vis-content {
+        top: 0px !important;
+    }
+}
