@@ -19,7 +19,11 @@
                          'default_partner_id': partner_id,
                          'default_milestone_id': allow_milestones and milestone_id,
                          'search_default_display_project_id': project_id,
+                         'default_date_start': date_start,
+                         'default_date_end': date_end,
+                         'default_color': color,
                         }</attribute>
+
                 </field>
         </field>
     </record>
