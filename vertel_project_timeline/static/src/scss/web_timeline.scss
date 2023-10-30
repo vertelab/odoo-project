@@ -11,3 +11,20 @@
         top: 0px !important;
     }
 }
+.o_project_timeline_item.crossed-out {
+    background: 
+         linear-gradient(to top left,
+             rgba(0,0,0,0) 0%,
+             rgba(0,0,0,0) calc(50% - 2px),
+             rgba(0,0,0,1) 50%,
+             rgba(0,0,0,0) calc(50% + 2px),
+             rgba(0,0,0,0) 100%),
+         linear-gradient(to top right,
+             rgba(0,0,0,0) 0%,
+             rgba(0,0,0,0) calc(50% - 2px),
+             rgba(0,0,0,1) 50%,
+             rgba(0,0,0,0) calc(50% + 2px),
+             rgba(0,0,0,0) 100%);
+}
+
+
