@@ -1,0 +1,26 @@
+<odoo>
+    <data>
+        <record id="project_project_form" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="tag_ids" position="after">
+                    <field name="store_id"/>
+                </field>
+            </field>
+        </record>
+
+<!--        <record id="project_task_form" model="ir.ui.view">-->
+<!--            <field name="name">project.task.form</field>-->
+<!--            <field name="model">project.task</field>-->
+<!--            <field name="inherit_id" ref="project.view_task_form2"/>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <field name="tag_ids" position="after">-->
+<!--                    <field name="store_id"/>-->
+<!--                </field>-->
+<!--            </field>-->
+<!--        </record>-->
+
+    </data>
+</odoo>

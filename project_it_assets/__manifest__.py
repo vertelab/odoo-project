@@ -20,35 +20,27 @@
 ##############################################################################
 
 {
-    'name': 'Project: Flow between project and event',
-    'version': '16.0.0.0.1',
-    # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
+    'name': 'Project: IT Assets',
+    'version': '17.0.0.0.1',
     'summary': 'Setup a link for your online meeting.',
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
     'category': 'Productivity',
     'description': """
         Flow between project and event.
     """,
-    #'sequence': '1',
     'sequence': '280',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_event',
+    'website': 'https://vertel.se/apps/odoo-project/project_store',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['base', 'calendar', 'event', 'project', 'mail_message_retrieve'],
-
+    'depends': ['base', 'account_asset'],
     # always loaded
     'data': [
-        'views/calendar_event_view.xml',
-        'views/event_event_view.xml',
-        'views/project_project_view.xml',
-        'views/mail_channel_view.xml',
-
+        'security/ir.model.access.csv',
+        'views/it_asset_view.xml',
+        'views/res_partner_view.xml',
     ],
     'application': True,
 }
