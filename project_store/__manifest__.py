@@ -35,7 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['base', 'project'],
+    'depends': ['base', 'project', 'project_it_assets'],
     # always loaded
     'data': [
         'views/project_view.xml',
