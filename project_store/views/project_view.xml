@@ -8,6 +8,13 @@
                 <field name="tag_ids" position="after">
                     <field name="store_id"/>
                 </field>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button" type="object" name="action_view_partner_assets" icon="fa-tasks">
+                        <field string="Assets" name="asset_count" widget="statinfo"/>
+                    </button>
+
+                </xpath>
             </field>
         </record>
 
