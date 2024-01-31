@@ -35,7 +35,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['base', 'account_asset'],
+    'depends': ['base','account_asset_management', 'contacts', 'project'],
     # always loaded
     'data': [
         'security/ir.model.access.csv',

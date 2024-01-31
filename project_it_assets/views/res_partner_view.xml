@@ -5,9 +5,22 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <field name="vat" position="after">
-                    <field name="is_shop"/>
-                </field>
+                <notebook position="inside">
+                  <page string="It assets">
+                    <group>
+                      <field name="it_asset_ids">
+                          <tree editable="bottom">
+                                <field name="name"/>
+                                <field name="create_uid"/>
+                                <field name="asset_file"/>
+                                <field name="number"/>
+                                <field name="total"/>
+                                <field name="asset_id"/>
+                          </tree>
+                      </field>
+                    </group>
+                  </page>
+                </notebook>
             </field>
         </record>
     </data>
