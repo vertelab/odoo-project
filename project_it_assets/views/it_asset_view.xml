@@ -10,6 +10,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="asset_file"/>
+                                <field name="asset_file_filename" invisible="1"/>
                                 <field name="qty"/>
                                 <field name="asset_id"/>
                             </group>
