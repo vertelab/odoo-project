@@ -7,11 +7,16 @@
             <field name="arch" type="xml">
                 <notebook position="inside">
                     <page string="IT Assets">
-                        <field name="primary_ethernet_connection"/>
-                        <field name="secondary_ethernet_connection"/>
-                        <field name="wifi_ethernet_connection"/>
-                        <field name="kamera_system"/>
-                        <field name="tele_system"/>
+                        <group>
+                            <group>
+                                <field name="primary_ethernet_connection"/>
+                                <field name="secondary_ethernet_connection"/>
+                                <field name="wifi_ethernet_connection"/>
+                                <field name="kamera_system"/>
+                                <field name="tele_system"/>
+                            </group>
+                        </group>
+
                         <field name="it_asset_ids" nolabel="1">
                             <tree editable="bottom">
                                 <field name="purchase_date"/>
