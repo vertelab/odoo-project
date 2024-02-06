@@ -10,7 +10,7 @@
                             <group>
                                 <field name="name"/>
                                 <field name="asset_file"/>
-                                <field name="number"/>
+                                <field name="qty"/>
                                 <field name="asset_id"/>
                             </group>
                             <group>
@@ -32,7 +32,7 @@
                     <field name="name"/>
                     <field name="create_uid"/>
                     <field name="asset_file"/>
-                    <field name="number"/>
+                    <field name="qty"/>
                     <field name="asset_id"/>
                 </tree>
             </field>
