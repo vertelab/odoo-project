@@ -33,7 +33,7 @@
                     <field name="name"/>
                     <field name="create_uid"/>
                     <field name="asset_file" filename="asset_file_filename" widget="binary"/>
-                    <field name="asset_file_filename" column_invisible="True"/>
+                    <field name="asset_file_filename" invisible="1"/>
                     <field name="qty"/>
                     <field name="asset_id"/>
                 </tree>
