@@ -11,7 +11,7 @@
                 </field>
 
                 <xpath expr="//notebook/page[last()]" position="after">
-                    <page string="Establishment/Property Info" groups="base.group_no_one">
+                    <page string="Establishment/Property Info" groups="base.group_no_one" invisible="is_shop != True">
                         <group>
                             <group string="Establishment">
                                 <field name="store_entrance_date"/>
