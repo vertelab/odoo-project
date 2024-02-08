@@ -3,11 +3,31 @@
         <record id="res_partner_form" model="ir.ui.view">
             <field name="name">res.partner.form</field>
             <field name="model">res.partner</field>
+            <field name="priority">999</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <field name="vat" position="after">
                     <field name="is_shop"/>
                 </field>
+
+                <xpath expr="//notebook/page[last()]" position="after">
+                    <page string="Establishment/Property Info" groups="base.group_no_one">
+                        <group>
+                            <group string="Establishment">
+                                <field name="store_entrance_date"/>
+                                <field name="store_opening_date"/>
+                                <field name="field_store_construction_day"/>
+                                <field name="store_day_one_new_ma"/>
+                                <field name="contractor_contract"/>
+                                <field name="contact_person_establishment"/>
+                            </group>
+                            <group string="Property Info">
+                                <field name="contact_person_sc"/>
+                                <field name="contact_person_2"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
             </field>
         </record>
     </data>
