@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record id="project_project_form_view" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="before">
+                    <field name="is_budget"/>
+                </field>
+                <field name="user_id" position="before">
+                    <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
+                </field>                
+            </field>
+        </record>
+
+<!--
+        <record model="ir.ui.view" id="view_project_kanban">
+            <field name="name">project.project.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban"/>
+            <field name="arch" type="xml">
+                <field name="task_count" position="after">
+                    <field name="budget_item_id"/>
+                </field>
+                <xpath expr="//div[hasclass('o_kanban_record_bottom')]/div[hasclass('oe_kanban_bottom_left')]//a[last()]" position="after">
+                    <a class="o_project_kanban_box" name="action_view_budget" type="object">
+                        <div>
+                            <span class="o_value"><t t-esc="record.budget_item_id.value"/></span>
+                        </div>
+                    </a>
+                </xpath>
+            </field>
+        </record>
+        
+-->
+        <record model="ir.ui.view" id="view_task_form2">
+            <field name="name">project.task.form.budget</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+                <field name="partner_id" position="after">
+                    <field name="is_budget" invisible="1"/>
+                    <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}" />
+                    <field name="budget_item_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
