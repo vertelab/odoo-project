@@ -1,0 +1,124 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_mis_budget
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 16.0-20240225\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-02-27 07:09+0000\n"
+"PO-Revision-Date: 2024-02-27 07:11+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: sv\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: \n"
+"X-Generator: Poedit 3.0.1\n"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,field_description:project_mis_budget.field_project_project__budget_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_project_task__budget_id
+msgid "Budget"
+msgstr "Budget"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,field_description:project_mis_budget.field_project_task__budget_item_id
+msgid "Budget Item"
+msgstr "Budgetpost"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,help:project_mis_budget.field_project_task__budget_item_id
+msgid "Budget Item tied to this task"
+msgstr "Budgetpost kopplad till denna uppgift"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,field_description:project_mis_budget.field_project_project__is_budget
+msgid "Budget project"
+msgstr "Budgetprojekt"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,help:project_mis_budget.field_project_project__budget_id
+#: model:ir.model.fields,help:project_mis_budget.field_project_task__budget_id
+msgid "Budget tied to this project"
+msgstr "Budget knuten till detta projekt"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget__project_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_abstract__project_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_by_account__project_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_by_account_item__project_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_item__project_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_item_abstract__project_id
+msgid "Budgeting project"
+msgstr "Budgetering av projekt"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget__task_ids
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_abstract__task_ids
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_by_account__task_ids
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_by_account_item__task_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_item__task_id
+#: model:ir.model.fields,help:project_mis_budget.field_mis_budget_item_abstract__task_id
+msgid "Budgeting task for this item"
+msgstr "Budgeteringsuppgift för denna post"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,field_description:project_mis_budget.field_project_task__is_budget
+msgid "Is Budget"
+msgstr "Är Budget"
+
+#. module: project_mis_budget
+#: model:ir.model,name:project_mis_budget.model_mis_budget_abstract
+msgid "MIS Budget (Abstract Base Class)"
+msgstr "MIS Budget (abstrakt basklass)"
+
+#. module: project_mis_budget
+#: model:ir.model,name:project_mis_budget.model_mis_budget_item_abstract
+msgid "MIS Budget Item (Abstract Base Class)"
+msgstr "MIS-budgetpost (abstrakt basklass)"
+
+#. module: project_mis_budget
+#: model:ir.model,name:project_mis_budget.model_project_project
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget__project_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_abstract__project_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_by_account__project_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_by_account_item__project_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_item__project_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_item_abstract__project_id
+#: model_terms:ir.ui.view,arch_db:project_mis_budget.mis_budget_by_account_form_view
+msgid "Project"
+msgstr "Projekt"
+
+#. module: project_mis_budget
+#: model:ir.actions.act_window,name:project_mis_budget.project_act_window
+msgid "Project Budget"
+msgstr "Budget för projektet"
+
+#. module: project_mis_budget
+#: model:ir.model,name:project_mis_budget.model_project_task
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget__task_ids
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_abstract__task_ids
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_by_account__task_ids
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_by_account_item__task_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_item__task_id
+#: model:ir.model.fields,field_description:project_mis_budget.field_mis_budget_item_abstract__task_id
+msgid "Task"
+msgstr "Uppgift"
+
+#. module: project_mis_budget
+#: model:ir.actions.act_window,name:project_mis_budget.task_act_window
+msgid "Task Budget"
+msgstr "Uppgift Budget"
+
+#. module: project_mis_budget
+#: model_terms:ir.ui.view,arch_db:project_mis_budget.mis_budget_by_account_form_view
+msgid "Tasks"
+msgstr "Uppgifter"
+
+#. module: project_mis_budget
+#: model:ir.model.fields,help:project_mis_budget.field_project_project__is_budget
+#: model:ir.model.fields,help:project_mis_budget.field_project_task__is_budget
+msgid "Using project to construct a new complex MIS-budget"
+msgstr "Använda projektet för att bygga en ny komplex MIS-budget"
