@@ -46,6 +46,7 @@
     'data': [
         'views/project_view.xml',
         'views/mis_budget.xml',
+        'views/kpi_mis_budget.xml',
     ],
     'application': False,
     "installable": True,

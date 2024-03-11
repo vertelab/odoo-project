@@ -8,5 +8,7 @@ from odoo.exceptions import ValidationError
 class MisBudgetItemAbstract(models.AbstractModel):
     _inherit = "mis.budget.item.abstract"
 
-    task_id = fields.Many2one(comodel_name='project.task',string="Task",help="Budgeting task for this item",ondelete="cascade") 
-    project_id = fields.Many2one(comodel_name='project.project',string="Project",help="Budgeting project",related="budget_id.project_id")
+    task_id = fields.Many2one(comodel_name='project.task', string="Task", help="Budgeting task for this item",
+                              ondelete="cascade")
+    project_id = fields.Many2one(comodel_name='project.project', string="Project", help="Budgeting project",
+                                 related="budget_id.project_id")

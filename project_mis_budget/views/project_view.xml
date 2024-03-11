@@ -7,10 +7,12 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="before">
                     <field name="is_budget"/>
+                    <field name="is_kpi_budget"/>
                 </field>
                 <field name="user_id" position="before">
                     <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
-                </field>                
+                    <field name="kpi_budget_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}"/>
+                </field>
             </field>
         </record>
 
@@ -44,6 +46,72 @@
                     <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}" />
                     <field name="budget_item_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
                 </field>
+
+                <field name="user_ids" position="after">
+                    <field name="is_kpi_budget" invisible="1"/>
+                    <field name="kpi_budget_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}" />
+                    <field name="kpi_budget_item_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}"/>
+                </field>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_task_search_form">
+            <field name="name">project.task.search</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form"/>
+            <field name="arch" type="xml">
+                <field name="stage_id" position="after">
+                    <field name="budget_id"/>
+                    <field name="kpi_budget_id"/>
+                </field>
+
+                <xpath expr="//filter[last()]" position="after">
+                    <filter string="MIS Budget (by KPI)" name="mis_budget_by_kpi" domain="[('is_kpi_budget', '=', 1)]"/>
+                    <filter string="MIS Budget (by Account)" name="mis_budget_by_account" domain="[('is_budget', '=', 1)]"/>
+                </xpath>
+
+                <xpath expr="//group[last()]" position="after">
+                    <filter string="MIS Budget (by KPI)" name="group_create_date" context="{'group_by': 'budget_id'}"/>
+                    <filter string="MIS Budget (by Account)" name="group_create_date" context="{'group_by': 'kpi_budget_id'}"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_project_kanban">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+                <field name="tag_ids" position="after">
+                    <field name="is_budget" invisible="1"/>
+                    <field name="is_kpi_budget" invisible="1"/>
+                </field>
+                <xpath expr="//div[hasclass('o_kanban_manage_view')]/div[last()]" position="after">
+                    <div role="menuitem" groups="project.group_project_user">
+                        <a t-if="record.is_budget.raw_value" name="view_budget_by_account" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">MIS Budget (by Account)</a>
+                        <a t-if="record.is_kpi_budget.raw_value" name="view_budget_by_kpi" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">MIS Budget (by KPI)</a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+
+        <record model="ir.ui.view" id="view_project_task_kanban">
+            <field name="name">project.task.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_kanban" />
+            <field name="arch" type="xml">
+                <field name="allow_milestones" position="after">
+                    <field name="id" invisible="1"/>
+                    <field name="is_budget" invisible="1"/>
+                    <field name="is_kpi_budget" invisible="1"/>
+                </field>
+                <xpath expr="//div[hasclass('oe_kanban_content')]/div[@t-if='!selection_mode']/div[1]" position="after">
+                    <div class="oe_kanban_bottom_right" groups="project.group_project_user">
+                        <a t-if="record.is_budget.raw_value" name="view_budget_by_account_item" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">Account Items</a>
+                        <a t-if="record.is_kpi_budget.raw_value" name="view_budget_by_kpi_item" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">KPI Items</a>
+                    </div>
+                </xpath>
             </field>
         </record>
     </data>
