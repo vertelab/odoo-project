@@ -62,7 +62,7 @@ class MailActivity(models.AbstractModel):
     activity_date_deadline = fields.Date(
         'Next Activity Deadline',
         compute='_compute_activity_date_deadline', search='_search_activity_date_deadline',
-        compute_sudo=False, readonly=True, store=False,
+        compute_sudo=False, readonly=True, store=True,
         groups="base.group_user,customer_project_user.group_project_customer_user")
     my_activity_date_deadline = fields.Date(
         'My Activity Deadline',
