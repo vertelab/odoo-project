@@ -1,17 +1,46 @@
 <odoo>
     <data>
-           <record id="edit_project" model="ir.ui.view">
+        <record id="edit_project" model="ir.ui.view">
             <field name="name">project.module.monitor.form</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="inherit_id" ref="project.edit_project" />
             <field name="arch" type="xml">
                 <xpath expr="//div[@name='options_active']/div[1]" position="after">
                     <div>
-                        <label for="is_project_monitor" class="oe_inline" string="Is project monitor:"/>
-                        <field name="is_project_monitor" class="oe_inline oe_input_align"/>
+                        <label for="is_module_monitor" class="oe_inline" string="Is module monitor:" />
+                        <field name="is_module_monitor" class="oe_inline oe_input_align" />
                     </div>
                 </xpath>
-            </fields>
-            </record>
+            </field>
+        </record>
+        <record id="task_type_edit" model="ir.ui.view">
+            <field name="name">project.module.monitor.form</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit" />
+            <field name="arch" type="xml">
+                <field name="sequence" position="after">
+                    <field name="monitor_odoo_version" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
+                    <field name="is_module_monitor" invisible="1" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_form2" model="ir.ui.view">
+            <field name="name">project.task.module_monitor.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2" />
+            <field name="arch" type="xml">
+                <notebook position="inside">
+                    <page name="module_monitor" string="Module Monitor" attrs="{'invisible': [('is_module_monitor', '=', False)]}">
+                        <group>
+                            <field name="module_author" />
+                            <field name="git_repo" />
+                            <field name="git_module" />
+                            <field name="module_stakeholder_ids" widget="many2many_tags" />
+                            <field name="is_module_monitor" invisible="1" />
+                        </group>
+                    </page>
+                </notebook>
+            </field>
+        </record>
     </data>
 </odoo>

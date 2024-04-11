@@ -40,7 +40,7 @@
     'depends': ['project'],
     'data': [
    #   'views/res_config_settings_views.xml',
-        'views/project_view.xml',
+        'views/project_views.xml',
       ],
     'demo': [],
     'qweb': [],
