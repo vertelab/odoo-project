@@ -1,0 +1,17 @@
+<odoo>
+    <data>
+           <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.module.monitor.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='options_active']/div[1]" position="after">
+                    <div>
+                        <label for="is_project_monitor" class="oe_inline" string="Is project monitor:"/>
+                        <field name="is_project_monitor" class="oe_inline oe_input_align"/>
+                    </div>
+                </xpath>
+            </fields>
+            </record>
+    </data>
+</odoo>
