@@ -1,1 +1,1 @@
-hello world!
+from . import make_module_monitor
