@@ -37,10 +37,10 @@
    How can we add good quality service by upgrading clients to a newer version of Odoo?
        
     """,
-    #'depends': ['project'],
+    'depends': ['project'],
     'data': [
    #   'views/res_config_settings_views.xml',
-   #   'views/task_view.xml',
+        'views/project_view.xml',
       ],
     'demo': [],
     'qweb': [],

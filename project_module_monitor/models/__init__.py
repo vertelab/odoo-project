@@ -1,1 +1,1 @@
-from . import project_module_monitor
+from . import project
