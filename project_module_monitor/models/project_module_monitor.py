@@ -1,8 +1,8 @@
 from odoo import models, fields, api
 
-class ResConfigSettings(models.TransientModel):
-    _inherit = 'res.config.settings'
+class projectModuleMonitor(models.TransientModel):
+    _inherit = 'project.project'
     
     @api.model
     def _get_odoo_version(self):
-        is_odoo_version = fields.Boolean.
+        is_odoo_version = fields.Boolean.(string="Is Odoo varsion")
