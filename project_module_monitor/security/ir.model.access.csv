@@ -1,3 +1,4 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+action_project_module_monitor_wizard, action_project_module_monitor_wizard_view, model_project_module_monitor_wizard ,base.group_user,1,1,1,1
 project_module_monitor.access_custom_account_class,access_custom_account_class,project_module_monitor.model_project_module_monitor_wizard  model_custom_account_class,base.group_user,1,1,1,1
 project_module_monitor.access_custom_account_forecast,access_custom_account_forecast,project_module_monitor.model_project_module_monitor_wizard,base.group_user,1,1,1,1
