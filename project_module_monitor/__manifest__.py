@@ -39,7 +39,8 @@
     """,
     'depends': ['project'],
     'data': [
-   #   'views/res_config_settings_views.xml',
+        'security/ir.model.access.csv',
+        'wizard/make_module_monitor.xml',
         'views/project_views.xml',
       ],
     'demo': [],
