@@ -46,6 +46,7 @@ class make_module_monitor(models.TransientModel):
             return [(None,None)]
     
     def load_modules(self):
+        # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
         g = Github()
         try:
             repo = g.get_repo(f"self.module_author/odoo-l10n_se")
