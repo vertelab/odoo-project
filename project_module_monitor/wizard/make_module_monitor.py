@@ -19,16 +19,6 @@ class make_module_monitor(models.TransientModel):
     _description = "Load moduels from GitHub."
 
     module_author = fields.Char(string="Authour") # example vertel,oca
-<<<<<<< HEAD
-    git_repo = fields.Char(string="Git Repo", help="For example odoo-l10n_se") # example l10n_se
-    git_module = fields.Char(string="Git Module", help="For example l10n_se_tax_report") # example l10n_se_tax_report
-    
-    module_stakeholder_ids = fields.Many2one('res.partner')# example SKF, Skogsstyrelsen, Dollarstore
-    odoo_version = fields.Integer('Odoo Version', default=16)
-    #(string="Module stakeholder", help="For example Vertel, OCA, ... and more ") # example...
-    # ~ (comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
-    
-=======
     
     def _get_git_repo(self):
         organization_repositories_url = f"{GITHUB_BASE_URL}/orgs/{self.module_author}/repos"
@@ -41,10 +31,7 @@ class make_module_monitor(models.TransientModel):
         else:
             return [(None,None)]
     git_repo = fields.Selection(_get_git_repo,string="Git Repo", help="For example odoo-l10n_se") # example l10n_se
->>>>>>> 9e7ccffc640d85c455f3a937157cd4c47543b42f
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
-
-    
     
 
     @api.onchange('Xmodule_author')
@@ -68,7 +55,6 @@ class make_module_monitor(models.TransientModel):
         
         raise UserWarning("%s" % branches)
         # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py
-        
         
         organization_repositories_url = f"{GITHUB_BASE_URL}/orgs/{self.module_author}/repos"
         response = requests.get(organization_repositories_url)

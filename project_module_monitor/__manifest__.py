@@ -41,6 +41,7 @@
     'data': [
         'security/ir.model.access.csv',
         'wizard/make_module_monitor.xml',
+        'wizard/add_stakeholder.xml',
         'views/project_views.xml',
       ],
     'demo': [],
