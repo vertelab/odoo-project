@@ -6,6 +6,7 @@ from github import Github
 import re
 
 GITHUB_BASE_URL = 'https://api.github.com' 
+GITHUB_RAW_URL  = 'https://raw.githubusercontent.com' 
 
 
 #import dateutil.relativedelta as relativedelta
@@ -27,7 +28,7 @@ class make_module_monitor(models.TransientModel):
         # ~ raise UserWarning("%s" % [(r['name'],r['full_name']) for r in response.json()])
         if response.status_code == 200:
             repositories = response.json()
-            return [(repo['name'],repo['full_name']) for repo in repositories]
+            return [(repo['name'],repo['name']) for repo in repositories]
         else:
             return [(None,None)]
     git_repo = fields.Selection(_get_git_repo,string="Git Repo", help="For example odoo-l10n_se") # example l10n_se
@@ -47,21 +48,28 @@ class make_module_monitor(models.TransientModel):
     def load_modules(self):
         g = Github()
         try:
-            repo = g.get_repo(f"self.module_author/self.git_repo")
+            repo = g.get_repo(f"self.module_author/odoo-l10n_se")
+            # ~ repo = g.get_repo(f"{self.module_author}/{self.git_repo}")
         except Exception as e:
             # ~ raise UserWarning(f"Could not read {self.module_author}/{self.git_repo} {e}")
             repo = g.get_repo(f"self.module_author/odoo-l10n_se")
         branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$",b.name)] 
         
-        raise UserWarning("%s" % branches)
-        # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py
         
-        organization_repositories_url = f"{GITHUB_BASE_URL}/orgs/{self.module_author}/repos"
-        response = requests.get(organization_repositories_url)
-        if response.status_code == 200:
-            repositories = response.json()
-            raise UserWarning("%s" % repositories)
-        else:
-            raise UserWarning(f"Failed to retrieve repositories. Status code: {response.status_code}")
+        contents = repo.get_contents("")
 
-
+        for content_file in contents:
+            module_branch = {}
+            if content_file.type == "dir":
+                for b in branches:
+                    branch_url = f"{GITHUB_RAW_URL}/{self.module_author}/{repo.name}/{b}/"
+                    response = requests.get(f"{branch_url}/{content_file.name}/__manifest__.py")
+                    if response.status_code == 200:
+                        module_branch[b] = eval(response.text)
+                if len(module_branch.keys())>0:
+                    raise UserWarning("%s" % module_branch)
+                    # Create project.task 
+                    # add list of branches
+                    # Put it on the highest branch stage
+                    # What info from manifest are we interersted in?
+            # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py
