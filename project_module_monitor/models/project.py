@@ -9,7 +9,7 @@ class projectModuleMonitor(models.Model):
         return self.env.ref('project_module_monitor.action_project_module_monitor_wizard_view').read()[0]
 
     def action_add_stakeholder(self):
-        return self.env.ref('project_module_monitor.action_project_module_monitor_wizard_view').read()[0]
+        return self.env.ref('project_module_monitor.action_stakeholder_wizard').read()[0]
 
 class projectStage(models.Model):
     _inherit = 'project.task.type'
@@ -26,7 +26,8 @@ class projectTask(models.Model):
     module_author = fields.Char(string="Authour") # example vertel,oca
     git_repo = fields.Char(string="Git Repo", help="For example l10n_se") # example l10n_se
     git_module = fields.Char(string="Git Module", help="For example, l10n_se_extended") # l10n_se_extended
-    module_stakeholder_ids = fields.Many2many(comodel_name='res.partner',string='Stake Holder')
+    odoo_version = fields.Integer('Odoo Version', default=16)
+    module_stakeholder_ids = fields.Many2many(comodel_name='res.partner',string='Stake Holder') # SKF, Dollar, SFM
     is_module_monitor = fields.Boolean(related="project_id.is_module_monitor")
 
     #--potential extra fields.

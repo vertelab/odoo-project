@@ -40,6 +40,7 @@
                             <field name="module_author" />
                             <field name="git_repo" />
                             <field name="git_module" />
+                            <field name="odoo_version" />
                             <field name="module_stakeholder_ids" widget="many2many_tags" />
                             <field name="is_module_monitor" invisible="1" />
                         </group>

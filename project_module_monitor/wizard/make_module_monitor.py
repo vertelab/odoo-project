@@ -18,6 +18,13 @@ class make_module_monitor(models.TransientModel):
 
     module_author = fields.Char(string="Authour") # example vertel,oca
     git_repo = fields.Char(string="Git Repo", help="For example odoo-l10n_se") # example l10n_se
+    git_module = fields.Char(string="Git Module", help="For example l10n_se_tax_report") # example l10n_se_tax_report
+    
+    module_stakeholder_ids = fields.Many2one('res.partner')# example SKF, Skogsstyrelsen, Dollarstore
+    odoo_version = fields.Integer('Odoo Version', default=16)
+    #(string="Module stakeholder", help="For example Vertel, OCA, ... and more ") # example...
+    # ~ (comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
+    
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
 
     
