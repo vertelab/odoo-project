@@ -6,6 +6,7 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+  
 class make_module_monitor(models.TransientModel):
     _name = "project.module.monitor.wizard"
     _description = "Load moduels from GitHub."
@@ -17,3 +18,5 @@ class make_module_monitor(models.TransientModel):
     
     def load_modules(self):
         pass
+
+

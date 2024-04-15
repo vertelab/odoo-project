@@ -11,6 +11,11 @@
                         <field name="is_module_monitor" class="oe_inline oe_input_align" />
                     </div>
                 </xpath>
+                
+                <header position="inside">
+                  <button name="action_show_add_repo" string="Add repo" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
+                  <button name="action_add_stakeholder" string="Add stakeholder" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
+                </header>
             </field>
         </record>
         <record id="task_type_edit" model="ir.ui.view">
