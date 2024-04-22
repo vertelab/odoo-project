@@ -9,7 +9,7 @@ class projectModuleMonitor(models.Model):
         return self.env.ref('project_module_monitor.action_project_module_monitor_wizard_view').read()[0]
 
     def action_add_stakeholder(self):
-        return self.env.ref('project_module_monitor.action_stakeholder_wizard').read()[0]
+        return self.env.ref('project_module_monitor.action_project_add_stakeholder_wizard_view').read()[0]
 
 class projectStage(models.Model):
     _inherit = 'project.task.type'
