@@ -5,27 +5,28 @@ import requests
 from github import Github
 import re
 
-GITHUB_BASE_URL = 'https://api.github.com' 
-GITHUB_RAW_URL  = 'https://raw.githubusercontent.com' 
-
+GITHUB_BASE_URL = 'https://api.github.com'
+GITHUB_RAW_URL = 'https://raw.githubusercontent.com'
 
 #import dateutil.relativedelta as relativedelta
 #from datetime import datetime
 
 _logger = logging.getLogger(__name__)
 
+
 class GitRepo(models.TransientModel):
-      _name = 'git.repos'
+    _name = 'git.repos'
+    _description = 'Git Repositories'
 
-      name = fields.Char(string="Name")
-      author = fields.Char(string="Author")
+    name = fields.Char(string="Name")
+    author = fields.Char(string="Author")
 
 
-class make_module_monitor(models.TransientModel):
+class ModuleMonitor(models.TransientModel):
     _name = "project.module.monitor.wizard"
-    _description = "Load moduels from GitHub."
+    _description = "Load module from GitHub."
 
-    module_author = fields.Char(string="Authour") # example vertel,oca
+    module_author = fields.Char(string="Author")  # example vertel,oca
 
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
     git_repo = fields.Many2one('git.repos', string="Git Repos", domain="[('author', '=', module_author)]")
@@ -38,19 +39,17 @@ class make_module_monitor(models.TransientModel):
                 response = requests.get(organization_repositories_url)
 
                 if response.status_code == 200:
-                   repositories = response.json()
-                   _logger.info(f"{len(repositories)=}")
-               	   for repo in repositories:
-                       self._sync_git_repo(repo.get('name'), rec.module_author)
+                    repositories = response.json()
+                    _logger.info(f"{len(repositories)=}")
+                    for repo in repositories:
+                        self._sync_git_repo(repo.get('name'), rec.module_author)
                 organization_repositories_url = response.links.get('next', {}).get('url', None)
 
     def _sync_git_repo(self, repo_name, author):
         repo_id = self.env['git.repos'].search([('name', '=', repo_name), ('author', '=', author)], limit=1)
         if not repo_id:
-           repo_id = self.env['git.repos'].create({'name': repo_name, 'author': author})
+            repo_id = self.env['git.repos'].create({'name': repo_name, 'author': author})
         return repo_id
-
-
 
     def load_modules(self):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
@@ -61,7 +60,7 @@ class make_module_monitor(models.TransientModel):
         except Exception as e:
             # ~ raise UserWarning(f"Could not read {self.module_author}/{self.git_repo} {e}")
             repo = g.get_repo(f"self.module_author/odoo-l10n_se")
-        branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$",b.name)] 
+        branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)]
 
         contents = repo.get_contents("")
 
@@ -73,7 +72,7 @@ class make_module_monitor(models.TransientModel):
                     response = requests.get(f"{branch_url}/{content_file.name}/__manifest__.py")
                     if response.status_code == 200:
                         module_branch[b] = eval(response.text)
-                if len(module_branch.keys())>0:
+                if len(module_branch.keys()) > 0:
                     raise UserWarning("%s" % module_branch)
                     # Create project.task
                     # add list of branches
