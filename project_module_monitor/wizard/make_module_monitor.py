@@ -75,26 +75,37 @@ class ModuleMonitor(models.TransientModel):
                     if response.status_code == 200:
                         module_branch[b] = eval(response.text)
                 if len(module_branch.keys()) > 0:
+                    version_ids = self.env['project.task.type']
+                    version_ids = [stage for stage in self.env['project.task.type'].search([('project_ids','in',self.project_id.id),('name','in',module_branch.keys())])]
+                    
                     branch = sorted(module_branch.keys())[-1]
+                    #TODO create "omslagsbild"
+                    image_ids = self.env['ir.attachment']
+                    for image in module_branch[branch].get('images',[]):  # Get images and create ir.attachement
+                        pass
+                    #TODO Get module_website_desc  index.html
+                    
                     task = self.env['project.task'].search([('project_id','=',self.project_id.id),('git_module','=',content_file.name)])
                     rec = {
-                            'name': module_branch[branch]['name'],
+                            'project_id': self.project_id.id,
+                            'name': module_branch[branch].get('name'),
                             'git_module': content_file.name,
                             'module_author': self.module_author,
                             'git_repo': repo.name,
                             'odoo_version': branch,
-                            'description': module_branch[branch]['description'],
-                            'module_summary': module_branch[branch]['summary'],
-                            'module_category': module_branch[branch]['category'],
-                            'module_website': module_branch[branch]['website'],
-                            'module_images': ','.join(module_branch[branch]['images']),
-                            'module_license': module_branch[branch]['license'],
-                            'module_maintainer': module_branch[branch]['maintainer'],
-                            'module_depends': ','.join(module_branch[branch]['depends']),
+                            'description': module_branch[branch].get('description',''),
+                            'module_summary': module_branch[branch].get('summary',''),
+                            'module_category': module_branch[branch].get('category',''),
+                            'module_website': module_branch[branch].get('website',''),
+                            'module_images': ','.join(module_branch[branch].get('images',[])),
+                            'module_license': module_branch[branch].get('license',''),
+                            'module_maintainer': module_branch[branch].get('maintainer',''),
+                            'module_depends': ','.join(module_branch[branch].get('depends',[])),
                             'module_installable': module_branch[branch].get('installable','False') == "True",
                             'module_application': module_branch[branch].get('application','False') == "True",
                             'module_auto_install': module_branch[branch].get('auto_install','False') == "True",
                             'module_branches': ','.join(module_branch.keys()),
+                            'module_version_ids': [(6,0,[version.id for version in version_ids])],
                         }
                     if not task:
                         task = self.env['project.task'].create(rec)

@@ -30,7 +30,7 @@ class projectTask(models.Model):
     module_stakeholder_ids = fields.Many2many(comodel_name='res.partner',string='Stake Holder') # SKF, Dollar, SFM
     is_module_monitor = fields.Boolean(related="project_id.is_module_monitor")
 
-    module_summary = fields.Char(string='Odoo Version')
+    module_summary = fields.Char(string='Summary')
     module_category = fields.Char(string='Category') # Selection?
     module_website = fields.Char(string='Website')
     module_images  = fields.Char(string='Images', )
@@ -41,6 +41,8 @@ class projectTask(models.Model):
     module_application = fields.Boolean(string='Application')
     module_auto_install = fields.Boolean(string="Auto install")
     module_branches = fields.Char(string='Branches',)
+    module_website_desc = fields.Html(string='Website Description',)
+    module_version_ids = fields.Many2many(comodel_name='project.task.type',string='Odoo versions',help="")
 
     #--potential extra fields.
     # ~ many2many = fields('odoo.version')
