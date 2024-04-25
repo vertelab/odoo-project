@@ -23,12 +23,24 @@ class projectStage(models.Model):
 class projectTask(models.Model):
     _inherit = 'project.task'
 
-    module_author = fields.Char(string="Authour") # example vertel,oca
+    module_author = fields.Char(string="Author") # example vertel,oca
     git_repo = fields.Char(string="Git Repo", help="For example l10n_se") # example l10n_se
     git_module = fields.Char(string="Git Module", help="For example, l10n_se_extended") # l10n_se_extended
-    odoo_version = fields.Integer('Odoo Version', default=16)
+    odoo_version = fields.Char(string='Odoo Version')
     module_stakeholder_ids = fields.Many2many(comodel_name='res.partner',string='Stake Holder') # SKF, Dollar, SFM
     is_module_monitor = fields.Boolean(related="project_id.is_module_monitor")
+
+    module_summary = fields.Char(string='Odoo Version')
+    module_category = fields.Char(string='Category') # Selection?
+    module_website = fields.Char(string='Website')
+    module_images  = fields.Char(string='Images', )
+    module_license = fields.Char(string='Licence') # Selection
+    module_maintainer = fields.Char(string='Maintainer',)
+    module_depends = fields.Char(string='Depends')
+    module_installable = fields.Boolean(string='Installable')
+    module_application = fields.Boolean(string='Application')
+    module_auto_install = fields.Boolean(string="Auto install")
+    module_branches = fields.Char(string='Branches',)
 
     #--potential extra fields.
     # ~ many2many = fields('odoo.version')

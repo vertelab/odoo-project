@@ -53,12 +53,14 @@ class ModuleMonitor(models.TransientModel):
 
     def load_modules(self):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
+        # ~ https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
         g = Github()
         try:
-            repo = g.get_repo(f"self.module_author/odoo-l10n_se")
-            # ~ repo = g.get_repo(f"{self.module_author}/{self.git_repo}")
+            # ~ repo = g.get_repo(f"self.module_author/odoo-l10n_se")
+            # ~ raise UserWarning(f"{self.module_author}/{self.git_repo.name}")
+            repo = g.get_repo(f"{self.module_author}/{self.git_repo.name}")
         except Exception as e:
-            # ~ raise UserWarning(f"Could not read {self.module_author}/{self.git_repo} {e}")
+            raise UserWarning(f"Could not read {self.module_author}/{self.git_repo.name} {e}")
             repo = g.get_repo(f"self.module_author/odoo-l10n_se")
         branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)]
 
@@ -73,9 +75,30 @@ class ModuleMonitor(models.TransientModel):
                     if response.status_code == 200:
                         module_branch[b] = eval(response.text)
                 if len(module_branch.keys()) > 0:
-                    raise UserWarning("%s" % module_branch)
-                    # Create project.task
-                    # add list of branches
+                    branch = sorted(module_branch.keys())[-1]
+                    task = self.env['project.task'].search([('project_id','=',self.project_id.id),('git_module','=',content_file.name)])
+                    rec = {
+                            'name': module_branch[branch]['name'],
+                            'git_module': content_file.name,
+                            'module_author': self.module_author,
+                            'git_repo': repo.name,
+                            'odoo_version': branch,
+                            'description': module_branch[branch]['description'],
+                            'module_summary': module_branch[branch]['summary'],
+                            'module_category': module_branch[branch]['category'],
+                            'module_website': module_branch[branch]['website'],
+                            'module_images': ','.join(module_branch[branch]['images']),
+                            'module_license': module_branch[branch]['license'],
+                            'module_maintainer': module_branch[branch]['maintainer'],
+                            'module_depends': ','.join(module_branch[branch]['depends']),
+                            'module_installable': module_branch[branch].get('installable','False') == "True",
+                            'module_application': module_branch[branch].get('application','False') == "True",
+                            'module_auto_install': module_branch[branch].get('auto_install','False') == "True",
+                            'module_branches': ','.join(module_branch.keys()),
+                        }
+                    if not task:
+                        task = self.env['project.task'].create(rec)
+                    else:
+                        task.write(rec)
                     # Put it on the highest branch stage
-                    # What info from manifest are we interersted in?
             # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py

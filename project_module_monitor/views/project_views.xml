@@ -41,6 +41,17 @@
                             <field name="git_repo" />
                             <field name="git_module" />
                             <field name="odoo_version" />
+                            <field name="module_summary" />
+                            <field name="module_category" />
+                            <field name="module_website" />
+                            <field name="module_images" />
+                            <field name="module_license" />
+                            <field name="module_maintainer" />
+                            <field name="module_depends" />
+                            <field name="module_installable" />
+                            <field name="module_application" />
+                            <field name="module_auto_install" />
+                            <field name="module_branches" />
                             <field name="module_stakeholder_ids" widget="many2many_tags" />
                             <field name="is_module_monitor" invisible="1" />
                         </group>
