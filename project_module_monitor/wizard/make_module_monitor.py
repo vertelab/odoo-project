@@ -4,6 +4,7 @@ import logging
 import requests
 from github import Github
 import re
+import base64
 
 GITHUB_BASE_URL = 'https://api.github.com'
 GITHUB_RAW_URL = 'https://raw.githubusercontent.com'
@@ -79,8 +80,7 @@ class ModuleMonitor(models.TransientModel):
                     version_ids = [stage for stage in self.env['project.task.type'].search([('project_ids','in',self.project_id.id),('name','in',module_branch.keys())])]
                     
                     branch = sorted(module_branch.keys())[-1]
-                    #TODO create "omslagsbild"
-                    image_ids = self.env['ir.attachment']
+                    
                     for image in module_branch[branch].get('images',[]):  # Get images and create ir.attachement
                         pass
                     #TODO Get module_website_desc  index.html
@@ -111,5 +111,27 @@ class ModuleMonitor(models.TransientModel):
                         task = self.env['project.task'].create(rec)
                     else:
                         task.write(rec)
+                        task.message_post(body=f"""
+                        Information updated for {branch=}
+                        """)
+                    banner = task.attachment_ids.filtered(lambda a: a.filename == 'banner.png')
+                    if not banner:
+                        response = requests.get(f"{branch_url}/{content_file.name}/static/description/banner.png")
+                        if response.status_code == 200:
+                            banner = self.env["ir.attachment"].create(
+                                    {
+                                        "name": 'banner.png',
+                                        "res_id": task.id,
+                                        "res_model": str(task._name),
+                                        "datas": base64.base64_encode(response.text),
+                                    }
+                                )
+                            task.displayed_image_id = banner.id
+                    response = requests.get(f"{branch_url}/{content_file.name}/static/description/index.html")
+                    if response.status_code == 200:
+                        task.module_website_desc = response.text
+                    
                     # Put it on the highest branch stage
+                    version_id = self.env['project.task.type'].search([('project_ids','in',self.project_id.id),('name','=',branch)])
+                    task.stage_id = version_id.id
             # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py

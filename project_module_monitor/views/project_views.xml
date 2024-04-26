@@ -49,7 +49,7 @@
           <field name="module_application" />
           <field name="module_auto_install" />
           <field name="module_branches" />
-          <field name="module_version_ids" widget="many2may_tags" />
+          <field name="module_version_ids" widget="many2many_tags" />
           <field name="module_stakeholder_ids" widget="many2many_tags" />
         </field>
         <filter name="my_tasks" position="after">
@@ -90,7 +90,7 @@
           <field name="module_application" optional="hide" />
           <field name="module_auto_install" optional="hide" />
           <field name="module_branches" optional="hide" />
-          <field name="module_version_ids" widget="many2may_tags" optional="hide" />
+          <field name="module_version_ids" widget="many2many_tags" optional="hide" />
           <field name="module_stakeholder_ids" widget="many2many_tags" optional="hide" />
           <field name="is_module_monitor" optional="hide" />
         </field>
@@ -119,11 +119,15 @@
               <field name="module_application" />
               <field name="module_auto_install" />
               <field name="module_branches" />
-              <field name="module_version_ids" widget="many2may_tags" />
+              <field name="module_version_ids" widget="many2many_tags" />
               <field name="module_stakeholder_ids" widget="many2many_tags" />
               <field name="is_module_monitor" invisible="1" />
             </group>
           </page>
+          <page name="module_monitor_desc" string="Module Monitor Description" attrs="{'invisible': [('is_module_monitor', '=', False)]}">
+               <field name="module_website_desc" />
+              </page>
+              
         </notebook>
       </field>
     </record>
