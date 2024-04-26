@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
-        <record id="project_module_monitor_wizard_view" model="ir.ui.view">
-            <field name="name">project_module_monitor_wizard_view</field>
-            <field name="model">project.module.monitor.wizard</field>
-            <field name="arch" type="xml">
-                <form>
-                    <sheet>
-                        <group>
-                            <field name="project_id" />
-                            <field name="module_author" />
-                            <field name="git_repo" />
-                        </group>
-                        <footer>
-                            <button string="Load new modules" type="object" class="oe_highlight" name="load_modules" />
-                            <button string="Cancel" class="btn-secondary" special="cancel" />
-                        </footer>
-                    </sheet>
-                </form>
-            </field>
-        </record>
-        <record id="action_project_module_monitor_wizard_view" model="ir.actions.act_window">
-            <field name="name">Load modules</field>
-            <field name="type">ir.actions.act_window</field>
-            <field name="res_model">project.module.monitor.wizard</field>
-            <field name="view_mode">form</field>
-            <field name="view_id" ref="project_module_monitor_wizard_view" />
-            <field name="target">new</field>
-        </record>
-        <record id="action_project_module_monitor_wizard" model="ir.actions.server">
-            <field name="name">Load modules from Git</field>
-            <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="project_module_monitor.model_project_project" />
-            <field name="binding_model_id" ref="project_module_monitor.model_project_project" />
-            <field name="state">code</field>
-            <field name="code">action = env.ref('project_module_monitor.action_project_module_monitor_wizard_view').with_context(active_id=record.id).read()[0]</field>
-        </record>
-        <record id="action_stakeholder_wizard" model="ir.actions.server">
-            <field name="name">Add stakeholder</field>
-            <field name="type">ir.actions.server</field>
-            <field name="model_id" ref="project_module_monitor.model_project_project" />
-            <field name="binding_model_id" ref="project_module_monitor.model_project_project" />
-            <field name="state">code</field>
-            <field name="code">action = env.ref('project_module_monitor.action_project_module_monitor_wizard_view').with_context(active_id=record.id).read()[0]</field>
-        </record>
-    </data>
+  <data>
+    <record id="project_module_monitor_wizard_view" model="ir.ui.view">
+      <field name="name">project_module_monitor_wizard_view</field>
+      <field name="model">project.module.monitor.wizard</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="project_id" invisible="1" />
+              <field name="module_author" />
+              <field name="git_repo" />
+            </group>
+            <footer>
+              <button string="Load new modules" type="object" class="oe_highlight" name="load_modules" />
+              <button string="Cancel" class="btn-secondary" special="cancel" />
+            </footer>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="action_project_module_monitor_wizard_view" model="ir.actions.act_window">
+      <field name="name">Load modules</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">project.module.monitor.wizard</field>
+      <field name="view_mode">form</field>
+      <field name="view_id" ref="project_module_monitor_wizard_view" />
+      <field name="target">new</field>
+    </record>
+    <record id="view_project_kanban_make_monitor" model="ir.ui.view">
+      <field name="name">project.module.monitor.kanban</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_kanban" />
+      <field name="arch" type="xml">
+        <xpath expr="//div[@class='o_kanban_card_manage_section o_kanban_manage_reports']" position="inside">
+          <div role="menuitem" t-if="record.is_module_monitor.raw_value">
+            <a type="action" name="%(project_module_monitor.action_project_module_monitor_wizard_view)d">Add repo</a>
+          </div>
+        </xpath>
+      </field>
+    </record>
+  </data>
 </odoo>

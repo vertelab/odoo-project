@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import logging
 import requests
 from github import Github
@@ -61,7 +61,7 @@ class ModuleMonitor(models.TransientModel):
             # ~ raise UserWarning(f"{self.module_author}/{self.git_repo.name}")
             repo = g.get_repo(f"{self.module_author}/{self.git_repo.name}")
         except Exception as e:
-            raise UserWarning(f"Could not read {self.module_author}/{self.git_repo.name} {e}")
+            raise UserError(f"Could not read {self.module_author}/{self.git_repo.name} {e}")
             repo = g.get_repo(f"self.module_author/odoo-l10n_se")
         branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)]
 
@@ -75,16 +75,17 @@ class ModuleMonitor(models.TransientModel):
                     response = requests.get(f"{branch_url}/{content_file.name}/__manifest__.py")
                     if response.status_code == 200:
                         module_branch[b] = eval(response.text)
+                        
                 if len(module_branch.keys()) > 0:
                     version_ids = self.env['project.task.type']
                     version_ids = [stage for stage in self.env['project.task.type'].search([('project_ids','in',self.project_id.id),('name','in',module_branch.keys())])]
                     
                     branch = sorted(module_branch.keys())[-1]
+                    branch_url = f"{GITHUB_RAW_URL}/{self.module_author}/{repo.name}/{b}/"
                     
                     for image in module_branch[branch].get('images',[]):  # Get images and create ir.attachement
                         pass
                     #TODO Get module_website_desc  index.html
-                    
                     task = self.env['project.task'].search([('project_id','=',self.project_id.id),('git_module','=',content_file.name)])
                     rec = {
                             'project_id': self.project_id.id,
@@ -101,9 +102,9 @@ class ModuleMonitor(models.TransientModel):
                             'module_license': module_branch[branch].get('license',''),
                             'module_maintainer': module_branch[branch].get('maintainer',''),
                             'module_depends': ','.join(module_branch[branch].get('depends',[])),
-                            'module_installable': module_branch[branch].get('installable','False') == "True",
-                            'module_application': module_branch[branch].get('application','False') == "True",
-                            'module_auto_install': module_branch[branch].get('auto_install','False') == "True",
+                            'module_installable': module_branch[branch].get('installable',False),
+                            'module_application': module_branch[branch].get('application',False),
+                            'module_auto_install': module_branch[branch].get('auto_install',False),
                             'module_branches': ','.join(module_branch.keys()),
                             'module_version_ids': [(6,0,[version.id for version in version_ids])],
                         }
@@ -114,16 +115,19 @@ class ModuleMonitor(models.TransientModel):
                         task.message_post(body=f"""
                         Information updated for {branch=}
                         """)
-                    banner = task.attachment_ids.filtered(lambda a: a.filename == 'banner.png')
+                    banner = task.attachment_ids.filtered(lambda a: a.name == 'banner.png')
                     if not banner:
                         response = requests.get(f"{branch_url}/{content_file.name}/static/description/banner.png")
+                        
+                        if not response.status_code == 200:
+                            response = requests.get(f"{branch_url}/{content_file.name}/static/description/icon.png")
                         if response.status_code == 200:
                             banner = self.env["ir.attachment"].create(
                                     {
                                         "name": 'banner.png',
                                         "res_id": task.id,
                                         "res_model": str(task._name),
-                                        "datas": base64.base64_encode(response.text),
+                                        "datas": base64.encodebytes(response.content),
                                     }
                                 )
                             task.displayed_image_id = banner.id

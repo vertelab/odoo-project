@@ -8,7 +8,7 @@
                 <form>
                     <sheet>
                         <group>
-                            <field name="project_id" />
+                            <field name="project_id" invisible="1" />
                             <field name="partner_id" />
                             <field name="stakeholder_file" />
                         </group>
@@ -28,5 +28,19 @@
             <field name="view_id" ref="project_add_stakeholder_wizard_view" />
             <field name="target">new</field>
         </record>
+        
+                <record id="view_project_kanban_stakeholder" model="ir.ui.view">
+      <field name="name">project.module.monitor.kanban</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_kanban" />
+      <field name="arch" type="xml">
+        <xpath expr="//div[@class='o_kanban_card_manage_section o_kanban_manage_reports']" position="inside">
+            <div role="menuitem" t-if="record.is_module_monitor.raw_value">
+                    <a type="action" name="%(project_module_monitor.action_project_add_stakeholder_wizard_view)d">Add Stakeholder</a>
+            </div>
+        </xpath>
+      </field>
+    </record>
+        
     </data>
 </odoo>

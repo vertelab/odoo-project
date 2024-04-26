@@ -11,10 +11,12 @@
             <field name="is_module_monitor" class="oe_inline oe_input_align" />
           </div>
         </xpath>
+<!--
         <header position="inside">
           <button name="action_show_add_repo" string="Add repo" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
           <button name="action_add_stakeholder" string="Add stakeholder" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
         </header>
+-->
       </field>
     </record>
     <record id="task_type_edit" model="ir.ui.view">
@@ -104,32 +106,78 @@
         <notebook position="inside">
           <page name="module_monitor" string="Module Monitor" attrs="{'invisible': [('is_module_monitor', '=', False)]}">
             <group>
-              <field name="module_author" />
-              <field name="git_repo" />
-              <field name="git_module" />
-              <field name="odoo_version" />
-              <field name="module_summary" />
-              <field name="module_category" />
-              <field name="module_website" />
-              <field name="module_images" />
-              <field name="module_license" />
-              <field name="module_maintainer" />
-              <field name="module_depends" />
-              <field name="module_installable" />
-              <field name="module_application" />
-              <field name="module_auto_install" />
-              <field name="module_branches" />
-              <field name="module_version_ids" widget="many2many_tags" />
-              <field name="module_stakeholder_ids" widget="many2many_tags" />
-              <field name="is_module_monitor" invisible="1" />
+              <group>
+                <field name="module_author" />
+                <field name="git_repo" />
+                <field name="git_module" />
+                <field name="odoo_version" />
+                <field name="module_summary" />
+                <field name="module_category" />
+                <field name="module_website" />
+                <field name="module_images" />
+                <field name="module_license" />
+              </group>
+              <group>
+                <field name="module_maintainer" />
+                <field name="module_depends" />
+                <field name="module_installable" />
+                <field name="module_application" />
+                <field name="module_auto_install" />
+                <field name="module_branches" />
+                <field name="module_version_ids" widget="many2many_tags" />
+                <field name="module_stakeholder_ids" widget="many2many_tags" />
+                <field name="is_module_monitor" invisible="1" />
+              </group>
+              <field name="module_website_desc" />
             </group>
           </page>
+<!--
           <page name="module_monitor_desc" string="Module Monitor Description" attrs="{'invisible': [('is_module_monitor', '=', False)]}">
-               <field name="module_website_desc" />
-              </page>
-              
+            <field name="module_website_desc" />
+          </page>
+-->
         </notebook>
       </field>
     </record>
+    
+<!--
+    <record id="view_project_task_kanban_make_monitor" model="ir.ui.view">
+      <field name="name">project.module.monitor.kanban</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_task_kanban" />
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="module_author" />
+          <field name="module_category" />
+          <field name="module_author" />
+          <field name="git_module" />
+        </field> 
+          
+        <xpath expr="//div[@class='o_kanban_record_top']" position="inside">
+
+          <field name="module_author" />
+                     <field name="module_category" />
+          <field name="module_author" />
+          <field name="git_module" />
+        </xpath>
+      </field>
+    </record>
+        
+-->
+    
+    <record id="view_project_kanban" model="ir.ui.view">
+      <field name="name">project.module.monitor.main.kanban</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_kanban" />
+      <field name="arch" type="xml">
+        <field name="name" position="after">
+          <field name="is_module_monitor" />
+        </field>
+      </field>
+    </record>
+    
+    
+    
+    
   </data>
 </odoo>
