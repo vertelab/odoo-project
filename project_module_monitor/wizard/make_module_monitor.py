@@ -81,7 +81,7 @@ class ModuleMonitor(models.TransientModel):
                     version_ids = [stage for stage in self.env['project.task.type'].search([('project_ids','in',self.project_id.id),('name','in',module_branch.keys())])]
                     
                     branch = sorted(module_branch.keys())[-1]
-                    branch_url = f"{GITHUB_RAW_URL}/{self.module_author}/{repo.name}/{b}/"
+                    branch_url = f"{GITHUB_RAW_URL}/{self.module_author}/{repo.name}/{branch}/"
                     
                     for image in module_branch[branch].get('images',[]):  # Get images and create ir.attachement
                         pass
