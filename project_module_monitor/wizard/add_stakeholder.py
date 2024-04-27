@@ -1,5 +1,5 @@
 from odoo import api, fields, models, _
-from odoo.exceptions import ValidationError
+from odoo.exceptions import ValidationError, UserError
 import logging
 import requests
 import re
@@ -20,6 +20,7 @@ class add_stakeholder(models.TransientModel):
 
     partner_id = fields.Many2one(comodel_name='res.partner', string="Partner", help="Product owner / customer") # example SKF, Skogsstyrelsen, Dollarstore
     stakeholder_file = fields.Binary(string='Stakeholder modules', help='Excel file exported from an Odoo instance.')
+    exclude_odoosa = fields.Boolean(string='Exclude Odoo SA', help='Dont try to check Odoo Core modules.')
     
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
 
@@ -34,18 +35,23 @@ class add_stakeholder(models.TransientModel):
                 module_pos = i
         # ~ raise Warning(f"{author_pos=} {module_pos=}")
 
+        failed_modules = []
         for row in range(2,len(tuple(module_file.rows))):
             author_name = module_file.cell(row,author_pos).value
             module_name = module_file.cell(row,module_pos).value
+            if self.exclude_odoosa and author_name in ["Odoo S.A.","Odoo SA"]:
+                continue
             # if we have the module (project.task) add stakeholder
             module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('name', '=', module_name)]) # git_module 
             if len(module)==0:
-                raise Warning(f"{module_name=} {module_pos=}")
+                failed_modules.append((module_name,author_name))
+                # ~ raise Warning(f"{module_name=} {module_pos=}")
             else:
                 module.module_stakeholder_ids=[(6,0,[self.partner_id.id])]
                 module.git_module_ids=[(6,0,[self.module_name.id])]
                 
-            
+        if len(failed_modules) > 0:
+            raise UserError(f"{failed_modules=}")   
             # git_module i stället för name
             
             

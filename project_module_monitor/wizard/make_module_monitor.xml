@@ -10,10 +10,12 @@
             <group>
               <field name="project_id" invisible="1" />
               <field name="module_author" />
-              <field name="git_repo" />
+              <field name="git_repo_ids" widget="many2many_tags" />
+              <field name="update_modules" />
             </group>
+            <field name="message_box" readonly="1"/>
             <footer>
-              <button string="Load new modules" type="object" class="oe_highlight" name="load_modules" />
+              <button string="Add Repo" type="object" class="oe_highlight" name="load_modules" />
               <button string="Cancel" class="btn-secondary" special="cancel" />
             </footer>
           </sheet>

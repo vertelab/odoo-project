@@ -10,6 +10,7 @@
                         <group>
                             <field name="project_id" invisible="1" />
                             <field name="partner_id" />
+                            <field name="exclude_odoosa" />
                             <field name="stakeholder_file" />
                         </group>
                         <footer>
