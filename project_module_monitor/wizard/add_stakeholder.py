@@ -53,9 +53,19 @@ class add_stakeholder(models.TransientModel):
                 module.git_module_ids=[(6,0,[self.module_name.id])]
                 
         if len(failed_modules) > 0:
-            raise UserError(f"{failed_modules=}")   
+            # ~ raise UserError(f"{failed_modules=}")   
             # git_module i stället för name
-            
+            self.message_box = "Failed modules: " + ','.join(failed_modules)
+        return {
+                "type": "ir.actions.act_window",
+                "name": "Add Stakeholder",
+                "res_model": "project.add.stakeholder.wizard",
+                "res_id": self.id,
+                "view_mode": "form",
+                # ~ "domain": [("journal_id", "=", self.id)],
+                "context": dict(self.env.context),
+            }
+            # gi            
             
     def check_repos(self):
         #raise Warning(f"{self.stakeholder_file=}")
@@ -84,12 +94,28 @@ class add_stakeholder(models.TransientModel):
                 module.git_module_ids=[(6,0,[self.module_name.id])]
                 
         if len(failed_modules) > 0:
-            repos = []
+            repos = set()
             for module in failed_modules:
                 # ~ repos.append(f'{module[0]}/__manifest__.py')
-                repos.append(os.popen(f'locate {module[0]}/__manifest__.py').read().split('/')[3])
+                repo = os.popen(f'locate {module[0]}/__manifest__.py').read().split('/')[3].split('-')
+                if repo[0] == 'odootools':
+                    continue
+                elif repo[0] == 'odoo':
+                    repo = f"[vertelab]{'-'.join(repo)}"
+                elif repo[0] == 'odooext':
+                    if repo[1] == 'vertel':
+                        repo = f"[gitlab]vertel"
+                    else:
+                        repo = f"[{repo[1].casefold()}]{'-'.join(repo[2:])}"
+                else:
+                    repo = '-'.join(repo)
+                try:
+                    repos.add(repo)
+                except Exception as e:
+                    raise UserError(repo)
+                
                 # ~ repos.append(os.popen(f'ssh {self.odoo_server} locate {module[0]}/__manifest__.py').read())
-            self.message_box = ','.join(set(repos))
+            self.message_box = "Mssing repos: " + ','.join(sorted(repos))
         return {
                 "type": "ir.actions.act_window",
                 "name": "Add Stakeholder",

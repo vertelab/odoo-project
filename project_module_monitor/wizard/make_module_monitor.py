@@ -165,8 +165,17 @@ class ModuleMonitor(models.TransientModel):
                     else:
                         missing_modules.append(f"{content_file.name} (no branch)")
 
-                if len(missing_modules):
-                    self.message_box = f"{missing_modules=}"   
+        if len(missing_modules):
+            self.message_box = "Failed modules: " + ','.join(failed_modules)
+        return {
+                "type": "ir.actions.act_window",
+                "name": "Add Stakeholder",
+                "res_model": "project.add.stakeholder.wizard",
+                "res_id": self.id,
+                "view_mode": "form",
+                # ~ "domain": [("journal_id", "=", self.id)],
+                "context": dict(self.env.context),
+            }
 
 
             # ~ https://raw.githubusercontent.com/vertelab/odoo-l10n_se/14.0/l10n_se_nordea/__manifest__.py
