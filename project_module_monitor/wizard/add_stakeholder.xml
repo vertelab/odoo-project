@@ -12,9 +12,12 @@
                             <field name="partner_id" />
                             <field name="exclude_odoosa" />
                             <field name="stakeholder_file" />
+                            <field name="odoo_server" />
                         </group>
+                        <field name="message_box" readonly="1"/>
                         <footer>
                             <button string="Load file" type="object" class="oe_highlight" name="load_file" />
+                            <button string="Check Repos" type="object" class="oe_highlight" name="check_repos" />
                             <button string="Cancel" class="btn-secondary" special="cancel" />
                         </footer>
                     </sheet>
