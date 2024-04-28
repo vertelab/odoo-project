@@ -18,6 +18,7 @@
                         <footer>
                             <button string="Add Stakeholder to modules" type="object" class="oe_highlight" name="load_file" />
                             <button string="Check Repos" type="object" class="oe_highlight" name="check_repos" />
+                            <button string="Add Repos" type="object" class="oe_highlight" name="add_repos" />
                             <button string="Cancel" class="btn-secondary" special="cancel" />
                         </footer>
                     </sheet>

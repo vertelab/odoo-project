@@ -97,7 +97,11 @@ class add_stakeholder(models.TransientModel):
             repos = set()
             for module in failed_modules:
                 # ~ repos.append(f'{module[0]}/__manifest__.py')
-                repo = os.popen(f'locate {module[0]}/__manifest__.py').read().split('/')[3].split('-')
+                repo = os.popen(f'locate {module[0]}/__manifest__.py').read().split('/')
+                if len(repo) < 3:
+                    _logger.info(f"{repo=}")
+                    continue
+                repo = repo[3].split('-')
                 if repo[0] == 'odootools':
                     continue
                 elif repo[0] == 'odoo':
@@ -131,3 +135,32 @@ class add_stakeholder(models.TransientModel):
             
             # if we dont have the module add to list of missing modules
             # What will we do with Odoo Core?
+
+    def add_repos(self):
+        #raise Warning(f"{self.stakeholder_file=}")
+        missing_modules = []
+        #TODO Add Repos
+        authors = set()
+        repos = set()
+        self.message_box = "Mssing repos: " + ','.join(sorted(repos))
+        string = self.message_box.split(':')
+        for repo in string[1].split(','):
+            res = self.env['git.repos'].load_modules(author,git_repo)
+            for m in res:
+                missing_modules.append(m)
+            
+            
+            authors.add(repo[0])
+            repos.add(repo[1])
+        raise UserError(f"{authors} {repos}")
+        return {
+                "type": "ir.actions.act_window",
+                "name": "Add Stakeholder",
+                "res_model": "project.add.stakeholder.wizard",
+                "res_id": self.id,
+                "view_mode": "form",
+                # ~ "domain": [("journal_id", "=", self.id)],
+                "context": dict(self.env.context),
+            }
+            # git_module i stället för name
+            

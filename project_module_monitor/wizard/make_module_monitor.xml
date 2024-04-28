@@ -13,6 +13,7 @@
               <field name="git_repo_ids" widget="many2many_tags" />
               <field name="update_modules" />
             </group>
+            <field name="author_lst" readonly="1"/>
             <field name="message_box" readonly="1"/>
             <footer>
               <button string="Add Repo" type="object" class="oe_highlight" name="load_modules" />
