@@ -47,11 +47,12 @@ class add_stakeholder(models.TransientModel):
             if self.exclude_odoosa and author_name in ["Odoo S.A.","Odoo SA"]:
                 continue
             # if we have the module (project.task) add stakeholder
-            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('name', '=', module_name)],limit=1) # git_module 
-            if len(module)==0:
+            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('git_module', '=', module_name)],limit=1) # git_module 
+            if not module:
                 failed_modules.append((module_name,author_name))
                 # ~ raise Warning(f"{module_name=} {module_pos=}")
             else:
+                # ~ raise UserError(f"{module_name=}")
                 module.module_stakeholder_ids=[(4,self.partner_id.id,0)]
                 # ~ module.module_stakeholder_ids=[(6,0,[self.partner_id.id])]
                 # ~ module.git_module_ids=[(6,0,[self.module_name.id])]
@@ -89,13 +90,13 @@ class add_stakeholder(models.TransientModel):
             if self.exclude_odoosa and author_name in ["Odoo S.A.","Odoo SA"]:
                 continue
             # if we have the module (project.task) add stakeholder
-            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('name', '=', module_name)]) # git_module 
-            if len(module)==0:
+            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('git_module', '=', module_name)],limit=1) # git_module 
+            if not module:
                 failed_modules.append((module_name,author_name))
                 # ~ raise Warning(f"{module_name=} {module_pos=}")
             else:
-                module.module_stakeholder_ids=[(6,0,[self.partner_id.id])]
-                module.git_module_ids=[(6,0,[self.module_name.id])]
+                module.module_stakeholder_ids=[(4,self.partner_id.id,0)]
+                # ~ module.git_module_ids=[(6,0,[self.module_name.id])]
                 
         if len(failed_modules) > 0:
             repos = set()
