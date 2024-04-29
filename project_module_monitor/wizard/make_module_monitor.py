@@ -14,7 +14,7 @@ GITHUB_RAW_URL = 'https://raw.githubusercontent.com'
 
 _logger = logging.getLogger(__name__)
 
-
+#TODO  Add Odoo-core button
 class GitRepo(models.TransientModel):
     _name = 'git.repos'
     _description = 'Git Repositories'
@@ -22,7 +22,7 @@ class GitRepo(models.TransientModel):
     name = fields.Char(string="Name")
     author = fields.Char(string="Author")
 
-    def load_modules(self, author, repo_name,project_id):
+    def load_modules(self, author, repo_name,project_id,update_modules,stakeholder=None):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
         # ~ https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
         g = Github()
@@ -51,7 +51,7 @@ class GitRepo(models.TransientModel):
                 if content_file.name in ['.github','.gitignore','README.md']:
                     continue
                 task = self.env['project.task'].search([('project_id','=',project_id),('git_module','=',content_file.name)])
-                if task and not self.update_modules:
+                if task and not update_modules:
                     continue 
                     
 
@@ -101,6 +101,8 @@ class GitRepo(models.TransientModel):
                         task.message_post(body=f"""
                         Information updated for {branch=}
                         """)
+                        if stakeholder:
+                            task.stakeholder_ids = [(4,0,stakeholder.id)]
                     banner = task.attachment_ids.filtered(lambda a: a.name == 'banner.png')
                     if not banner:
                         response = requests.get(f"{branch_url}/{content_file.name}/static/description/banner.png")
@@ -180,7 +182,7 @@ class ModuleMonitor(models.TransientModel):
         for rec in self:
             for author in rec.module_author.split(','):
                 for git_repo in self.git_repo_ids:
-                    res = self.env['git.repos'].load_modules(author,git_repo.name,rec.project_id.id)
+                    res = self.env['git.repos'].load_modules(author,git_repo.name,rec.project_id.id,self.update_modules)
                     for m in res:
                         missing_modules.append(m)
 

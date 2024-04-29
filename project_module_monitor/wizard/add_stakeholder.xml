@@ -15,10 +15,11 @@
                             <field name="odoo_server" />
                         </group>
                         <field name="message_box" readonly="1"/>
+                        <field name="addrepos_button" invisible="1"/>
                         <footer>
                             <button string="Add Stakeholder to modules" type="object" class="oe_highlight" name="load_file" />
                             <button string="Check Repos" type="object" class="oe_highlight" name="check_repos" />
-                            <button string="Add Repos" type="object" class="oe_highlight" name="add_repos" />
+                            <button string="Add Repos" type="object" class="oe_highlight" name="add_repos"  attrs="{'invisible': [('addrepos_button', '=', False)]}" />
                             <button string="Cancel" class="btn-secondary" special="cancel" />
                         </footer>
                     </sheet>

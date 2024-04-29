@@ -25,16 +25,19 @@ class add_stakeholder(models.TransientModel):
     odoo_server = fields.Char(string='Odoo Server', help='Odoo server to check modules/repos, server need to have ssh-key fpr the odoo server')
     message_box = fields.Text(string='')
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
+    addrepos_button = fields.Boolean()
 
     def load_file(self):
         #raise Warning(f"{self.stakeholder_file=}")
         module_file = load_workbook(filename=BytesIO(base64.b64decode(self.stakeholder_file))).active
-        author_pos = module_pos = 1
+        author_pos = module_pos = None
         for i in range(1,20):
             if module_file.cell(1,i).value in ['Författare','Author']:
                 author_pos = i
             if module_file.cell(1,i).value in ['Tekniskt namn','Technical Name']:
                 module_pos = i
+        if not module_pos:
+            raise UserError("Missing Technical Name in file")
         # ~ raise Warning(f"{author_pos=} {module_pos=}")
 
         failed_modules = []
@@ -44,18 +47,19 @@ class add_stakeholder(models.TransientModel):
             if self.exclude_odoosa and author_name in ["Odoo S.A.","Odoo SA"]:
                 continue
             # if we have the module (project.task) add stakeholder
-            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('name', '=', module_name)]) # git_module 
+            module=self.env['project.task'].search([('project_id', '=', self.project_id.id), ('name', '=', module_name)],limit=1) # git_module 
             if len(module)==0:
                 failed_modules.append((module_name,author_name))
                 # ~ raise Warning(f"{module_name=} {module_pos=}")
             else:
-                module.module_stakeholder_ids=[(6,0,[self.partner_id.id])]
-                module.git_module_ids=[(6,0,[self.module_name.id])]
+                module.module_stakeholder_ids=[(4,self.partner_id.id,0)]
+                # ~ module.module_stakeholder_ids=[(6,0,[self.partner_id.id])]
+                # ~ module.git_module_ids=[(6,0,[self.module_name.id])]
                 
         if len(failed_modules) > 0:
             # ~ raise UserError(f"{failed_modules=}")   
             # git_module i stället för name
-            self.message_box = "Failed modules: " + ','.join(failed_modules)
+            self.message_box = "Failed modules: " + ','.join([str(t) for t in failed_modules])
         return {
                 "type": "ir.actions.act_window",
                 "name": "Add Stakeholder",
@@ -120,6 +124,7 @@ class add_stakeholder(models.TransientModel):
                 
                 # ~ repos.append(os.popen(f'ssh {self.odoo_server} locate {module[0]}/__manifest__.py').read())
             self.message_box = "Mssing repos: " + ','.join(sorted(repos))
+        self.addrepos_button = True
         return {
                 "type": "ir.actions.act_window",
                 "name": "Add Stakeholder",
@@ -140,19 +145,19 @@ class add_stakeholder(models.TransientModel):
         #raise Warning(f"{self.stakeholder_file=}")
         missing_modules = []
         #TODO Add Repos
-        authors = set()
-        repos = set()
-        self.message_box = "Mssing repos: " + ','.join(sorted(repos))
-        string = self.message_box.split(':')
-        for repo in string[1].split(','):
-            res = self.env['git.repos'].load_modules(author,git_repo)
+
+        # ~ self.message_box = "Mssing repos: " + ','.join(sorted(repos))
+        string = self.message_box.split(': ')
+        for author_repo in string[1].split(','):
+            author = author_repo.split(']')[0][1:]
+            repo = author_repo.split(']')[1]
+            res = self.env['git.repos'].load_modules(author,repo,self.project_id.id,False,stakeholder=self.partner_id)
             for m in res:
                 missing_modules.append(m)
             
-            
-            authors.add(repo[0])
-            repos.add(repo[1])
-        raise UserError(f"{authors} {repos}")
+        self.message_box = f"Missing modules {missing_modules}"
+        self.addrepos_button = False
+       
         return {
                 "type": "ir.actions.act_window",
                 "name": "Add Stakeholder",

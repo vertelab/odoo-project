@@ -55,10 +55,14 @@
           <field name="module_stakeholder_ids" widget="many2many_tags" />
         </field>
         <filter name="my_tasks" position="after">
+<!--
           <filter string="Is Module Monitor" name="module_monitor" domain="[('is_module_monitor', '=', True)]" />
+-->
           <filter string="Is Installable" name="module_installable" domain="[('module_installable', '=', True)]" />
           <filter string="Is Application" name="module_application" domain="[('module_application', '=', True)]" />
           <filter string="Has Auto Install" name="module_auto_install" domain="[('module_auto_install', '=', True)]" />
+          <filter string="Has Stakeholders" name="has_module_stakeholder" domain="[('module_stakeholder_ids', '!=', False)]" />
+          <filter string="Missing Stakeholders" name="missing_module_stakeholder" domain="[('module_stakeholder_ids', '=', False)]" />
         </filter>
         <xpath expr="//group" position="inside">
           <filter string="Author" name="author" context="{'group_by': 'module_author'}" />
