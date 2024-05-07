@@ -13,6 +13,7 @@ import base64
 from io import BytesIO
 
 
+
 _logger = logging.getLogger(__name__)
 
 class add_stakeholder(models.TransientModel):

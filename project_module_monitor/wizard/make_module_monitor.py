@@ -2,7 +2,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import ValidationError, UserError
 import logging
 import requests
-from github import Github
+from github import Github, Auth
 import re
 import base64
 
@@ -25,14 +25,20 @@ class GitRepo(models.TransientModel):
     def load_modules(self, author, repo_name,project_id,update_modules,stakeholder=None):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
         # ~ https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
-        g = Github()
+        authToken = self.env["ir.config_parameter"].sudo().get_param('github_token')
+        if not authToken:
+            raise UserError("Github token missing, please create a parameter called github_token and paste an a token.")
+        auth = Auth.Token(authToken)
+        g = Github(auth=auth)
         missing_modules = []
         try:
             # ~ repo = g.get_repo(f"self.module_author/odoo-l10n_se")
             # ~ raise UserWarning(f"{self.module_author}/{self.git_repo.name}")
             repo = g.get_repo(f"{author}/{repo_name}")
         except Exception as e:
-            raise UserError(f"Could not read {author}/{repo_name} {e}")
+            logger.warning(f"Could not read {author}/{repo_name} {e}")
+            return []
+            #raise UserError(f"Could not read {author}/{repo_name} {e}")
 
         branches = [b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)]
         for branch in branches:
