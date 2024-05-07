@@ -125,7 +125,7 @@ class add_stakeholder(models.TransientModel):
                     raise UserError(repo)
                 
                 # ~ repos.append(os.popen(f'ssh {self.odoo_server} locate {module[0]}/__manifest__.py').read())
-            self.message_box = "Mssing repos: " + ','.join(sorted(repos))
+            self.message_box = "Missing repos: " + ','.join(sorted(repos))
         self.addrepos_button = True
         return {
                 "type": "ir.actions.act_window",
@@ -153,6 +153,7 @@ class add_stakeholder(models.TransientModel):
         for author_repo in string[1].split(','):
             author = author_repo.split(']')[0][1:]
             repo = author_repo.split(']')[1]
+            _logger.warning(f"add_repos --- {author_repo=} {author=} {repo=}")
             res = self.env['git.repos'].load_modules(author,repo,self.project_id.id,False,stakeholder=self.partner_id)
             for m in res:
                 missing_modules.append(m)

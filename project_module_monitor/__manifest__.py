@@ -37,7 +37,7 @@
    How can we add good quality service by upgrading clients to a newer version of Odoo?
        
     """,
-    'depends': ['project'],
+    'depends': ['project_github'],
     'data': [
         'security/ir.model.access.csv',
         'wizard/make_module_monitor.xml',
