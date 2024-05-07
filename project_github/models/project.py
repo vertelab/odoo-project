@@ -1,5 +1,16 @@
 from odoo import models, fields, api
 from odoo.exceptions import UserError
+import requests
+import logging
+from github import Github, Auth
+import re
+import base64
+
+GITHUB_BASE_URL = 'https://api.github.com'
+GITHUB_RAW_URL = 'https://raw.githubusercontent.com'
+
+
+_logger = logging.getLogger(__name__)
 
 class projectProject(models.Model):
     _inherit = 'project.project'
@@ -64,23 +75,25 @@ class projectTask(models.Model):
     def _get_github_response(self,filename):
         if not (self.git_module):
             raise UserError(_("Git Module is missing"))
-        if not (self.project_id.git_owner and task.project_id.git_repo):
+        if not (self.project_id.git_owner and self.project_id.git_repo):
             raise UserError(_("Owner and/or Repo is missing on project"))
                 
-        g = Github(auth=self.project_id.get_auth_token())
+        g = Github(auth=Auth.Token(self.project_id.get_auth_token().strip()))
         try:
             repo = g.get_repo(f"{self.project_id.git_owner}/{self.project_id.git_repo}")
         except Exception as e:
             logger.warning(f"Could not read {self.project_id.git_owner}/{self.project_id.git_repo} {e}")
             return None
 
-        for branch in sorted([b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)],reverse = True):
-            branch_url = f"{GITHUB_RAW_URL}/{task.project_id.git_owner}/{task.project_id.git_repo}/{branch}/"
-            response = requests.get(f"{branch_url}/{task.git_module}/{filename}")
+        # ~ raise UserError(sorted([b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)],key=float, reverse = True))
+        for branch in sorted([b.name for b in repo.get_branches() if re.match("^\d*[.]0$", b.name)],key=float, reverse = True):
+            branch_url = f"{GITHUB_RAW_URL}/{self.project_id.git_owner}/{self.project_id.git_repo}/{branch}"
+            _logger.warning(f"get file---->   {branch_url}/{self.git_module}/{filename}")
+            response = requests.get(f"{branch_url}/{self.git_module}/{filename}")
             if response.status_code == 200:
                 self.write({'odoo_version': branch,})
                 return response
-            return None
+        return None
 
     def _get_github_file(self,filename):
         response = self._get_github_response(filename)
@@ -92,17 +105,25 @@ class projectTask(models.Model):
         if response:
             return response.content
 
+
+    def get_module_info(self):
+        for task in self:
+            task.load_manifest()
+            task.load_banner()
+            task.load_index()
+
     def load_manifest(self,):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
         # ~ https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
         for task in self:
-            manifest = eval(task._get_github_file('__manifest__.py'))
+            manifest = task._get_github_file('__manifest__.py')
+            if manifest:
+                manifest = eval(manifest)
             if manifest:
                 task.write({
                     'name': manifest.get('name'),
-                    'odoo_version': branch,
                     'description': manifest.get('description',''),
-                    'module_author': manifest_get('author',''),
+                    'module_author': manifest.get('author',''),
                     'module_summary': manifest.get('summary',''),
                     'module_category': manifest.get('category',''),
                     'module_website': manifest.get('website',''),
@@ -113,19 +134,19 @@ class projectTask(models.Model):
                     'module_installable': manifest.get('installable',False),
                     'module_application': manifest.get('application',False),
                     'module_auto_install': manifest.get('auto_install',False),
-                    'module_branches': ','.join(branches),
+                    # ~ 'module_branches': ','.join(branches),
                 })
                 task.message_post(body=f"""
-                        Information updated for {branch=}
+                        Information updated for {task.odoo_version=}
                         """)
 
     def load_banner(self,):
         for task in self:
             banner = task.attachment_ids.filtered(lambda a: a.name == 'banner.png')
             if not banner:
-                content = task._get_github_content('/static/description/banner.png')
+                content = task._get_github_content('static/description/banner.png')
                 if not content:
-                    content = task._get_github_content('/static/description/icon.png')
+                    content = task._get_github_content('static/description/icon.png')
                 if content:
                     banner = self.env["ir.attachment"].create(
                                 {
@@ -139,6 +160,6 @@ class projectTask(models.Model):
 
     def load_index(self,):
         for task in self:
-            index = task._get_github_file('/static/description/index.html') 
+            index = task._get_github_file('static/description/index.html') 
             if index:
                 task.module_website_desc = index

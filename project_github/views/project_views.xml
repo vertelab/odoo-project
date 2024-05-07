@@ -11,6 +11,10 @@
             <field name="is_github_repo" class="oe_inline oe_input_align" />
           </div>
         </xpath>
+        <field name="partner_id" position="after">
+            <field name="git_owner" attrs="{'invisible': [('is_github_repo', '=', False)]}"/>
+            <field name="git_repo" attrs="{'invisible': [('is_github_repo', '=', False)]}"/>
+        </field>
         <!--
              <header position="inside">
              <button name="action_show_add_repo" string="Add repo" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
@@ -19,6 +23,7 @@
         -->
       </field>
     </record>
+<!--
     <record id="task_type_edit" model="ir.ui.view">
       <field name="name">project.task.github.form</field>
       <field name="model">project.task.type</field>
@@ -30,6 +35,7 @@
         </field>
       </field>
     </record>
+-->
     <record id="view_task_search_form" model="ir.ui.view">
       <field name="name">project.task.github.search</field>
       <field name="model">project.task</field>
@@ -37,7 +43,6 @@
       <field name="arch" type="xml">
         <field name="project_id" position="after">
           <field name="module_author" />
-          <field name="git_repo" />
           <field name="git_module" />
           <field name="odoo_version" />
           <field name="module_summary" />
@@ -99,12 +104,18 @@
       <field name="model">project.task</field>
       <field name="inherit_id" ref="project.view_task_form2" />
       <field name="arch" type="xml">
+          <header position="inside">
+          <button name="get_module_info" string="Module Info" type="object" class="oe_highlight" attrs="{'invisible' : [('is_module_odoo', '=', False)]}"/>
+          </header>
+          <field name="active" position="after">
+              <field name="is_github_repo" invisible="1"/>
+              <field name="is_module_odoo" attrs="{'invisible': [('is_github_repo', '=', False)]}"/>
+          </field>
         <notebook position="inside">
           <page name="odoo_module" string="Odoo Module" attrs="{'invisible': [('is_module_odoo', '=', False)]}">
             <group>
               <group>
                 <field name="module_author" />
-                <field name="git_repo" />
                 <field name="git_module" />
                 <field name="odoo_version" />
                 <field name="module_summary" />
