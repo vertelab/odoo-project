@@ -44,6 +44,8 @@
         <field name="project_id" position="after">
           <field name="module_author" />
           <field name="git_module" />
+          <field name="git_repo" />
+          <field name="git_owner" />
           <field name="odoo_version" />
           <field name="module_summary" />
           <field name="module_category" />
@@ -82,6 +84,7 @@
         <field name="user_id" position="after">
           <field name="module_author" optional="hide" />
           <field name="module_author" optional="hide" />
+          <field name="git_repo" optional="hide" />
           <field name="git_module" optional="hide" />
           <field name="odoo_version" optional="hide" />
           <field name="module_summary" optional="hide" />
@@ -116,6 +119,7 @@
             <group>
               <group>
                 <field name="module_author" />
+                <field name="git_repo" />
                 <field name="git_module" />
                 <field name="odoo_version" />
                 <field name="module_summary" />

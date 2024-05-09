@@ -97,10 +97,12 @@ class projectProject(models.Model):
 class projectTask(models.Model):
     _inherit = 'project.task'
 
+    git_repo = fields.Char(string="Git Repo", help="For example l10n_se") # example l10n_se
+    git_owner = fields.Char(string="Git Owner", help="vertelab") # example l10n_se
     git_module = fields.Char(string="Git Module", help="For example, l10n_se_extended") # l10n_se_extended
+    
     odoo_version = fields.Char(string='Odoo Version')
     is_github_repo = fields.Boolean(related="project_id.is_github_repo")
-
     is_module_odoo = fields.Boolean(string="Is Odoo module")
     module_author = fields.Char(string="Author") # example vertel,oca
     module_summary = fields.Char(string='Summary')
@@ -116,27 +118,30 @@ class projectTask(models.Model):
     module_branches = fields.Char(string='Branches',)
     module_website_desc = fields.Html(string='Website Description',)
     
-    def _get_github_response(self,filename,git_owner=None,git_repo=None):
-        if not (git_owner or git_repo):
-            git_owner = self.module_author
-            git_repo  = self.git_repo   
+    def _get_github_response(self,filename):
+        if not (self.git_owner or self.git_repo):
+            pass
+            # ~ raise UserError(_(f"Git Owner {self.git_owner=} or Git Repo {self.git_repo=} is missing "))
         if not self.git_module:
             raise UserError(_("Git Module is missing"))
-        (status_code,branch,response) = self.project_id._get_github_response(f"{self.git_module}/{filename}",git_owner,git_repo)
+        (status_code,branch,response) = self.project_id._get_github_response(f"{self.git_module}/{filename}",self.git_owner,self.git_repo)
         if status_code == 200:
             self.write({'odoo_version': branch,})
             return (response, branch)
+        _logger.warning(f"None response {status_code=}{response=}{branch=}")
         return (None,None)
 
-    def _get_github_file(self,filename,git_owner=None,git_repo=None):
-        (response,branch) = self._get_github_response(filename,git_owner,git_repo)
+    def _get_github_file(self,filename):
+        (response,branch) = self._get_github_response(filename)
         if response:
             return (response.text,branch)
+        return (None,None)
 
-    def _get_github_content(self,filename,git_owner=None,git_repo=None):
-        (response,branch) = self._get_github_response(filename,git_owner,git_repo)
+    def _get_github_content(self,filename):
+        (response,branch) = self._get_github_response(filename)
         if response:
             return (response.content,branch)
+        return(None,None)
 
     def get_module_info(self):
         for task in self:
@@ -144,18 +149,14 @@ class projectTask(models.Model):
             task.load_banner()
             task.load_index()
 
-    def load_manifest(self,git_owner=None,git_repo=None):
+    def load_manifest(self):
         # ~ https://pygithub.readthedocs.io/en/latest/examples/Repository.html
         # ~ https://docs.github.com/en/rest/repos/repos?apiVersion=2022-11-28#get-a-repository
-        if not (git_owner or git_repo):
-            git_owner = self.module_author
-            git_repo  = self.git_repo
-        _logger.warning(f"wrong  --- {not (git_owner or git_repo)=} {git_owner=} {git_repo=}")
         for task in self:
-            (manifest,branch) = task._get_github_file('__manifest__.py',git_owner,git_repo)
-            if manifest:
-                manifest = eval(manifest)
-            if manifest:
+            (manifest_file,branch) = task._get_github_file('__manifest__.py')
+            if manifest_file:
+                manifest = eval(manifest_file)
+            if manifest_file and manifest:
                 task.write({
                     'name': manifest.get('name'),
                     'description': manifest.get('description',''),
@@ -177,17 +178,14 @@ class projectTask(models.Model):
                         Information updated for {task.odoo_version=}
                         """)
             return branch
-    def load_banner(self,git_owner=None,git_repo=None):
-        if not (git_owner and git_repo):
-            git_owner = self.module_author
-            git_repo  = self.git_repo        
+    def load_banner(self):
         branch = None
         for task in self:
             banner = task.attachment_ids.filtered(lambda a: a.name == 'banner.png')
             if not banner:
-                (content,branch) = task._get_github_content('static/description/banner.png',git_owner,git_repo)
+                (content,branch) = task._get_github_content('static/description/banner.png')
                 if not content:
-                    (content, branch) = task._get_github_content('static/description/icon.png',git_owner,git_repo)
+                    (content, branch) = task._get_github_content('static/description/icon.png')
                 if content:
                     banner = self.env["ir.attachment"].create(
                                 {
@@ -200,12 +198,9 @@ class projectTask(models.Model):
                     task.displayed_image_id = banner.id
         return branch
 
-    def load_index(self,git_owner=None,git_repo=None):
-        if not (git_owner and git_repo):
-            git_owner = self.module_author
-            git_repo  = self.git_repo
+    def load_index(self):
         for task in self:
-            (index, branch) = task._get_github_file('static/description/index.html',git_owner,git_repo) 
+            (index, branch) = task._get_github_file('static/description/index.html') 
             if index:
                 task.module_website_desc = index
         return branch

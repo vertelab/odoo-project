@@ -22,8 +22,6 @@ class projectStage(models.Model):
 class projectTask(models.Model):
     _inherit = 'project.task'
 
-    git_repo = fields.Char(string="Git Repo", help="For example l10n_se") # example l10n_se
-    git_owner = fields.Char(string="Git Owner", help="vertelab") # example l10n_se
     module_stakeholder_ids = fields.Many2many(comodel_name='res.partner',string='Stake Holder') # SKF, Dollar, SFM
     is_module_monitor = fields.Boolean(related="project_id.is_module_monitor")
     module_branches = fields.Char(string='Branches',)
