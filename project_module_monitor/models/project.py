@@ -1,4 +1,10 @@
-from odoo import models, fields, api
+from odoo import models, fields, api, _
+
+import logging
+
+_logger = logging.getLogger(__name__)
+
+
 
 class projectModuleMonitor(models.Model):
     _inherit = 'project.project'
@@ -10,6 +16,23 @@ class projectModuleMonitor(models.Model):
 
     def action_add_stakeholder(self):
         return self.env.ref('project_module_monitor.action_project_add_stakeholder_wizard_view').read()[0]
+
+    def cron_monitor_module_version(self):
+        # ~ _logger.warning(f"Monitor project {self=}")
+        for project in self.env['project.project'].search([('is_module_monitor','=',True)]):
+            # ~ _logger.warning(f"{project=}")
+            for task in project.task_ids:
+                _logger.warning(f"{task.name=}")
+                if task.module_version_ids and task.git_owner and task.git_repo:
+                    # ~ _logger.warning(f"Checking branch {task.name=}")
+                    branch = task.project_id._get_latest_branch(task.git_module,git_owner=task.git_owner,git_repo=task.git_repo)
+                    # ~ _logger.warning(f"Checking branch {task.name=} {branch=} {task.odoo_version=} {task.stage_id.name=}")
+                    if task.odoo_version != branch:
+                        version_id = self.env['project.task.type'].search([('project_ids','in',project.id),('name','=',branch)])
+                        task.stage_id = version_id.id
+                        task.odoo_version = branch
+ 
+
 
 class projectStage(models.Model):
     _inherit = 'project.task.type'

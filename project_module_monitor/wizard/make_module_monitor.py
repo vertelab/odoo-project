@@ -38,9 +38,15 @@ class GitRepo(models.TransientModel):
             if task and not update_modules:
                 continue 
             if not task:
-                task = self.env['project.task'].create({'name':content_file ,'git_module': content_file, 'project_id': project.id})
+                task = self.env['project.task'].create({
+                    'name':content_file ,
+                    'git_module': content_file, 
+                    'git_repo': git_repo, 
+                    'git_owner': git_owner,
+                    'is_odoo_module': True,
+                    'project_id': project.id})
             _logger.info(f"{content_file=}")  
-            branch = task.load_manifest(git_owner=author,git_repo=repo_name)
+            branch = task.load_manifest()
             _logger.info(f"{branch=}")  
             if task.odoo_version != branch:
                 task.message_post(body=f"""
@@ -49,8 +55,6 @@ class GitRepo(models.TransientModel):
             version_ids = self.env['project.task.type']
             version_ids = [stage for stage in self.env['project.task.type'].search([('project_ids','in',project_id),('name','in',branches)])]
             task.write({
-                            'git_repo': repo_name,
-                            'git_owner': author,
                             'odoo_version': branch,
                             'module_branches': ','.join(branches),
                             'module_version_ids': [(6,0,[version.id for version in version_ids])],
@@ -58,8 +62,8 @@ class GitRepo(models.TransientModel):
             
             if stakeholder:
                 task.module_stakeholder_ids = [(4,0,stakeholder.id)]
-            task.load_banner(git_owner=author,git_repo=repo_name)
-            task.load_index(git_owner=author,git_repo=repo_name)
+            task.load_banner()
+            task.load_index()
                     
             # Put it on the highest branch stage
             version_id = self.env['project.task.type'].search([('project_ids','in',project_id),('name','=',branch)])
