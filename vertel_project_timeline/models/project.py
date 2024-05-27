@@ -1,10 +1,12 @@
 from odoo import api, Command, fields, models, tools, SUPERUSER_ID, _, _lt
 from odoo.osv import expression
 
+
 class ProjectTaskType(models.Model):
     _inherit = "project.task.type"
-    
+
     crossed_over_in_timeline = fields.Boolean(string="Crossed Over Timeline")
+
 
 class ProjectTask(models.Model):
     _inherit = "project.task"
@@ -29,5 +31,3 @@ class ProjectTask(models.Model):
         #     return self.arrange_tag_list_by_id(
         #         super().search_read(domain=domain, fields=fields, offset=offset, limit=limit), tag_ids)
         return super().search_read(domain=domain, fields=fields, offset=offset, limit=limit, order=order)
-        
-    

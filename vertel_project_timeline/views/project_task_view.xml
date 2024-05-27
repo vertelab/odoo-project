@@ -56,62 +56,34 @@
                 <field name="user_ids" />
                 <field name="planned_hours" />
                 <field name="crossed_over_in_timeline"/>
+                <field name="kanban_state"/>
                 <templates>
                     <t t-name="timeline-item">
-                        <t t-if="record.crossed_over_in_timeline">
-                                <div class="o_project_timeline_item crossed-out">
-                                    <t t-foreach="record.user_ids" t-as="user">
-                                        <img
-                                            t-if="record.user_ids"
-                                            t-attf-src="/web/image/res.users/#{user}/image_128/16x16"
-                                            t-att-title="record.user"
-                                            width="16"
-                                            height="16"
-                                            class="mr8"
-                                            alt="User"
-                                        />
-                                    </t>
-                                    <span name="display_name">
-                                        <t t-esc="record.display_name" />
-                                    </span>
-                                    <small
-                                        name="planned_hours"
-                                        class="text-info ml4"
-                                        t-if="record.planned_hours"
-                                    >
-                                        <t
-                                            t-esc="field_utils.format.float_time(record.planned_hours)"
-                                        />
-                                    </small>
-                                </div>
-                        </t>
-                        <t t-if="record.crossed_over_in_timeline === false">
-                            <div class="o_project_timeline_item">
-                               <t t-foreach="record.user_ids" t-as="user">
-                                        <img
-                                            t-if="record.user_ids"
-                                            t-attf-src="/web/image/res.users/#{user}/image_128/16x16"
-                                            t-att-title="record.user"
-                                            width="16"
-                                            height="16"
-                                            class="mr8"
-                                            alt="User"
-                                        />
-                                    </t>
-                                    <span name="display_name">
-                                        <t t-esc="record.display_name" />
-                                    </span>
-                                    <small
-                                        name="planned_hours"
-                                        class="text-info ml4"
-                                        t-if="record.planned_hours"
-                                    >
-                                        <t
-                                            t-esc="field_utils.format.float_time(record.planned_hours)"
-                                        />
-                                    </small>
-                            </div>
-                        </t>
+                        <div t-attf-class="o_project_timeline_item #{record.crossed_over_in_timeline || record.kanban_state == 'done' ? 'crossed-out' : ''}">
+                            <t t-foreach="record.user_ids" t-as="user">
+                                <img
+                                    t-if="record.user_ids"
+                                    t-attf-src="/web/image/res.users/#{user}/image_128/16x16"
+                                    t-att-title="record.user"
+                                    width="16"
+                                    height="16"
+                                    class="mr8"
+                                    alt="User"
+                                />
+                            </t>
+                            <span name="display_name">
+                                <t t-esc="record.display_name" />
+                            </span>
+                            <small
+                                name="planned_hours"
+                                class="text-info ml4"
+                                t-if="record.planned_hours"
+                            >
+                                <t
+                                    t-esc="field_utils.format.float_time(record.planned_hours)"
+                                />
+                            </small>
+                        </div>
                     </t>
                 </templates>
             </timeline>
