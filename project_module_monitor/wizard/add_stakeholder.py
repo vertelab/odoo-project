@@ -109,12 +109,10 @@ class AddStakeholder(models.TransientModel):
             repos = set()
             repos_dict = {}
             for module in failed_modules:
-                base_path = "/home/ayomir/odoo/14.0"
+                base_path = "/usr/share"
 
                 # if module[1] in ['Odoo S.A.', 'Odoo']:
                 #     continue
-
-
                 command = f'find {base_path} -type f -wholename "*/{module[0]}/__manifest__.py"'
                 #repo = os.popen(f'locate {module[0]}/__manifest__.py').read().split('/')
                 module_path = os.popen(command).read().splitlines()
