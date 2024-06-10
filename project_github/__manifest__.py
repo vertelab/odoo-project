@@ -35,6 +35,9 @@
        
     """,
     'depends': ['project'],
+    'external_dependencies': {
+        'python': ['PyGithub']
+    },
     'data': [
         'views/project_views.xml',
       ],
