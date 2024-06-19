@@ -16,3 +16,5 @@ class Project(models.Model):
         projects = self.env['project.project'].search([('','','')])
 
  
+    def check_coi(self):
+        pass

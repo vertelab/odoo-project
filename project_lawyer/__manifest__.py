@@ -39,12 +39,13 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['base','account_asset_management', 'contacts', 'project'],
+    'depends': ['contacts', 'project'],
     # always loaded
     'data': [
-        # ~ 'security/ir.model.access.csv',
-        '/views/project_views.xml',
+        
+        'views/project_views.xml',
     ],
     'application': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
+# ~ 'security/ir.model.access.csv',
