@@ -38,12 +38,10 @@
     'contributor': '',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    # Any module necessary for this one to work correctly
-    'depends': ['contacts', 'project'],
-    # always loaded
+    'depends': ['contacts', 'project', 'privacy_lookup'],
     'data': [
-        
         'views/project_views.xml',
+        'wizard/privacy_lookup_wizard_views.xml',
     ],
     'application': True,
 }
