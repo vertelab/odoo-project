@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -22,14 +22,12 @@
 {
     'name': 'Project: Lawyer',
     'version': '17.0.0.0.1',
-    'summary': 'Concflict of interest check and other things.',
+    'summary': 'Find conflicts of interest inside of Odoo with this module',
     'category': 'Productivity',
     'description': """
-        - Check for conflict of interest flag
-        - Checkbox Conflict of integrerst done
-        - Counterpart
-        - Stakeholder_ids
-        - Lawyertype project
+        This module make it possible to find conflicts of interest in Odoo 17.
+        By specifying a project as a lawyer project in the standard project module.
+        With this module you can get all mentions of a contact in Odoo to manually review possible conflicts of interest.
     """,
     'sequence': '280',
     'author': 'Vertel AB',
@@ -46,4 +44,3 @@
     'application': True,
 }
 # vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
-# ~ 'security/ir.model.access.csv',
