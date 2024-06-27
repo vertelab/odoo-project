@@ -31,9 +31,6 @@
           <button name="action_privacy_lookup_stakeholders" string="Check Stakeholder COI" type="object" invisible="is_lawyer == False or is_reviewed_stakeholders_COI == False" class="oe_highlight disabled" />
           
         </header>
-        <notebook position="inside">
-          <page string="Lawyer info" invisible="is_lawyer == False" />
-        </notebook>
       </field>
     </record>
   </data>

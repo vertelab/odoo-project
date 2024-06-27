@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 class Project(models.Model):
     _inherit = 'project.project'
 
-    is_lawyer = fields.Boolean(string='Is Lawyer Project')
+    is_lawyer = fields.Boolean(string='Lawyer Project')
     counterpart_id = fields.Many2one(comodel_name='res.partner',string="Counterpart")
     stakeholder_ids = fields.Many2many(comodel_name='res.partner',string="Stakeholders")
     is_reviewed_customer_COI = fields.Boolean(string="", default=False)
