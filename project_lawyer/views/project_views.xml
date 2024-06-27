@@ -17,7 +17,19 @@
             <field name="counterpart_id" invisible="is_lawyer == False" />
         </field>
         <header position="inside">
-          <button name="check_coi" string="Check COI" type="object" invisible="is_lawyer == False" />
+          <field name="is_reviewed_customer_COI" invisible="1"/>
+          <field name="is_reviewed_counterpart_COI" invisible="1"/>
+          <field name="is_reviewed_stakeholders_COI" invisible="1"/>
+
+          <button name="action_privacy_lookup_customer" string="Check Customer COI" type="object" invisible="is_lawyer == False or is_reviewed_customer_COI == True" />
+          <button name="action_privacy_lookup_customer" string="Check Customer COI" type="object" invisible="is_lawyer == False or is_reviewed_customer_COI == False" class="oe_highlight disabled"/>
+
+          <button name="action_privacy_lookup_counterpart" string="Check Counterpart COI" type="object" invisible="is_lawyer == False or is_reviewed_counterpart_COI == True" />
+          <button name="action_privacy_lookup_counterpart" string="Check Counterpart COI" type="object" invisible="is_lawyer == False or is_reviewed_counterpart_COI == False" class="oe_highlight disabled" />
+
+          <button name="action_privacy_lookup_stakeholders" string="Check Stakeholder COI" type="object" invisible="is_lawyer == False or is_reviewed_stakeholders_COI == True" />
+          <button name="action_privacy_lookup_stakeholders" string="Check Stakeholder COI" type="object" invisible="is_lawyer == False or is_reviewed_stakeholders_COI == False" class="oe_highlight disabled" />
+          
         </header>
         <notebook position="inside">
           <page string="Lawyer info" invisible="is_lawyer == False" />
