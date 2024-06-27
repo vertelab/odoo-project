@@ -29,7 +29,7 @@
     """,
     'sequence': '280',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_store',
+    'website': 'https://vertel.se/apps/odoo-project/project_it_assets',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
