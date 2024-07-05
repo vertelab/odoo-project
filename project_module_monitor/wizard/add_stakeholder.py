@@ -28,7 +28,17 @@ class AddStakeholder(models.TransientModel):
     message_box = fields.Text(string='')
     project_id = fields.Many2one(comodel_name="project.project", default=lambda b: b.env.context.get('active_id'))
     addrepos_button = fields.Boolean()
-
+    branch = fields.Selection([
+        ('10.0', '10.0'),
+        ('11.0', '11.0'),
+        ('12.0', '12.0'),
+        ('13.0', '13.0'),
+        ('14.0', '14.0'),
+        ('15.0', '15.0'),
+        ('16.0', '16.0'),
+        ('17.0', '17.0'),
+        ('18.0', '18.0'),
+    ],default = '14.0', string="Branch") 
     def load_file(self):
         module_file = load_workbook(filename=BytesIO(base64.b64decode(self.stakeholder_file))).active
         author_pos = module_pos = None
@@ -164,15 +174,16 @@ class AddStakeholder(models.TransientModel):
         message_box = list(filter(None, self.message_box.split('\n')))
         for module_n_repo in message_box:
             repo_n_repo_url, modules = module_n_repo.split(',modules: ')
-            repo_name, repo_url = repo_n_repo_url.split(':origin ')
-
+            repo_url = repo_n_repo_url.split(':origin ')[-1]
+            repo_name = repo_n_repo_url.split("/")[-1].split('.git')[0]
+            
+            
             if self.env['project.project'].is_valid_git_url(repo_url):
                 repo_author = repo_url.split('git@github.com:')[-1].split('/')[0]
-                print("repo_author", repo_author, "repo_name", repo_name)
 
-                # for module in
+            # for module in
                 self.env['git.repos'].load_modules(
-                    author=repo_author, repo_name=repo_name, project_id=self.project_id.id
+                    author=repo_author, repo_name=repo_name, project_id=self.project_id.id,branch=self.branch
                 )
 
         # failed_modules = self.message_box.split('Failed modules: ')[1]
@@ -187,8 +198,8 @@ class AddStakeholder(models.TransientModel):
             #     missing_modules.append(m)
 
         # self.message_box = f"Missing modules {missing_modules}"
-        self.addrepos_button = False
-
+        #self.addrepos_button = False
+        
         return {
             "type": "ir.actions.act_window",
             "name": "Add Stakeholder",

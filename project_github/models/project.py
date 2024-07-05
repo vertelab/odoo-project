@@ -49,11 +49,12 @@ class ProjectProject(models.Model):
 
     @api.model
     def is_valid_git_url(self, string):
-        # Regular expression patterns for HTTP/HTTPS and SSH URLs
-        http_pattern = re.compile(r'^(https?://)([\w.-]+)(:\d+)?(/[\w./-]+)*$')
-        ssh_pattern = re.compile(r'^(git@)([\w.-]+):([\w./-]+)(\.git)?$')
+        # Regular expression patterns for HTTP/HTTPS and SSH URL
+        git_url_regex = "((http|git|ssh|http(s)|file|\/?)"\
+        "|(git@[\w\.]+))(:(\/\/)?)([\w\.@\:/\-~]+)(\.git)(\/)?"
+        git_url_pattern = re.compile(git_url_regex)
 
-        if http_pattern.match(string) or ssh_pattern.match(string):
+        if git_url_pattern.match(string):
             return True
         return False
 
@@ -84,11 +85,12 @@ class ProjectProject(models.Model):
         for branch in sorted(self._get_odoo_branches(git_owner, git_repo), reverse=True):
             branch_url = f"{GITHUB_RAW_URL}/{git_owner}/{git_repo}/{branch}/"
             response = requests.get(f"{branch_url}/{git_module}/__manifest__.py")
+            _logger.warning(f"response=")
             if response.status_code == 200:
                 return branch
         return None
 
-    def _get_git_contents(self, git_owner=None, git_repo=None):
+    def _get_git_contents(self, git_owner=None, git_repo=None, branch="14.0"):
         if not (git_owner and git_repo):
             git_owner = self.git_owner
             git_repo = self.git_repo
@@ -101,7 +103,7 @@ class ProjectProject(models.Model):
             _logger.warning(f"Could not read {git_owner}/{git_repo} {e}")
             return []
 
-        contents = repo.get_contents("")
+        contents = repo.get_contents("", ref=branch)
         _logger.info(f"{contents=}")
         filenames = []
         for content_file in contents:
@@ -122,6 +124,7 @@ class ProjectProject(models.Model):
             branch_url = f"{GITHUB_RAW_URL}/{git_owner}/{git_repo}/{branch}"
             _logger.warning(f"get file---->   {branch_url}/{filename}")
             response = requests.get(f"{branch_url}/{filename}")
+            _logger.warning(f"{response=}")
             if response.status_code == 200:
                 return response.status_code, branch, response
         return None, None, None

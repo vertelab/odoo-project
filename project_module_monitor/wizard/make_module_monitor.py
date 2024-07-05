@@ -28,7 +28,9 @@ class GitRepo(models.TransientModel):
         branches = project._get_odoo_branches(git_owner=author, git_repo=repo_name)
 
         if branch and branch not in branches:
-            raise UserError(f"The request branch: {branch} does not exist in the {repo_name} repo")
+            _logger.warning(f"The request branch: {branch} does not exist in the {repo_name} repo")
+            return
+            #raise UserError(f"The request branch: {branch} does not exist in the {repo_name} repo")
 
         if branch:
             branches = [_branch for _branch in branches if branch and _branch == branch]
@@ -42,7 +44,7 @@ class GitRepo(models.TransientModel):
                     'monitor_odoo_version': True
                 })
 
-        for content_file in project._get_git_contents(git_owner=author, git_repo=repo_name):
+        for content_file in project._get_git_contents(git_owner=author, git_repo=repo_name, branch=branch):
             task = self.env['project.task'].search([
                 ('project_id', '=', project_id), ('git_module', '=', content_file)
             ])
@@ -88,8 +90,6 @@ class GitRepo(models.TransientModel):
             version_id = self.env['project.task.type'].search(
                 [('project_ids', 'in', project_id), ('name', '=', branch)])
             task.stage_id = version_id.id
-        # return missing_modules
-        # return True
 
 
 # TODO button for Add Repo at kanban view see crm_iap_lead

@@ -12,6 +12,7 @@
                             <field name="partner_id" />
                             <field name="exclude_odoosa" />
                             <field name="stakeholder_file" />
+                            <field name="branch"/>
                             <field name="odoo_server" />
                         </group>
                         <field name="message_box" readonly="1"/>
