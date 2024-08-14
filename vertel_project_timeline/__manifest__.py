@@ -4,7 +4,7 @@
 # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
 
 {
-    "name": "Vertel Project Timeline",
+    "name": "Project: Vertel Project Timeline",
     "summary": "Vertel Timeline view for Projects",
     "version": "1.0",
     "category": "Project Management",
