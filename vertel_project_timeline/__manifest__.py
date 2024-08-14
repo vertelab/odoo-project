@@ -6,7 +6,7 @@
 {
     "name": "Vertel Project Timeline",
     "summary": "Vertel Timeline view for Projects",
-    "version": "16.0.1.1.0",
+    "version": "1.0",
     "category": "Project Management",
     "website": "https://github.com/vertel/odoo-project",
     "author": "Vertel AB",
