@@ -30,6 +30,10 @@
     'category': 'Productivity',
     'description': """
         Flow between project and budget.
+
+    Depends:
+    mis_builder_budget
+    git@github.com:OCA/mis-builder.git
     """,
     #'sequence': '1',
     'sequence': '280',
