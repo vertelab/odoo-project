@@ -8,7 +8,7 @@
    version="1.1"
    id="SVGRoot"
    sodipodi:docname="icon_140x140.svg"
-   inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-project/vertel_project_timeline/static/description/icon.png"
+   inkscape:export-filename="/home/jakob/Dokument/Odoo16/odoo-project/project_event/static/description/icon.png"
    inkscape:export-xdpi="96"
    inkscape:export-ydpi="96"
    inkscape:version="1.1.2 (0a00cf5339, 2022-02-04)"
@@ -37,8 +37,8 @@
      showgrid="false"
      inkscape:window-width="1163"
      inkscape:window-height="962"
-     inkscape:window-x="922"
-     inkscape:window-y="205"
+     inkscape:window-x="757"
+     inkscape:window-y="90"
      inkscape:window-maximized="0"
      inkscape:pagecheckerboard="0" />
   <metadata
@@ -67,46 +67,26 @@
        style="stroke-width:4.65477753" />
     <text
        xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.2583px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
-       x="70.625237"
-       y="78.373016"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:17.3476px;line-height:125%;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';text-align:center;letter-spacing:0px;word-spacing:0px;writing-mode:lr-tb;text-anchor:middle;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.999998px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       x="70.554878"
+       y="94.489883"
        id="text2035"><tspan
          sodipodi:role="line"
-         x="70.625237"
-         y="78.373016"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.6814px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:1px"
-         id="tspan830">Vertel</tspan><tspan
-         sodipodi:role="line"
-         x="70.625237"
-         y="104.07339"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.6814px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:1px"
+         x="70.554878"
+         y="94.489883"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.8402px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.999998px"
          id="tspan637">Project</tspan><tspan
          sodipodi:role="line"
-         x="70.625237"
-         y="129.77376"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.6814px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:1px"
-         id="tspan639">Timeline</tspan></text>
+         x="70.554878"
+         y="120.32326"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:30.8402px;font-family:Ubuntu;-inkscape-font-specification:'Ubuntu, Normal';font-variant-ligatures:normal;font-variant-caps:normal;font-variant-numeric:normal;font-feature-settings:normal;text-align:center;writing-mode:lr-tb;text-anchor:middle;fill:#ffffff;stroke-width:0.999998px"
+         id="tspan2981">Event</tspan></text>
     <image
        width="50"
        height="40"
        preserveAspectRatio="none"
        style="image-rendering:optimizeQuality"
-       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAoCAYAAAC8cqlMAAAABHNCSVQICAgIfAhkiAAAAvFJREFU
-WIXtmM9r02AYx5+kDal2gXlzmmoZQ4azJ6GehlA6HMjag8cexrSMIcXK8LZN3K0MKbQiEwo7eBiF
-jiKDMYQe3PwDRpBOBh2tqGz20Ib+sNnS5PUwO7DbIcn7upTSzymH93me7/fN+7553gB0CVTrYXJy
-8rHb7b6rJUhVVUilUqnt7e1PJMVwHMeFQqFnPM9f0zK+UqnU4vF4/ODg4CcAAMzOzr5AOpFlWR4d
-Hb1P0sjW1tZnvTr29/cLdrvdDgAAgiAIehMghNDy8vI7UiaGhoZuGdGAEEJjY2MPaAAAi8ViNVKc
-YRhDcefBsixjNJamaaBJCTEbrBkNBAIBn8/nw8kRjUajkUgkgpMDANOI7S84OU43KiZds7S6xgjW
-0qrX6/VyuVzGySGKYgUnvgWWkWQymQwGg0ESQnDpmqVFAwA0m03ZbCGSJB0bjZVl+UR/KBR6riiK
-qrc1yGQyGWJOAGBjY+OjXg27u7tfWZa9dNr9jo+PP/R6vR6Kos4UQAhBX18fNz09HaTaBvj9/kfr
-6+tpEkYYhmFmZmaeOp3OGwghOE9LSw9FUXB4eFhMJBIJURRLugqtrq4m22ckl8vlbDbbZRJGLgye
-5/larfa73czc3NyC2dp0Mz8//7LdSLVarTocjptma9MFy7JsPp//1m5mbW2NyD65UCYmJvyqqv5z
-yimKong8Hq/Z2nSzubl55qgUBOELwzCGL0imMDw8fLvRaDRaJkqlkphOpz+4XC6X2dp0s7S09Boh
-hGKx2BuO4zgztZz/xdFIf3//lXA4HF5cXHwFAGC1WpmBgYGrWmKPjo6Oi8XiL5z6/wW3232vUCj8
-0NhZoGazqaysrLynabqzGtednR1Dv5SmpqaekKhPbDYcDsd1I3GDg4NOEvU767Vi0DPSafSMdBo9
-I51Gz0inQcxIPp//biQum83ukdJAhJGRkTvZbHZPa48lSZIUi8Xe0jRtIVEfq40/k4yiKIvFokkY
-QifXY1K1/wA8k//QCjI3OgAAAABJRU5ErkJggg==
-"
+       xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAoCAYAAAC8cqlMAAAABHNCSVQICAgIfAhkiAAAAvFJREFU WIXtmM9r02AYx5+kDal2gXlzmmoZQ4azJ6GehlA6HMjag8cexrSMIcXK8LZN3K0MKbQiEwo7eBiF jiKDMYQe3PwDRpBOBh2tqGz20Ib+sNnS5PUwO7DbIcn7upTSzymH93me7/fN+7553gB0CVTrYXJy 8rHb7b6rJUhVVUilUqnt7e1PJMVwHMeFQqFnPM9f0zK+UqnU4vF4/ODg4CcAAMzOzr5AOpFlWR4d Hb1P0sjW1tZnvTr29/cLdrvdDgAAgiAIehMghNDy8vI7UiaGhoZuGdGAEEJjY2MPaAAAi8ViNVKc YRhDcefBsixjNJamaaBJCTEbrBkNBAIBn8/nw8kRjUajkUgkgpMDANOI7S84OU43KiZds7S6xgjW 0qrX6/VyuVzGySGKYgUnvgWWkWQymQwGg0ESQnDpmqVFAwA0m03ZbCGSJB0bjZVl+UR/KBR6riiK qrc1yGQyGWJOAGBjY+OjXg27u7tfWZa9dNr9jo+PP/R6vR6Kos4UQAhBX18fNz09HaTaBvj9/kfr 6+tpEkYYhmFmZmaeOp3OGwghOE9LSw9FUXB4eFhMJBIJURRLugqtrq4m22ckl8vlbDbbZRJGLgye 5/larfa73czc3NyC2dp0Mz8//7LdSLVarTocjptma9MFy7JsPp//1m5mbW2NyD65UCYmJvyqqv5z yimKong8Hq/Z2nSzubl55qgUBOELwzCGL0imMDw8fLvRaDRaJkqlkphOpz+4XC6X2dp0s7S09Boh hGKx2BuO4zgztZz/xdFIf3//lXA4HF5cXHwFAGC1WpmBgYGrWmKPjo6Oi8XiL5z6/wW3232vUCj8 0NhZoGazqaysrLynabqzGtednR1Dv5SmpqaekKhPbDYcDsd1I3GDg4NOEvU767Vi0DPSafSMdBo9 I51Gz0inQcxIPp//biQum83ukdJAhJGRkTvZbHZPa48lSZIUi8Xe0jRtIVEfq40/k4yiKIvFokkY QifXY1K1/wA8k//QCjI3OgAAAABJRU5ErkJggg== "
        id="image22"
        x="5.7423096"
        y="5.0253296" />
