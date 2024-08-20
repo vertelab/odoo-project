@@ -1,0 +1,41 @@
+<odoo>
+    <data>
+        <record id="project_project_form_view" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header/button[last()]" position="after">
+                    <button name="action_create_asset" string="Create Asset" type="object" class="oe_highlight" groups="project.group_project_manager"/>
+                </xpath>
+
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button ps-2" icon="fa-list" name="action_view_assets" type="object" groups="project.group_project_user">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="asset_count" nolabel="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Assets
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Assets">
+                        <field name="asset_ids">
+                            <tree>
+                                <field name="name"/>
+                                <field name="date_start"/>
+                                <field name="purchase_value"/>
+                                <field name="value_depreciated"/>
+                                <field name="value_residual"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
