@@ -1,0 +1,37 @@
+<odoo>
+    <data>
+        <record id="project_project_form_view" model="ir.ui.view">
+            <field name="name">project.project.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@name='button_box']" position="inside">
+                    <button class="oe_stat_button ps-2" icon="fa-list" name="action_view_sub_projects" type="object" groups="project.group_project_user">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value">
+                                <field name="sub_project_count" nolabel="1"/>
+                            </span>
+                            <span class="o_stat_text">
+                                Sub-Projects
+                            </span>
+                        </div>
+                    </button>
+                </xpath>
+
+                <field name="tag_ids" position="after">
+                    <field name="parent_id"/>
+                </field>
+                <xpath expr="//page[last()]" position="after">
+                    <page string="Sub-Projects">
+                        <field name="child_ids" widget="many2many" domain="['!', ('id', 'parent_of', id)]">
+                            <tree editable="bottom">
+                                <field name="name"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>
