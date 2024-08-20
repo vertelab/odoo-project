@@ -98,7 +98,6 @@ class Project(models.TransientModel):
             'res_model': 'account.asset',
             'res_id': account_asset_id.id,
             'type': 'ir.actions.act_window',
-            # 'context': self._context
         }
 
     def action_create_asset(self):
