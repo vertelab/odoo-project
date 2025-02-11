@@ -61,6 +61,7 @@ class GitHubWebHooks(http.Controller):
         added = payload_dict.get('head_commit',{}).get('added',[])
         removed = payload_dict.get('head_commit',{}).get('removed',[])
         modified = payload_dict.get('head_commit',{}).get('modified',[])
+        url = payload_dict.get('head_commit',{}).get('url',"")
         
         # ~ _logger.warning(f"Data: {task_number=} {message=}  {branch=} {repo=}")
         # ~ _logger.warning(f"Data: {committer_name=} {committer_email=}  {added=} {removed=} {modified=}")
@@ -94,7 +95,7 @@ class GitHubWebHooks(http.Controller):
             project = task.project_id
         author_id= user.id if user else request.env.user.id
         foo = task.sudo().message_post(
-            body=f"Github post {message} [{branch=}] {repo=}\n{committer_name} {committer_email}\n{added=}\n{removed=}\n{modified=}",
+            body=f"Github post {message} [{branch=}] {repo=}<br/>{committer_name} {committer_email}<br/>{added=}<br/>{removed=}<br/>{modified=}<br/>{url}",
             author_id=author_id,  
             # ~ message_type='comment',
             message_type='notification',

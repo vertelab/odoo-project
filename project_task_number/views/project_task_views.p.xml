@@ -18,7 +18,11 @@
     <field name="inherit_id" ref="project.view_task_form2" />
     <field name="arch" type="xml">
       <field name="priority" position="replace">
+<!-- #if VERSION > "17.0"-->
         <field name="priority" widget="priority_switch" class="me-3" />
+<!-- #elif VERSION < "18.0"-->
+        <field name="priority" widget="priority" class="mr-3" />
+<!-- #endif -->       
         <span class="text-muted small" style="white-space: nowrap;">
             [<field name="number" />]
         </span>
@@ -26,12 +30,12 @@
     </field>
   </record>
   <!-- Inherit List View -->
-  <record id="view_task_tree_task_number" model="ir.ui.view">
+  <record id="view_task_tree2" model="ir.ui.view">
     <field name="name">task.tree.task.number</field>
     <field name="model">project.task</field>
     <field name="inherit_id" ref="project.view_task_tree2" />
     <field name="arch" type="xml">
-      <field name="name" position="before">
+      <field name="sequence" position="after">
         <field name="number" />
       </field>
     </field>
