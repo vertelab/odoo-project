@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Task Number',
-    'version': '0.1',
+    'version': '1.0',
     'summary': 'Gives every task an uniq id',
     'category': 'Productivity',
     'description': """

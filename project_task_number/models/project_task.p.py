@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from odoo import api, Command, fields, models, tools, SUPERUSER_ID, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 import logging
 
@@ -21,7 +21,8 @@ class Task(models.Model):
         return super().create(vals_list)
 
     def write(self, vals):
-        if 'number' not in vals:
+        # ~ if 'number' not in vals:
+        if True:
             for record in self:
                 if record.number == _('New'):
                     vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
