@@ -13,8 +13,6 @@ import uuid
 
 _logger = logging.getLogger(__name__)
 
-
-
 class GitHubWebHooks(http.Controller):
 
     @http.route(['/task/push'], type='json', auth="public", methods=["POST"], csrf=False)
