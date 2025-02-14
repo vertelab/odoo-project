@@ -82,6 +82,8 @@ class GitHubWebHooks(http.Controller):
 
     def check_signature(self):
         secret = tools.config.get("githook_secret", "").encode("utf-8")
+        if secret == b'':
+            _logger.error(f"No secret in odoo.conf for githooks!!!!!!!")
         signature = request.httprequest.headers.get('X-Hub-Signature-256')
         computed_signature = 'sha256=' + hmac.new(secret, request.httprequest.data, hashlib.sha256).hexdigest()
         _logger.warning(f"Signature {signature=} {computed_signature=}")
