@@ -29,13 +29,15 @@ class GitHubWebHooks(http.Controller):
     def sync_pfiles(self, **payload):       
         self.check_signature()
         git_dict = self.get_git_data()
-        if "Do not p-file sync" in git_dict.get("message"):
+        source_branch = git_dict.get("branch")
+        pattern = "^[0-9]+\.0$"
+        match = re.search(pattern, source_branch)
+        if (not match or not match.group()) or "Do not p-file sync" in git_dict.get("message"):
             return {"status": "success", "message": "Webhook Ignored"}
         p_files = self._get_p_files(git_dict)
         new_dir = str(uuid.uuid4())
         new_path = f"/var/lib/odoo/{new_dir}"
         new_repo_path = f"{new_path}/{git_dict.get('repo')}"
-        source_branch = git_dict.get("branch")
         self.run(["mkdir", f"{new_path}"], capture_output=True, text=True)
         self.run(["git", "clone", "-b", f"{source_branch}", f"git@github.com:vertelab/{git_dict.get('repo')}.git", f"{new_repo_path}"], capture_output=True, text=True)
         branch_list = self.run(["git", "-C", f"{new_repo_path}", "branch", "-r"], capture_output=True, text=True)
@@ -61,12 +63,14 @@ class GitHubWebHooks(http.Controller):
             self.run(["git", "-C", f"{new_repo_path}", "commit", "-m", f"odoobranchpfile {git_dict.get('repo')} from {source_branch}. Do not p-file sync"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "push"], capture_output=True, text=True)
 
+        self.run(["rm", "-r", f"{new_path}"], capture_output=True, text=True)
+
         return {"status": "success", "message": "Webhook P-file sync processed successfully."}
 
     def run(self, *popenargs, **kwargs):
         result = subprocess.run(*popenargs, **kwargs)
         if result.returncode != 0:
-            _logger.warning(f"The command {result.args} got this following error {result.stderr if result.stderr else result.stdout}")
+            _logger.warning(f"The command '{' '.join(result.args)}' got this following error '{result.stderr if result.stderr else result.stdout}'")
         return result
 
 
@@ -78,6 +82,8 @@ class GitHubWebHooks(http.Controller):
 
     def check_signature(self):
         secret = tools.config.get("githook_secret", "").encode("utf-8")
+        if secret == b'':
+            _logger.error(f"No secret in odoo.conf for githooks!!!!!!!")
         signature = request.httprequest.headers.get('X-Hub-Signature-256')
         computed_signature = 'sha256=' + hmac.new(secret, request.httprequest.data, hashlib.sha256).hexdigest()
         _logger.warning(f"Signature {signature=} {computed_signature=}")
@@ -125,12 +131,11 @@ class GitHubWebHooks(http.Controller):
             user_ids = [(6,0,[user.id])] if user else None
             task = request.env['project.task'].sudo().create({'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"],'user_ids': user_ids })
             # #elif VERSION <= "14.0"
-            user_id = user.id if user else None
-            task = request.env['project.task'].sudo().create({'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"],'user_id': user_id })
+            task = request.env['project.task'].sudo().create({'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"],'user_id': user.id if user else None })
             # #endif
         if not project:
             project = task.project_id
-        author_id= user.id if user else request.env.user.id
+        author_id= user.partner_id.id if user else request.env.user.partner_id.id
         message_id = task.sudo().message_post(
             body=f'Github post {git_dict.get("message")} [Branch={git_dict["branch"]}] Repo={git_dict["repo"]}<br/>{git_dict.get("committer_name")} {git_dict.get("committer_email")}<br/>Added={git_dict.get("added")}<br/>Removed={git_dict.get("removed")}<br/>Modified={git_dict.get("modified")}<br/>{git_dict.get("url")}',
             author_id=author_id,  
