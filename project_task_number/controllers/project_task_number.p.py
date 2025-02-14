@@ -14,19 +14,6 @@ import uuid
 _logger = logging.getLogger(__name__)
 
 
-# Input string
-message = 'Heksan T/0003'
-
-# Regular expression to extract T-number
-match = re.search(r'T/\d{4}', message)
-
-if match:
-    t_number = match.group()
-    print(t_number)  # Output: T/0003
-else:
-    print("No match found")
-
-
 
 class GitHubWebHooks(http.Controller):
 
@@ -67,11 +54,11 @@ class GitHubWebHooks(http.Controller):
         raw_payload = request.httprequest.data
         payload_dict = json.loads(raw_payload.decode('utf-8'))
             
+        message = payload_dict.get('head_commit',{}).get('message')
         match = re.search(r'T/\d{4}', message)
-
         git_dict = {
             "match": re.search(r'T/\d{4}', payload_dict.get('head_commit',{}).get('message')),
-            "task_number": match.group(),
+            "task_number": match.group() if match else "New",
             "branch": payload_dict.get('ref','x/x/x').split('/')[2],
             "message": payload_dict.get('head_commit',{}).get('message'),
             "repo": payload_dict.get('repository',{}).get('name'),
