@@ -8,10 +8,10 @@ import hmac
 import json
 import logging
 import re
+import subprocess
+import uuid
 
 _logger = logging.getLogger(__name__)
-
-
 
 class GitHubWebHooks(http.Controller):
 
@@ -20,29 +20,23 @@ class GitHubWebHooks(http.Controller):
         """
         Hanterar inkommande webhook från GitHub.
         """
-
         self.check_signature()
-        
         git_dict = self.get_git_data()
-
         self.find_project(git_dict)
-
-         # ~ "ref":"refs/heads/18.0",
-         # ~ "repository":{"id":855802141,"node_id":"R_kgDOMwKBHQ","name":"odoo-management-system","full_name":"vertelab/odoo-management-system","private":false,"owner":{"name":"vertelab","email":"support@vertel.se","login":"vertelab","id":10434571,"node_id":"MDEyOk9yZ2FuaXphdGlvbjEwNDM0NTcx","avatar_url":"https://avatars.githubusercontent.com/u/10434571?v=4","gravatar_id":"","url":"https://api.github.com/users/vertelab","html_url":"https://github.com/vertelab","followers_url":"https://api.github.com/users/vertelab/followers","following_url":"https://api.github.com/users/vertelab/following{/other_user}","gists_url":"https://api.github.com/users/vertelab/gists{/gist_id}","starred_url":"https://api.github.com/users/vertelab/starred{/owner}{/repo}","subscriptions_url":"https://api.github.com/users/vertelab/subscriptions","organizations_url":"https://api.github.com/users/vertelab/orgs","repos_url":"https://api.github.com/users/vertelab/repos","events_url":"https://api.github.com/users/vertelab/events{/privacy}","received_events_url":"https://api.github.com/users/vertelab/received_events","type":"Organization","user_view_type":"public","site_admin":false},"html_url":"https://github.com/vertelab/odoo-management-system","description":null,"fork":false,"url":"https://github.com/vertelab/odoo-management-system","forks_url":"https://api.github.com/repos/vertelab/odoo-management-system/forks","keys_url":"https://api.github.com/repos/vertelab/odoo-management-system/keys{/key_id}","collaborators_url":"https://api.github.com/repos/vertelab/odoo-management-system/collaborators{/collaborator}","teams_url":"https://api.github.com/repos/vertelab/odoo-management-system/teams","hooks_url":"https://api.github.com/repos/vertelab/odoo-management-system/hooks","issue_events_url":"https://api.github.com/repos/vertelab/odoo-management-system/issues/events{/number}","events_url":"https://api.github.com/repos/vertelab/odoo-management-system/events","assignees_url":"https://api.github.com/repos/vertelab/odoo-management-system/assignees{/user}",
-
-          # ~ "head_commit":{
-        # ~ "id":"6a1577789f5bb6e31b671998c2b72110d2253e18","tree_id":"3e4dc250f2c1d12a8d989292b504cdba114e677f","distinct":true,"message":"sadgfh","timestamp":"2025-02-11T12:03:06Z","url":"https://github.com/vertelab/odoo-management-system/commit/6a1577789f5bb6e31b671998c2b72110d2253e18","author":{"name":"Anders Wallenquist","email":"anders.wallenquist@vertel.se","username":"anderswallenquist"},
-        # ~ "committer":{"name":"Anders Wallenquist","email":"anders.wallenquist@vertel.se","username":"anderswallenquist"},
-        # ~ "added":[],
-        # ~ "removed":[],
-        # ~ "modified":["mgmtsystem_add_law/__manifest__.py"]
-  # ~ }
-       
         return {"status": "success", "message": "Webhook processed successfully"}
 
-        # ~ except Exception as e:
-            # ~ _logger.error("Error processing webhook: %s", str(e))
-            # ~ return {"status": "error", "message": str(e)}
+    @http.route(['/sync/pfiles'], type='json', auth="public", methods=["POST"], csrf=False)
+    def sync_pfiles(self, **payload):
+        self.check_signature()
+        git_dict = self.get_git_data()
+        new_dir = str(uuid.uuid4())
+        new_path = f"var/lib/odoo/{new_dir}"
+        new_repo_path = f"{new_path}/{git_dict.get("repo")}"
+        branch = git_dict.get("branch")
+        subprocess.run(["mkdir", f"{new_path}"], shell=True)
+        subprocess.run(["git clone", "-b", f"{branch}", f"git@github.com:vertelab/{git_dict.get("repo")}.git", f"{new_repo_path}"], shell=True)
+        subprocess.run(["git", "-C", f"{new_repo_path}", "checkout", f"{branch}"])
+
 
     def check_signature(self):
         secret = b"123"
@@ -53,15 +47,10 @@ class GitHubWebHooks(http.Controller):
 
         # ~ if not hmac.compare_digest(signature, computed_signature):
             # ~ return {"status": "error", "message": "Invalid signature"}
-    
+
     def get_git_data(self):
         raw_payload = request.httprequest.data
         payload_dict = json.loads(raw_payload.decode('utf-8'))
-
-            # Logga rådata för felsökning
-        # ~ _logger.warning(f"Raw payload: {raw_payload}")
-
-        # ~ _logger.warning(f"head_commit: {payload_dict.get('head_commit')=} {payload_dict.get('head_commit',{}).get('message')=}")
             
         message = payload_dict.get('head_commit',{}).get('message')
         match = re.search(r'T/\d{4}', message)
