@@ -10,6 +10,7 @@ import logging
 import re
 import subprocess
 import uuid
+import os
 
 _logger = logging.getLogger(__name__)
 
@@ -40,27 +41,18 @@ class GitHubWebHooks(http.Controller):
         new_repo_path = f"{new_path}/{git_dict.get('repo')}"
         self.run(["mkdir", f"{new_path}"], capture_output=True, text=True)
         self.run(["git", "clone", "-b", f"{source_branch}", f"git@github.com:vertelab/{git_dict.get('repo')}.git", f"{new_repo_path}"], capture_output=True, text=True)
+        self.addpreprocess(new_repo_path)
         branch_list = self.run(["git", "-C", f"{new_repo_path}", "branch", "-r"], capture_output=True, text=True)
-        branch_list = branch_list.stdout.replace("  ","").replace("origin/","").split("\n")
-        branch_list.pop(-1)
-        for branch in branch_list:
-            try:
-                float(branch)
-            except:
-                branch_list.remove(branch)
-        for branch in branch_list:
-            try:
-                float(branch)
-            except:
-                branch_list.remove(branch)
+        pattern="(?:origin\/)([0-9]+.0)"
+        branch_list = list(set(re.findall(pattern, branch_list.stdout)))
         _logger.error(f"{branch_list=}")
         for branch in branch_list:
             checkout_branch = self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{branch}"], capture_output=True, text=True)
-            _logger.error(f"{checkout_branch.stdout=}")
+            _logger.info(f"{checkout_branch.stdout=}")
             for p_file in p_files:
                 self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{source_branch}", f"{p_file}"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "add", "."], capture_output=True, text=True)
-            self.run(["git", "-C", f"{new_repo_path}", "commit", "-m", f"odoobranchpfile {git_dict.get('repo')} from {source_branch}. Do not p-file sync"], capture_output=True, text=True)
+            self.run(["git", "-C", f"{new_repo_path}", "commit", "-m", f"odoobranchpfile {git_dict.get('repo')} from {source_branch}. Do not p-file sync {git_dict.get('task_number', '')}"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "push"], capture_output=True, text=True)
 
         self.run(["rm", "-r", f"{new_path}"], capture_output=True, text=True)
@@ -68,10 +60,23 @@ class GitHubWebHooks(http.Controller):
         return {"status": "success", "message": "Webhook P-file sync processed successfully."}
 
     def run(self, *popenargs, **kwargs):
+        ignore_errors=["nothing to commit, working tree clean"]
         result = subprocess.run(*popenargs, **kwargs)
-        if result.returncode != 0:
+        if result.returncode != 0 and not any([ignore_error in result.stdout for ignore_error in ignore_errors]):
+            if "error: pathspec" in result.stderr:
+                self.create_missing_dirs(result)
             _logger.warning(f"The command '{' '.join(result.args)}' got this following error '{result.stderr if result.stderr else result.stdout}'")
         return result
+
+    def addpreprocess(self, new_repo_path):
+        if not os.path.exists("/usr/local/bin/preprocess"):
+            raise Exception("Preprocess is not installed globally. Please install it with 'sudo pip install preprocess'.")
+        if not os.path.exists(f"{new_repo_path}/.git/hooks/post-checkout"):
+            self.run(["curl", "https://raw.githubusercontent.com/vertelab/odootools/common/post-checkout", "-o", f"{new_repo_path}/.git/hooks/post-checkout", "-s"], capture_output=True, text=True)
+            self.run(["chmod", "a+x", f"{new_repo_path}/.git/hooks/post-checkout"], capture_output=True, text=True)
+
+    def create_missing_dirs(self, result):
+        pass
 
     def check_git_login(self):
         if self.run(["git", "config", "--global", "user.email"]).stdout != "vertelbot@vertel.se":
@@ -99,7 +104,7 @@ class GitHubWebHooks(http.Controller):
         match = re.search(r'T/\d{4}', message)
         git_dict = {
             "match": re.search(r'T/\d{4}', payload_dict.get('head_commit',{}).get('message')),
-            "task_number": match.group() if match else False,
+            "task_number": match.group() if match else "",
             "branch": payload_dict.get('ref','x/x/x').split('/')[2],
             "message": payload_dict.get('head_commit',{}).get('message'),
             "repo": payload_dict.get('repository',{}).get('name'),
