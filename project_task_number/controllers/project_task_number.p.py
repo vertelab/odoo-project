@@ -35,7 +35,7 @@ class GitHubWebHooks(http.Controller):
         match = re.search(pattern, source_branch)
         if (not match or not match.group()) or "Do not p-file sync" in git_dict.get("message"):
             return {"status": "success", "message": "Webhook Ignored"}
-        p_files = self._get_p_files(git_dict)
+        files = self._get_files(git_dict)
         new_dir = str(uuid.uuid4())
         new_path = f"/var/lib/odoo/{new_dir}"
         new_repo_path = f"{new_path}/{git_dict.get('repo')}"
@@ -49,8 +49,8 @@ class GitHubWebHooks(http.Controller):
         for branch in branch_list:
             checkout_branch = self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{branch}"], capture_output=True, text=True)
             _logger.info(f"{checkout_branch.stdout=}")
-            for p_file in p_files:
-                self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{source_branch}", f"{p_file}"], capture_output=True, text=True)
+            for file in files:
+                self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{source_branch}", f"{file}"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "add", "."], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "commit", "-m", f"odoobranchpfile {git_dict.get('repo')} from {source_branch}. Do not p-file sync {git_dict.get('task_number', '')}"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "push"], capture_output=True, text=True)
@@ -152,12 +152,14 @@ class GitHubWebHooks(http.Controller):
         _logger.warning(f'Success: {user=} {task=}  {project=} {git_dict.get("message")=} {git_dict["task_number"]=} {message_id.body=} {message_id.author_id.name=}')
 
 
-    def _get_p_files(self,git_dict):
-        p_files = []
+    def _get_files(self,git_dict):
+        strings_of_interest = [".p.", "index.html", ".png", ".jpg"]
+        files = []
         for commit in git_dict.get('commits'):
-            p_files.extend(filter(lambda added: ".p." in added,commit.get("added", [])))
-            p_files.extend(filter(lambda modified: ".p." in modified,commit.get("modified", [])))
-        p_files = list(set(p_files))
-        _logger.error(f"{p_files=}") 
-        return p_files
+            for string in strings_of_interest:
+                files.extend(filter(lambda added: string in added,commit.get("added", [])))
+                files.extend(filter(lambda modified: string in modified,commit.get("modified", [])))
+        files = list(set(files))
+        _logger.error(f"{files=}") 
+        return files
         
