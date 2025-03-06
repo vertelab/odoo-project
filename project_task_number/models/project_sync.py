@@ -49,9 +49,9 @@ class MailChannel(models.Model):
         delete_when_done = False
 
     def check_git_login(self):
-        if self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout != "vertelbot@vertel.se":
+        if "vertelbot@vertel.se" not in self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout:
             self.run(["git", "config", "--global", "user.email", "vertelbot@vertel.se"], capture_output=True, text=True)
-        if self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout != "vertelbot":
+        if "vertelbot" not in self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout:
             self.run(["git", "config", "--global", "user.name", "vertelbot"], capture_output=True, text=True)    
     
     def send_email(self, result):
