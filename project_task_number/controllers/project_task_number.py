@@ -74,7 +74,7 @@ class GitHubWebHooks(http.Controller):
                 ], limit=1)
         _logger.error(f"{user=}")
         res_partner_id = request.env['res.partner'].sudo().search([("email", "=", git_dict.get("committer_email"))], limit=1)
-        author_id=get_author_id(res_partner_id)
+        author_id=self.get_author_id(res_partner_id)
         task = self.find_task(git_dict)
         _logger.error(f"{task=}")
         project = self.find_project(git_dict,task)

@@ -49,9 +49,9 @@ class MailChannel(models.Model):
         delete_when_done = False
 
     def check_git_login(self):
-        if self.run(["git", "config", "--global", "user.email"]).stdout != "vertelbot@vertel.se":
+        if self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout != "vertelbot@vertel.se":
             self.run(["git", "config", "--global", "user.email", "vertelbot@vertel.se"], capture_output=True, text=True)
-        if self.run(["git", "config", "--global", "user.email"]).stdout != "vertelbot":
+        if self.run(["git", "config", "--global", "user.email"], capture_output=True, text=True).stdout != "vertelbot":
             self.run(["git", "config", "--global", "user.name", "vertelbot"], capture_output=True, text=True)    
     
     def send_email(self, result):
@@ -72,7 +72,7 @@ class MailChannel(models.Model):
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
-            author_id = res_partner_id.partner_id.id if res_partner_id else request.env.user.partner_id.id
+            author_id = res_partner_id.id if res_partner_id else self.env.user.partner_id.id
 
     def _get_files(self,git_dict):
         strings_of_interest = [".p.", "index.html", ".png", ".jpg"]
@@ -88,6 +88,7 @@ class MailChannel(models.Model):
     def sync(self,git_dict):
         source_branch = git_dict.get("branch")
         files = self._get_files(git_dict)
+        self.check_git_login()
         new_dir = str(uuid.uuid4())
         new_path = f"/var/lib/odoo/{new_dir}"
         new_repo_path = f"{new_path}/{git_dict.get('repo')}"
