@@ -44,7 +44,7 @@ class MailChannel(models.Model):
             self.run(["chmod", "a+x", f"{new_repo_path}/.git/hooks/post-checkout"], capture_output=True, text=True)
 
     def subprocess_error(self, result):
-        _logger.error(f"{self.stderr_or_stdoutresult=}")
+        _logger.error(f"{self.stderr_or_stdout(result)=}")
         self.send_email(result)
         delete_when_done = False
 
