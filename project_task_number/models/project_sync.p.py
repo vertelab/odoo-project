@@ -72,7 +72,7 @@ class MailChannel(models.Model):
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
-            author_id = res_partner_id.partner_id.id if res_partner_id else request.env.user.partner_id.id
+            author_id = res_partner_id.partner_id.id if res_partner_id else self.env.user.partner_id.id
 
     def _get_files(self,git_dict):
         strings_of_interest = [".p.", "index.html", ".png", ".jpg"]
