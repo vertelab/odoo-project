@@ -12,12 +12,18 @@ class Task(models.Model):
 
     number = fields.Char("Number", default=lambda self: _('New'),
                      copy=False, readonly=True, tracking=True)
-    
-    def _get_selection_options(self):
-        # Compute your options here
-        return [('x_low',self.x_low),('x_high',self.x_high),('y_low',self.y_low),('y_high',self.y_high)]
-        
-    quadrant = fields.Selection(selection=_get_selection_options, string='Quadrant')
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('number', _('New')) == _('New'):
+                vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+        return super().create(vals_list)
 
-   
+    def write(self, vals):
+        # ~ if 'number' not in vals:
+        if True:
+            for record in self:
+                if record.number == _('New'):
+                    vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+        return super().write(vals)

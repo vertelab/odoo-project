@@ -20,22 +20,22 @@
 ##############################################################################
 
 {
-    'name': 'Project: Task Number',
+    'name': 'Project: Task SWOT',
     'version': '1.0',
-    'summary': 'Gives every task an uniq id',
+    'summary': 'add SWOT capabilities to a project',
     'category': 'Productivity',
     'description': """
-        This module gives every task a uniq number to be used for instance with webhooks on github
+        This module add SWOT (or other four field) capabilities to a project. Tasks get this attribute to position it in a quadrant
+        and at project level generate an image
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_task_number',
+    'website': 'https://vertel.se/apps/odoo-project/project_task_swot',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': ['project', "queue_job"],
+    'depends': ['project', "web_widget_mermaid_field"],
     'data': [
-        'data/sequence.xml',
-        'views/project_task_views.xml',
+        'views/project_project_views.xml',
     ],
     'application': True,
 }
