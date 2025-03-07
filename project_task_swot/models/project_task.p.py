@@ -15,7 +15,7 @@ class Task(models.Model):
     
     def _get_selection_options(self):
         # Compute your options here
-        return [('x_low',self.x_low),('x_high',self.x_high),('y_low',self.y_low),('y_high',self.y_high)]
+        return [('x_low',self.project_id.x_low),('x_high',self.project_id.x_high),('y_low',self.project_id.y_low),('y_high',self.project_id.y_high)]
         
     quadrant = fields.Selection(selection=_get_selection_options, string='Quadrant')
 
