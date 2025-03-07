@@ -16,6 +16,31 @@ class ProjectModuleMonitor(models.Model):
     def action_add_stakeholder(self):
         return self.env.ref('project_module_monitor.action_project_add_stakeholder_wizard_view').read()[0]
 
+
+    @api.model
+    def cron_monitor_module_version_segmented(self):
+        tasks = self.env['project.task'].search([
+            ('project_id.is_module_monitor', '=', True)
+        ], limit=50, order="last_check_datetime asc")
+
+        for task in tasks:
+            task.write({'last_check_datetime': fields.Datetime.now()})
+            _logger.warning(f"{task.name=}")
+            if task.module_version_ids and task.git_owner and task.git_repo:
+                branch = task.project_id._get_latest_branch(
+                    task.git_module,
+                    git_owner=task.git_owner,
+                    git_repo=task.git_repo
+                )
+                if task.odoo_version != branch:
+                    version_id = self.env['project.task.type'].search(
+                        [('project_ids', 'in', task.project_id.id), ('name', '=', branch)]
+                    )
+                    task.stage_id = version_id.id
+                    task.odoo_version = branch
+
+
+
     def cron_monitor_module_version(self):
         for project in self.env['project.project'].search([('is_module_monitor', '=', True)]):
             for task in project.task_ids:
@@ -48,7 +73,7 @@ class ProjectStage(models.Model):
 
 class ProjectTask(models.Model):
     _inherit = 'project.task'
-
+    last_check_datetime = fields.Datetime(default=fields.Datetime.now)
     module_stakeholder_ids = fields.Many2many(comodel_name='res.partner', string='Stake Holder')  # SKF, Dollar, SFM
     is_module_monitor = fields.Boolean(related="project_id.is_module_monitor")
     module_branches = fields.Char(string='Branches', )

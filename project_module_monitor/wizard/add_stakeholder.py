@@ -185,6 +185,7 @@ class AddStakeholder(models.TransientModel):
                 self.env['git.repos'].load_modules(
                     author=repo_author, repo_name=repo_name, project_id=self.project_id.id,branch=self.branch
                 )
+                
 
         # failed_modules = self.message_box.split('Failed modules: ')[1]
         # components = re.findall(r"\('.*?'\)", failed_modules)
