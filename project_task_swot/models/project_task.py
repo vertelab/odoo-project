@@ -7,17 +7,42 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
+
+class TaskQuadrant(models.Model):
+    _name = "project.task.quadrant"
+    quadrant = fields.Selection([('x_low', 'x_low'), ('x_high', 'x_high'), ('y_low', 'y_low'), ('y_high', 'y_high')])
+    name = fields.Char(compute="get_name_from_project_quadrant")
+    project_id = fields.Many2one('project.project')
+
+    def get_name_from_project_quadrant(self):
+        for record in self:
+            record.name = record.project_id[record.quadrant]
+
+
 class Task(models.Model):
     _inherit = "project.task"
 
     number = fields.Char("Number", default=lambda self: _('New'),
-                     copy=False, readonly=True, tracking=True)
-    
-    def _get_selection_options(self):
-        # Compute your options here
-        return [('x_low',self.project_id.x_low),('x_high',self.project_id.x_high),('y_low',self.project_id.y_low),('y_high',self.project_id.y_high)]
-        
-    quadrant = fields.Selection(selection=_get_selection_options, string='Quadrant')
+                         copy=False, readonly=True, tracking=True)
+    quadrant = fields.Many2one('project.task.quadrant', domain="[('project_id','=',project_id)]")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get('number', _('New')) == _('New'):
+                vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if True:
+            for record in self:
+                if record.number == _('New'):
+                    vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+        return super().write(vals)
+
+    coordinate = fields.Char(string="Coordinate", default="[0.3, 0.6]")
 
 
-   
+
+
+
