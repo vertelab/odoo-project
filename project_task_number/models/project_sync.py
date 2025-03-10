@@ -17,8 +17,7 @@ p_file_sync = "Do not p-file sync"
 delete_when_done = True
 
 class MailChannel(models.Model):
-    # _name = "project.sync"
-    _inherit = "mail.channel"
+    _inherit = "discuss.channel"
     _description = ""
 
     committer_email = fields.Char()

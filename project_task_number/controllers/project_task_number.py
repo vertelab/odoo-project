@@ -130,6 +130,6 @@ class GitHubWebHooks(http.Controller):
         match = re.search(pattern, source_branch)
         if (not match or not match.group()) or p_file_sync in git_dict.get("message"):
             return {"status": "success", "message": "Webhook Ignored"}
-        project_sync_id = request.env["mail.channel"].sudo().create({"name": f"{uuid.uuid4()}","committer_email": git_dict.get("committer_email", "vertelbot@vertel.se")})
+        project_sync_id = request.env["discuss.channel"].sudo().create({"name": f"{uuid.uuid4()}","committer_email": git_dict.get("committer_email", "vertelbot@vertel.se")})
         project_sync_id.with_delay().sync(git_dict)
         return {"status": "success", "message": "Webhook P-file sync processed successfully."}
