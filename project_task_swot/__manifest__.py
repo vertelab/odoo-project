@@ -36,6 +36,8 @@
     'depends': ['project', "web_widget_mermaid_field"],
     'data': [
         'views/project_project_views.xml',
+        'views/project_task_view.xml',
+        'security/ir.model.access.csv',
     ],
     'application': True,
 }

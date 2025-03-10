@@ -1,61 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-  <!-- Inherit Search View -->
-  <record id="view_task_search_form" model="ir.ui.view">
-    <field name="name">task.search.task.number</field>
-    <field name="model">project.task</field>
-    <field name="inherit_id" ref="project.view_task_search_form" />
-    <field name="arch" type="xml">
-      <field name="partner_id" position="after">
-        <field name="number" />
-      </field>
-    </field>
-  </record>
-  <!-- Inherit Form View -->
-  <record id="view_task_form_task_number" model="ir.ui.view">
-    <field name="name">task.form.task.number</field>
-    <field name="model">project.task</field>
-    <field name="inherit_id" ref="project.view_task_form2" />
-    <field name="arch" type="xml">
-      <field name="priority" position="replace">
-<!-- #if VERSION > "17.0"-->
-        <field name="priority" widget="priority_switch" class="me-3" />
-<!-- #elif VERSION < "18.0"-->
-        <field name="priority" widget="priority" class="mr-3" />
-<!-- #endif -->       
-        <span class="text-muted small" style="white-space: nowrap;">
-            [<field name="number" />]
-        </span>
-      </field>
-    </field>
-  </record>
-  <!-- Inherit List View -->
-  <record id="view_task_tree2" model="ir.ui.view">
-    <field name="name">task.tree.task.number</field>
-    <field name="model">project.task</field>
-    <field name="inherit_id" ref="project.view_task_tree2" />
-    <field name="arch" type="xml">
-      <field name="sequence" position="after">
-        <field name="number" />
-      </field>
-    </field>
-  </record>
-  <!-- Inherit Kanban View -->
-  <record id="view_task_kanban_task_number" model="ir.ui.view">
-    <field name="name">task.kanban.task.number</field>
-    <field name="model">project.task</field>
-    <field name="inherit_id" ref="project.view_task_kanban" />
-    <field name="arch" type="xml">
-      <kanban position="inside">
-        <field name="number" />
-      </kanban>
-      <xpath expr="//field[@name='name']" position="replace">
-                    <span class="text-muted small me-2" style="white-space: nowrap;">
-                        [<field name="number"/>]
-                            <field name="name" class="fw-bold fs-5"/>
-                    </span>
-                </xpath>
-      
-    </field>
-  </record>
+
+    <!-- Inherit Form View -->
+    <record id="view_project_project_form" model="ir.ui.view">
+        <field name="name">project.project.form</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <xpath expr="//page[last()]" position="after">
+                <page name="project_swot" string="SWOT">
+                    <group>
+                        <group>
+                            <field name="x_axis"/>
+                            <field name="x_low"/>
+                            <field name="y_low"/>
+                        </group>
+                        <group>
+                            <field name="y_axis"/>
+                            <field name="x_high"/>
+                            <field name="y_high"/>
+                        </group>
+                        <field name="swot_diagram" widget="mermaid"/>
+                    </group>
+                </page>
+            </xpath>
+        </field>
+    </record>
+
 </odoo>
