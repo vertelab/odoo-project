@@ -10,7 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class TaskQuadrant(models.Model):
     _name = "project.task.quadrant"
-    quadrant = fields.Selection([('x_low','x_low'),('x_high','x_high'),('y_low','y_low'),('y_high','y_high')])
+    quadrant = fields.Selection([('x_low', 'x_low'), ('x_high', 'x_high'), ('y_low', 'y_low'), ('y_high', 'y_high')])
     name = fields.Char(compute="get_name_from_project_quadrant")
     project_id = fields.Many2one('project.project')
 
@@ -23,7 +23,7 @@ class Task(models.Model):
     _inherit = "project.task"
 
     number = fields.Char("Number", default=lambda self: _('New'),
-                     copy=False, readonly=True, tracking=True)
+                         copy=False, readonly=True, tracking=True)
     quadrant = fields.Many2one('project.task.quadrant', domain="[('project_id','=',project_id)]")
 
     @api.model_create_multi
@@ -45,4 +45,4 @@ class Task(models.Model):
 
 
 
-   
+
