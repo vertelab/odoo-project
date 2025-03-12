@@ -44,19 +44,27 @@ class ProjectModuleMonitor(models.Model):
     def cron_monitor_module_version(self):
         for project in self.env['project.project'].search([('is_module_monitor', '=', True)]):
             for task in project.task_ids:
-                _logger.warning(f"{task.name=}")
                 if task.module_version_ids and task.git_owner and task.git_repo:
                     branch = task.project_id._get_latest_branch(
                         task.git_module,
                         git_owner=task.git_owner,
                         git_repo=task.git_repo
-                    )
+                    )                    
+                    
+                    #version_id = self.env['project.task.type'].search(
+                    #    [('project_ids', 'in', project.id), ('name', '=', branch)]
+                    #)
+                    
                     if task.odoo_version != branch:
                         version_id = self.env['project.task.type'].search(
                             [('project_ids', 'in', project.id), ('name', '=', branch)]
-                        )
+                        )                   
                         task.stage_id = version_id.id
                         task.odoo_version = branch
+                    #else:
+                    #    task.stage_id = version_id.id
+                        
+                self.env.cr.commit()
 
 
 class ProjectStage(models.Model):

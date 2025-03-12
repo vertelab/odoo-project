@@ -84,8 +84,10 @@ class ProjectProject(models.Model):
             git_repo = self.git_repo
         for branch in sorted(self._get_odoo_branches(git_owner, git_repo), reverse=True):
             branch_url = f"{GITHUB_RAW_URL}/{git_owner}/{git_repo}/{branch}/"
-            response = requests.get(f"{branch_url}/{git_module}/__manifest__.py")
-            _logger.warning(f"response=")
+            _logger.warning(f"{branch_url=}")
+            _logger.warning(f"{branch_url}{git_module}/__manifest__.py")
+            response = requests.get(f"{branch_url}{git_module}/__manifest__.py")
+            _logger.warning(f"{response=}")
             if response.status_code == 200:
                 return branch
         return None
