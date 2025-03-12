@@ -32,7 +32,7 @@ class ProjectModuleMonitor(models.Model):
                     git_owner=task.git_owner,
                     git_repo=task.git_repo
                 )
-                if task.odoo_version != branch:
+                if task.odoo_version != branch or task.odoo_version != task.stage_id.name:
                     version_id = self.env['project.task.type'].search(
                         [('project_ids', 'in', task.project_id.id), ('name', '=', branch)]
                     )
