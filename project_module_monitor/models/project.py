@@ -51,18 +51,15 @@ class ProjectModuleMonitor(models.Model):
                         git_repo=task.git_repo
                     )                    
                     
-                    #version_id = self.env['project.task.type'].search(
-                    #    [('project_ids', 'in', project.id), ('name', '=', branch)]
-                    #)
-                    
-                    if task.odoo_version != branch:
+                    _logger.warning(f"latest branch !!!!!!!!!! {branch=}")
+                    _logger.warning(f"odoo version !!!!!!!!!! {task.odoo_version=}")
+                    if task.odoo_version != branch or task.odoo_version != task.stage_id.name:
                         version_id = self.env['project.task.type'].search(
                             [('project_ids', 'in', project.id), ('name', '=', branch)]
-                        )                   
+                        )
+                        _logger.warning(f"{version_id=}")
                         task.stage_id = version_id.id
                         task.odoo_version = branch
-                    #else:
-                    #    task.stage_id = version_id.id
                         
                 self.env.cr.commit()
 
