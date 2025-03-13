@@ -11,6 +11,7 @@
             </field>
         </field>
     </record>
+
     <!-- Inherit Form View -->
     <record id="view_task_form_task_number" model="ir.ui.view">
         <field name="name">task.form.task.number</field>
@@ -25,6 +26,7 @@
             </field>
         </field>
     </record>
+
     <!-- Inherit List View -->
     <record id="view_task_tree2" model="ir.ui.view">
         <field name="name">task.tree.task.number</field>
@@ -36,6 +38,7 @@
             </field>
         </field>
     </record>
+
     <!-- Inherit Kanban View -->
     <record id="view_task_kanban_task_number" model="ir.ui.view">
         <field name="name">task.kanban.task.number</field>
@@ -51,7 +54,6 @@
                     <field name="name" class="fw-bold fs-5"/>
                 </span>
             </xpath>
-
         </field>
     </record>
 </odoo>
