@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="project_archive" model="ir.ui.view">
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.view_project_kanban" />
+        <field name="arch" type="xml">
+            <field name="privacy_visibility" position="after">
+                <field name="active"/>
+            </field>
+            <xpath expr="//t[@t-name='menu']/div[hasclass('container')]/div[hasclass('o_kanban_card_manage_settings')]/div[2]/a[last()]" position="after">
+                <a t-if="widget.editable" role="menuitem" class="dropdown-item" name="toggle_active" type="object">
+                    <t t-if="record.active.raw_value and !record.task_count">Archive</t>
+                    <t t-else="!record.active.raw_value">Restore</t>
+                </a>
+            </xpath>
+        </field>
+    </record>
+</odoo>
