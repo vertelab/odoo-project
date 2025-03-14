@@ -49,12 +49,12 @@
             <kanban position="inside">
                 <field name="number" />
             </kanban>
-            <xpath expr="//field[@name='name']" position="replace">
-                <span class="text-muted small me-2" style="white-space: nowrap;">
-                    [<field name="number"/>]
-                    <field name="name" class="fw-bold fs-5"/>
-                </span>
-            </xpath>
+<!--            <xpath expr="//field[@name='name']" position="replace">-->
+<!--                <span class="text-muted small me-2" style="white-space: nowrap;">-->
+<!--                    [<field name="number"/>]-->
+<!--                    <field name="name" class="fw-bold fs-5"/>-->
+<!--                </span>-->
+<!--            </xpath>-->
 
         </field>
     </record>
