@@ -37,8 +37,8 @@ class GitHubWebHooks(http.Controller):
             
         message = payload_dict.get('head_commit',{}).get('message')
         match = re.search(r'T/\d{4}', message)
+        #"match": re.search(r'T/\d{4}', payload_dict.get('head_commit',{}).get('message')),
         git_dict = {
-            "match": re.search(r'T/\d{4}', payload_dict.get('head_commit',{}).get('message')),
             "task_number": match.group() if match else "",
             "branch": payload_dict.get('ref','x/x/x').split('/')[2],
             "message": payload_dict.get('head_commit',{}).get('message'),
