@@ -1,0 +1,22 @@
+<odoo>
+  <data>
+
+    <record id="edit_project" model="ir.ui.view">
+      <field name="name">project.project.form.create.project.tests.button</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.edit_project"/>
+      <field name="arch" type="xml">
+        <header position="inside">
+          <button name="create_project_tests" string="Run Tests" type="object" attrs="{'invisible': [('is_odoo_project', '=', False)]}"/>
+        </header>
+        <field name="label_tasks" position="after">
+          <div>
+            <field name="is_odoo_project" string="is odoo project"/>
+            <field name="project_test_branch_ids" widget="many2many_tags" attrs="{'invisible': [('is_odoo_project', '=', False)]}"/>
+          </div>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>

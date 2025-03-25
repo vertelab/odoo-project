@@ -1,0 +1,27 @@
+<odoo>
+    <data noupdate="1">
+
+        <record id="project_test_branch_12" model="project.test.branch">
+            <field name="name">12</field>
+        </record>
+        <record id="project_test_branch_13" model="project.test.branch">
+            <field name="name">13</field>
+        </record>
+        <record id="project_test_branch_14" model="project.test.branch">
+            <field name="name">14</field>
+        </record>
+        <record id="project_test_branch_15" model="project.test.branch">
+            <field name="name">15</field>
+        </record>
+        <record id="project_test_branch_16" model="project.test.branch">
+            <field name="name">16</field>
+        </record>
+        <record id="project_test_branch_17" model="project.test.branch">
+            <field name="name">17</field>
+        </record>
+        <record id="project_test_branch_18" model="project.test.branch">
+            <field name="name">18</field>
+        </record>
+
+    </data>
+</odoo>
