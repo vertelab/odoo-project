@@ -1,0 +1,5 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_ci,access_project_ci,model_project_ci,base.group_user,1,1,1,1
+access_project_ci_branch,access_project_ci_branch,model_project_ci_branch,base.group_user,1,1,1,1
+access_project_ci_branch_line,access_project_ci_branch_line,model_project_ci_branch_line,base.group_user,1,1,1,1 
+access_project_ci_branch_name,access_project_ci_branch_name,model_project_ci_branch_name,base.group_user,1,1,1,1

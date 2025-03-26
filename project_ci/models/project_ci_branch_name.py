@@ -4,8 +4,8 @@ import logging
 
 _logger = logging.getLogger(__name__)
 
-class ProjectTestBranch(models.Model):
-    _name = "project.test.branch"
+class ProjectCIBranchName(models.Model):
+    _name = "project.ci.branch.name"
     _description = ""
 
     name = fields.Char()

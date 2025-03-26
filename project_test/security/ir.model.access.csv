@@ -1,3 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_project_test,access_project_test,model_project_test,base.group_user,1,1,1,1
-access_project_test_branch,access_project_test_branch,model_project_test_branch,base.group_user,1,1,1,1

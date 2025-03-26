@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Project: Project Test',
+    'name': 'Project: Project CI',
     'version': '1.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -36,7 +36,7 @@
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ["project"],
-    'data': ["security/ir.model.access.csv","data/project_test_branch_data.xml","views/project_views.xml"],
+    'data': ["security/ir.model.access.csv","data/project_ci_branch_data.xml","views/project_views.xml"],
     'demo': [],
     'application': False,
     'installable': True,    
