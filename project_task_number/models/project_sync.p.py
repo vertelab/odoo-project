@@ -63,7 +63,7 @@ class MailChannel(models.Model):
         message_id = self.sudo().message_post(
             body=f'{self.stderr_or_stdout(result)=}',
             subject='An error occurred when trying to sync P-files.',
-            author_id=author_id,  
+            author_id=author_id.id,  
             message_type='email',
             subtype_xmlid='mail.mt_comment',
             email_from='vertelbot@vertel.se',
@@ -75,22 +75,10 @@ class MailChannel(models.Model):
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
-            author_id = res_partner_id.id if res_partner_id else self.env.user.partner_id.id
+            author_id = res_partner_id if res_partner_id else self.env.user.partner_id
 
-    def _get_files(self,git_dict):
-        strings_of_interest = [".p.", "index.html", ".png", ".jpg"]
-        files = []
-        for commit in git_dict.get('commits'):
-            for string in strings_of_interest:
-                files.extend(filter(lambda added: string in added,commit.get("added", [])))
-                files.extend(filter(lambda modified: string in modified,commit.get("modified", [])))
-        files = list(set(files))
-        _logger.error(f"{files=}") 
-        return files
-
-    def sync(self,git_dict):
+    def sync(self,git_dict,files):
         source_branch = git_dict.get("branch")
-        files = self._get_files(git_dict)
         self.check_git_login()
         new_dir = str(uuid.uuid4())
         new_path = f"/var/lib/odoo/{new_dir}"

@@ -58,7 +58,7 @@ class GitHubWebHooks(http.Controller):
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
-            author_id = res_partner_id.id if res_partner_id else request.env.user.partner_id.id
+            author_id = res_partner_id if res_partner_id else request.env.user.partner_id
 
     @http.route(['/task/push'], type='json', auth="public", methods=["POST"], csrf=False)
     def task_push(self, **payload):
@@ -117,11 +117,22 @@ class GitHubWebHooks(http.Controller):
     def send_task_message(self,git_dict,task,author_id):
         message_id = task.sudo().message_post(
             body=f'Github post {git_dict.get("message")} [Branch={git_dict["branch"]}] Repo={git_dict["repo"]}<br/>{git_dict.get("committer_name")} {git_dict.get("committer_email")}<br/>Added={git_dict.get("added")}<br/>Removed={git_dict.get("removed")}<br/>Modified={git_dict.get("modified")}<br/>{git_dict.get("url")}',
-            author_id=author_id,  
+            author_id=author_id.id,  
             message_type='notification',
             subtype_xmlid='mail.mt_comment' 
         )
         return message_id
+
+    def _get_files(self,git_dict):
+        strings_of_interest = [".p.", "index.html", ".png", ".jpg"]
+        files = []
+        for commit in git_dict.get('commits'):
+            for string in strings_of_interest:
+                files.extend(filter(lambda added: string in added,commit.get("added", [])))
+                files.extend(filter(lambda modified: string in modified,commit.get("modified", [])))
+        files = list(set(files))
+        _logger.error(f"{files=}") 
+        return files
 
     @http.route(['/sync/pfiles'], type='json', auth="public", methods=["POST"], csrf=False)
     def sync_pfiles(self, **payload):       
@@ -129,15 +140,17 @@ class GitHubWebHooks(http.Controller):
         if check:
             return check
         git_dict = self.get_git_data()
+        files = self._get_files(git_dict)
+        contains_p_files = any([".p." in file for file in files])
         source_branch = git_dict.get("branch")
         pattern = "^[0-9]+.0$"
         match = re.search(pattern, source_branch)
-        if (not match or not match.group()) or p_file_sync in git_dict.get("message"):
+        if (not match or not match.group()) or p_file_sync in git_dict.get("message") or not contains_p_files:
             return {"status": "success", "message": "Webhook Ignored"}
         # #if VERSION >= "18.0"
         project_sync_id = request.env["discuss.channel"].sudo().create({"name": f"{uuid.uuid4()}","committer_email": git_dict.get("committer_email", "vertelbot@vertel.se")})
         # #elif VERSION <= "17.0"
         project_sync_id = request.env["mail.channel"].sudo().create({"name": f"{uuid.uuid4()}","committer_email": git_dict.get("committer_email", "vertelbot@vertel.se")})
         # #endif
-        project_sync_id.with_delay().sync(git_dict)
+        project_sync_id.with_delay().sync(git_dict,files)
         return {"status": "success", "message": "Webhook P-file sync processed successfully."}
