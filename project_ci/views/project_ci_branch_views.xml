@@ -1,0 +1,69 @@
+<odoo>
+    <data>
+
+        <record id="ci_barnch_view" model="ir.ui.view">
+            <field name="name">project.ci.branch.view.form</field>
+            <field name="model">project.ci.branch</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="unknown,successful,failed"/>
+                    </header>
+                    <sheet string="project.ci.branch" modifiers="{}">
+                        <div class="oe_title pr-0">
+                            <h1 class="d-flex flex-row justify-content-between">
+                                <field name="name" class="o_task_name text-truncate" placeholder="Task Title..." default_focus="1"/>
+                                <field name="status_color_ball" widget="state_selection" read_only="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="project_id" id="project_id"/>
+                                <field name="project_ci_id" id="project_ci_id"/>
+                                <field name="project_ci_branch_name_id" id="project_ci_branch_name_id"/>
+                            </group>
+                        </group>
+                        <notebook>
+                            <page name="warnings" string="Warnings">
+                                <field name="project_ci_branch_line_warnings">
+                                    <tree>
+                                        <field name="text" />
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="errors" string="Errors">
+                                <field name="project_ci_branch_line_errors">
+                                    <tree>
+                                        <field name="text"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="criticals" string="Criticals">
+                                <field name="project_ci_branch_line_criticlas">
+                                    <tree>
+                                        <field name="text"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="tracebacks" string="Tracebacks">
+                                <field name="project_ci_branch_line_tracebacks">
+                                    <tree>
+                                        <field name="text"/>
+                                    </tree>
+                                </field>
+                            </page>
+                            <page name="full_log" string="Full Log">
+                                <field name="project_ci_branch_line_full_log">
+                                    <tree>
+                                        <field name="text"/>
+                                    </tree>
+                                </field>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>
