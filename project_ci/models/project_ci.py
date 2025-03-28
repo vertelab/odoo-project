@@ -14,8 +14,6 @@ class ProjectCI(models.Model):
     status = fields.Selection(
         selection=[("unknown", "Unknown"), ("successful", "Successful"), ("failed", "Failed")],
         default="unknown", string="Test Results", compute="compute_status")
-    date = fields.Date('Date', required=True, default=fields.Date.today, tracking=True,
-                       help="Start date of the contract.")
     
     def compute_status(self):
         for record in self:

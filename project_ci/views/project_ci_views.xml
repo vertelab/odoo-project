@@ -5,8 +5,8 @@
             <field name="name">project.ci.view.list</field>
             <field name="model">project.ci</field>
             <field name="arch" type="xml">
-                <tree decoration-muted="status == 'unknown'" decoration-info="status == 'successful'" decoration-danger="status=='failed'">
-                    <field name="date"/>
+                <tree decoration-muted="status == 'unknown'" decoration-success="status == 'successful'" decoration-danger="status=='failed'">
+                    <field name="create_date"/>
                     <field name="status"/>
                 </tree>
             </field>
@@ -26,7 +26,7 @@
                                 <field name="project_id"/>
                             </group>
                             <group>
-                                <field name="date"/>
+                                <field name="create_date"/>
                             </group>
                         </group>
                         <field name="project_ci_branch_ids"/>
