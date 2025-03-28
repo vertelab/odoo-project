@@ -36,7 +36,13 @@
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ["project"],
-    'data': ["security/ir.model.access.csv","data/project_ci_branch_data.xml","views/project_views.xml", "views/project_ci_branch_views.xml"],
+    'data': [
+        "security/ir.model.access.csv",
+        "data/project_ci_branch_data.xml",
+        "views/project_views.xml",
+        "views/project_ci_branch_views.xml",
+        "views/project_ci_views.xml"
+    ],
     'demo': [],
     'application': False,
     'installable': True,    

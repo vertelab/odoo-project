@@ -15,22 +15,27 @@ class Project(models.Model):
     count_project_ci_branch = fields.Integer(compute="compute_count_project_ci_branch")
 
     def project_ci_action(self):
+        tree_view = self.env.ref('project_ci.project_ci_list_view')
         action = {
             'name': 'CI',
             'type': 'ir.actions.act_window',
             'res_model': 'project.ci',
             'view_mode': 'tree,form',
+            'views': [(tree_view.id, 'tree'), (False, 'form')],
             'target': 'current',
             'domain': [("project_id", '=', self.id)],
         }
         return action
 
     def project_ci_branch_action(self):
+        kanban_view = self.env.ref('project_ci.ci_branch_kanban_view')
+        tree_view = self.env.ref('project_ci.project_ci_branch_list_view')
         action = {
             'name': 'CI Branch',
             'type': 'ir.actions.act_window',
             'res_model': 'project.ci.branch',
             'view_mode': 'kanban,tree,form',
+            'views': [(kanban_view.id, 'kanban'), (tree_view.id, 'tree'), (False, 'form')],
             'target': 'current',
             'domain': [("project_id", '=', self.id)],
         }
@@ -52,4 +57,4 @@ class Project(models.Model):
                 project_ci_branch_id = self.env["project.ci.branch"].create({"project_ci_id": project_ci_id.id, "project_ci_branch_name_id": branch.id})
                 subprocess.Popen(["ssh", "strand", "-t", "setup_odoo_test_machine", "-b", f"{branch.name}", "-p", f"{self.name}", "-i", f"{project_ci_branch_id.id}"])
         else:
-            raise UserError(f"No branches selected for {record.name}")
+            raise UserError(f"No branches selected for {self.name}")

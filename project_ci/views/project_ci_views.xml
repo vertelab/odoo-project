@@ -1,0 +1,39 @@
+<odoo>
+    <data>
+
+        <record id="project_ci_list_view" model="ir.ui.view">
+            <field name="name">project.ci.view.list</field>
+            <field name="model">project.ci</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="date"/>
+                    <field name="status" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="project_ci_form_view" model="ir.ui.view">
+            <field name="name">project.ci.view.form</field>
+            <field name="model">project.ci</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="status" widget="statusbar" statusbar_visible="unknown,successful,failed"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <group>
+                                <field name="project_id"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                            </group>
+                        </group>
+                        <field name="project_ci_branch_ids"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

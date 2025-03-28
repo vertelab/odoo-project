@@ -1,7 +1,65 @@
 <odoo>
     <data>
 
-        <record id="ci_barnch_view" model="ir.ui.view">
+        <record id="ci_branch_kanban_view" model="ir.ui.view">
+            <field name="name">project.ci.branch.view.kanban</field>
+            <field name="model">project.ci.branch</field>
+            <field name="arch" type="xml">
+                <kanban default_group_by="status" class="o_kanban_small_column" sample="1">
+                    <field name="name"/>
+                    <field name="display_name"/>
+                    <field name="project_id"/>
+                    <field name="project_ci_id"/>
+                    <field name="status"/>
+                    <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title"><field name="name"/></strong>
+                                        <span><br/><br/><field name="project_id" required="1"/></span>
+                                        <br />
+                                    </div>
+                                </div>
+
+                                <div class="o_kanban_record_bottom" t-if="!selection_mode">
+                                    <div class="oe_kanban_bottom_left">
+                                        <field name="project_ci_branch_line_ids"/>
+
+<!--                                        <span t-if="project_ci_branch_line_warnings > 0"><field name="project_ci_branch_line_warnings"/></span>-->
+<!--                                        <span t-else="">0</span>Warnings-->
+
+<!--                                        <span t-if="project_ci_branch_line_errors > 0"><field name="project_ci_branch_line_errors"/></span>-->
+<!--                                        <span t-else="">0</span>Errors-->
+                                    </div>
+                                    <div class="oe_kanban_bottom_right" t-if="!selection_mode">
+                                        <field name="status_color_ball" widget="state_selection" groups="base.group_user" invisible="context.get('fsm_mode', False)"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="oe_clear"></div>
+                        </div>
+                    </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+
+        <record id="project_ci_branch_list_view" model="ir.ui.view">
+            <field name="name">project.ci.branch.view.list</field>
+            <field name="model">project.ci.branch</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="display_name"/>
+                    <field name="project_id"/>
+                    <field name="project_ci_id"/>
+                    <field name="status" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="ci_branch_view" model="ir.ui.view">
             <field name="name">project.ci.branch.view.form</field>
             <field name="model">project.ci.branch</field>
             <field name="arch" type="xml">
@@ -13,7 +71,7 @@
                         <div class="oe_title pr-0">
                             <h1 class="d-flex flex-row justify-content-between">
                                 <field name="name" class="o_task_name text-truncate" placeholder="Task Title..." default_focus="1"/>
-                                <field name="status_color_ball" widget="state_selection" read_only="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                                <field name="status_color_ball" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
                             </h1>
                         </div>
                         <group>

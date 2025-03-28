@@ -6,13 +6,16 @@ _logger = logging.getLogger(__name__)
 
 class ProjectCI(models.Model):
     _name = "project.ci"
-    _description = ""
+    _description = "Project CI"
+    _rec_name = 'create_date'
 
     project_id = fields.Many2one(comodel_name="project.project")
     project_ci_branch_ids = fields.One2many(comodel_name="project.ci.branch", inverse_name="project_ci_id")
     status = fields.Selection(
         selection=[("unknown", "Unknown"), ("successful", "Successful"), ("failed", "Failed")],
         default="unknown", string="Test Results", compute="compute_status")
+    date = fields.Date('Date', required=True, default=fields.Date.today, tracking=True,
+                       help="Start date of the contract.")
     
     def compute_status(self):
         for record in self:
