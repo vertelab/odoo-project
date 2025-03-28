@@ -34,7 +34,7 @@
 <!--                                        <span t-else="">0</span>Errors-->
                                     </div>
                                     <div class="oe_kanban_bottom_right" t-if="!selection_mode">
-                                        <field name="status_color_ball" widget="state_selection" groups="base.group_user" invisible="context.get('fsm_mode', False)"/>
+                                        <field name="kanban_state" widget="state_selection" groups="base.group_user"/>
                                     </div>
                                 </div>
                             </div>

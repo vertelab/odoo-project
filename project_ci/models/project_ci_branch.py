@@ -8,18 +8,8 @@ class ProjectCIBranch(models.Model):
     _name = "project.ci.branch"
     _description = "Project CI Branch"
 
-    @api.depends('project_ci_branch_name_id', 'create_date')
-    def _compute_name(self):
-        for rec in self:
-            name = []
-            # Dynamically gather values, handling the special case for `date`
-            for field in [rec.create_date, rec.project_ci_branch_name_id]:
-                if field:
-                    name.append(str(field.name) if hasattr(field, 'name') else str(field))
-            # Join the parts with '/' as separator
-            rec.name = '/'.join(name)
 
-    name = fields.Char(compute=_compute_name)
+    name = fields.Char()
     project_ci_id = fields.Many2one(comodel_name="project.ci")
     project_id = fields.Many2one(comodel_name="project.project", related="project_ci_id.project_id")
     project_ci_branch_line_ids = fields.One2many(
@@ -46,12 +36,21 @@ class ProjectCIBranch(models.Model):
         default="unknown", string="Test Result")
     status_color_ball = fields.Selection(
         selection=[("unknown", "Unknown"), ("successful", "Successful"), ("failed", "Failed")],
-        default="unknown", string="Test Result", compute="compute_status_color_ball")
+        default="unknown", string="Test Result", compute="compute_kanban_state")
+
+    kanban_state = fields.Selection([('normal', 'In Progress'), ('done', 'Done'), ('blocked', 'Blocked')],
+                                    default='normal', comput='compute_kanban_state')
 
     
     @api.depends("status")
-    def compute_status_color_ball(self):
+    def compute_kanban_state(self):
         for record in self:
+            kanban_state = 'normal'
+            if record.status == 'successful':
+                kanban_state = 'done'
+            elif record.status == 'failed':
+                kanban_state = 'blocked'
+            record.kanban_state = kanban_state
             record.status_color_ball = record.status
 
 

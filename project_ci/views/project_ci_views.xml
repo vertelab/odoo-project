@@ -5,9 +5,9 @@
             <field name="name">project.ci.view.list</field>
             <field name="model">project.ci</field>
             <field name="arch" type="xml">
-                <tree>
+                <tree decoration-muted="status == 'unknown'" decoration-info="status == 'successful'" decoration-danger="status=='failed'">
                     <field name="date"/>
-                    <field name="status" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                    <field name="status"/>
                 </tree>
             </field>
         </record>
