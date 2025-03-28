@@ -25,13 +25,7 @@
 
                                 <div class="o_kanban_record_bottom" t-if="!selection_mode">
                                     <div class="oe_kanban_bottom_left">
-                                        <field name="project_ci_branch_line_ids"/>
-
-<!--                                        <span t-if="project_ci_branch_line_warnings > 0"><field name="project_ci_branch_line_warnings"/></span>-->
-<!--                                        <span t-else="">0</span>Warnings-->
-
-<!--                                        <span t-if="project_ci_branch_line_errors > 0"><field name="project_ci_branch_line_errors"/></span>-->
-<!--                                        <span t-else="">0</span>Errors-->
+                                        <field name="project_ci_branch_line_count"/> lines
                                     </div>
                                     <div class="oe_kanban_bottom_right" t-if="!selection_mode">
                                         <field name="kanban_state" widget="state_selection" groups="base.group_user"/>
@@ -54,7 +48,7 @@
                     <field name="display_name"/>
                     <field name="project_id"/>
                     <field name="project_ci_id"/>
-                    <field name="status" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                    <field name="kanban_state" widget="state_selection" readonly="1"/>
                 </tree>
             </field>
         </record>
@@ -71,7 +65,7 @@
                         <div class="oe_title pr-0">
                             <h1 class="d-flex flex-row justify-content-between">
                                 <field name="name" class="o_task_name text-truncate" placeholder="Task Title..." default_focus="1"/>
-                                <field name="status_color_ball" widget="state_selection" readonly="1" options="{'classes': {'unknown': 'default','successful': 'success','failed': 'danger'}}"/>
+                                <field name="kanban_state" widget="state_selection" readonly="1"/>
                             </h1>
                         </div>
                         <group>

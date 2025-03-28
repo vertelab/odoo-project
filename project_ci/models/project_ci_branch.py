@@ -14,6 +14,13 @@ class ProjectCIBranch(models.Model):
     project_id = fields.Many2one(comodel_name="project.project", related="project_ci_id.project_id")
     project_ci_branch_line_ids = fields.One2many(
         comodel_name="project.ci.branch.line", inverse_name="project_ci_branch_id")
+
+    @api.depends('project_ci_branch_line_ids')
+    def _compute_project_ci_branch_line(self):
+        for rec in self:
+            rec.project_ci_branch_line_count = len(rec.project_ci_branch_line_ids)
+
+    project_ci_branch_line_count = fields.Integer(compute=_compute_project_ci_branch_line)
     project_ci_branch_line_warnings = fields.One2many(
         comodel_name="project.ci.branch.line", inverse_name="project_ci_branch_id", domain=[('line_type','=','warning')])
     project_ci_branch_line_errors = fields.One2many(
