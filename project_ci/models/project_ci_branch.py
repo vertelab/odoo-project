@@ -10,6 +10,7 @@ class ProjectCIBranch(models.Model):
 
 
     name = fields.Char()
+    ip_address = fields.Char(string="IP Address")
     project_ci_id = fields.Many2one(comodel_name="project.ci")
     project_id = fields.Many2one(comodel_name="project.project", related="project_ci_id.project_id")
     project_ci_branch_line_ids = fields.One2many(

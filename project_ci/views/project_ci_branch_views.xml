@@ -48,6 +48,7 @@
                     <field name="display_name"/>
                     <field name="project_id"/>
                     <field name="project_ci_id"/>
+                    <field name="ip_address" string="IP Address"/>
                     <field name="kanban_state" widget="state_selection" readonly="1"/>
                 </tree>
             </field>
@@ -73,6 +74,9 @@
                                 <field name="project_id" id="project_id"/>
                                 <field name="project_ci_id" id="project_ci_id"/>
                                 <field name="project_ci_branch_name_id" id="project_ci_branch_name_id"/>
+                            </group>
+                            <group>
+                                <field name="ip_address" string="IP Address" id="ip_address"/>
                             </group>
                         </group>
                         <notebook>
