@@ -93,6 +93,7 @@ class Project(models.Model):
 
     def action_view_tasks(self):
         action = super().action_view_tasks()
-        action['context'].update({'search_default_group_by_quadrant': 1})
+        if self.is_swot:
+            action['context'].update({'search_default_group_by_quadrant': 1})
         return action
 
