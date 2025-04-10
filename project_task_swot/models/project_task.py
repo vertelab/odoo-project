@@ -58,9 +58,6 @@ class Task(models.Model):
     coordinate = fields.Char(string="Coordinate", default="[0.3, 0.6]")
 
 
-    def action_view_tasks(self):
-        action = super().action_view_tasks()
-        return action
 
 
 
