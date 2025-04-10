@@ -32,11 +32,9 @@ class Task(models.Model):
     def _read_group_quadrant(self, quadrant, domain):
         project_id = self.env.context.get('default_project_id')
 
-        task_quadrants = self.env['project.task.quadrant']._search([
-            ('project_id', '=', project_id)], access_rights_uid=SUPERUSER_ID)
-
         task_quadrants = self.env['project.task.quadrant'].sudo()._search([
             ('project_id', '=', project_id)])
+
         return quadrant.browse(task_quadrants)
 
     quadrant = fields.Many2one(
