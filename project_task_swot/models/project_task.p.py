@@ -36,11 +36,14 @@ class Task(models.Model):
     # # endif
         project_id = self.env.context.get('default_project_id')
 
+        # #if VERSION <=  "17.0"
         task_quadrants = self.env['project.task.quadrant']._search([
             ('project_id', '=', project_id)], access_rights_uid=SUPERUSER_ID)
-
+        # # else
         task_quadrants = self.env['project.task.quadrant'].sudo()._search([
             ('project_id', '=', project_id)])
+        # # endif
+
         return quadrant.browse(task_quadrants)
 
     quadrant = fields.Many2one(
