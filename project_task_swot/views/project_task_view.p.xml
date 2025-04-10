@@ -8,6 +8,7 @@
         <field name="arch" type="xml">
             <field name="partner_id" position="after">
                 <field name="number" />
+                <field name="quadrant" />
             </field>
         </field>
     </record>
@@ -24,8 +25,9 @@
                 </span>
             </field>
             <field name="tag_ids" position="after">
-                <field name="quadrant"/>
-                <field name="coordinate"/>
+                <field name="is_swot" invisible="1"/>
+                <field name="quadrant" invisible="not is_swot"/>
+                <field name="coordinate" invisible="not is_swot"/>
             </field>
         </field>
     </record>
