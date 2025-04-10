@@ -35,8 +35,6 @@ class Task(models.Model):
         task_quadrants = self.env['project.task.quadrant']._search([
             ('project_id', '=', project_id)], access_rights_uid=SUPERUSER_ID)
 
-        task_quadrants = self.env['project.task.quadrant'].sudo()._search([
-            ('project_id', '=', project_id)])
         return quadrant.browse(task_quadrants)
 
     quadrant = fields.Many2one(
