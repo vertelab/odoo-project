@@ -10,9 +10,6 @@
                 <field name="number" />
                 <field name="quadrant" />
             </field>
-            <filter name="stage" position="after">
-                <filter string="Quadrant" name="group_by_quadrant" context="{'group_by':'quadrant'}"/>
-            </filter>
         </field>
     </record>
     <!-- Inherit Form View -->

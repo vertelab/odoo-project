@@ -1,5 +1,5 @@
-import logging
 import re
+import logging
 from odoo import api, Command, fields, models, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 
@@ -31,6 +31,7 @@ class Project(models.Model):
             self.env['project.task.quadrant'].search([('project_id', '=', self.id)]).unlink()
         return record
 
+
     def create_quadrants(self):
         for project in self:
             if not self.env['project.task.quadrant'].search(
@@ -56,8 +57,8 @@ class Project(models.Model):
 
                 tasks = '\n'.join([
                     f"{re.sub(
-                        r'[^\w\s]', 
-                        '', 
+                        r'[^\w\s]',
+                        '',
                         task.name.replace('ä', 'a').replace('å', 'a').replace('ö', 'o').replace('Ä', 'A').replace('Å', 'A').replace('Ö', 'O')
                     )}: {task.coordinate}"
                     for task in self.task_ids.filtered(lambda x: x.quadrant)
@@ -78,7 +79,6 @@ class Project(models.Model):
                 rec.swot_diagram = False
 
 
-
     swot_diagram = fields.Text(string='SWOT Diagram', compute=_get_swot_diagram)
 
     x_axis = fields.Char(
@@ -91,11 +91,8 @@ class Project(models.Model):
     y_low = fields.Char(string='Y Low', default="Strengths", help="Quadrant 2.1 Strengths")
     y_high = fields.Char(string='Y High', default="Weakness", help="Quadrant 2.2 Weakness")
 
-
     def action_view_tasks(self):
         action = super().action_view_tasks()
-        if self.is_swot:
-            action['context'].update({'search_default_group_by_quadrant': 1})
+        action['context'].update({'search_default_group_by_quadrant': 1})
         return action
-
 

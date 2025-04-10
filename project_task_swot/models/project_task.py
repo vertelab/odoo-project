@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from odoo import api, fields, models, _
+from odoo import api, fields, models, _, SUPERUSER_ID
 from odoo.exceptions import UserError, ValidationError, AccessError
 import logging
 
@@ -10,6 +10,7 @@ _logger = logging.getLogger(__name__)
 
 class TaskQuadrant(models.Model):
     _name = "project.task.quadrant"
+
 
     quadrant = fields.Selection([('x_low', 'x_low'), ('x_high', 'x_high'), ('y_low', 'y_low'), ('y_high', 'y_high')])
     name = fields.Char(compute="get_name_from_project_quadrant")
@@ -30,6 +31,10 @@ class Task(models.Model):
 
     def _read_group_quadrant(self, quadrant, domain):
         project_id = self.env.context.get('default_project_id')
+
+        task_quadrants = self.env['project.task.quadrant']._search([
+            ('project_id', '=', project_id)], access_rights_uid=SUPERUSER_ID)
+
         task_quadrants = self.env['project.task.quadrant'].sudo()._search([
             ('project_id', '=', project_id)])
         return quadrant.browse(task_quadrants)
