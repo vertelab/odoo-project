@@ -1,0 +1,31 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_task_default_stage
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 14.0-20210929\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-24 15:35+0000\n"
+"PO-Revision-Date: 2021-11-24 15:35+0000\n"
+"Last-Translator: Daniel Eriksson <daniel.eriksson@vertel.se>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_task_default_stage
+#: model:ir.actions.server,name:project_task_default_stage.project_add_default_types
+msgid "Add default stages to projects"
+msgstr "Lägg till standardetapper på projekt"
+
+#. module: project_task_default_stage
+#: model:ir.model.fields,field_description:project_task_default_stage.field_project_task_type__is_default
+msgid "Default stage"
+msgstr "Standardetapp"
+
+#. module: project_task_default_stage
+#: model:ir.model.fields,field_description:project_task_default_stage.field_project_project__use_default_types
+msgid "Use default stages"
+msgstr "Använd standardetapper"
