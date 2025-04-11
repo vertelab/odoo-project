@@ -128,7 +128,7 @@ class GitHubWebHooks(http.Controller):
             body=f'Github post {git_dict.get("message")} [Branch={git_dict["branch"]}] Repo={git_dict["repo"]}<br/>{git_dict.get("committer_name")} {git_dict.get("committer_email")}<br/>Added={git_dict.get("added")}<br/>Removed={git_dict.get("removed")}<br/>Modified={git_dict.get("modified")}<br/>{git_dict.get("url")}',
             author_id=author_id.id,  
             message_type='comment',
-            subtype_xmlid='mail.mt_comment' 
+            subtype_xmlid='mail.mt_note' 
         )
         return message_id
 
