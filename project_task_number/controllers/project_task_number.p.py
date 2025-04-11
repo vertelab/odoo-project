@@ -96,10 +96,10 @@ class GitHubWebHooks(http.Controller):
 
     def create_task(self,git_dict,user,project,message=False):
         # #if VERSION >= "15.0"
-        user_ids = [(6,0,[user.id])] if user else None
+        user_ids = [(6,0,[user.id])]
         task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_ids': user_ids }
         # #elif VERSION <= "14.0"
-        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id if user else None }
+        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id}
         # #endif
         if message:
             task_vals.update({"name": message})
@@ -123,7 +123,7 @@ class GitHubWebHooks(http.Controller):
         message_id = task.sudo().message_post(
             body=f'Github post {git_dict.get("message")} [Branch={git_dict["branch"]}] Repo={git_dict["repo"]}<br/>{git_dict.get("committer_name")} {git_dict.get("committer_email")}<br/>Added={git_dict.get("added")}<br/>Removed={git_dict.get("removed")}<br/>Modified={git_dict.get("modified")}<br/>{git_dict.get("url")}',
             author_id=author_id.id,  
-            message_type='notification',
+            message_type='comment',
             subtype_xmlid='mail.mt_comment' 
         )
         return message_id
