@@ -21,9 +21,19 @@
                     <div>
                         <label for="is_odoo_project" class="oe_inline" string="is odoo project"/>
                         <field name="is_odoo_project" string="is odoo project"/>
-                        <field name="project_ci_branch_name_ids" widget="many2many_tags" attrs="{'invisible': [('is_odoo_project', '=', False)]}"/>
                     </div>
                 </field>
+                <page name="settings" position="after">
+                    <page name="ci" string="CI" attrs="{'invisible': [('is_odoo_project', '=', False)]}">
+                        <div>
+                            <field name="project_ci_branch_name_ids" widget="many2many_tags" string="Branches"/>
+                            <field name="ci_project_name"/>
+                            <field name="ci_module_list"/>
+                            <field name="ci_git_url"/>
+                            <field name="ci_req_folder_path"/>
+                        </div>
+                    </page>
+                </page>
             </field>
         </record>
 
