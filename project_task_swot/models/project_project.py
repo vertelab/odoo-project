@@ -233,7 +233,6 @@ class Project(models.Model):
             if not self.env['project.task.quadrant'].search(
                     [('project_id', '=', project.id), ('quadrant', '=', 'y_high')]):
                 self.env['project.task.quadrant'].create({"project_id": project.id, "quadrant": "y_high"})
-        self.update_task_coordinates()
 
     def _get_swot_diagram(self):
         for rec in self:
@@ -302,4 +301,5 @@ class Project(models.Model):
             # Update task coordinates
             for task_id, coordinate in task_coordinates.items():
                 self.env['project.task'].browse(task_id).coordinate = coordinate
+
 
