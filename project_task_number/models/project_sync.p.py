@@ -76,6 +76,7 @@ class MailChannel(models.Model):
             author_id = res_partner_id
         else:
             author_id = res_partner_id if res_partner_id else self.env.user.partner_id
+        return author_id
 
     def sync(self,git_dict,files):
         source_branch = git_dict.get("branch")
