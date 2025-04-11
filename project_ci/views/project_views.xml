@@ -18,20 +18,20 @@
                     </button>
                 </div>
                 <field name="label_tasks" position="after">
-                    <div>
+                    <group>
                         <label for="is_odoo_project" class="oe_inline" string="is odoo project"/>
                         <field name="is_odoo_project" string="is odoo project"/>
-                    </div>
+                    </group>
                 </field>
                 <page name="settings" position="after">
                     <page name="ci" string="CI" attrs="{'invisible': [('is_odoo_project', '=', False)]}">
-                        <div>
+                        <group>
                             <field name="project_ci_branch_name_ids" widget="many2many_tags" string="Branches"/>
                             <field name="ci_project_name"/>
                             <field name="ci_module_list"/>
                             <field name="ci_git_url"/>
                             <field name="ci_req_folder_path"/>
-                        </div>
+                        </group>
                     </page>
                 </page>
             </field>
