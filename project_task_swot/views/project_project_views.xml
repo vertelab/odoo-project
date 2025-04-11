@@ -7,8 +7,15 @@
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project" />
         <field name="arch" type="xml">
+            <field name="label_tasks" position="before">
+                <div>
+                    <field name="is_swot" class="oe_inline oe_input_align"/>
+                    <label for="is_swot" class="oe_inline" string="Is Swot"/>
+                </div>
+            </field>
+
             <xpath expr="//page[last()]" position="after">
-                <page name="project_swot" string="SWOT">
+                <page name="project_swot_config" string="SWOT Config" invisible="not is_swot">
                     <group>
                         <group>
                             <field name="x_axis"/>
@@ -20,8 +27,10 @@
                             <field name="x_high"/>
                             <field name="y_high"/>
                         </group>
-                        <field name="swot_diagram" widget="mermaid"/>
                     </group>
+                </page>
+                <page name="project_swot_display" string="SWOT Diagram" invisible="not is_swot">
+                    <field name="swot_diagram" widget="mermaid" nolabel="1"/>
                 </page>
             </xpath>
         </field>
