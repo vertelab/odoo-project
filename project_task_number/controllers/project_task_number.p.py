@@ -95,11 +95,19 @@ class GitHubWebHooks(http.Controller):
         return {"status": "success", "message": "Webhook processed successfully"}
 
     def create_task(self,git_dict,user,project,message=False):
+        closing_stages = list(filter(lambda t: t.is_closed,project.type_ids))
+        stage = list(filter(lambda t: t.name == "Klar!" or t.name == "Done",closing_stages))
+        if not stage:
+            if closing_stages:
+                stage = closing_stages[0]
+        elif len(stage) > 1:
+            stage = stage[0]
+
         # #if VERSION >= "15.0"
         user_ids = [(6,0,[user.id])]
-        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_ids': user_ids }
+        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_ids': user_ids, "stage_id": stage.id if stage else False}
         # #elif VERSION <= "14.0"
-        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id}
+        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id, "stage_id": stage.id if stage else False}
         # #endif
         if message:
             task_vals.update({"name": message})
