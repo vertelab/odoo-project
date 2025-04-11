@@ -55,10 +55,12 @@ class GitHubWebHooks(http.Controller):
         return git_dict
 
     def get_author_id(self, res_partner_id):
+        _logger.error(f"{res_partner_id.name=}")
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
             author_id = res_partner_id if res_partner_id else request.env.user.partner_id
+        return author_id
 
     @http.route(['/task/push'], type='json', auth="public", methods=["POST"], csrf=False)
     def task_push(self, **payload):
@@ -72,9 +74,12 @@ class GitHubWebHooks(http.Controller):
                     ('email', '=', git_dict.get("committer_email")),  # Exact match
                     ('email_normalized', '=', git_dict.get("committer_email"))  # Match normalized email (if applicable)
                 ], limit=1)
+        if not user:
+            user = request.env.ref("base.public_user")
         _logger.error(f"{user=}")
         res_partner_id = request.env['res.partner'].sudo().search([("email", "=", git_dict.get("committer_email"))], limit=1)
         author_id=self.get_author_id(res_partner_id)
+        _logger.error(f"{author_id=}")
         task = self.find_task(git_dict)
         _logger.error(f"{task=}")
         project = self.find_project(git_dict,task)
@@ -91,10 +96,10 @@ class GitHubWebHooks(http.Controller):
 
     def create_task(self,git_dict,user,project,message=False):
         # #if VERSION >= "15.0"
-        user_ids = [(6,0,[user.id])] if user else None
+        user_ids = [(6,0,[user.id])]
         task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_ids': user_ids }
         # #elif VERSION <= "14.0"
-        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id if user else None }
+        task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_id': user.id}
         # #endif
         if message:
             task_vals.update({"name": message})
@@ -118,7 +123,7 @@ class GitHubWebHooks(http.Controller):
         message_id = task.sudo().message_post(
             body=f'Github post {git_dict.get("message")} [Branch={git_dict["branch"]}] Repo={git_dict["repo"]}<br/>{git_dict.get("committer_name")} {git_dict.get("committer_email")}<br/>Added={git_dict.get("added")}<br/>Removed={git_dict.get("removed")}<br/>Modified={git_dict.get("modified")}<br/>{git_dict.get("url")}',
             author_id=author_id.id,  
-            message_type='notification',
+            message_type='comment',
             subtype_xmlid='mail.mt_comment' 
         )
         return message_id
