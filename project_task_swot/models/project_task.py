@@ -80,8 +80,6 @@ class Task(models.Model):
 
     coordinate = fields.Char(string="Coordinate", default="[0.3, 0.6]")
 
-
-
     def action_update_coordinates(self):
         """Button to update coordinates for tasks in the project"""
         for task in self:
