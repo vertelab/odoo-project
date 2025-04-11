@@ -55,10 +55,12 @@ class GitHubWebHooks(http.Controller):
         return git_dict
 
     def get_author_id(self, res_partner_id):
+        _logger.error(f"{res_partner_id.name=}")
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
             author_id = res_partner_id if res_partner_id else request.env.user.partner_id
+        return author_id
 
     @http.route(['/task/push'], type='json', auth="public", methods=["POST"], csrf=False)
     def task_push(self, **payload):
@@ -72,9 +74,12 @@ class GitHubWebHooks(http.Controller):
                     ('email', '=', git_dict.get("committer_email")),  # Exact match
                     ('email_normalized', '=', git_dict.get("committer_email"))  # Match normalized email (if applicable)
                 ], limit=1)
+        if not user:
+            user = request.env.ref("base.public_user")
         _logger.error(f"{user=}")
         res_partner_id = request.env['res.partner'].sudo().search([("email", "=", git_dict.get("committer_email"))], limit=1)
         author_id=self.get_author_id(res_partner_id)
+        _logger.error(f"{author_id=}")
         task = self.find_task(git_dict)
         _logger.error(f"{task=}")
         project = self.find_project(git_dict,task)
