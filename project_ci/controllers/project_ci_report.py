@@ -16,7 +16,7 @@ class ProjectciReport(http.Controller):
         if data.get("id"):
             ci_id = int(data.get("id"))
             ci_branch_id = request.env["project.ci.branch"].sudo().browse(ci_id)
-            ci_branch_id.sudo().write({"name":data.get("name"), "status": self.get_ci_status(data)})
+            ci_branch_id.sudo().write({"name":data.get("name"), "ip_address":data.get("ip_address"), "status": self.get_ci_status(data)})
 
             line_types = ["warnings", "errors", "criticals", "tracebacks"]
 

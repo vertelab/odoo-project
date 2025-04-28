@@ -6,7 +6,8 @@ _logger = logging.getLogger(__name__)
 
 class ProjectCI(models.Model):
     _name = "project.ci"
-    _description = ""
+    _description = "Project CI"
+    _rec_name = 'create_date'
 
     project_id = fields.Many2one(comodel_name="project.project")
     project_ci_branch_ids = fields.One2many(comodel_name="project.ci.branch", inverse_name="project_ci_id")
@@ -17,11 +18,13 @@ class ProjectCI(models.Model):
     def compute_status(self):
         for record in self:
             if record.project_ci_branch_ids:
-                ci_branch_statuses = all([ci_branch_id.status == "successful" for ci_branch_id in record.project_ci_branch_ids])
-                if ci_branch_statuses:
-                    record.status = "successful"
-                else:
+                ci_branch_statuses = [ci_branch_id.status for ci_branch_id in record.project_ci_branch_ids]
+                if any([status == "failed" for status in ci_branch_statuses]):
                     record.status = "failed"
+                elif any([status == "unknown" for status in ci_branch_statuses]):
+                    record.status = "unknown"
+                else:
+                    record.status = "successful"
             else:
                 record.status = "unknown"
 
