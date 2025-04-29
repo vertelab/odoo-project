@@ -201,7 +201,7 @@ class Project(models.Model):
             self.env['project.task.quadrant'].search([('project_id', '=', self.id)]).unlink()
 
     @api.model_create_multi
-    def create(self, vals):
+    def create(self, vals_list):
         records = super().create(vals_list)
         for record in records:
             if record.is_swot:
