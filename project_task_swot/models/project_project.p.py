@@ -212,7 +212,9 @@ class Project(models.Model):
         if vals.get('is_swot'):
             self.create_quadrants()
         elif not vals.get('is_swot'):
-            self.env['project.task.quadrant'].search([('project_id', '=', self.id)]).unlink()
+            for project in self:
+                self.env['project.task.quadrant'].search([('project_id', '=', project.id)]).unlink()
+            # ~ self.env['project.task.quadrant'].search([('project_id', '=', self.id)]).unlink()
         return record
 
 
