@@ -1,2 +1,2 @@
 git@github.com:OCA/queue.git /usr/share/odooext-OCA-queue
-git@github.com:OCA/mis-builder.git /usr/share/odooext-OCA-mis-builder
+git@github.com:vertel/odoo-account.git /usr/share/odoo-account
