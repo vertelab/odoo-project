@@ -44,7 +44,7 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # Any module necessary for this one to work correctly
-    'depends': ['mis_builder_budget', 'mis_budget_extended','project',],
+    'depends': ['mis_builder_budget', 'account_mis_budget','project',],
 
     # always loaded
     'data': [
