@@ -202,10 +202,17 @@ class Project(models.Model):
 
     @api.model_create_multi
     def create(self, vals):
-        record = super(Project, self).create(vals)
-        if record.is_swot:
-            record.create_quadrants()
-        return record
+        records = super().create(vals_list)
+        for record in records:
+            if record.is_swot:
+                # Your custom logic here
+                record.create_quadrants()
+        return records
+    
+        # ~ record = super(Project, self).create(vals)
+        # ~ if record.is_swot:
+            # ~ record.create_quadrants()
+        # ~ return record
 
     def write(self, vals):
         record = super(Project, self).write(vals)
