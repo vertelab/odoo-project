@@ -56,6 +56,7 @@ class Project(models.Model):
 
     def create_project_ci(self):
         if self.project_ci_branch_name_ids:
+            report_return_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url', False)
             project_ci_id = self.env["project.ci"].create({"project_id":self.id})
             for branch in self.project_ci_branch_name_ids:
                 project_ci_branch_id = self.env["project.ci.branch"].create({"project_ci_id": project_ci_id.id, "project_ci_branch_name_id": branch.id})
@@ -69,6 +70,9 @@ class Project(models.Model):
                 if self.ci_req_folder_path:
                     command.append("-r")
                     command.append(f"{self.ci_req_folder_path}")
+                if report_return_url:
+                    command.append("-u")
+                    command.append(f"{report_return_url}")
                 subprocess.Popen(command)
         else:
             raise UserError(f"No branches selected for {self.name}")
