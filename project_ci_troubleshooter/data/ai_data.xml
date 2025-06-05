@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+<!-- Full records: Quest, agent memory and tools -->
+
+<record model="ai.quest" id="ai_quest_6">
+  <field name="ai_type">default</field>
+  <field name="chat_history_limit">10</field>
+  <field name="code"><![CDATA[# Available variables:  
+#  - env, self: Odoo Environment on which the action is triggered
+#  - quest: The current Quest
+#  - agents: A list of agents for this Quest
+#  - company_id: The current Company
+#  - context: The current context
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - message: Human message record
+#  - message_body: Human message in a chat context
+#  - message_invoke: Invoke-parameter in a chat context
+#  - UserError: Raise UserError-condition 
+#  - _logger: Logger eg _logger.warning(f"My text")
+# To return a result assign result
+
+# Example:
+#
+result = quest.build(session=session,message=message_body).invoke(message_invoke)
+#
+
+
+
+]]></field>
+  <field name="color">1</field>
+  <field name="init_type">manual</field>
+  <field name="name">CI Troubleshoot</field>
+  <field name="sub_description">CI Troubleshoot</field>
+  <field name="status">draft</field>
+  <field name="use_chat_history">True</field>
+  <field name="use_company_info">True</field>
+  <field name="use_personal_info">True</field>
+  <field name="use_personal_lang">True</field>
+  <field name="use_time_context">True</field>
+  <field name="supervisor_prompt"><![CDATA[You are a supervisor coordinating between workers: {members}.
+Based on the request, determine which worker should handle the next step.
+Only choose FINISH when a complete response has been provided.
+
+Guidelines: {self.description}
+{self._extra_context(self)}
+
+Instructions:
+1. Choose the most appropriate worker first
+2. Evaluate if we have a complete response
+3. Send FINISH only when we have a satisfactory response
+4. Do not mention that you have done tool calls, that's too technical 
+5. {use_lang}
+]]></field>
+  <field name="supervisor_temperature">0.7</field>
+  <field name="supervisor_cycles">5</field>
+  <field name="uuid">yQnHGFmmjz</field>
+</record>
+
+
+
+</data>
+</odoo>
