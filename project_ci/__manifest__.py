@@ -41,7 +41,8 @@
         "data/project_ci_branch_data.xml",
         "views/project_views.xml",
         "views/project_ci_branch_views.xml",
-        "views/project_ci_views.xml"
+        "views/project_ci_views.xml",
+        "views/project_ci_branch_line_views.xml"
     ],
     'demo': [],
     'application': False,

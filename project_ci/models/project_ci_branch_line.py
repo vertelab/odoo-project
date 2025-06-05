@@ -13,3 +13,16 @@ class ProjectCIBranchLine(models.Model):
         selection=[("unknown", "Unknown"), ("warning", "Warning"), ("error", "Error"), ("critical","critical"), ("traceback", "Traceback"), ("full_log", "Full Log")],
         default="unknown", string="Line Type")
     text = fields.Text()
+    
+    def create_task(self):
+        task_id = self.env["project.task"].create({'name': self.text[-100:], 'description': self.text, 'project_id': self.project_ci_branch_id.project_id.id})
+        action = {
+            'type': 'ir.actions.act_window',
+            'name': 'CI Task Wizard',
+            'res_model': 'project.task',
+            'view_mode': 'form',
+            "res_id": task_id.id,
+            'view_id': self.env.ref('project.view_task_form2').id,
+            'target': 'new',
+        }
+        return action
