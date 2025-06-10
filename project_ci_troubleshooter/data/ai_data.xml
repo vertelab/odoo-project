@@ -4,37 +4,28 @@
 
 <!-- Full records: Quest, agent memory and tools -->
 
-<record model="ai.quest" id="ai_quest_6">
-  <field name="ai_type">default</field>
+<record model="ai.quest" id="ai_quest_7">
   <field name="chat_history_limit">10</field>
-  <field name="code"><![CDATA[# Available variables:  
-#  - env, self: Odoo Environment on which the action is triggered
-#  - quest: The current Quest
-#  - agents: A list of agents for this Quest
-#  - company_id: The current Company
-#  - context: The current context
-#  - record: record on which the action is triggered; may be void
-#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
-#  - message: Human message record
-#  - message_body: Human message in a chat context
-#  - message_invoke: Invoke-parameter in a chat context
-#  - UserError: Raise UserError-condition 
-#  - _logger: Logger eg _logger.warning(f"My text")
-# To return a result assign result
+  <field name="code"><![CDATA[result = quest.build(session=session,message=message_body).invoke(message_invoke)
+#_logger.error(f"{result=}")
+ai_message = quest.get_last_ai_message_content(result)
+new_description = """
+{0} 
 
-# Example:
-#
-result = quest.build(session=session,message=message_body).invoke(message_invoke)
-#
+{1}""".format(record.description,ai_message)
+record.write({"description": markdown2html(new_description)})
+
 
 
 
 ]]></field>
   <field name="color">1</field>
+  <field name="debug">True</field>
+  <field name="description"><![CDATA[You will receive information from an Odoo log file. Use your expertise to figure out what the problem is and what one can do about it to fix it.]]></field>
   <field name="init_type">manual</field>
   <field name="name">CI Troubleshoot</field>
   <field name="sub_description">CI Troubleshoot</field>
-  <field name="status">draft</field>
+  <field name="status">active</field>
   <field name="use_chat_history">True</field>
   <field name="use_company_info">True</field>
   <field name="use_personal_info">True</field>
@@ -56,10 +47,36 @@ Instructions:
 ]]></field>
   <field name="supervisor_temperature">0.7</field>
   <field name="supervisor_cycles">5</field>
-  <field name="uuid">yQnHGFmmjz</field>
+  <field name="uuid">cG4oMosPhT</field>
+  <field name="ai_type">ci_troubleshooter</field>
 </record>
 
 
+
+<record model="ai.agent" id="ai_agent_9">
+  <field name="ai_backstory"><![CDATA[You will receive error logs from a odoo instance help the user solve/fixed them]]></field>
+  <field name="ai_goal"><![CDATA[Give a great answer to how to solve the issue or what could be the problem]]></field>
+  <field name="ai_prompt_template"><![CDATA[<p style='margin:0px;font-size:13px;font-family:"Lucida Grande", Helvetica, Verdana, Arial, sans-serif;'><br></p>]]></field>
+  <field name="ai_role">Odoo Troubleshooting Expert</field>
+  <field name="ai_temperature">0.7</field>
+  <field name="ai_type">default</field>
+  <field name="color">10</field>
+  <field name="name">Odoo Troubleshooting Expert</field>
+  <field name="status">active</field>
+</record>
+
+
+
+<!-- Glue records: agent to tools -->
+
+<!-- Glue records: agent to memory -->
+
+<!-- Glue records: quest to agent -->
+<record id="ai_quest_ai_agent_9" model="ai.quest.agent">
+            <field name="ai_agent_id" ref="ai_agent_9"/>
+            <field name="sequence">0</field>
+            <field name="ai_quest_id" ref="ai_quest_7"/>
+        </record>
 
 </data>
 </odoo>
