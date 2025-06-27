@@ -35,7 +35,7 @@
             </field>
         </record>
         
-->
+-->
         <record model="ir.ui.view" id="view_task_form2">
             <field name="name">project.task.form.budget</field>
             <field name="model">project.task</field>
@@ -43,14 +43,14 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="is_budget" invisible="1"/>
-                    <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}" />
-                    <field name="budget_item_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
+                    <field name="budget_id" invisible="not is_budget"/>
+                    <field name="budget_item_id" invisible="not is_budget"/>
                 </field>
 
                 <field name="user_ids" position="after">
                     <field name="is_kpi_budget" invisible="1"/>
-                    <field name="kpi_budget_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}" />
-                    <field name="kpi_budget_item_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}"/>
+                    <field name="kpi_budget_id" invisible="not is_kpi_budget"/>
+                    <field name="kpi_budget_item_id" invisible="not is_kpi_budget"/>
                 </field>
             </field>
         </record>
@@ -81,7 +81,7 @@
         <record model="ir.ui.view" id="view_project_kanban">
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
                 <field name="tag_ids" position="after">
                     <field name="is_budget" invisible="1"/>
@@ -99,19 +99,19 @@
         <record model="ir.ui.view" id="view_project_task_kanban">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_kanban" />
+            <field name="inherit_id" ref="project.view_task_kanban"/>
             <field name="arch" type="xml">
                 <field name="allow_milestones" position="after">
                     <field name="id" invisible="1"/>
                     <field name="is_budget" invisible="1"/>
                     <field name="is_kpi_budget" invisible="1"/>
                 </field>
-                <xpath expr="//div[hasclass('oe_kanban_content')]/div[@t-if='!selection_mode']/div[1]" position="after">
-                    <div class="oe_kanban_bottom_right" groups="project.group_project_user">
+                <div class="dropdown-menu" role="menu" position="after">
+                  <div class="oe_kanban_bottom_right" groups="project.group_project_user">
                         <a t-if="record.is_budget.raw_value" name="view_budget_by_account_item" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">Account Items</a>
                         <a t-if="record.is_kpi_budget.raw_value" name="view_budget_by_kpi_item" type="object" t-attf-context="{'active_id': #{record.id.raw_value} }">KPI Items</a>
-                    </div>
-                </xpath>
+                  </div>
+                </div>
             </field>
         </record>
     </data>
