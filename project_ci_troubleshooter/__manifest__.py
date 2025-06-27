@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Project: Project CI',
+    'name': 'Project: CI Troubleshooter',
     'version': '1.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -35,18 +35,10 @@
     'website': 'https://vertel.se/apps/odoo-',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
-    'depends': ["project"],
-    'data': [
-        "security/ir.model.access.csv",
-        "data/project_ci_branch_data.xml",
-        "views/project_views.xml",
-        "views/project_ci_branch_views.xml",
-        "views/project_ci_views.xml",
-        "views/project_ci_branch_line_views.xml"
-    ],
+    'depends': ["ai_agent","project_ci"],
+    'data': ["data/ai_data.xml"],
     'demo': [],
     'application': False,
     'installable': True,    
     'auto_install': False,
-    #"post_init_hook": "post_init_hook",
 }

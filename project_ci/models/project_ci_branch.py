@@ -39,19 +39,16 @@ class ProjectCIBranch(models.Model):
         domain=[('line_type','=','full_log')]
     )
     project_ci_branch_name_id = fields.Many2one(comodel_name="project.ci.branch.name")
+    
     status = fields.Selection(
         selection=[("unknown", "Unknown"), ("successful", "Successful"), ("failed", "Failed")],
         default="unknown", string="Test Result")
-    status_color_ball = fields.Selection(
-        selection=[("unknown", "Unknown"), ("successful", "Successful"), ("failed", "Failed")],
-        default="unknown", string="Test Result", compute="compute_kanban_state")
-
-    kanban_state = fields.Selection([('normal', 'In Progress'), ('done', 'Done'), ('blocked', 'Blocked')],
-                                    default='normal', comput='compute_kanban_state')
-
     
+    kanban_state = fields.Selection([('normal', 'In Progress'), ('done', 'Done'), ('blocked', 'Blocked')],
+                                    default='normal', compute='_compute_kanban_state')
+
     @api.depends("status")
-    def compute_kanban_state(self):
+    def _compute_kanban_state(self):
         for record in self:
             kanban_state = 'normal'
             if record.status == 'successful':
@@ -59,7 +56,6 @@ class ProjectCIBranch(models.Model):
             elif record.status == 'failed':
                 kanban_state = 'blocked'
             record.kanban_state = kanban_state
-            record.status_color_ball = record.status
 
 
     
