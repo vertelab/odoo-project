@@ -10,8 +10,8 @@
                     <field name="is_kpi_budget"/>
                 </field>
                 <field name="user_id" position="before">
-                    <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
-                    <field name="kpi_budget_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}"/>
+                    <field name="budget_id" invisible="not is_budget"/>
+                    <field name="kpi_budget_id" invisible="not is_kpi_budget"/>
                 </field>
             </field>
         </record>
@@ -35,7 +35,7 @@
             </field>
         </record>
         
-->
+-->
         <record model="ir.ui.view" id="view_task_form2">
             <field name="name">project.task.form.budget</field>
             <field name="model">project.task</field>
@@ -43,14 +43,14 @@
             <field name="arch" type="xml">
                 <field name="partner_id" position="after">
                     <field name="is_budget" invisible="1"/>
-                    <field name="budget_id" attrs="{'invisible': [('is_budget', '=', False)]}" />
-                    <field name="budget_item_id" attrs="{'invisible': [('is_budget', '=', False)]}"/>
+                    <field name="budget_id" invisible="not is_budget"/>
+                    <field name="budget_item_id" invisible="not is_budget"/>
                 </field>
 
                 <field name="user_ids" position="after">
                     <field name="is_kpi_budget" invisible="1"/>
-                    <field name="kpi_budget_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}" />
-                    <field name="kpi_budget_item_id" attrs="{'invisible': [('is_kpi_budget', '=', False)]}"/>
+                    <field name="kpi_budget_id" invisible="not is_kpi_budget"/>
+                    <field name="kpi_budget_item_id" invisible="not is_kpi_budget"/>
                 </field>
             </field>
         </record>
@@ -81,7 +81,7 @@
         <record model="ir.ui.view" id="view_project_kanban">
             <field name="name">project.project.form</field>
             <field name="model">project.project</field>
-            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
                 <field name="tag_ids" position="after">
                     <field name="is_budget" invisible="1"/>
@@ -99,7 +99,7 @@
         <record model="ir.ui.view" id="view_project_task_kanban">
             <field name="name">project.task.form</field>
             <field name="model">project.task</field>
-            <field name="inherit_id" ref="project.view_task_kanban" />
+            <field name="inherit_id" ref="project.view_task_kanban"/>
             <field name="arch" type="xml">
                 <field name="allow_milestones" position="after">
                     <field name="id" invisible="1"/>

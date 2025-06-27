@@ -26,7 +26,7 @@
         <record model="ir.ui.view" id="mis_budget_by_account_item_form_view">
             <field name="name">mis.budget.by.account.item.form (in mis_builder_budget)</field>
             <field name="model">mis.budget.by.account.item</field>
-            <field name="inherit_id" ref="mis_budget_extended.mis_budget_by_account_item_form_view" />
+            <field name="inherit_id" ref="account_mis_budget.mis_budget_by_account_item_form_view" />
             <field name="arch" type="xml">
                 <field name="account_id" position="after">
                     <field name="task_id" />
