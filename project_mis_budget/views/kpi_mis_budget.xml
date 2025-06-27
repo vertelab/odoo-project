@@ -3,7 +3,7 @@
         <record model="ir.actions.act_window" id="kpi_budget_task_act_window">
             <field name="name">Task KPI Budget</field>
             <field name="res_model">project.task</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('kpi_budget_id', '=', active_id)]</field>
             <field name="context">{'default_kpi_budget_id': active_id}</field>
         </record>
@@ -11,7 +11,7 @@
         <record model="ir.actions.act_window" id="kpi_budget_project_act_window">
             <field name="name">Project KPI Budget</field>
             <field name="res_model">project.project</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">list,form</field>
             <field name="domain">[('kpi_budget_id', '=', active_id)]</field>
             <field name="context">{'default_kpi_budget_id': active_id}</field>
         </record>
@@ -35,7 +35,7 @@
         <record model="ir.ui.view" id="mis_budget_item_form_view">
             <field name="name">mis.budget.item.form (in mis_builder_budget)</field>
             <field name="model">mis.budget.item</field>
-            <field name="inherit_id" ref="mis_budget_extended.mis_budget_item_form_view" />
+            <field name="inherit_id" ref="account_mis_budget.mis_budget_item_form_view" />
             <field name="arch" type="xml">
                 <field name="budget_id" position="after">
                     <field name="task_id" />
