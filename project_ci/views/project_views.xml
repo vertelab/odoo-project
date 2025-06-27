@@ -19,7 +19,6 @@
                 </div>
                 <field name="label_tasks" position="after">
                     <group>
-                        <label for="is_odoo_project" class="oe_inline" string="is odoo project"/>
                         <field name="is_odoo_project" string="is odoo project"/>
                     </group>
                 </field>
