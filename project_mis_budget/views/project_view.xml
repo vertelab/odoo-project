@@ -46,7 +46,7 @@
                     <field name="budget_id" invisible="not is_budget"/>
                     <field name="budget_item_id" invisible="not is_budget"/>
                 </field>
-
+                
                 <field name="user_ids" position="after">
                     <field name="is_kpi_budget" invisible="1"/>
                     <field name="kpi_budget_id" invisible="not is_kpi_budget"/>
@@ -83,7 +83,7 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_kanban"/>
             <field name="arch" type="xml">
-                <field name="tag_ids" position="after">
+                <field name="analytic_account_id" position="after">
                     <field name="is_budget" invisible="1"/>
                     <field name="is_kpi_budget" invisible="1"/>
                 </field>
@@ -101,7 +101,7 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_kanban"/>
             <field name="arch" type="xml">
-                <field name="allow_milestones" position="after">
+                <field name="stage_id" position="after">
                     <field name="id" invisible="1"/>
                     <field name="is_budget" invisible="1"/>
                     <field name="is_kpi_budget" invisible="1"/>
