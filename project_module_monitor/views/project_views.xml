@@ -1,0 +1,122 @@
+<odoo>
+    <data>
+        <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.module.monitor.form</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project" />
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='active']" position="after">
+                    <div>
+                        <label for="is_module_monitor" class="oe_inline" string="Is module monitor:" />
+                        <field name="is_module_monitor" class="oe_inline oe_input_align" />
+                    </div>
+                </xpath>
+                <!--
+                     <header position="inside">
+                     <button name="action_show_add_repo" string="Add repo" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
+                     <button name="action_add_stakeholder" string="Add stakeholder" type="object" attrs="{'invisible': [('is_module_monitor', '=', False)]}" />
+                     </header>
+                -->
+            </field>
+        </record>
+        <record id="task_type_edit" model="ir.ui.view">
+            <field name="name">project.module.monitor.form</field>
+            <field name="model">project.task.type</field>
+            <field name="inherit_id" ref="project.task_type_edit" />
+            <field name="arch" type="xml">
+                <field name="sequence" position="after">
+                    <field name="monitor_odoo_version" invisible="not is_module_monitor" />
+                    <field name="is_module_monitor" invisible="1" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_search_form" model="ir.ui.view">
+            <field name="name">project.task.module_monitor.search</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_search_form" />
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="git_repo" />
+                    <field name="module_branches" />
+                    <field name="module_version_ids" widget="many2many_tags" />
+                    <field name="module_stakeholder_ids" widget="many2many_tags" />
+                </field>
+                <filter name="my_tasks" position="after">
+                    <!--
+                         <filter string="Is Module Monitor" name="module_monitor" domain="[('is_module_monitor', '=', True)]" />
+                    -->
+                    <filter string="Has Stakeholders" name="has_module_stakeholder" domain="[('module_stakeholder_ids', '!=', False)]" />
+                    <filter string="Missing Stakeholders" name="missing_module_stakeholder" domain="[('module_stakeholder_ids', '=', False)]" />
+                </filter>
+                <xpath expr="//group" position="inside">
+                    <filter string="Repo" name="repo" context="{'group_by': 'git_repo'}" />
+                </xpath>
+            </field>
+        </record>
+        <record id="view_task_tree2" model="ir.ui.view">
+            <field name="name">project.task.module_monitor.tree</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_tree2" />
+            <field name="arch" type="xml">
+                <field name="user_id" position="after">
+                    <field name="git_repo" optional="hide" />
+                    <field name="module_branches" optional="hide" />
+                    <field name="module_version_ids" widget="many2many_tags" optional="hide" />
+                    <field name="module_stakeholder_ids" widget="many2many_tags" optional="hide" />
+                    <field name="is_module_monitor" optional="hide" />
+                </field>
+            </field>
+        </record>
+        <record id="view_task_form2" model="ir.ui.view">
+            <field name="name">project.task.module_monitor.form</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project_github.view_task_form2" />
+            <field name="arch" type="xml">
+                <field name="module_author" position="after">
+                    <field name="git_repo" />
+                    <field name="git_owner" />
+                </field>
+                <field name="module_auto_install" position="after">
+                    <field name="module_branches" />
+                    <field name="module_version_ids" widget="many2many_tags" />
+                    <field name="module_stakeholder_ids" widget="many2many_tags" />
+                    <field name="is_module_monitor" invisible="1" />
+                </field>
+            </field>
+        </record>
+        <!--
+             <record id="view_project_task_kanban_make_monitor" model="ir.ui.view">
+             <field name="name">project.module.monitor.kanban</field>
+             <field name="model">project.project</field>
+             <field name="inherit_id" ref="project.view_task_kanban" />
+             <field name="arch" type="xml">
+             <field name="name" position="after">
+             <field name="module_author" />
+             <field name="module_category" />
+             <field name="module_author" />
+             <field name="git_module" />
+             </field>
+
+             <xpath expr="//div[@class='o_kanban_record_top']" position="inside">
+
+             <field name="module_author" />
+             <field name="module_category" />
+             <field name="module_author" />
+             <field name="git_module" />
+             </xpath>
+             </field>
+             </record>
+
+        -->
+        <record id="view_project_kanban" model="ir.ui.view">
+            <field name="name">project.module.monitor.main.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="is_module_monitor" />
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>

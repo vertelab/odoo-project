@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+
+        <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.project.form.create.project.cis.button</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="create_project_ci" string="Run CI Tests" type="object" invisible="not is_odoo_project"/>
+                </header>
+                <div class="oe_button_box" position="inside">
+                    <button class="oe_stat_button" name="project_ci_action" type="object" icon="fa-file-text-o" invisible="count_project_ci == 0">
+                        <field string="CI" name="count_project_ci" widget="statinfo"/>
+                    </button>
+                    <button class="oe_stat_button" name="project_ci_branch_action" type="object" icon="fa-file-text-o" invisible="count_project_ci_branch == 0">
+                        <field string="CI Branches" name="count_project_ci_branch" widget="statinfo"/>
+                    </button>
+                </div>
+                <field name="label_tasks" position="after">
+                    <field name="is_odoo_project" string="Is Odoo Project"/>
+                </field>
+                <page name="settings" position="after">
+                    <page name="ci" string="CI" invisible="not is_odoo_project">
+                        <group>
+                            <field name="project_ci_branch_name_ids" widget="many2many_tags" string="Branches"/>
+                            <field name="ci_project_name"/>
+                            <field name="ci_module_list"/>
+                            <field name="ci_git_url"/>
+                            <field name="ci_req_folder_path"/>
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_module_monitor_wizard_view" model="ir.ui.view">
+            <field name="name">project_module_monitor_wizard_view</field>
+            <field name="model">project.module.monitor.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="project_id" invisible="1" />
+                            <field name="module_author" />
+                            <field name="branch" />
+                            <field name="git_repo_ids" widget="many2many_tags" />
+                            <field name="update_modules" />
+                        </group>
+                        <field name="author_lst" readonly="1"/>
+                        <field name="message_box" readonly="1"/>
+                        <footer>
+                            <button string="Add Repo" type="object" class="oe_highlight" name="load_modules" />
+                            <button string="Cancel" class="btn-secondary" special="cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_project_module_monitor_wizard_view" model="ir.actions.act_window">
+            <field name="name">Load modules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.module.monitor.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project_module_monitor_wizard_view" />
+            <field name="target">new</field>
+        </record>
+
+        <record id="view_project_kanban_make_monitor" model="ir.ui.view">
+            <field name="name">project.module.monitor.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='container']/div[hasclass('o_kanban_card_manage_settings')]" position="inside">
+                    <div role="menuitem" t-if="record.is_module_monitor.raw_value">
+                        <a type="action" name="%(project_module_monitor.action_project_module_monitor_wizard_view)d">Add repo</a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

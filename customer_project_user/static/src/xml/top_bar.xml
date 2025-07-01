@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-extend="mail.MessagingMenu" owl="1" t-inherit-mode="extension">
+        <xpath expr="//li[hasclass('o_MessagingMenu')]" position="attributes">
+            <attribute name="groups">base.group_user</attribute>
+        </xpath>
+    </t>
+</templates>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="project_add_stakeholder_wizard_view" model="ir.ui.view">
+            <field name="name">project_add_stakeholder_wizard_view</field>
+            <field name="model">project.add.stakeholder.wizard</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="project_id" invisible="1" />
+                            <field name="partner_id" />
+                            <field name="exclude_odoosa" />
+                            <field name="stakeholder_file" />
+                            <field name="branch"/>
+                            <field name="odoo_server" />
+                        </group>
+                        <field name="message_box" readonly="1"/>
+                        <field name="addrepos_button" invisible="1"/>
+                        <footer>
+                            <button string="Add Stakeholder to modules" type="object" class="oe_highlight" name="load_file" />
+                            <button string="Check Repos" type="object" class="oe_highlight" name="check_repos" />
+                            <button string="Add Repos" type="object" class="oe_highlight" name="add_repos" invisible="not addrepos_button"  />
+                            <button string="Cancel" class="btn-secondary" special="cancel" />
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="action_project_add_stakeholder_wizard_view" model="ir.actions.act_window">
+            <field name="name">Load modules</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">project.add.stakeholder.wizard</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="project_add_stakeholder_wizard_view" />
+            <field name="target">new</field>
+        </record>
+
+
+        <record id="view_project_kanban_stakeholder" model="ir.ui.view">
+            <field name="name">project.module.monitor.kanban</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.view_project_kanban" />
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='container']/div[hasclass('o_kanban_card_manage_settings')]" position="inside">
+                    <div role="menuitem" t-if="record.is_module_monitor.raw_value">
+                        <a type="action" name="%(project_module_monitor.action_project_add_stakeholder_wizard_view)d">Add Stakeholder</a>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
