@@ -38,7 +38,7 @@
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['project',],
     'data': [
-        "views/project_task_view.xml"
+       "views/project_task_view.xml"
     ],
     "demo": [],
     "installable": True,
