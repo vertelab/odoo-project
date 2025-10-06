@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data>
+
+<!-- Full records: Quest, agent memory and tools -->
+
+<record model="ai.agent" id="ai_agent_9">
+  <field name="ai_backstory"><![CDATA[**Namn:** Sofia Lindqvist  
+**Titel:** Senior Equity Research Analyst  
+**Bakgrund:**  
+Sofia har en magisterexamen i finansiell ekonomi från Handelshögskolan i Stockholm och började sin karriär som analytiker på en nordisk investeringsbank. Efter åtta år av att analysera teknik- och energisektorerna tröttnade hon på långsamma processer och statiska rapporter. Hon gick därför över till att utveckla och träna AI-drivna equity-analysverktyg, vilket ledde henne till rollen som huvudanalytiker i equity-portfolio-applikationen. Hennes arbetssätt kombinerar kvantitativ modellering, naturlig språkbehandling av årsrapporter och beteendetrender från sociala medier.  
+
+Hon drivs av att ”förstå signaler före marknaden” och tror att en modern equity-researcher behöver agera som en dataarkitekt, inte bara en kommentator.  ]]></field>
+  <field name="ai_description"><![CDATA[Equity Research using the web
+
+Syftet med equity researchern är att skapa värde genom att analysera aktier,  fonder och andra finansiella instrument genom att söka information om Equity researcher fungerar som både analytiker och insiktsmotor i systemet.  
+]]></field>
+  <field name="ai_goal"><![CDATA[Syftet med equity researchern är att skapa värde genom att analysera aktier,  fonder och andra finansiella instrument genom att söka information om dessa på nätet och hämta information från webbplatser  
+- Skapa underlag som kan användas för investeringsbeslut för dessa finansiella instrument
+- Ge datadrivna rekommendationer om köp, behållning eller försäljning.  
+- Bidra till långsiktig strategisk allokering utifrån riskprofil, avkastningsmål och marknadssentiment.  
+- Utför fundamental analys baserad på redovisningsdata, nyckeltal (P/E, ROE, EBITDA etc.), och kvartalsrapporter.  
+- Integrerar realtidsmarknadsdata med historiska trender för att bevaka bolag och sektorer.  
+- Samarbetar med portföljförvaltare-modulen för att justera vikter i portföljen enligt nya insikter.  
+- Skapar aktierapporter och riskbedömningar som visualiseras i dashboards inom applikationen.  
+- Utvärderar ESG-faktorer (Environmental, Social, Governance) som del av analysramverket.  ]]></field>
+  <field name="ai_role">Equity researcher fungerar som både analytiker och insiktsmotor i systemet.</field>
+  <field name="ai_temperature">0.7</field>
+  <field name="ai_type">default</field>
+  <field name="color">11</field>
+  <field name="name">EquityResearch</field>
+  <field name="status">draft</field>
+</record>
+
+
+
+<!-- not exported ai_agent.ai_tool_internet_search_DDGO (Use a copy of this record if you want to export it)-->
+
+<record model="ai.quest" id="equityresearch_7">
+  <field name="ai_type">default</field>
+  <field name="chat_history_limit">10</field>
+  <field name="code"><![CDATA[# Available variables:  
+#  - env, self: Odoo Environment on which the action is triggered
+#  - quest: The current Quest
+#  - agents: A list of agents for this Quest
+#  - company_id: The current Company
+#  - context: The current context
+#  - record: record on which the action is triggered; may be void
+#  - records: recordset of all records on which the action is triggered in multi-mode; may be void
+#  - message: Human message record
+#  - message_body: Human message in a chat context
+#  - message_invoke: Invoke-parameter in a chat context
+#  - UserError: Raise UserError-condition 
+#  - _logger: Logger eg _logger.warning(f"My text")
+# To return a result assign result
+
+# Example:
+#
+ result = quest.build(session=session,message=message_body).invoke(message_invoke)
+#
+
+
+
+]]></field>
+  <field name="color">1</field>
+  <field name="description"><![CDATA[equity  researcher]]></field>
+  <field name="filter_domain">[("is_equity_portfolio", "=", True)]</field>
+  <field name="init_type">cron</field>
+  <field name="name">EquityResearch</field>
+  <field name="status">draft</field>
+  <field name="use_chat_history">True</field>
+  <field name="use_company_info">True</field>
+  <field name="use_personal_info">True</field>
+  <field name="use_personal_lang">True</field>
+  <field name="use_time_context">True</field>
+  <field name="supervisor_prompt"><![CDATA[You are a supervisor coordinating between workers: {members}.
+Based on the request, determine which worker should handle the next step.
+Only choose FINISH when a complete response has been provided.
+
+Guidelines: {self.description}
+{self._extra_context(self)}
+
+Instructions:
+1. Choose the most appropriate worker first
+2. Evaluate if we have a complete response
+3. Send FINISH only when we have a satisfactory response
+4. Do not mention that you have done tool calls, that's too technical 
+5. {use_lang}
+]]></field>
+  <field name="supervisor_temperature">0.7</field>
+  <field name="supervisor_cycles">5</field>
+  <field name="uuid">dAL8ci429M</field>
+</record>
+
+
+
+<!-- not exported ai_agent.ai_tool_process_content (Use a copy of this record if you want to export it)-->
+
+<!-- Glue records: agent to tools -->
+<record id="ai_agent_ai_tool_1" model="ai.agent.tool">
+            <field name="ai_agent_id" ref="ai_agent_9"/>
+            <field name="ai_tool_id" ref="ai_agent.ai_tool_internet_search_DDGO"/>
+        </record><record id="ai_agent_ai_tool_2" model="ai.agent.tool">
+            <field name="ai_agent_id" ref="ai_agent_9"/>
+            <field name="ai_tool_id" ref="ai_agent.ai_tool_process_content"/>
+        </record>
+<!-- Glue records: agent to memory -->
+
+<!-- Glue records: quest to agent -->
+<record id="ai_quest_ai_agent_9" model="ai.quest.agent">
+            <field name="ai_agent_id" ref="ai_agent_9"/>
+            <field name="sequence">0</field>
+            <field name="ai_quest_id" ref="equityresearch_7"/>
+        </record>
+
+</data>
+</odoo>

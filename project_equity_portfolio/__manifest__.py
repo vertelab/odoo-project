@@ -20,21 +20,25 @@
 ##############################################################################
 
 {
-    'name': 'Project: Task Number',
+    'name': 'Project: Equity Portfolio',
     'version': '1.0',
-    'summary': 'Gives every task an uniq id',
+    'summary': 'Each project of this type is a equity portfolio',
     'category': 'Productivity',
     'description': """
-        This module gives every task a uniq number to be used for instance with webhooks on github
+        A new project type that changes the project to a Equity Porfolio, where each task is an equity.
     """,
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_number',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': ['project', "queue_job"],
+    'depends': ['project','ai_agent' ],
     'data': [
-        'data/sequence.xml',
+        'data/action_server.xml',
+        'data/task_type.xml',
+        'security/ir.model.access.csv',
+        'wizard/equity_transaction_wizard.xml',
+        'views/project_views.xml',
         'views/project_task_views.xml',
     ],
     'application': True,

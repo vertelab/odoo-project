@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_project_task_equity_price_user,access.project.task.equity.price.user,model_project_task_equity_price,,1,1,1,1
+access_project_equity_valuation_user,access.project.equity_valuation.user,model_project_equity_valuation,,1,1,1,1
+access_project_equity_transaction_user,access.project.equity.transactions.user,model_project_equity_transaction,,1,1,1,1
+access_project_equity_research_user,access.project.equity.research.user,model_project_equity_research,,1,1,1,1
+access_project_equity_research_topic_user,access.project.equity.research.topic.user,model_project_equity_research_topic,,1,1,1,1
+access_project_task_equity_research_user,access.project.task.equity.research.user,model_project_task_equity_research,,1,1,1,1
+access_equity_transaction_wizard_user,access.equity.transaction.wizard.user,model_equity_transaction_wizard,,1,1,1,1
