@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_equity_transaction_wizard_form" model="ir.ui.view">
+        <field name="name">equity.transaction.wizard.form</field>
+        <field name="model">equity.transaction.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Equity Transaction Wizard">
+                <group>
+                    <field name="transaction_type"/>
+                    <field name="project_id" invisible="1"/>
+                    <field name="equity_symbol" invisible="transaction_type in ['contribution','withdrawal']"/>
+                    <field name="task_id" domain="[('project_id','=',project_id)]" invisible="transaction_type != 'sell'"/>
+                    <field name="number" invisible="transaction_type in ['contribution','withdrawal']" />
+                    <field name="equity_value" />
+                    <field name="transaction_fee"/>
+                    <field name="currency_id" invisible="1"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="action_confirm" class="btn-primary"/>
+                    <button string="Cancel" class="btn-link" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="action_equity_transaction_wizard" model="ir.actions.act_window">
+        <field name="name">Equity Transaction Wizard</field>
+        <field name="res_model">equity.transaction.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+</odoo>
