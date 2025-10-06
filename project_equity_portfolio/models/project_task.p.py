@@ -130,6 +130,9 @@ class Task(models.Model):
             'domain': [('task_id', '=', self.id)],
             'context': {'default_task_id': self.id},
         }
+        
+        
+    
 
 class ProjectTaskStockPrice(models.Model):
     _name = 'project.task.equity_price'

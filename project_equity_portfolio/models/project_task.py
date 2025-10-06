@@ -126,10 +126,13 @@ class Task(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'Transactions',
             'res_model': 'project.equity_transaction',
-            'view_mode': 'list,form',
+            'view_mode': 'list,form,pivot,graph',
             'domain': [('task_id', '=', self.id)],
             'context': {'default_task_id': self.id},
         }
+        
+        
+    
 
 class ProjectTaskStockPrice(models.Model):
     _name = 'project.task.equity_price'

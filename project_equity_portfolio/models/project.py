@@ -336,7 +336,9 @@ class ProjectEquityResearchTopic(models.Model):
                                     region=topic.project_id.equity_research_region, 
                                     period=topic.project_id.equity_research_period)
             googlenews.set_topic(topic.topic)
-            items.extend(googlenews.get_news())
+            news = googlenews.get_news()
+            if news:
+                items.extend(googlenews.get_news())
         return items
         
         # ~ topic ekonomi CAAqJggKIiBDQkFTRWdvSUwyMHZNRGx6TVdZU0FuTjJHZ0pUUlNnQVAB
