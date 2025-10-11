@@ -262,6 +262,10 @@ class ProjectProject(models.Model):
             'context': {'default_project_id': self[0].id},
         }
         
+    def update_prices(self):
+        for portfolio in self:
+            if portfolio.is_equity_portfolio:
+                portfolio.task_ids.update_price()
             
 class ProjectProjectValuationRecord(models.Model):
     _name = 'project.equity_valuation'
@@ -309,6 +313,7 @@ class ProjectProjectTransaction(models.Model):
 class ProjectEquityResearch(models.Model):
     _name = 'project.equity_research'
     _description = 'Research about equity portfolio'
+    _order = 'prio asc, date desc'
 
     project_id = fields.Many2one('project.project', string='Portfolio', required=True, ondelete='cascade')
     desc = fields.Text(string='Research Summary', )
@@ -317,6 +322,7 @@ class ProjectEquityResearch(models.Model):
     img = fields.Char(string='Image', )
     media = fields.Char(string='Media', )
     search = fields.Char(string='Search', )
+    prio = fields.Integer(string='Prio',help="How prioritezed are this article")
     topic_id = fields.Many2one(comodel_name='project.equity_research.topic',string="Topic",help="") # domain|context|ondelete="'set null', 'restrict', 'cascade'"|auto_join|delegatefields.Char(string='Media', required=True)
     date = fields.Date(string='Research Date', default=fields.Date.context_today, )
 
