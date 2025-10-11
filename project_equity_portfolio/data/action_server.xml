@@ -3,30 +3,28 @@
   <record id="action_get_latest_news" model="ir.actions.server">
     <field name="name">Get Latest Equity News</field>
     <field name="model_id" ref="project.model_project_project"/>
-     <field name="binding_model_id" ref="project.model_project_project"/>
-    <field name="binding_view_types">form,list</field>
     <field name="state">code</field>
-    <field name="code">records.get_latest_news()</field>
+    <field name="code">
+        for r in records:
+            if r.is_equity_portfolio:
+                r.get_latest_news()
+    </field>
   </record>
-  <record id="action_get_latest_price" model="ir.actions.server">
-    <field name="name">Get Latest Equity Prices</field>
-    <field name="model_id" ref="project.model_project_project"/>
-     <field name="binding_model_id" ref="project.model_project_project"/>
-    <field name="binding_view_types">form,list</field>
-    <field name="state">code</field>
-    <field name="code">records.update_prices()</field>
-  </record>
-
-  
 
   <!-- Scheduled Action (Cron Job) -->
   <record id="ir_cron_get_latest_news" model="ir.cron">
     <field name="name">Scheduled Get Latest Equity News</field>
     <field name="model_id" ref="project.model_project_project"/>
     <field name="state">code</field>
-    <field name="code">env['project.project'].search([]).get_latest_news()</field>
-    <field name="interval_type">days</field>
+    <field name="code">
+        for r in records:
+            if r.is_equity_portfolio:
+                r.get_latest_news()
+</field>
+    <field name="interval_type">hours</field>
     <field name="interval_number">1</field>
+    <field name="numbercall">-1</field> 
+    <field name="doall" eval="False"/>
     <field name="active" eval="True"/>
   </record>
 </odoo>
