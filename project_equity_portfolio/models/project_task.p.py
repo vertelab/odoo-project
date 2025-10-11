@@ -3,6 +3,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 from datetime import date
 import logging
+import yfinance as yf
 
 _logger = logging.getLogger(__name__)
 
@@ -85,7 +86,7 @@ class Task(models.Model):
             'name': 'Equity Prices',
             'type': 'ir.actions.act_window',
             'res_model': 'project.task.equity_price',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form,pivot,graph',
             'domain': [('task_id', '=', self.id)],
             'context': {'default_task_id': self.id},
             'target': 'current',
@@ -97,7 +98,7 @@ class Task(models.Model):
             'name': 'Equity Research',
             'type': 'ir.actions.act_window',
             'res_model': 'project.task.equity_research',
-            'view_mode': 'tree,form',
+            'view_mode': 'list,form',
             'domain': [('task_id', '=', self.id)],
             'context': {'default_task_id': self.id},
             'target': 'current',
@@ -130,22 +131,61 @@ class Task(models.Model):
             'domain': [('task_id', '=', self.id)],
             'context': {'default_task_id': self.id},
         }
-        
-        
     
+    def update_price(self):
+        for equity in self:
+            self.env['project.task.equity_price'].add_price(equity)
 
 class ProjectTaskStockPrice(models.Model):
     _name = 'project.task.equity_price'
     _description = 'Stock price transaction linked to task'
+    _order = 'date desc'
 
     task_id = fields.Many2one('project.task', string='Task', required=True, ondelete='cascade')
     price = fields.Float(string='Stock Price', required=True)
     equity_symbol = fields.Char(string='Stock Symbol', related='task_id.equity_symbol')
     date = fields.Date(string='Transaction Date', default=fields.Date.context_today)
+    
+    def get_current_stock_price(equity_symbol):
+        stock = yf.Ticker(equity_symbol)
+        todays_data = stock.history(period="1d")
+        if not todays_data.empty:
+            return todays_data['Close'][0] 
+        else:
+            _logger.error(f"YF: Missing symbol {equity_symbol}")
+            return None
 
+    @api.model
+    def get_monthly_close_prices(self,equity_symbol):
+        stock = yf.Ticker(equity_symbol)
+        hist = stock.history(period="1mo", interval="1d")
+        if not hist.empty and 'Close' in hist:
+            return {str(date.date()): float(close) for date, close in hist['Close'].items()}
+        else:
+            _logger.error(f"YF: Missing data for symbol {equity_symbol}")
+            return {}
+
+    @api.model
+    def add_price(self, equity):
+        for str_date, price in self.get_monthly_close_prices(equity.equity_symbol).items():
+            _logger.debug(f"{equity.equity_symbol=} {str_date} {price}")
+            date = fields.Date.from_string(str_date)
+            if price and self.search_count([
+                    ('task_id', '=', equity.id),
+                    ('date', '=', date)]) == 0:
+                self.create({
+                    'task_id': equity.id,
+                    'price': price,
+                    'date': date,
+                })
+        
+        
+        
+        
 class ProjectTaskEquityResearch(models.Model):
     _name = 'project.task.equity_research'
     _description = 'Research about equity'
+    _order = 'date desc'
 
     task_id = fields.Many2one('project.task', string='Task', required=True, ondelete='cascade')
     equity_symbol = fields.Char(string='Stock Symbol', related='task_id.equity_symbol')
