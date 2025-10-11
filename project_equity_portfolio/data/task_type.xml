@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
+    <record id="task_type_prospect" model="project.task.type">
+        <field name="name">Prospect</field>
+        <field name="sequence">1</field>
+    </record>
+
     <record id="task_type_active" model="project.task.type">
         <field name="name">Active</field>
-        <field name="sequence">1</field>
+        <field name="sequence">2</field>
     </record>
 
     <record id="task_type_inactive" model="project.task.type">
         <field name="name">Inactive</field>
         <field name="fold" eval="True"/>
-        <field name="sequence">2</field>
+        <field name="sequence">3</field>
     </record>
 </odoo>
