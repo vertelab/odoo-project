@@ -109,7 +109,7 @@ class Task(models.Model):
         return result
         
     def action_monitor(self):
-        today = fields.Date.context_today(self)
+        today = fields.Datetime.now()
         for task in self:
             for monitor in task.project_id.task_monitor_ids:
                 # Check if monitor stage matches task stage
@@ -145,16 +145,16 @@ class Task(models.Model):
             elif stage.trigger_type == 'esc':
                 if stage.esc_user == 'create_uid':
                     task.user_ids = [(6, 0, [task.create_uid.id])]
-                    task.date_assign = fields.Date.context_today(self)
+                    task.date_assign = fields.Datetime.now()
                 elif stage.esc_user == 'write_uid':
                     task.user_ids = [(6, 0, [task.write_uid.id])]
-                    task.date_assign = fields.Date.context_today(self)
+                    task.date_assign = fields.Datetime.now()
                 elif stage.esc_user == 'project_id.user_id' and task.project_id.user_id:
                     task.user_ids = [(6, 0, [task.project_id.user_id.id])]
-                    task.date_assign = fields.Date.context_today(self)
+                    task.date_assign = fields.Datetime.now()
                 elif stage.esc_user == 'project_id.test_manager_id' and task.project_id.test_manager_id:
                     task.user_ids = [(6, 0, [task.project_id.test_manager_id.id])]
-                    task.date_assign = fields.Date.context_today(self) 
+                    task.date_assign = fields.Datetime.now() 
             elif stage.trigger_type == 'archive':
                 task.active = False
             elif stage.trigger_type == 'message':
