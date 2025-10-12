@@ -1,11 +1,8 @@
 from datetime import datetime, timedelta 
-from odoo import api, Command, fields, models, _
+from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 from odoo.addons.project_task_monitor.models.project_task import DEFAULT_CODE
 import logging
-import math
-import random
-import re
 
 _logger = logging.getLogger(__name__)
 

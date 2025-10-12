@@ -11,8 +11,8 @@ _logger = logging.getLogger(__name__)
 DEFAULT_CODE = """
 # Available variables:
 #  - env: environment on which the action is triggered
-#  - task: model of the record on which the action is triggered; is a void recordset
-#  - stage: record on which the action is triggered; may be void
+#  - task: record on which the action is triggered
+#  - stage: record on which the action is triggered
 #  - self: recordset of all records on which the action is triggered in multi-mode; may be void
 #  - time, datetime, dateutil, timezone: useful Python libraries
 #  - log: log(message, level='info'): logging function to record debug information in ir.logging table
@@ -43,12 +43,22 @@ def log(message, level="info", env=None):
 class TaskType(models.Model):
     _inherit = "project.task.type"
 
+    activity_type = fields.Many2one(comodel_name='mail.activity.type', string="Activity Type", help="")
     code = fields.Text(string='Code', default=DEFAULT_CODE)
-    trigger_type = fields.Selection(selection=[('code','Code'),('activity','Activity'),('esc','Escalate'),('archive','Archive'),('message','Message')],string='Type')
-    esc_user = fields.Selection(selection=[('create_uid','Created by'),('write_uid','Last Updated by'),('project_id.user_id','Project Manager'),('project_id.test_manager_id','Test Manager'),('assigned','Assigned to')],string='User')
-    activity_type = fields.Many2one(comodel_name='mail.activity.type',string="Activity Type",help="")
-    summary = fields.Char(string='Summary', size=64, trim=True, )
-    message = fields.Char(string='Message', )
+    esc_user = fields.Selection(selection=[
+        # ~ ('assigned','Assigned to')
+        ('create_uid','Created by'),
+        ('project_id.test_manager_id','Test Manager'),
+        ('project_id.user_id','Project Manager'),
+        ('write_uid','Last Updated by'),], string='User')
+    message = fields.Char(string='Message')
+    summary = fields.Char(string='Summary', size=64, trim=True)
+    trigger_type = fields.Selection(selection=[
+        ('activity','Activity'),
+        ('archive','Archive'),
+        ('code','Code'),
+        ('esc','Escalate'),
+        ('message','Message')], string='Type')
 
 class Task(models.Model):
     _inherit = "project.task"
@@ -94,7 +104,8 @@ class Task(models.Model):
     def write(self, vals):
         result = super().write(vals)
         if 'stage_id' in vals:
-            self.monitor_trigger(task.stage_id)
+            for task in self:
+                self.monitor_trigger(task.stage_id)
         return result
         
     def action_monitor(self):
@@ -134,12 +145,16 @@ class Task(models.Model):
             elif stage.trigger_type == 'esc':
                 if stage.esc_user == 'create_uid':
                     task.user_ids = [(6, 0, [task.create_uid.id])]
+                    task.date_assign = fields.Date.context_today(self)
                 elif stage.esc_user == 'write_uid':
                     task.user_ids = [(6, 0, [task.write_uid.id])]
+                    task.date_assign = fields.Date.context_today(self)
                 elif stage.esc_user == 'project_id.user_id' and task.project_id.user_id:
                     task.user_ids = [(6, 0, [task.project_id.user_id.id])]
+                    task.date_assign = fields.Date.context_today(self)
                 elif stage.esc_user == 'project_id.test_manager_id' and task.project_id.test_manager_id:
-                    task.user_ids = [(6, 0, [task.project_id.test_manager_id.id])]    
+                    task.user_ids = [(6, 0, [task.project_id.test_manager_id.id])]
+                    task.date_assign = fields.Date.context_today(self) 
             elif stage.trigger_type == 'archive':
                 task.active = False
             elif stage.trigger_type == 'message':
