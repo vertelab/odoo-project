@@ -94,10 +94,12 @@ class Task(models.Model):
         }
 
         try:
+            _logger.debug(f"Before eval: {local_ctx=}")
             eval(stage.code, {}, local_ctx)
             if local_ctx.get('action'):
                 return local_ctx['action']
         except Exception as e:
+            _logger.error(f"Stage code execution failed: {e}")
             _logger.error(f"Stage code execution failed: {e}")
             raise UserError(f"Error running code in stage: {e}")
 
