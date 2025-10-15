@@ -81,7 +81,7 @@
               </div>
             </group>
             <group col="2">
-            <group>
+            <group id="c1">
               <field name="parent_id" />
               <field name="document_type" />
               <field name="version"  class="oe_inline"/>
@@ -89,30 +89,13 @@
               <field name="author_id" />
               <field name="product_owner_id" />
               <field name="approved_by_id" />
+                <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
 
             </group>
-            <group>
+            <group id="c2">
                 
                 
-                          <field name="sequence"/>
-          <field name="app_module"/>
-          <field name="app_tree"/>
-          <field name="app_icon"/>
-   
-          <field name="app_url"/>
-          <field name="app_banner"/>
-          <field name="app_summary"/>
-
-          <field name="app_category"/>
-          <field name="app_description"/>
-          <field name="app_manifest"/>
-          <field name="app_license"/>
                 
-                
-            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
-              <field name="user_persona" />
-              <field name="use_cases" />
-              <field name="dependencies" />
             </group>
             </group>
             <notebook>
@@ -133,9 +116,6 @@
               </page>              
               <page string="Diagram" id="mermaid_diagram">
                 <field name="mermaid_diagram" widget="mermaid" no-label="1" />
-              </page>
-              <page string="Index-file" id="index">
-                        <field name="app_index"/>
               </page>
               
             </notebook>

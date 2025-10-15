@@ -1,0 +1,14 @@
+<odoo>
+    
+  
+  <!-- Sample records for prd.odoo_module -->
+  <record id="module_contract" model="prd.odoo_module">
+    <field name="name">Contract Module</field>
+    <field name="repo_id" ref="repo_contract"/>
+    <field name="description">Handles contracts</field>
+    <field name="active">True</field>
+  </record>
+
+
+
+</odoo>

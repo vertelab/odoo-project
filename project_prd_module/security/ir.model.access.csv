@@ -1,0 +1,13 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prd_odoo_module_user,prd.odoo_module user,model_prd_odoo_module,base.group_user,1,0,0,0
+access_prd_odoo_module_manager,prd.odoo_module manager,model_prd_odoo_module,base.group_system,1,1,1,1
+access_prd_odoo_repo_user,prd.odoo_repo user,model_prd_odoo_repo,base.group_user,1,0,0,0
+access_prd_odoo_repo_manager,prd.odoo_repo manager,model_prd_odoo_repo,base.group_system,1,1,1,1
+access_prd_odoo_branches_user,prd.odoo_branches user,model_prd_odoo_branches,base.group_user,1,0,0,0
+access_prd_odoo_branches_manager,prd.odoo_branches manager,model_prd_odoo_branches,base.group_system,1,1,1,1
+access_prd_odoo_project_user,prd.odoo_project user,model_prd_odoo_project,base.group_user,1,0,0,0
+access_prd_odoo_project_manager,prd.odoo_project manager,model_prd_odoo_project,base.group_system,1,1,1,1
+access_prd_odoo_lincence_user,prd.odoo_lincence user,model_prd_odoo_lincence,base.group_user,1,0,0,0
+access_prd_odoo_lincence_manager,prd.odoo_lincence manager,model_prd_odoo_lincence,base.group_system,1,1,1,1
+access_prd_odoo_library_user,prd.odoo_library user,model_prd_odoo_library,base.group_user,1,0,0,0
+access_prd_odoo_library_manager,prd.odoo_library manager,model_prd_odoo_library,base.group_system,1,1,1,1
