@@ -100,7 +100,6 @@ class Task(models.Model):
                 return local_ctx['action']
         except Exception as e:
             _logger.error(f"Stage code execution failed: {e}")
-            _logger.error(f"Stage code execution failed: {e}")
             raise UserError(f"Error running code in stage: {e}")
 
     def write(self, vals):

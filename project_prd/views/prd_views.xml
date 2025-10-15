@@ -1,0 +1,220 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <odoo>
+    <!-- Search View -->
+    <record id="view_prd_document_search" model="ir.ui.view">
+      <field name="name">prd.document.search</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <search string="Product Requirements Documents">
+          <field name="name" />
+          <field name="version" />
+          <field name="state" />
+          <filter name="draft" string="Draft" domain="[('state','=','draft')]" />
+          <filter name="approved" string="Approved" domain="[('state','=','approved')]" />
+          <filter name="rejected" string="Rejected" domain="[('state','=','rejected')]" />
+          <filter name="by_author" string="My Documents" domain="[('author_id','=',uid)]" groups="base.group_user" />
+          <!-- Additional group by filters -->
+          <group expand="1" string="Group By">
+            <filter string="Author" name="group_by_author" context="{'group_by':'author_id'}" />
+            <filter string="Product Owner" name="group_by_product_owner" context="{'group_by':'product_owner_id'}" />
+            <filter string="Parent Document" name="group_by_parent" context="{'group_by':'parent_id'}" />
+            <filter string="State" name="group_by_state" context="{'group_by':'state'}" />
+            <filter string="Approved By" name="group_by_approved_by" context="{'group_by':'approved_by_id'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+    <!-- Form View -->
+    <record id="view_prd_document_form" model="ir.ui.view">
+      <field name="name">prd.document.form</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <form string="Product Requirement Document">
+          <header>
+            <button name="button_major_version" string="Major Version" type="object" xclass="oe_highlight" groups="project_prd.group_prd_manager" data-hotkey="m" />
+            <button name="button_minor_version" string="Minor Version" type="object" class="oe_highlight" groups="project_prd.group_prd_manager" data-hotkey="m" />
+            <!--
+                 <field name="state" widget="statusbar_duration" options="{'clickable': '1', 'fold_field': 'fold'}" groups="project.group_project_stages" domain="[('company_id', 'in', (company_id, False))]" />
+            -->
+            <field name="state" widget="statusbar_duration" options="{'clickable': '1', 'fold_field': 'fold'}" />
+          </header>
+          <sheet string="PRD">
+            <div class="oe_button_box" name="button_box" groups="base.group_user">
+              <button class="oe_stat_button" type="object" name="action_requirements" icon="fa-check">
+                <div class="o_field_widget o_stat_info">
+                  <span class="o_stat_text">Requirements</span>
+                  <span class="o_stat_value">
+                    <field name="closed_requirements_count" />
+                    /
+                    <field name="requirements_count" />
+                    (
+                    <field name="requirements_percentage" widget="percentage" options="{'digits': [1, 0]}" />
+                    )
+                  </span>
+                </div>
+              </button>
+              <button class="oe_stat_button" type="object" name="action_functions" icon="fa-cogs">
+                <div class="o_field_widget o_stat_info">
+                  <span class="o_stat_text">Functions</span>
+                  <span class="o_stat_value">
+                    <field name="closed_functions_count" />
+                    /
+                    <field name="functions_count" />
+                    (
+                    <field name="functions_percentage" widget="percentage" options="{'digits': [1, 0]}" />
+                    )
+                  </span>
+                </div>
+              </button>
+            </div>
+            <group>
+              <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active" />
+              <div class="oe_title">
+                <h1 class="d-flex flex-row">
+                  <!--
+                       <field name="is_favorite" nolabel="1" widget="project_is_favorite" class="me-2" options="{'autosave': False}"/>
+                  -->
+                  <field name="name" options="{'line_breaks': False}" widget="text" class="o_text_overflow" placeholder="e.g. Office Party" />
+                </h1>
+                <field name="summary" />
+              </div>
+            </group>
+            <group col="2">
+            <group>
+              <field name="parent_id" />
+              <field name="document_type" />
+              <field name="version"  class="oe_inline"/>
+              <field name="date"  class="oe_inline"/>
+              <field name="author_id" />
+              <field name="product_owner_id" />
+              <field name="approved_by_id" />
+
+            </group>
+            <group>
+                
+                
+                          <field name="sequence"/>
+          <field name="app_module"/>
+          <field name="app_tree"/>
+          <field name="app_icon"/>
+   
+          <field name="app_url"/>
+          <field name="app_banner"/>
+          <field name="app_summary"/>
+
+          <field name="app_category"/>
+          <field name="app_description"/>
+          <field name="app_manifest"/>
+          <field name="app_license"/>
+                
+                
+            <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+              <field name="user_persona" />
+              <field name="use_cases" />
+              <field name="dependencies" />
+            </group>
+            </group>
+            <notebook>
+              <page string="Description" id="desc">
+                <field name="description" no-label="1" />
+              </page>
+              <page string="Goals" id="goals">
+                <field name="goals" no-label="1" />
+              </page>
+              <page string="Success Criteras/Risks" id="success_criterias">
+                  <group>
+                <field name="success_criteria"  />
+                 <field name="risks"  />
+                 </group>
+              </page>
+              <page string="Diagram Editor" id="mermaid_edit">
+                <field name="mermaid_editor" no-label="1" />
+              </page>              
+              <page string="Diagram" id="mermaid_diagram">
+                <field name="mermaid_diagram" widget="mermaid" no-label="1" />
+              </page>
+              <page string="Index-file" id="index">
+                        <field name="app_index"/>
+              </page>
+              
+            </notebook>
+          </sheet>
+          <chatter reload_on_follower="True"/>
+        </form>
+      </field>
+    </record>
+    <!-- List (Tree) View -->
+    <record id="view_prd_document_tree" model="ir.ui.view">
+      <field name="name">prd.document.tree</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <list string="Product Requirement Documents">
+          <field name="name" />
+          <field name="version" />
+          <field name="state" />
+          <field name="date" />
+          <field name="author_id" />
+          <field name="product_owner_id" />
+        </list>
+      </field>
+    </record>
+    <!-- Kanban View -->
+    <record id="view_prd_document_kanban" model="ir.ui.view">
+      <field name="name">prd.document.kanban</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <kanban>
+          <field name="name" />
+          <field name="state" />
+          <field name="author_id" />
+          <templates>
+            <t t-name="kanban-box">
+              <div class="oe_kanban_card">
+                <div>
+                  <strong>
+                    <field name="name" />
+                  </strong>
+                </div>
+                <div>
+                  <field name="state" />
+                </div>
+                <div>
+                  <small>
+                    Author:
+                    <field name="author_id" />
+                  </small>
+                </div>
+                <div>
+                  <small>
+                    Date:
+                    <field name="date" />
+                  </small>
+                </div>
+              </div>
+            </t>
+          </templates>
+        </kanban>
+      </field>
+    </record>
+    <!-- Calendar View -->
+    <record id="view_prd_document_calendar" model="ir.ui.view">
+      <field name="name">prd.document.calendar</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <calendar string="Product Requirement Document Calendar" date_start="date">
+          <field name="name" />
+          <field name="state" />
+        </calendar>
+      </field>
+    </record>
+    <record id="action_prd_document" model="ir.actions.act_window">
+      <field name="name">PRD Documents</field>
+      <field name="res_model">prd.document</field>
+      <field name="view_mode">kanban,list,form,calendar</field>
+      <field name="view_id" ref="view_prd_document_kanban" />
+    </record>
+    <menuitem id="menu_prd_document_root" name="Product Requirements Docs" sequence="10" />
+    <menuitem id="menu_prd_document" name="Product Requirement Documents" parent="menu_prd_document_root" action="action_prd_document" sequence="20" />
+  </odoo>
+</odoo>
