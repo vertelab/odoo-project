@@ -1,0 +1,16 @@
+<odoo>
+    
+
+ 
+  <!-- Sample records for prd.odoo_repo -->
+  <record id="repo_contract" model="prd.odoo_repo">
+    <field name="name">Contract Repo</field>
+    <field name="url">git@github.com:vertelab/odoo-contract.git</field>
+    <field name="path">/usr/share/odoo-contract</field>
+    <field name="description">Git repository for contracts</field>
+    <field name="active">True</field>
+  </record>
+
+ 
+
+</odoo>
