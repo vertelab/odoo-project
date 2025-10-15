@@ -1,0 +1,65 @@
+<odoo>
+  <record id="view_type_form" model="odoo.view.type">
+    <field name="name">Form</field>
+    <field name="code">form</field>
+    <field name="description">Form view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_search" model="odoo.view.type">
+    <field name="name">Search</field>
+    <field name="code">search</field>
+    <field name="description">Search view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_tree" model="odoo.view.type">
+    <field name="name">Tree</field>
+    <field name="code">tree</field>
+    <field name="description">List/tree view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_kanban" model="odoo.view.type">
+    <field name="name">Kanban</field>
+    <field name="code">kanban</field>
+    <field name="description">Kanban board view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_calendar" model="odoo.view.type">
+    <field name="name">Calendar</field>
+    <field name="code">calendar</field>
+    <field name="description">Calendar view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_graph" model="odoo.view.type">
+    <field name="name">Graph</field>
+    <field name="code">graph</field>
+    <field name="description">Graph view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_pivot" model="odoo.view.type">
+    <field name="name">Pivot</field>
+    <field name="code">pivot</field>
+    <field name="description">Pivot table view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_dashboard" model="odoo.view.type">
+    <field name="name">Dashboard</field>
+    <field name="code">dashboard</field>
+    <field name="description">Dashboard view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+  <record id="view_type_kanban_gantt" model="odoo.view.type">
+    <field name="name">Gantt</field>
+    <field name="code">gantt</field>
+    <field name="description">Gantt chart view</field>
+    <field name="prompt" />
+    <field name="active">True</field>
+  </record>
+</odoo>
