@@ -1,0 +1,11 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_prd_document_user,prd.document user,model_prd_document,base.group_user,1,0,0,0
+access_prd_document_manager,prd.document manager,model_prd_document,base.group_system,1,1,1,1
+access_prd_function_user,prd.function user,model_prd_function,base.group_user,1,0,0,0
+access_prd_function_manager,prd.function manager,model_prd_function,base.group_system,1,1,1,1
+access_prd_odoo_view_user,prd.odoo_view user,model_prd_odoo_view,base.group_user,1,0,0,0
+access_prd_odoo_view_manager,prd.odoo_view manager,model_prd_odoo_view,base.group_system,1,1,1,1
+access_prd_requirement_user,prd.requirement user,model_prd_requirement,base.group_user,1,0,0,0
+access_prd_requirement_manager,prd.requirement manager,model_prd_requirement,base.group_system,1,1,1,1
+access_prd_odoo_view_type_user,prd.odoo_view_type user,model_prd_odoo_view_type,base.group_user,1,0,0,0
+access_prd_odoo_view_type_manager,prd.odoo_view_type manager,model_prd_odoo_view_type,base.group_system,1,1,1,1
