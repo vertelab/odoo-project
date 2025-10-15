@@ -127,35 +127,6 @@ class ProductRequirementDocument(models.Model):
     _inherit = ['mermaid.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'Product Requirement Document'
 
-
-
-    
-    sequence = fields.Integer(string="Sequence",)
-    # ~ app_project = fields.Char(string="App Project", related="blog_id.app_project")
-    app_module = fields.Char(string="App Module", default="technical name")
-    app_project = fields.Char(string="App Project", default="odoo-project")
-    app_tree = fields.Char(string="Branch Tree", default="14.0")
-    app_icon = fields.Image(string="Icon")
-    
-    app_url = fields.Char(string="Website", compute="_get_app_url", default="vertel")
-    app_banner = fields.Image(string="App Banner")
-    app_summary = fields.Char(string="App Summary")
-    app_category = fields.Many2one('ir.module.category', string="Category", default=1)
-    app_description = fields.Text(string="App Description", default="The module description goes here.")
-    app_manifest = fields.Char(string="App Manifest")
-    app_license = fields.Char(string="App License", default="LGPL-3")
-    # ~ app_index = fields.Html(string="App Index", translate=html_translate, sanitize_attributes=False,sanitize_form=False, default=_default_description)
-    app_index = fields.Html(string="App Index", )
-
-    @api.depends('app_module','app_project')
-    def _get_app_url(self):	 
-        for b in self:
-            if b.app_module:
-               b.app_url = "https://vertel.se/apps/"+b.app_project+"/"+b.app_module
-            else:
-                b.app_url = False
-
-
     duration_tracking = fields.Float(string='Duration Tracking')
     active = fields.Boolean(string='Active', default=True)
     parent_id = fields.Many2one(comodel_name='prd.document',string="Parent PRD",help="")
@@ -265,124 +236,13 @@ class ProductRequirementDocument(models.Model):
       }
 
 
-    def sync_module(self):
-        git_url = self.env['ir.config_parameter'].sudo().get_param('GitHubBaseUrl')
-        raw_git_url = self.env['ir.config_parameter'].sudo().get_param('RawGitHubBaseUrl')
-
-        if not raw_git_url:
-            raise UserError(_("Raw Git URL is not set"))
-        if not git_url:
-            raise UserError(_("Git URL is not set"))
-        if not self.app_project:
-            raise UserError(_("No Git Project was specified"))
-        if not self.app_module:
-            raise UserError(_("No Module was specified"))
-        for module in self:
-            if not module.app_project:
-                raise UserError(_("No Git Project was specified %s" % module.name))
-            if not module.app_module:
-                raise UserError(_("No Module was specified %s" % module.name))
-            if not module.app_tree:
-                raise UserError(_("No Module Tree was specified %s" % module.name))
-            if module.app_project and module.app_module:
-                module_url = f"{git_url}/{module.app_project}/tree/{module.app_tree}/{module.app_module}"
-                raw_module_url = f"{raw_git_url}/{module.app_project}/{module.app_tree}/{module.app_module}"
-                # get icon
-                _logger.warning("--------->> module_url: %s" % module_url )
-                _logger.warning("--------->> raw_module_url: %s" % raw_module_url )
-
-                icon_data, icon_name = module._wget_sync(f"{raw_module_url}/static/description/icon.png")
-                if icon_data and icon_name:
-                    module.app_icon = module._create_attachment(icon_data, icon_name)
-                # get banner
-                manifest_obj = urllib.request.urlopen(f"{raw_module_url}/__manifest__.py").read().decode('utf-8')
-                manifest = re.sub(r'(?m)^ *#.*\n?', '', manifest_obj)
-                if manifest:
-                    manifest = ast.literal_eval(manifest)
-                    manifest_images = manifest.get('images')
-                    if manifest_images:
-                        main_screenshot = [image for image in manifest_images if image.endswith('_screenshot.png' or 'banner.png')]
-                        banner_data, banner_name = self._wget_sync(
-                            f"{raw_module_url}{main_screenshot[0] if main_screenshot else manifest_images[0]}"
-                        )
-                        if banner_data and banner_name:
-                            module.app_banner = module._create_attachment(banner_data, banner_name)
-
-                # manifest file
-                module._sync_manifest(f"{raw_module_url}/__manifest__.py")
-
-    def _sync_manifest(self, manifest_url):
-        try:
-            manifest_obj = urllib.request.urlopen(manifest_url).read().decode('utf-8')
-            manifest = re.sub(r'(?m)^ *#.*\n?', '', manifest_obj)
-            if manifest:
-                manifest = ast.literal_eval(manifest)
-                self.app_license = manifest.get('license')
-                self.app_summary = manifest.get('summary')
-        except Exception as e:
-            _logger.warning("".join(traceback.format_exc()))
-            return None, None
-
-    def _wget_sync(self, url):
-        _logger.warning(f"{url=}")
-        try:
-            file_obj = urllib.request.urlopen(url)
-            _logger.warning(f"{file_obj=}")
-            file_name = os.path.basename(url)
-            _logger.warning(f"{file_name=}")
-            return file_obj, file_name
-        except Exception as e:
-            _logger.warning("".join(traceback.format_exc()))
-            return None, None
-
-    def _create_attachment(self, datas, name):
-        return base64.encodebytes(datas.read())
-
-    def create_manifest(self):
-        manifest_vals = {
-            'name': self.name,
-            'category': self.app_category.name,
-            'website': 'https://vertel.se/apps/project/module',
-            'summary': self.app_summary,
-            'author': 'Vertel AB',
-            'version': '14.0.0.0.1',
-            'license': self.app_license,
-            'description': self.app_description,
-            'depends': [],
-            'data': [],
-            'installable': True,
-            'application': True,
-            'qweb': []
-        }
-        user_encode_data = json.dumps(manifest_vals, indent=2).encode('utf-8')
-        temp = tempfile.NamedTemporaryFile(mode='w+b')
-        temp.write(user_encode_data)
-        temp.seek(0)
-        attachment_id = self.env['ir.attachment'].create({
-            'name': '__manifest__.py',
-            'res_name': self.name,
-            'res_model': self._name,
-            'res_id': self.id,
-            'datas': base64.encodebytes(temp.read()),
-        })
-        temp.close()
-
-        return {
-            'type': 'ir.actions.act_window',
-            'res_model': 'ir.attachment',
-            'view_type': 'form',
-            'view_mode': 'form',
-            'view_id': self.env.ref('website_blog_app.download_manifest_wizard').id,
-            'res_id': attachment_id.id,
-            'target': 'new',
-            'flags': {'mode': 'readonly'},
-        }
-
-
 class PrdFunction(models.Model):
     _name = 'prd.function'
     _inherit = ['mermaid.mixin', 'mail.thread', 'mail.activity.mixin']
     _description = 'PRD Functions'
+
+
+    # models / data / sequrity / sequirity.xml / views / 
 
     description = fields.Text(string="Description")
     input_data = fields.Text(string="Input")
@@ -488,56 +348,3 @@ class OdooViewType(models.Model):
     description = fields.Text(string='Description')
     prompt = fields.Text(string='Prompt')
     active = fields.Boolean(string='Active', default=True)
-
-class OdooBranches(models.Model):
-    _name = 'prd.odoo_branches'
-    _description = 'Odoo Branches'
-
-    name = fields.Char(string='View Type Name', required=True)
-    active = fields.Boolean(string='Active', default=True)
-
-  
-class OdooProject(models.Model):
-    _name = 'prd.odoo_project'
-    _description = 'Odoo Project'
-
-    # requirement.txt / requirement.repo
-
-    name = fields.Char(string='View Type Name', required=True)
-    url = fields.Char(string='View Type Code', required=True)
-    description = fields.Text(string='Description')
-    active = fields.Boolean(string='Active', default=True)
-
-class OdooLicence(models.Model):
-    _name = 'prd.odoo_lincence'
-    _description = 'Odoo Branches'
-
-    name = fields.Char(string='Name', required=True)
-    code = fields.Char(string='Licence Code', required=True)
-    description = fields.Text(string='Description')
-    active = fields.Boolean(string='Active', default=True)
-
-class OdooDependeny(models.Model):
-    _name = 'prd.odoo_dependency'
-    _description = 'Odoo Dependency'
-
-    # depends in __manifest__
-    # requirement.repo
-    
-    name = fields.Char(string='Name', required=True)
-    code = fields.Char(string='Licence Code', required=True)
-    description = fields.Text(string='Description')
-    active = fields.Boolean(string='Active', default=True)
-
-class OdooLibrary(models.Model):
-    _name = 'prd.odoo_library'
-    _description = 'Odoo Library'
-
-    # requitement.txt
-
-    name = fields.Char(string='Name', required=True)
-    code = fields.Char(string='Licence Code', required=True)
-    description = fields.Text(string='Description')
-    active = fields.Boolean(string='Active', default=True)
-
-
