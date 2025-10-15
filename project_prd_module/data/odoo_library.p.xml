@@ -1,0 +1,13 @@
+<odoo>
+    
+    
+  <!-- Sample records for prd.odoo_library -->
+  <record id="library_requests" model="prd.odoo_library">
+    <field name="name">Requests</field>
+    <field name="code">requests</field>
+    <field name="description">Python HTTP library</field>
+    <field name="active">True</field>
+  </record>
+
+
+</odoo>
