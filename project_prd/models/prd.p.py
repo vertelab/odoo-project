@@ -421,6 +421,9 @@ class PrdFunction(models.Model):
         ('settings', 'Settings'),
         ('ai_agent', 'AI Agent'),
         ('ai_quest', 'AI Quest'),
+        ('performance', 'Performance'),
+        ('security', 'Security'),
+        ('usability', 'Usability'),
     ], string="Type", default='app')
 
     
@@ -463,6 +466,11 @@ class PrdRequirement(models.Model):
         ('could', 'Could')
     ], string="Priority", default='must')
     sequence = fields.Integer(string='Sequence')
+    req_type = fields.Selection([
+        ('func', 'Functional'),
+        ('non-functional', 'Non Functional'),
+    ], string="Type", default='func')
+
 
     @api.depends('prd_id.function_ids')
     def _compute_function_ids(self):
