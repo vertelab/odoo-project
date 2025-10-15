@@ -1,0 +1,365 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <odoo>
+    <!-- Search View -->
+    <record id="view_prd_document_search" model="ir.ui.view">
+      <field name="name">prd.document.search</field>
+      <field name="model">prd.document</field>
+      <field name="inherit_id" ref="project_prd.view_prd_document_search" />
+      <field name="arch" type="xml">
+        <field name="state" position="after">
+          <field name="app_module" />
+          <field name="app_project" />
+          <field name="app_tree" />
+          <field name="app_summary" />
+          <field name="app_category" />
+          <field name="app_manifest" />
+          <field name="app_license" />
+        </field>
+        <filter name="group_by_approved_by" position="after">
+          <filter string="app_project" name="group_by_app_project" context="{'group_by':'app_project'}" />
+          <filter string="App Project" name="group_by_app_project" context="{'group_by':'app_project'}" />
+          <filter string="App Tree" name="group_by_app_tree" context="{'group_by':'app_tree'}" />
+          <filter string="App Category" name="group_by_app_category" context="{'group_by':'app_category'}" />
+          <filter string="App License" name="group_by_app_license" context="{'group_by':'app_license'}" />
+        </filter>
+      </field>
+    </record>
+    <!-- Form View -->
+    <record id="view_prd_document_form" model="ir.ui.view">
+      <field name="name">prd.document.form</field>
+      <field name="model">prd.document</field>
+      <field name="inherit_id" ref="project_prd.view_prd_document_form" />
+      <field name="arch" type="xml">
+        <header position="inside">
+          <button name="button_export_module" string="Export Module" type="object" class="oe_highlight" groups="project_prd.group_prd_manager" data-hotkey="m" />
+        </header>
+        <group id="c2" positon="indside">
+          <field name="sequence" />
+          <field name="app_module" />
+          <field name="app_tree" />
+          <field name="app_icon" />
+          <field name="app_url" />
+          <field name="app_banner" />
+          <field name="app_summary" />
+          <field name="app_category" />
+          <field name="app_description" />
+          <field name="app_manifest" />
+          <field name="app_license" />
+          <field name="company_id" groups="base.group_multi_company" options="{'no_create': True}" />
+          <field name="user_persona" />
+          <field name="use_cases" />
+          <field name="dependencies" />
+        </group>
+        <notebook position="inside">
+          <page string="Index-file" id="index">
+            <field name="app_index" />
+          </page>
+        </notebook>
+      </field>
+    </record>
+    <!-- List (Tree) View -->
+    <record id="view_prd_document_tree" model="ir.ui.view">
+      <field name="name">prd.document.module</field>
+      <field name="model">prd.document</field>
+      <field name="arch" type="xml">
+        <list position="inside">
+          <field name="sequence" optional="view" />
+          <field name="app_project" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_module" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_tree" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_icon" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_url" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_summary" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_category" optional="hide" invisible="not document_type == 'module'" />
+          <field name="app_license" optional="hide" invisible="not document_type == 'module'" />
+        </list>
+      </field>
+    </record>
+    <!-- Kanban View -->
+    <!-- Calendar View -->
+    <record id="action_prd_document" model="ir.actions.act_window">
+      <field name="name">PRD Documents</field>
+      <field name="res_model">prd.document</field>
+      <field name="view_mode">kanban,list,form,calendar</field>
+      <field name="view_id" ref="view_prd_document_kanban" />
+    </record>
+    <menuitem id="menu_prd_document_root" name="Product Requirements Docs" sequence="10" />
+    <menuitem id="menu_prd_document" name="Product Requirement Documents" parent="menu_prd_document_root" action="action_prd_document" sequence="20" />
+    <!-- Menu parent for Configuration -->
+    <menuitem id="menu_prd_configuration" name="Configuration" sequence="10" />
+    <!-- Views and actions for prd.odoo_branches -->
+    <record id="view_prd_odoo_branches_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_branches.tree</field>
+      <field name="model">prd.odoo_branches</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_branches_form" model="ir.ui.view">
+      <field name="name">prd.odoo_branches.form</field>
+      <field name="model">prd.odoo_branches</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_branches_search" model="ir.ui.view">
+      <field name="name">prd.odoo_branches.search</field>
+      <field name="model">prd.odoo_branches</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <filter string="Active" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_branches" model="ir.actions.act_window">
+      <field name="name">Odoo Branches</field>
+      <field name="res_model">prd.odoo_branches</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_branches_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_branches" name="Odoo Branches" parent="menu_prd_configuration" action="action_prd_odoo_branches" sequence="1" />
+    <!-- Repeat for other models -->
+    <record id="view_prd_odoo_project_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_project.tree</field>
+      <field name="model">prd.odoo_project</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="url" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_project_form" model="ir.ui.view">
+      <field name="name">prd.odoo_project.form</field>
+      <field name="model">prd.odoo_project</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="url" />
+              <field name="description" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_project_search" model="ir.ui.view">
+      <field name="name">prd.odoo_project.search</field>
+      <field name="model">prd.odoo_project</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <filter string="[translate:Active]" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_project" model="ir.actions.act_window">
+      <field name="name">Odoo Projects</field>
+      <field name="res_model">prd.odoo_project</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_project_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_project" name="Odoo Projects" parent="menu_prd_configuration" action="action_prd_odoo_project" sequence="2" />
+    <!-- Add similar blocks for prd.odoo_lincence, prd.odoo_module, prd.odoo_library -->
+    <!-- Menu parent for Configuration -->
+    <menuitem id="menu_prd_configuration" name="[translate:Configuration]" sequence="10" />
+    <!-- Odoo License views and action -->
+    <record id="view_prd_odoo_lincence_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_lincence.tree</field>
+      <field name="model">prd.odoo_lincence</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="code" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_lincence_form" model="ir.ui.view">
+      <field name="name">prd.odoo_lincence.form</field>
+      <field name="model">prd.odoo_lincence</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="code" />
+              <field name="description" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_lincence_search" model="ir.ui.view">
+      <field name="name">prd.odoo_lincence.search</field>
+      <field name="model">prd.odoo_lincence</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <filter string="[translate:Active]" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_lincence" model="ir.actions.act_window">
+      <field name="name">[translate:Odoo Licences]</field>
+      <field name="res_model">prd.odoo_lincence</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_lincence_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_lincence" name="[translate:Odoo Licences]" parent="menu_prd_configuration" action="action_prd_odoo_lincence" sequence="3" />
+    <!-- Odoo Dependency views and action -->
+    <record id="view_prd_odoo_module_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_module.tree</field>
+      <field name="model">prd.odoo_module</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="code" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_module_form" model="ir.ui.view">
+      <field name="name">prd.odoo_module.form</field>
+      <field name="model">prd.odoo_module</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="code" />
+              <field name="description" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_module_search" model="ir.ui.view">
+      <field name="name">prd.odoo_module.search</field>
+      <field name="model">prd.odoo_module</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <filter string="Active" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_module" model="ir.actions.act_window">
+      <field name="name">Odoo Modules</field>
+      <field name="res_model">prd.odoo_module</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_module_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_module" name="Odoo Dependencies" parent="menu_prd_configuration" action="action_prd_odoo_module" sequence="4" />
+    <!-- Odoo Library views and action -->
+    <record id="view_prd_odoo_library_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_library.tree</field>
+      <field name="model">prd.odoo_library</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="code" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_library_form" model="ir.ui.view">
+      <field name="name">prd.odoo_library.form</field>
+      <field name="model">prd.odoo_library</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="code" />
+              <field name="description" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_library_search" model="ir.ui.view">
+      <field name="name">prd.odoo_library.search</field>
+      <field name="model">prd.odoo_library</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <filter string="[translate:Active]" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_library" model="ir.actions.act_window">
+      <field name="name">Odoo Libraries</field>
+      <field name="res_model">prd.odoo_library</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_library_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_library" name="Odoo Libraries" parent="menu_prd_configuration" action="action_prd_odoo_library" sequence="5" />
+    <!-- Odoo Repo views and actions -->
+    <record id="view_prd_odoo_repo_tree" model="ir.ui.view">
+      <field name="name">prd.odoo_repo.tree</field>
+      <field name="model">prd.odoo_repo</field>
+      <field name="arch" type="xml">
+        <list>
+          <field name="name" />
+          <field name="url" />
+          <field name="path" />
+          <field name="active" />
+        </list>
+      </field>
+    </record>
+    <record id="view_prd_odoo_repo_form" model="ir.ui.view">
+      <field name="name">prd.odoo_repo.form</field>
+      <field name="model">prd.odoo_repo</field>
+      <field name="arch" type="xml">
+        <form>
+          <sheet>
+            <group>
+              <field name="name" />
+              <field name="url" />
+              <field name="path" />
+              <field name="description" />
+              <field name="active" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_prd_odoo_repo_search" model="ir.ui.view">
+      <field name="name">prd.odoo_repo.search</field>
+      <field name="model">prd.odoo_repo</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="name" />
+          <field name="url" />
+          <filter string="Active" domain="[('active','=',True)]" />
+        </search>
+      </field>
+    </record>
+    <record id="action_prd_odoo_repo" model="ir.actions.act_window">
+      <field name="name">Odoo Repos</field>
+      <field name="res_model">prd.odoo_repo</field>
+      <field name="view_mode">list,form</field>
+      <field name="search_view_id" ref="view_prd_odoo_repo_search" />
+    </record>
+    <menuitem id="menu_prd_odoo_repo" name="Repos" parent="menu_prd_configuration" action="action_prd_odoo_repo" sequence="6" />
+  </odoo>
+</odoo>
