@@ -501,6 +501,8 @@ class OdooProject(models.Model):
     _name = 'prd.odoo_project'
     _description = 'Odoo Project'
 
+    # requirement.txt / requirement.repo
+
     name = fields.Char(string='View Type Name', required=True)
     url = fields.Char(string='View Type Code', required=True)
     description = fields.Text(string='Description')
@@ -509,6 +511,29 @@ class OdooProject(models.Model):
 class OdooLicence(models.Model):
     _name = 'prd.odoo_lincence'
     _description = 'Odoo Branches'
+
+    name = fields.Char(string='Name', required=True)
+    code = fields.Char(string='Licence Code', required=True)
+    description = fields.Text(string='Description')
+    active = fields.Boolean(string='Active', default=True)
+
+class OdooDependeny(models.Model):
+    _name = 'prd.odoo_dependency'
+    _description = 'Odoo Dependency'
+
+    # depends in __manifest__
+    # requirement.repo
+    
+    name = fields.Char(string='Name', required=True)
+    code = fields.Char(string='Licence Code', required=True)
+    description = fields.Text(string='Description')
+    active = fields.Boolean(string='Active', default=True)
+
+class OdooLibrary(models.Model):
+    _name = 'prd.odoo_library'
+    _description = 'Odoo Library'
+
+    # requitement.txt
 
     name = fields.Char(string='Name', required=True)
     code = fields.Char(string='Licence Code', required=True)
