@@ -10,7 +10,7 @@ class ProductRequirementDocument(models.Model):
     _inherit = 'prd.document'
     
     sequence = fields.Integer(string="Sequence",)
-    app_module = fields.Many2one(compdel_name="prd.odoo_module",string="App Module", default="technical name")
+    app_module = fields.Many2one(compdel_name="prd.odoo_module",string="App Module",)
     app_project = fields.Many2one(comodel_name='prd.odoo_project',string="App Project",help="")
     app_tree = fields.Char(string="Branch Tree", default="14.0")
     app_icon = fields.Image(string="Icon")    
