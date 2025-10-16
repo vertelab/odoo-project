@@ -43,8 +43,10 @@
         # ~ 'data/cron.xml',
         # ~ 'data/server_action.xml',
         'views/prd_views.xml',
+        'views/prd_function_views.xml',
+        'views/prd_requirement_views.xml',
         'security/ir.model.access.csv',
-        'security/prd_security.xml',
+        # ~ 'security/prd_security.xml',
     ],
     'application': True,
 }
