@@ -331,7 +331,11 @@ class PrdRequirement(models.Model):
         ('non-functional', 'Non Functional'),
     ], string="Type", default='func')
     user_id = fields.Many2one(comodel_name='res.users',string="Author",help="")
-
+    no= fields.Char(string='No', trim=True, )
+    category = fields.Char(string='Category', trim=True, )
+    page = fields.Char(string='Page', trim=True, )
+    
+    
     @api.depends('prd_id.function_ids')
     def _compute_function_ids(self):
         for requirement in self:
