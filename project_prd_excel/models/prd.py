@@ -20,11 +20,10 @@ class ProductRequirementDocument(models.Model):
         return {
             'type': 'ir.actions.act_window',
             'name': 'Load Requirements from Excel',
-            'res_model': 'project_prd.excel.wizard',
+            'res_model': 'prd.excel.wizard',
             'view_mode': 'form',
             'target': 'new',
-            'context': {'default_week_template_id': self.env.context["default_week_template_id"]},
-            #'domain': [('planning_id', '=', self.id)]
+            # ~ 'context': {'default_week_template_id': self.env.context["default_week_template_id"]},
         }
         return action
 

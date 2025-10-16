@@ -39,13 +39,6 @@
     'depends': ['project_prd',
     ],
     'data': [
-        # ~ 'data/cron.xml',
-        'data/odoo_branches.xml',
-        'data/odoo_library.xml',
-        'data/odoo_licence.xml',
-        'data/odoo_module.xml',
-        'data/odoo_project.xml',
-        'data/odoo_repo.xml',
         'security/ir.model.access.csv',
         'views/prd_views.xml',
     ],
