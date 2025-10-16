@@ -20,11 +20,12 @@
 ##############################################################################
 
 {
-    'name': 'Project: Product Requirement Document',
+    'name': 'Project: PRD Excel',
     'version': '1.0',
-    'summary': 'A Product Requirements Document (PRD) is a formal document that outlines the purpose, features, and requirements.',
+    'summary': 'Read requirement from an Excel file',
     'category': 'Productivity',
     'description': """
+        Creats requirements from excel
         A Product Requirement Document (PRD), is a central guiding document in product development that describes what a product should do, 
         which needs it should fulfill, and which features it should contain — without specifying how these should be solved technically. 
         The purpose is to ensure that all stakeholders – from product owners and developers to designers and testers – have a shared 
@@ -35,18 +36,18 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': ['mail',
-            'web_widget_mermaid_field' # https://github.com/VictorHachard/odoo-modules/tree/17.0/web_widget_mermaid_field,
-
+    'depends': ['project_prd',
     ],
     'data': [
         # ~ 'data/cron.xml',
-        # ~ 'data/server_action.xml',
-        'views/prd_views.xml',
-        'views/prd_function_views.xml',
-        'views/prd_requirement_views.xml',
+        'data/odoo_branches.xml',
+        'data/odoo_library.xml',
+        'data/odoo_licence.xml',
+        'data/odoo_module.xml',
+        'data/odoo_project.xml',
+        'data/odoo_repo.xml',
         'security/ir.model.access.csv',
-        # ~ 'security/prd_security.xml',
+        'views/prd_views.xml',
     ],
     'application': True,
 }

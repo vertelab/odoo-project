@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Search View -->
+  <record id="view_prd_function_search" model="ir.ui.view">
+    <field name="name">prd.function.search</field>
+    <field name="model">prd.function</field>
+    <field name="arch" type="xml">
+      <search string="PRD Functions">
+        <field name="name"/>
+        <field name="priority"/>
+        <field name="state"/>
+        <field name="func_type"/>
+        <field name="prd_id"/>
+        <filter name="draft" string="Draft" domain="[('state','=','draft')]"/>
+        <filter name="ongoing" string="Ongoing" domain="[('state','=','ongoing')]"/>
+        <filter name="done" string="Done" domain="[('state','=','done')]"/>
+        <filter name="my_functions" string="My Functions" domain="[('user_id','=',uid)]" groups="base.group_user"/>
+        <group expand="1" string="Group By">
+          <filter string="Priority" name="group_by_priority" context="{'group_by':'priority'}"/>
+          <filter string="Type" name="group_by_func_type" context="{'group_by':'func_type'}"/>
+          <filter string="State" name="group_by_state" context="{'group_by':'state'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <!-- Form View -->
+  <record id="view_prd_function_form" model="ir.ui.view">
+    <field name="name">prd.function.form</field>
+    <field name="model">prd.function</field>
+    <field name="arch" type="xml">
+      <form string="PRD Function">
+        <header>
+          <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+        </header>
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+            <field name="func_type"/>
+            <field name="priority"/>
+            <field name="prd_id"/>
+            <field name="sequence"/>
+          </group>
+          <notebook>
+            <page string="Description">
+              <field name="description" nolabel="1"/>
+            </page>
+            <page string="Input Data">
+              <field name="input_data" nolabel="1"/>
+            </page>
+            <page string="Process Data">
+              <field name="process_data" nolabel="1"/>
+            </page>
+            <page string="Output Data">
+              <field name="output_data" nolabel="1"/>
+            </page>
+            <page string="Requirements">
+              <field name="requirement_ids" widget="many2many_tags"/>
+            </page>
+            <page string="Prompt">
+              <field name="prompt" nolabel="1"/>
+            </page>
+            <page string="Action &amp; Menu">
+              <field name="action"/>
+              <field name="menu"/>
+            </page>
+            <page string="Odoo Views">
+              <field name="odoo_view_ids" widget="many2many_tags"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+
+  <!-- List View -->
+  <record id="view_prd_function_tree" model="ir.ui.view">
+    <field name="name">prd.function.tree</field>
+    <field name="model">prd.function</field>
+    <field name="arch" type="xml">
+      <list string="PRD Functions">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="func_type" optional="show"/>
+        <field name="priority" optional="show"/>
+        <field name="state" optional="show"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Kanban View -->
+  <record id="view_prd_function_kanban" model="ir.ui.view">
+    <field name="name">prd.function.kanban</field>
+    <field name="model">prd.function</field>
+    <field name="arch" type="xml">
+      <kanban>
+        <field name="name"/>
+        <field name="state"/>
+        <field name="priority"/>
+        <templates>
+          <t t-name="kanban-box">
+            <div class="oe_kanban_card">
+              <strong><field name="name"/></strong>
+              <div><field name="func_type"/></div>
+              <div><field name="priority"/></div>
+              <div><field name="state"/></div>
+            </div>
+          </t>
+        </templates>
+      </kanban>
+    </field>
+  </record>
+
+  <!-- Calendar View -->
+  <record id="view_prd_function_calendar" model="ir.ui.view">
+    <field name="name">prd.function.calendar</field>
+    <field name="model">prd.function</field>
+    <field name="arch" type="xml">
+      <calendar string="PRD Function Calendar" date_start="create_date">
+        <field name="name"/>
+        <field name="state"/>
+      </calendar>
+    </field>
+  </record>
+
+  <!-- Action -->
+  <record id="action_prd_function" model="ir.actions.act_window">
+    <field name="name">PRD Functions</field>
+    <field name="res_model">prd.function</field>
+    <field name="view_mode">kanban,tree,form,calendar</field>
+    <field name="view_id" ref="view_prd_function_kanban"/>
+  </record>
+
+  <!-- Menu -->
+  <menuitem id="menu_prd_function_root" name="PRD Functions" sequence="30" />
+  <menuitem id="menu_prd_function" name="Functions" parent="menu_prd_function_root" action="action_prd_function" sequence="10" />
+</odoo>
