@@ -1,0 +1,74 @@
+<odoo>
+  <!-- Search View -->
+  <record id="view_prd_requirement_search" model="ir.ui.view">
+    <field name="name">prd.requirement.search</field>
+    <field name="model">prd.requirement</field>
+    <field name="arch" type="xml">
+      <search string="PRD Requirements">
+        <field name="name"/>
+        <field name="priority"/>
+        <field name="req_type"/>
+        <field name="prd_id"/>
+        <field name="user_id"/>
+<!--
+        <filter string="Must" domain="[('priority','=','must')]"/>
+        <filter string="Should" domain="[('priority','=','should')]"/>
+        <filter string="Could" domain="[('priority','=','could')]"/>
+-->
+        <group expand="1" string="Group By">
+          <filter string="Priority" name="group_by_priority" context="{'group_by':'priority'}"/>
+          <filter string="Type" name="group_by_req_type" context="{'group_by':'req_type'}"/>
+          <filter string="PRD Document" name="group_by_prd" context="{'group_by':'prd_id'}"/>
+          <filter string="Author" name="group_by_user" context="{'group_by':'user_id'}"/>
+        </group>
+      </search>
+    </field>
+  </record>
+
+  <!-- List View -->
+  <record id="view_prd_requirement_tree" model="ir.ui.view">
+    <field name="name">prd.requirement.tree</field>
+    <field name="model">prd.requirement</field>
+    <field name="arch" type="xml">
+      <list string="PRD Requirements">
+        <field name="sequence" widget="handle"/>
+        <field name="name"/>
+        <field name="priority" optional="show"/>
+        <field name="req_type" optional="show"/>
+        <field name="prd_id" optional="hide"/>
+        <field name="user_id" optional="hide"/>
+      </list>
+    </field>
+  </record>
+
+  <!-- Form View -->
+  <record id="view_prd_requirement_form" model="ir.ui.view">
+    <field name="name">prd.requirement.form</field>
+    <field name="model">prd.requirement</field>
+    <field name="arch" type="xml">
+      <form string="PRD Requirement">
+        <header>
+          <field name="priority"/>
+          <field name="req_type"/>
+        </header>
+        <sheet>
+          <group>
+            <field name="name" required="1"/>
+            <field name="sequence"/>
+            <field name="prd_id"/>
+            <field name="user_id"/>
+          </group>
+          <notebook>
+            <page string="Description">
+              <field name="description" nolabel="1" />
+            </page>
+            <page string="Functions">
+              <field name="function_ids" widget="many2many_tags"/>
+            </page>
+          </notebook>
+        </sheet>
+        <chatter/>
+      </form>
+    </field>
+  </record>
+</odoo>

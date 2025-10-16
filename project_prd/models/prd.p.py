@@ -221,8 +221,8 @@ class ProductRequirementDocument(models.Model):
           'name': 'Functions',
           'res_model': 'prd.function',
           'domain': [('prd_id', '=', self.id)],
-          'view_mode': 'tree,form',
-          'target': 'new',
+          'view_mode': 'list,form',
+          'target': 'current',
       }
 
     def action_requirements(self):
@@ -231,8 +231,8 @@ class ProductRequirementDocument(models.Model):
           'name': 'Requirements',
           'res_model': 'prd.requirement',
           'domain': [('prd_id', '=', self.id)],
-          'view_mode': 'tree,form',
-          'target': 'new',
+          'view_mode': 'list,form',
+          'target': 'current',
       }
 
 
@@ -285,7 +285,7 @@ class PrdFunction(models.Model):
         ('security', 'Security'),
         ('usability', 'Usability'),
     ], string="Type", default='app')
-
+    user_id = fields.Many2one(comodel_name='res.users',string="Author",help="")
     
 class OdooViewType(models.Model):
     _name = 'prd.odoo_view'
@@ -330,7 +330,7 @@ class PrdRequirement(models.Model):
         ('func', 'Functional'),
         ('non-functional', 'Non Functional'),
     ], string="Type", default='func')
-
+    user_id = fields.Many2one(comodel_name='res.users',string="Author",help="")
 
     @api.depends('prd_id.function_ids')
     def _compute_function_ids(self):

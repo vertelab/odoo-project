@@ -18,10 +18,7 @@
               <field name="trigger_type" />
               <field name="trigger_days" />
               <field name="trigger_date" />
-              <field name="summary" invisible="trigger_type != 'activity'" />
-              <field name="esc_user" invisible="trigger_type != 'escalate'" />
-              <field name="new_stage_id" invisible="trigger_type != 'stage'" />
-              <field name="message" invisible="trigger_type != 'message'" />
+              <field name="trigger_info"  />
             </list>
             <form>
               <group>
