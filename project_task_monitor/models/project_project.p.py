@@ -48,8 +48,8 @@ class ProjectTaskMonitor(models.Model):
 class Project(models.Model):
     _inherit = "project.project"
 
-    test_manager_id = fields.Many2one('res.users', string="Test Manager", help="Responsible for test")
-    task_monitor_ids = fields.One2many('project.task.monitor', 'project_id', string="Task Monitor", help="")
+    test_manager_id = fields.Many2one(comodel_name='res.users', string="Test Manager", help="Responsible for test")
+    task_monitor_ids = fields.One2many(comodel_name='project.task.monitor', inverse_name='project_id', string="Task Monitor", help="")
 
     def cron_monitor(self):
         today = fields.Date.context_today(self)
