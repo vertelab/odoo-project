@@ -7,6 +7,7 @@ import logging
 import openpyxl
 import base64
 from io import BytesIO
+import re
 
 
 
@@ -36,8 +37,81 @@ class ExcelWizard(models.TransientModel):
     file = fields.Binary(string="File", required=True)
  
  
+ 
+ 
 
     def import_excel(self):
+        """
+        Läser en excel-fil (kravspecifikation) och skapar krav i prd.requirement.
+        """
+        try:
+            wb = openpyxl.load_workbook(filename=BytesIO(base64.b64decode(self.file)),data_only=True)
+            # ~ wb = openpyxl.load_workbook(self.file, data_only=True)
+        except Exception as e:
+            raise UserError(_("Kunde inte läsa Excel-filen: %s") % e)
+
+        requirement_model = self.env['prd.requirement']
+        created_count = 0
+
+        prd_id =   self.env.context['active_id']
+
+        # Gå igenom varje blad i boken
+        for sheet in wb.worksheets:
+            _logger.warning(f"{sheet=}")
+            current_page = sheet.title.strip()
+            for row in sheet.iter_rows(values_only=True):
+                if not row or not row[0]:
+                    continue
+
+                first_cell = str(row[0]).strip()
+                _logger.warning(f"{row=} {first_cell=}")
+                # Identifiera kravnummer (1.1, 2.1.5 etc.)
+                
+                if value and any(c.isdigit() for c in first_cell):
+                # ~ if re.match(r'^\d+(\.\d+)*$', first_cell) or re.match(r'^\d+$', first_cell):
+                    no = first_cell
+                    name = (str(row[1]).strip() if len(row) > 1 and row[1] else None)
+                    desc = (str(row[2]).strip() if len(row) > 2 and row[2] else name)
+                    category = (str(row[3]).strip() if len(row) > 3 and row[3] else None)
+                    priority_cell = " ".join(map(str, row)).lower()
+                    # Bedöm prioritet
+                    if "ska" in priority_cell:
+                        priority = 'must'
+                    elif "bör" in priority_cell or "br" in priority_cell:
+                        priority = 'should'
+                    elif "could" in priority_cell:
+                        priority = 'could'
+                    else:
+                        priority = 'must'
+
+                    # Skapa requirement-posten
+                    values = {
+                        'no': no,
+                        'name': name or desc or "Unnamed Requirement",
+                        'description': desc or '',
+                        'category': category or '',
+                        'page': current_page,
+                        'priority': priority,
+                        'prd_id': prd_id,
+                        'req_type': 'func',  # kan utökas vid behov
+                    }
+                    _logger.warning(f"{values=}")
+                    
+                    requirement_model.create({
+                        'no': no,
+                        'name': name or desc or "Unnamed Requirement",
+                        'description': desc or '',
+                        'category': category or '',
+                        'page': current_page,
+                        'priority': priority,
+                        'prd_id': prd_id,
+                        'req_type': 'func',  # kan utökas vid behov
+                    })
+                    created_count += 1
+                    break
+        return 
+
+    def Ximport_excel(self):
 
             wb = openpyxl.load_workbook(filename=BytesIO(base64.b64decode(self.file)))
             
