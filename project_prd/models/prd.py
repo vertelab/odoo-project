@@ -334,7 +334,11 @@ class PrdRequirement(models.Model):
     no= fields.Char(string='No', trim=True, )
     category = fields.Char(string='Category', trim=True, )
     page = fields.Char(string='Page', trim=True, )
-    
+    state = fields.Selection([
+        ('draft', 'Draft'),
+        ('ongoing', 'Ongoing'),
+        ('done', 'Done')
+    ], string="State", default='draft')
     
     @api.depends('prd_id.function_ids')
     def _compute_function_ids(self):
