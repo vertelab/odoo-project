@@ -30,7 +30,7 @@
                 </filter>
 
                 <filter name="my_tasks" position="after">
-                    <filter string="My Task &amp; Current Week" name="active_week" domain="[('user_id', '=', uid), ('active_week', '&lt;=', (context_today()+relativedelta(weeks=0, weekday=-1)).strftime('%Y-%m-%d')), ('active_week', '&gt;=', (context_today()-relativedelta(weeks=1, weekday=0)).strftime('%Y-%m-%d'))]"/>
+                    <filter string="My Task &amp; Current Week" name="active_week" domain="[('active_week', '&lt;=', (context_today()+relativedelta(weeks=0, weekday=-1)).strftime('%Y-%m-%d')), ('active_week', '&gt;=', (context_today()-relativedelta(weeks=1, weekday=0)).strftime('%Y-%m-%d'))]"/>
                 </filter>
             </field>
         </record>
