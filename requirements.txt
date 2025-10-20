@@ -1,0 +1,3 @@
+GoogleNews
+feedparser
+yfinance

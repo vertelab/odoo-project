@@ -1,0 +1,281 @@
+<odoo>
+  <data>
+    <!-- Form view extension -->
+    <record id="edit_project" model="ir.ui.view">
+      <field name="name">project.project.form.equity.portfolio</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.edit_project" />
+      <field name="arch" type="xml">
+        <header position="inside">
+          <button name="action_equity_transaction_wizard" type="object" string="Add Equity Transaction" class="btn-primary" />
+        </header>
+        <field name='active' position="after">
+          <field name="is_equity_portfolio" />
+        </field>
+        <xpath expr="//div[hasclass('oe_button_box')]" position="inside">
+          <button name="action_open_valuations" type="object" string="Valuations" class="oe_stat_button" icon="fa-line-chart" invisible="not is_equity_portfolio">
+            <field name="valuation_count" widget="statinfo" string="Valuations" />
+          </button>
+          <button name="action_open_transactions" type="object" class="oe_stat_button" icon="fa-dollar" string="Transactions" invisible="not is_equity_portfolio">
+            <field name="transaction_count" widget="statinfo" string="Transactions" />
+          </button>
+          <button name="action_open_topics" type="object" class="oe_stat_button" icon="fa-stack-exchange" string="Topics" invisible="not is_equity_portfolio">
+            <!--
+                 <field name="transaction_count" widget="statinfo" string="Topics" />
+            -->
+          </button>
+          <button name="action_open_research" type="object" class="oe_stat_button" icon="fa-search" string="Research" invisible="not is_equity_portfolio">
+            <!--
+                 <field name="transaction_count" widget="statinfo" string="Topics" />
+            -->
+          </button>
+        </xpath>
+        <notebook position="inside">
+          <page string="Equity Portfolio" invisible="not is_equity_portfolio">
+            <group>
+              <group>
+                <field name="equity_value" />
+                <field name="equity_account" />
+                <field name="equity_total" />
+                <field name="currency_id" />
+              </group>
+              <group>
+                <field name="equity_research_lang" />
+                <field name="equity_research_region" />
+                <field name="equity_research_period" />
+                <field name="equity_research_rss" />
+              </group>
+            </group>
+          </page>
+        </notebook>
+      </field>
+    </record>
+    <!-- Tree (list) view extension -->
+    <record id="view_project" model="ir.ui.view">
+      <field name="name">project.project.tree.equity.portfolio</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project" />
+      <field name="arch" type="xml">
+        <field name='name' position="after">
+          <field name="is_equity_portfolio" invisible="1" />
+          <field name="equity_value" invisible="not is_equity_portfolio" />
+        </field>
+      </field>
+    </record>
+    <!-- Search view extension -->
+    <record id="view_project_project_filter" model="ir.ui.view">
+      <field name="name">project.project.search.equity.portfolio</field>
+      <field name="model">project.project</field>
+      <field name="inherit_id" ref="project.view_project_project_filter" />
+      <field name="arch" type="xml">
+        <filter name='my_projects' position="after">
+          <filter string="Equity Portfolios" name="filter_equity" domain="[('is_equity_portfolio','=',True)]" />
+        </filter>
+      </field>
+    </record>
+    <!-- Valuations -->
+    <!-- Search View -->
+    <record id="view_project_valuation_search" model="ir.ui.view">
+      <field name="name">project.equity_valuation.search</field>
+      <field name="model">project.equity_valuation</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="date" />
+          <field name="value" />
+          <field name="project_id" />
+          <filter string="Date" name="date" date="date" />
+          <filter string="Group By Date" name='group_date' context="{'group_by': 'date'}" />
+        </search>
+      </field>
+    </record>
+    <!-- Tree (List) View -->
+    <record id="view_project_valuation_tree" model="ir.ui.view">
+      <field name="name">project.equity_valuation.tree</field>
+      <field name="model">project.equity_valuation</field>
+      <field name="arch" type="xml">
+        <list string="Project Valuations">
+          <field name="project_id" />
+          <field name="date" />
+          <field name="value" />
+        </list>
+      </field>
+    </record>
+    <!-- Pivot View -->
+    <record id="view_project_valuation_pivot" model="ir.ui.view">
+      <field name="name">project.equity_valuation.pivot</field>
+      <field name="model">project.equity_valuation</field>
+      <field name="arch" type="xml">
+        <pivot string="Project Valuations Pivot">
+          <field name="project_id" type="row" />
+          <field name="date" type="col" />
+          <field name="value" type="measure" />
+        </pivot>
+      </field>
+    </record>
+    <!-- Graph View -->
+    <record id="view_project_valuation_graph" model="ir.ui.view">
+      <field name="name">project.equity_valuation.graph</field>
+      <field name="model">project.equity_valuation</field>
+      <field name="arch" type="xml">
+        <graph string="Project Valuations Graph" type="bar">
+          <field name="project_id" type="row" />
+          <field name="date" type="col" />
+          <field name="value" type="measure" />
+        </graph>
+      </field>
+    </record>
+    
+    
+    <!-- equity_transaction -->
+    
+    <!-- Search View -->
+    <record id="view_project_equity_transaction_search" model="ir.ui.view">
+      <field name="name">project.equity_transaction.search</field>
+      <field name="model">project.equity_transaction</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="date" />
+          <field name="equity_value" />
+          <field name="project_id" />
+          <filter string="Date" name="date" date="date" />
+          <filter string="Group By Date" name='group_date' context="{'group_by': 'date'}" />
+        </search>
+      </field>
+    </record>
+    <!-- Tree (List) View -->
+    <record id="view_project_equity_transaction_tree" model="ir.ui.view">
+      <field name="name">project.equity_transaction.tree</field>
+      <field name="model">project.equity_transaction</field>
+      <field name="arch" type="xml">
+        <list string="Equity Transactions">
+          <!--
+               <field name="project_id" />
+          -->
+          <field name="task_id" />
+          <field name="date" />
+          <field name="equity_value" />
+          <field name="number" />
+          <field name="transaction_fee" />
+          <field name="transaction_type" />
+          <field name="currency_id" />
+        </list>
+      </field>
+    </record>
+    <!-- Pivot View -->
+    <record id="view_project_equity_transaction_pivot" model="ir.ui.view">
+      <field name="name">project.equity_transaction.pivot</field>
+      <field name="model">project.equity_transaction</field>
+      <field name="arch" type="xml">
+        <pivot string="Equity Transactions Pivot">
+          <field name="project_id" type="row" />
+          <field name="transaction_type" type="row" />
+          <field name="date" type="col" />
+          <field name="equity_value" type="measure" />
+          <field name="number" type="measure" />
+          <field name="transaction_fee" type="measure" />
+        </pivot>
+      </field>
+    </record>
+    <!-- Graph View -->
+    <record id="view_project_equity_transaction_graph" model="ir.ui.view">
+      <field name="name">project.equity_transaction.graph</field>
+      <field name="model">project.equity_transaction</field>
+      <field name="arch" type="xml">
+        <graph string="Equity Transactions Graph" type="bar">
+          <field name="project_id" type="row" />
+          <field name="transaction_type" type="row" />
+          <field name="date" type="col" />
+          <field name="equity_value" type="measure" />
+          <field name="number" type="measure" />
+          <field name="transaction_fee" type="measure" />
+        </graph>
+      </field>
+    </record>
+    <!-- News equity_research -->
+    <record id="view_project_valuation_search" model="ir.ui.view">
+      <field name="name">project.equity_research.search</field>
+      <field name="model">project.equity_research</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="date" />
+          <field name="desc" />
+          <field name="prio" />
+          <field name="link" />
+          <field name="img" />
+          <field name="media" />
+          <field name="search" />
+          <field name="topic_id" />
+          <field name="project_id" />
+          <filter string="Date" name="date" date="date" />
+          <filter string="Group By Date" name='group_date' context="{'group_by': 'date'}" />
+        </search>
+      </field>
+    </record>
+    <record id="view_project_equity_transaction_tree" model="ir.ui.view">
+      <field name="name">project.equity_research.tree</field>
+      <field name="model">project.equity_research</field>
+      <field name="arch" type="xml">
+        <list string="Equity Rersearch">
+          <field name="project_id" invisible="1" />
+          <field name="prio" widget="priority" />
+          <field name="date" />
+          <field name="desc" />
+          <field name="link" />
+          <field name="img" />
+          <field name="media" />
+          <field name="search" />
+          <field name="topic_id" />
+        </list>
+      </field>
+    </record>
+    <record id="view_project_equity_transaction_form" model="ir.ui.view">
+      <field name="name">project.equity_research.form</field>
+      <field name="model">project.equity_research</field>
+      <field name="arch" type="xml">
+        <form string="Equity Research">
+          <sheet>
+            <group>
+              <field name="project_id" invisible="1" />
+              <field name="prio" widget="priority" nolabel="1" class="oe_inline align-top" />
+              <field name="date" />
+              <field name="desc" />
+              <field name="link" widget="url" />
+              <field name="img" widget="image" options="{'preview_image': 'img'}" />
+              <field name="media" />
+              <field name="search" />
+              <field name="topic_id" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <!--       project.equity_research.topic.
+    -->
+    <record id="view_project_equity_research_topic_form" model="ir.ui.view">
+      <field name="name">project.equity_research.topic.form</field>
+      <field name="model">project.equity_research.topic</field>
+      <field name="arch" type="xml">
+        <form string="Equity Research Topic">
+          <sheet>
+            <group>
+              <field name="project_id" invisible="1" />
+              <field name="name" />
+              <field name="topic" widget="text" />
+            </group>
+          </sheet>
+        </form>
+      </field>
+    </record>
+    <record id="view_project_equity_research_topic_tree" model="ir.ui.view">
+      <field name="name">project.equity_research.topic.tree</field>
+      <field name="model">project.equity_research.topic</field>
+      <field name="arch" type="xml">
+        <list string="Equity Research Topic">
+          <field name="sequence" widget="handle" />
+          <field name="name" />
+          <field name="topic" />
+        </list>
+      </field>
+    </record>
+  </data>
+</odoo>

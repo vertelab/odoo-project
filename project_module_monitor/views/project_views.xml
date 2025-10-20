@@ -58,7 +58,7 @@
             <field name="model">project.task</field>
             <field name="inherit_id" ref="project.view_task_tree2" />
             <field name="arch" type="xml">
-                <field name="user_id" position="after">
+                <field name="user_ids" position="after">
                     <field name="git_repo" optional="hide" />
                     <field name="module_branches" optional="hide" />
                     <field name="module_version_ids" widget="many2many_tags" optional="hide" />
@@ -113,7 +113,7 @@
             <field name="model">project.project</field>
             <field name="inherit_id" ref="project.view_project_kanban" />
             <field name="arch" type="xml">
-                <field name="name" position="after">
+                <field name="display_name" position="after">
                     <field name="is_module_monitor" />
                 </field>
             </field>

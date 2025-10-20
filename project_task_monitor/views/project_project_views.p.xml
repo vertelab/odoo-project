@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+  <!-- Inherit Form View -->
+  <record id="view_project_project_form" model="ir.ui.view">
+    <field name="name">project.project.form</field>
+    <field name="model">project.project</field>
+    <field name="inherit_id" ref="project.edit_project" />
+    <field name="arch" type="xml">
+      <field name="user_id" position="after">
+        <field name="test_manager_id" />
+      </field>
+      <notebook position="inside">
+        <page string="Task Monitors">
+          <field name="task_monitor_ids" context="{'default_project_id': id}">
+            <list>
+              <field name="sequence" widget="handle" />
+              <field name="stage_id" />
+              <field name="trigger_type" />
+              <field name="trigger_days" />
+              <field name="trigger_date" />
+              <field name="trigger_info"  />
+            </list>
+            <form>
+              <group>
+                <field name="stage_id" required="1"/>
+                <label for="trigger_days" />
+                <div class="d-flex flex-wrap align-items-baseline">
+                  <field name="trigger_days" class="oe_inline" placeholder="days before/after" />
+                  <span class="oe_grey p-2" groups="crm.group_use_recurring_revenues">before(-)/after</span>
+                  <field name="trigger_date" class="oe_inline" />
+                </div>
+                <field name="trigger_type" required="1" />
+                <field name="activity_type" invisible="trigger_type != 'activity'" required="trigger_type == 'activity'" />
+                <field name="summary" invisible="trigger_type != 'activity'" required="trigger_type == 'activity'"/>
+                <field name="esc_user" invisible="trigger_type != 'esc'" required="trigger_type == 'esc'"/>
+                <field name="new_stage_id" invisible="trigger_type != 'stage'" required="trigger_type == 'stage'"/>
+                <field name="message" invisible="trigger_type != 'message'" required="trigger_type == 'message'"/>
+                <field name="code"  no-label="1" invisible="trigger_type != 'code'" required="trigger_type == 'code'"/>
+              </group>
+            </form>
+          </field>
+        </page>
+      </notebook>
+    </field>
+  </record>
+</odoo>
