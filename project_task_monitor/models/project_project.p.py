@@ -44,6 +44,7 @@ class ProjectTaskMonitor(models.Model):
         ('archive', 'Archive'),
         ('message', 'Message')
     ], string='Type')
+    trigger_info = fields.Char()
 
 class Project(models.Model):
     _inherit = "project.project"
