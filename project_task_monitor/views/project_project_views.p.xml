@@ -18,7 +18,9 @@
               <field name="trigger_type" />
               <field name="trigger_days" />
               <field name="trigger_date" />
+<!--
               <field name="trigger_info"  />
+-->
             </list>
             <form>
               <group>
