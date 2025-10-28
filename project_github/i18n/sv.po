@@ -1,15 +1,200 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
+# 	* project_github
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20250826\n"
+"Project-Id-Version: Odoo Server 18.0-20251022\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-08-27 11:40+0000\n"
-"PO-Revision-Date: 2025-08-27 11:40+0000\n"
+"POT-Creation-Date: 2025-10-28 10:55+0000\n"
+"PO-Revision-Date: 2025-10-28 13:01+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
+"Language: sv_SE\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_application
+msgid "Application"
+msgstr "Applikation"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_author
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Author"
+msgstr "Författare"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_auto_install
+msgid "Auto install"
+msgstr "Autoinstallera"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_branches
+msgid "Branches"
+msgstr "Brancher"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_category
+msgid "Category"
+msgstr "Kategori"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_depends
+msgid "Depends"
+msgstr "Beroenden"
+
+#. module: project_github
+#: model:ir.model.fields,help:project_github.field_project_task__git_repo
+msgid "For example l10n_se"
+msgstr "Till exempel l10n_se"
+
+#. module: project_github
+#: model:ir.model.fields,help:project_github.field_project_project__git_repo
+msgid "For example odoo-l10n_se"
+msgstr "Till exempel odoo-l10n_se"
+
+#. module: project_github
+#: model:ir.model.fields,help:project_github.field_project_task__git_module
+msgid "For example, l10n_se_extended"
+msgstr "Till exempel odoo-l10n_se_utökad"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__git_module
+msgid "Git Module"
+msgstr "Gitmodul"
+
+#. module: project_github
+#. odoo-python
+#: code:addons/project_github/models/project.py:0
+msgid "Git Module is missing"
+msgstr "Gitmodul saknas"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_project__git_owner
+#: model:ir.model.fields,field_description:project_github.field_project_task__git_owner
+msgid "Git Owner"
+msgstr "Git ägare"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_project__git_repo
+#: model:ir.model.fields,field_description:project_github.field_project_task__git_repo
+msgid "Git Repo"
+msgstr "Git repo"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Has Auto Install"
+msgstr "Har autoinstallering"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_images
+msgid "Images"
+msgstr "Bilder"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_installable
+msgid "Installable"
+msgstr "Installerbar"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Is Application"
+msgstr "Applikation"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_project__is_github_repo
+#: model:ir.model.fields,field_description:project_github.field_project_task__is_github_repo
+msgid "Is Github Repo"
+msgstr "Är Github repo"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Is Installable"
+msgstr "Är installerbar"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__is_module_odoo
+msgid "Is Odoo module"
+msgstr "Är Odoomodul"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_license
+msgid "Licence"
+msgstr "Licens"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "License"
+msgstr "Licens"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_maintainer
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Maintainer"
+msgstr "Underhållare"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Module Category"
+msgstr "Modulkategori"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_form2
+msgid "Module Info"
+msgstr "Modul information"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_form2
+msgid "Odoo Module"
+msgstr "Odoo modul"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__odoo_version
+msgid "Odoo Version"
+msgstr "Odoo version"
+
+#. module: project_github
+#. odoo-python
+#: code:addons/project_github/models/project.py:0
+msgid "Owner and/or Repo is missing on project [content]"
+msgstr "Ägare och / eller Repo saknas på projektet [innehåll]"
+
+#. module: project_github
+#: model:ir.model,name:project_github.model_project_project
+msgid "Project"
+msgstr "Projekt"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_summary
+msgid "Summary"
+msgstr "Sammanfattning"
+
+#. module: project_github
+#: model:ir.model,name:project_github.model_project_task
+msgid "Task"
+msgstr "Aktivitet"
+
+#. module: project_github
+#: model_terms:ir.ui.view,arch_db:project_github.view_task_search_form
+msgid "Version"
+msgstr "Version"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_website
+msgid "Website"
+msgstr "Webbplats"
+
+#. module: project_github
+#: model:ir.model.fields,field_description:project_github.field_project_task__module_website_desc
+msgid "Website Description"
+msgstr "Webbplatsbeskrivning"
+
+#. module: project_github
+#: model:ir.model.fields,help:project_github.field_project_task__git_owner
+msgid "vertelab"
+msgstr "vertelab"
