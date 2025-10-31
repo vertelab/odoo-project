@@ -170,12 +170,12 @@ msgstr "Projektledare"
 #. module: project_task_monitor
 #: model:ir.actions.server,name:project_task_monitor.ir_cron_project_monitor_ir_actions_server
 msgid "Project Monitor Task Checker"
-msgstr "Projektövervakare Uppgiftskontroll"
+msgstr "Projektövervakare Etappkontroll"
 
 #. module: project_task_monitor
 #: model:ir.model,name:project_task_monitor.model_project_task_monitor
 msgid "Project Task Monitor"
-msgstr "Övervakning av projektuppgifter"
+msgstr "Övervakning av projektetapper"
 
 #. module: project_task_monitor
 #: model:ir.model.fields,help:project_task_monitor.field_project_project__test_manager_id
@@ -207,12 +207,12 @@ msgstr "Aktivitet"
 #. module: project_task_monitor
 #: model:ir.model.fields,field_description:project_task_monitor.field_project_project__task_monitor_ids
 msgid "Task Monitor"
-msgstr "Uppgiftsövervakning"
+msgstr "Etappövervakning"
 
 #. module: project_task_monitor
 #: model_terms:ir.ui.view,arch_db:project_task_monitor.view_project_project_form
 msgid "Task Monitors"
-msgstr "Uppgiftsövervakare"
+msgstr "Etappövervakare"
 
 #. module: project_task_monitor
 #: model:ir.model,name:project_task_monitor.model_project_task_type
@@ -239,7 +239,7 @@ msgstr "Triggerinformation"
 #. module: project_task_monitor
 #: model:ir.actions.server,name:project_task_monitor.server_action_project_task_monitor
 msgid "Trigger Monitor Project Tasks"
-msgstr "Trigga Monitor-projektets uppgifter"
+msgstr "Trigga Monitor-projektets etapper"
 
 #. module: project_task_monitor
 #: model:ir.model.fields,field_description:project_task_monitor.field_project_task_monitor__trigger_type
