@@ -1,0 +1,25 @@
+<odoo>
+  <record id="task_type_edit" model="ir.ui.view">
+    <field name="name">project.task.type.form.create.payment</field>
+    <field name="model">project.task.type</field>
+    <field name="inherit_id" ref="project.task_type_edit" />
+    <field name="arch" type="xml">
+      <field name="fold" position="after">
+        <field name="create_payment" />
+      </field>
+    </field>
+  </record>
+  <record id="view_task_kanban" model="ir.ui.view">
+    <field name="name">project.task.kanban.create.payment</field>
+    <field name="model">project.task</field>
+    <field name="inherit_id" ref="project.view_task_kanban" />
+    <field name="arch" type="xml">
+      <field name="state" position="after">
+        <field name="show_payment_button" />
+      </field>
+      <field name="user_ids" position="before">
+        <button name="action_create_payment" string="Create Payment" type="object" invisible="not show_payment_button" class="oe_highlight" />
+      </field>
+    </field>
+  </record>
+</odoo>
