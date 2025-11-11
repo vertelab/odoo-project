@@ -1,0 +1,27 @@
+<odoo>
+  <data>
+
+    <record id="project_task_type_is_closed_form" model="ir.ui.view">
+      <field name="name">project.task.type.is.closed.form</field>
+      <field name="model">project.task.type</field>
+      <field name="inherit_id" ref="project.task_type_edit"/>
+      <field name="arch" type="xml">
+        <field name="fold" position="after">
+          <field name="is_closed"/>
+        </field>
+      </field>
+    </record>
+
+    <record id="project_task_type_is_close_list" model="ir.ui.view">
+      <field name="name">project.task.type.is.close.list</field>
+      <field name="model">project.task.type</field>
+      <field name="inherit_id" ref="project.task_type_tree"/>
+      <field name="arch" type="xml">
+        <field name="fold" position="before">
+          <field name="is_closed" optional="show"/>
+        </field>
+      </field>
+    </record>
+
+  </data>
+</odoo>
