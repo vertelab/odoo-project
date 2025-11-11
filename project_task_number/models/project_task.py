@@ -30,10 +30,7 @@ class Task(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('number', _('New')) == _('New'):
-                if not self.env.user._is_portal():
-                    vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
-                else:
-                    vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
+                vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
         return super().create(vals_list)
 
     def write(self, vals):
