@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="view_purchase_form_hr_validation" model="ir.ui.view">
+            <field name="name">purchase.order.form.inherit.hr.validation</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="project_purchase.view_order_form_inherit_project_purchase"/>
+            <field name="arch" type="xml">
+                <field name="project_id" position="after">
+                    <field name="project_hr_manager_user_id"/>
+                </field>
+            </field>
+        </record>
+    </data>
+</odoo>
