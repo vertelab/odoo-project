@@ -39,10 +39,9 @@ class Task(models.Model):
     def write(self, vals):
         if not vals:
             return True
-        for record in self:
-            if record.number == _('New'):
-                if not self.env.user._is_portal():
-                    vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
-                else:
-                    vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
+        if self.number == _('New'):
+            if not self.env.user._is_portal():
+                vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+            else:
+                vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
         return super().write(vals)
