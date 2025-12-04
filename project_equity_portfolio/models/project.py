@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
+import logging
 from GoogleNews import GoogleNews
-from datetime import date
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError, AccessError
 import feedparser
-import logging
 
 _logger = logging.getLogger(__name__)
-
-from odoo import models, fields, api
 
 class ProjectProject(models.Model):
     _inherit = 'project.project'
