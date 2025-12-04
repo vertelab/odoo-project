@@ -106,9 +106,11 @@ class NewMessage(models.Model):
         if not (self.env.user.has_group('base.group_user') or self.env.user.has_group('customer_project_user.group_project_customer_user')):
             args = expression.AND([self._get_search_domain_share(), args])
         # Perform a super with count as False, to have the ids, not a counter
-        ids = super(Message, self)._search(
-            args, offset=offset, limit=limit, order=order,
-            count=False, access_rights_uid=access_rights_uid)
+        ## 2025-12-04
+        # ~ ids = super(Message, self)._search(
+            # ~ args, offset=offset, limit=limit, order=order,
+            # ~ count=False, access_rights_uid=access_rights_uid)
+        ids = super(Message, self)._search(args, offset=offset, limit=limit, order=order)
         if not ids and count:
             return 0
         elif not ids:
