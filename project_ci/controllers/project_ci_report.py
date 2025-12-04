@@ -1,6 +1,5 @@
 import json
 import logging
-import re
 
 from odoo import http
 from odoo.http import request

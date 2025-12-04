@@ -25,7 +25,7 @@ class MailThread(models.AbstractModel):
         'mail.followers', 'res_id', string='Followers', groups='base.group_user,customer_project_user.group_project_customer_user')
     message_partner_ids = fields.Many2many(
         comodel_name='res.partner', string='Followers (Partners)',
-        compute='_get_followers', search='_search_follower_partners',
+        compute='_get_followers', # search='_search_follower_partners',
         groups='base.group_user,customer_project_user.group_project_customer_user')
     message_channel_ids = fields.Many2many(
         comodel_name='mail.channel', string='Followers (Channels)',
