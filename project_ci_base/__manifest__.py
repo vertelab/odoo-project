@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 ##############################################################################
 #
-#    Copyright (C) {year} {company} (<{mail}>)
+#    Copyright (C) {year} {company} info@vertel.se
 #    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
@@ -22,7 +22,7 @@
 # https://www.odoo.com/documentation/14.0/reference/module.html
 #
 {
-    'name': 'Project: Continuous integration',
+    'name': 'Project: Continuous integration Base',
     'version': '1.0',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
@@ -35,10 +35,15 @@
     'website': 'https://vertel.se/apps/odoo-',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
-    'depends': ["project_ci_base"],
+    'depends': ["project"],
     'data': [
+        "security/ir.model.access.csv",
+        "data/project_ci_branch_data.xml",
         "views/project_views.xml",
-    ],
+        "views/project_ci_views.xml",
+        "views/project_ci_branch_views.xml",
+        "views/project_ci_branch_line_views.xml",
+             ],
     'demo': [],
     'application': False,
     'installable': True,    

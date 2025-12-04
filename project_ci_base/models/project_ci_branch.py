@@ -8,7 +8,6 @@ class ProjectCIBranch(models.Model):
     _name = "project.ci.branch"
     _description = "Project CI Branch"
 
-
     name = fields.Char()
     ip_address = fields.Char(string="IP Address")
     project_ci_id = fields.Many2one(comodel_name="project.ci")
