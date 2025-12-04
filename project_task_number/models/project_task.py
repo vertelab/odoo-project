@@ -39,8 +39,6 @@ class Task(models.Model):
     def write(self, vals):
         if not vals:
             return True
-<<<<<<< HEAD
-<<<<<<< HEAD
         res = super().write(vals)
         for record in self:
             if record.number == _('New'):
@@ -51,19 +49,3 @@ class Task(models.Model):
                     # ~ vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
                     record.number = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or False
         return res
-=======
-        for record in self:
-            if record.number == _('New'):
-                if not self.env.user._is_portal():
-                    vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
-                else:
-                    vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
-=======
-        if self.number == _('New'):
-            if not self.env.user._is_portal():
-                vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
-            else:
-                vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
->>>>>>> cfe9d6ecf0e05b0201c29f70adfc93deaee77578
-        return super().write(vals)
->>>>>>> 8f662a71620d8af53ca9da65fc2e93bdfb736eb2
