@@ -100,8 +100,10 @@ class NewMessage(models.Model):
             # ~ return super(Message, self)._search(
                 # ~ args, offset=offset, limit=limit, order=order,
                 # ~ access_rights_uid=access_rights_uid) ## 2025-12-04
-        # Non-employee see only messages with a subtype and not internal
-        if not (self.env['res.users'].has_group('base.group_user') or self.env['res.users'].has_group('customer_project_user.group_project_customer_user')):
+        # Non-employee see only messages with a subtype and not internal 
+        ## 2025-12-04
+        # ~ if not (self.env['res.users'].has_group('base.group_user') or self.env['res.users'].has_group('customer_project_user.group_project_customer_user')):
+        if not (self.env.user.has_group('base.group_user') or self.env.user.has_group('customer_project_user.group_project_customer_user')):
             args = expression.AND([self._get_search_domain_share(), args])
         # Perform a super with count as False, to have the ids, not a counter
         ids = super(Message, self)._search(
