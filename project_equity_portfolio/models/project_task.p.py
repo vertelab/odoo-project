@@ -7,62 +7,67 @@ import yfinance as yf
 
 _logger = logging.getLogger(__name__)
 
+
 class Task(models.Model):
     _inherit = "project.task"
-    
+
     currency_id = fields.Many2one(
-        comodel_name='res.currency', 
-        string='Currency', 
+        comodel_name="res.currency",
+        string="Currency",
         required=True,
-        default=lambda self: self.env.company.currency_id.id
-    )
-    
-    is_equity_portfolio = fields.Boolean(string='Is Equity Portfolio',related="project_id.is_equity_portfolio")
-    equity_number = fields.Float(string='Number',default=1.0)
-    equity_price = fields.Monetary(
-        string="Price", 
-        currency_field='currency_id', 
-        compute='_compute_latest_stock_price',
-        store=True
-    )
-    equity_price_count = fields.Integer(string='Equity Price Count', compute='_compute_equity_price_count')
-    equity_price_ids = fields.One2many(
-        comodel_name='project.task.equity_price',
-        inverse_name='task_id',
-        string='Equity Prices'
-    )
-    equity_research_count = fields.Integer(string='Equity Research Count', compute='_compute_equity_research_count')
-    equity_research_ids = fields.One2many(
-        comodel_name='project.task.equity_research',
-        inverse_name='task_id',
-        string='Equity Research'
-    )
-    equity_symbol = fields.Char(string='Stock Symbol', required=True)
-    equity_type = fields.Selection(
-        selection=[
-            ('stock', 'Stock'),
-            ('fund', 'Fund'),
-            ('interest_fund', 'Interest Fund'),
-            ('obligation', 'Obligation'),
-            ('derivative', 'Derivat'),
-            ('future', 'Future'),
-        ],
-        string='Type of financial instrument'
-    )
-    equity_value = fields.Monetary(
-        string="Value", 
-        currency_field='currency_id', 
-        compute='_compute_latest_stock_price',
-        store=True
+        default=lambda self: self.env.company.currency_id.id,
     )
 
-    @api.depends('equity_price_ids', 'equity_price_ids.date')
+    is_equity_portfolio = fields.Boolean(
+        string="Is Equity Portfolio", related="project_id.is_equity_portfolio"
+    )
+    equity_number = fields.Float(string="Number", default=1.0)
+    equity_price = fields.Monetary(
+        string="Price",
+        currency_field="currency_id",
+        compute="_compute_latest_stock_price",
+        store=True,
+    )
+    equity_price_count = fields.Integer(
+        string="Equity Price Count", compute="_compute_equity_price_count"
+    )
+    equity_price_ids = fields.One2many(
+        comodel_name="project.task.equity_price",
+        inverse_name="task_id",
+        string="Equity Prices",
+    )
+    equity_research_count = fields.Integer(
+        string="Equity Research Count", compute="_compute_equity_research_count"
+    )
+    equity_research_ids = fields.One2many(
+        comodel_name="project.task.equity_research",
+        inverse_name="task_id",
+        string="Equity Research",
+    )
+    equity_symbol = fields.Char(string="Stock Symbol", required=True)
+    equity_type = fields.Selection(
+        selection=[
+            ("stock", "Stock"),
+            ("fund", "Fund"),
+            ("interest_fund", "Interest Fund"),
+            ("obligation", "Obligation"),
+            ("derivative", "Derivat"),
+            ("future", "Future"),
+        ],
+        string="Type of financial instrument",
+    )
+    equity_value = fields.Monetary(
+        string="Value",
+        currency_field="currency_id",
+        compute="_compute_latest_stock_price",
+        store=True,
+    )
+
+    @api.depends("equity_price_ids", "equity_price_ids.date")
     def _compute_latest_stock_price(self):
         for equity in self:
-            transaction = self.env['project.task.equity_price'].search(
-                [('task_id', '=', equity.id)],
-                order='date desc',
-                limit=1
+            transaction = self.env["project.task.equity_price"].search(
+                [("task_id", "=", equity.id)], order="date desc", limit=1
             )
             if transaction:
                 equity.equity_price = transaction.price
@@ -70,12 +75,12 @@ class Task(models.Model):
             else:
                 equity.equity_price = 0.0
 
-    @api.depends('equity_price_ids')
+    @api.depends("equity_price_ids")
     def _compute_equity_price_count(self):
         for task in self:
             task.equity_price_count = len(task.equity_price_ids)
 
-    @api.depends('equity_research_ids')
+    @api.depends("equity_research_ids")
     def _compute_equity_research_count(self):
         for task in self:
             task.equity_research_count = len(task.equity_research_ids)
@@ -83,112 +88,125 @@ class Task(models.Model):
     def action_open_equity_prices(self):
         self.ensure_one()
         return {
-            'name': 'Equity Prices',
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.task.equity_price',
-            'view_mode': 'list,form,pivot,graph',
-            'domain': [('task_id', '=', self.id)],
-            'context': {'default_task_id': self.id},
-            'target': 'current',
+            "name": "Equity Prices",
+            "type": "ir.actions.act_window",
+            "res_model": "project.task.equity_price",
+            "view_mode": "list,form,pivot,graph",
+            "domain": [("task_id", "=", self.id)],
+            "context": {"default_task_id": self.id},
+            "target": "current",
         }
 
     def action_open_equity_research(self):
         self.ensure_one()
         return {
-            'name': 'Equity Research',
-            'type': 'ir.actions.act_window',
-            'res_model': 'project.task.equity_research',
-            'view_mode': 'list,form',
-            'domain': [('task_id', '=', self.id)],
-            'context': {'default_task_id': self.id},
-            'target': 'current',
+            "name": "Equity Research",
+            "type": "ir.actions.act_window",
+            "res_model": "project.task.equity_research",
+            "view_mode": "list,form",
+            "domain": [("task_id", "=", self.id)],
+            "context": {"default_task_id": self.id},
+            "target": "current",
         }
 
-
     transaction_ids = fields.One2many(
-        comodel_name='project.equity_transaction',
-        inverse_name='task_id',
-        string='Transactions'
+        comodel_name="project.equity_transaction",
+        inverse_name="task_id",
+        string="Transactions",
     )
 
-
-    @api.depends('transaction_ids')
+    @api.depends("transaction_ids")
     def _compute_transaction_count(self):
         for record in self:
             record.transaction_count = len(record.transaction_ids)
+
     transaction_count = fields.Integer(
-        string="Transaction Count",
-        compute='_compute_transaction_count'
+        string="Transaction Count", compute="_compute_transaction_count"
     )
 
     def action_open_transactions(self):
         self.ensure_one()
         return {
-            'type': 'ir.actions.act_window',
-            'name': 'Transactions',
-            'res_model': 'project.equity_transaction',
-            'view_mode': 'list,form,pivot,graph',
-            'domain': [('task_id', '=', self.id)],
-            'context': {'default_task_id': self.id},
+            "type": "ir.actions.act_window",
+            "name": "Transactions",
+            "res_model": "project.equity_transaction",
+            "view_mode": "list,form,pivot,graph",
+            "domain": [("task_id", "=", self.id)],
+            "context": {"default_task_id": self.id},
         }
-    
+
     def update_price(self):
         for equity in self:
-            self.env['project.task.equity_price'].add_price(equity)
+            self.env["project.task.equity_price"].add_price(equity)
+
 
 class ProjectTaskStockPrice(models.Model):
-    _name = 'project.task.equity_price'
-    _description = 'Stock price transaction linked to task'
-    _order = 'date desc'
+    _name = "project.task.equity_price"
+    _description = "Stock price transaction linked to task"
+    _order = "date desc"
 
-    task_id = fields.Many2one('project.task', string='Task', required=True, ondelete='cascade')
-    price = fields.Float(string='Stock Price', required=True)
-    equity_symbol = fields.Char(string='Stock Symbol', related='task_id.equity_symbol')
-    date = fields.Date(string='Transaction Date', default=fields.Date.context_today)
-    
+    task_id = fields.Many2one(
+        "project.task", string="Task", required=True, ondelete="cascade"
+    )
+    price = fields.Float(string="Stock Price", required=True)
+    equity_symbol = fields.Char(string="Stock Symbol", related="task_id.equity_symbol")
+    date = fields.Date(string="Transaction Date", default=fields.Date.context_today)
+
     def get_current_stock_price(equity_symbol):
         stock = yf.Ticker(equity_symbol)
         todays_data = stock.history(period="1d")
         if not todays_data.empty:
-            return todays_data['Close'][0] 
+            return todays_data["Close"][0]
         else:
             _logger.error(f"YF: Missing symbol {equity_symbol}")
             return None
 
     @api.model
-    def get_monthly_close_prices(self,equity_symbol):
+    def get_monthly_close_prices(self, equity_symbol):
         stock = yf.Ticker(equity_symbol)
         hist = stock.history(period="1mo", interval="1d")
-        if not hist.empty and 'Close' in hist:
-            return {str(date.date()): float(close) for date, close in hist['Close'].items()}
+        if not hist.empty and "Close" in hist:
+            return {
+                str(date.date()): float(close) for date, close in hist["Close"].items()
+            }
         else:
             _logger.error(f"YF: Missing data for symbol {equity_symbol}")
             return {}
 
     @api.model
     def add_price(self, equity):
-        for str_date, price in self.get_monthly_close_prices(equity.equity_symbol).items():
+        for str_date, price in self.get_monthly_close_prices(
+            equity.equity_symbol
+        ).items():
             _logger.debug(f"{equity.equity_symbol=} {str_date} {price}")
             date = fields.Date.from_string(str_date)
-            if price and self.search_count([
-                    ('task_id', '=', equity.id),
-                    ('date', '=', date)]) == 0:
-                self.create({
-                    'task_id': equity.id,
-                    'price': price,
-                    'date': date,
-                })
-        
-        
-        
-        
-class ProjectTaskEquityResearch(models.Model):
-    _name = 'project.task.equity_research'
-    _description = 'Research about equity'
-    _order = 'date desc'
+            if (
+                price
+                and self.search_count(
+                    [("task_id", "=", equity.id), ("date", "=", date)]
+                )
+                == 0
+            ):
+                self.create(
+                    {
+                        "task_id": equity.id,
+                        "price": price,
+                        "date": date,
+                    }
+                )
 
-    task_id = fields.Many2one('project.task', string='Task', required=True, ondelete='cascade')
-    equity_symbol = fields.Char(string='Stock Symbol', related='task_id.equity_symbol')
-    research_text = fields.Text(string='Research Summary', required=True)
-    source_url = fields.Char(string='Source URL', required=True)
-    date = fields.Date(string='Research Date', default=fields.Date.context_today, required=True)
+
+class ProjectTaskEquityResearch(models.Model):
+    _name = "project.task.equity_research"
+    _description = "Research about equity"
+    _order = "date desc"
+
+    task_id = fields.Many2one(
+        "project.task", string="Task", required=True, ondelete="cascade"
+    )
+    equity_symbol = fields.Char(string="Stock Symbol", related="task_id.equity_symbol")
+    research_text = fields.Text(string="Research Summary", required=True)
+    source_url = fields.Char(string="Source URL", required=True)
+    date = fields.Date(
+        string="Research Date", default=fields.Date.context_today, required=True
+    )
