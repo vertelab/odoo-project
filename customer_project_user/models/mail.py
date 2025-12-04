@@ -98,7 +98,8 @@ class NewMessage(models.Model):
         if self.env.is_superuser():
             return super(Message, self)._search(
                 args, offset=offset, limit=limit, order=order,
-                count=count, access_rights_uid=access_rights_uid)
+                access_rights_uid=access_rights_uid)
+                # ~ count=count, access_rights_uid=access_rights_uid) ## 2025-12-04
         # Non-employee see only messages with a subtype and not internal
         if not (self.env['res.users'].has_group('base.group_user') or self.env['res.users'].has_group('customer_project_user.group_project_customer_user')):
             args = expression.AND([self._get_search_domain_share(), args])
