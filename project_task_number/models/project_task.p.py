@@ -30,7 +30,11 @@ class Task(models.Model):
     def create(self, vals_list):
         for vals in vals_list:
             if vals.get('number', _('New')) == _('New'):
+                # #if VERSION >= "18.0"
                 if not self.env.user._is_portal():
+                # #elif VERSION <= "17.0"
+                if not self.env.user.has_group('base.group_portal'):
+                # #endif
                     vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
                 else:
                     vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
@@ -42,10 +46,12 @@ class Task(models.Model):
         res = super().write(vals)
         for record in self:
             if record.number == _('New'):
-                if not record.env.user._is_portal():
-                    # ~ vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+                # #if VERSION >= "18.0"
+                if not self.env.user._is_portal():
+                # #elif VERSION <= "17.0"
+                if not self.env.user.has_group('base.group_portal'):
+                # #endif
                     record.number = self.env['ir.sequence'].next_by_code('project.task.number') or False
                 else:
-                    # ~ vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
                     record.number = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or False
         return res
