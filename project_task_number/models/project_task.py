@@ -42,10 +42,8 @@ class Task(models.Model):
         res = super().write(vals)
         for record in self:
             if record.number == _('New'):
-                if not record.env.user._is_portal():
-                    # ~ vals['number'] = self.env['ir.sequence'].next_by_code('project.task.number') or _('New')
+                if not self.env.user._is_portal():
                     record.number = self.env['ir.sequence'].next_by_code('project.task.number') or False
                 else:
-                    # ~ vals['number'] = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or _('New')
                     record.number = self.env['ir.sequence'].sudo().next_by_code('project.task.number') or False
         return res
