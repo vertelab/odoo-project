@@ -1,6 +1,3 @@
-import hashlib
-import hmac
-import json
 import logging
 import re
 import subprocess
@@ -65,7 +62,6 @@ class MailChannel(models.Model):
             message_type='email',
             subtype_xmlid='mail.mt_comment',
             email_from='vertelbot@vertel.se',
-            # email_to=f"{self.committer_email if self.committer_email else 'vertelbot@vertel.se'}",
         )
         return message_id
 
