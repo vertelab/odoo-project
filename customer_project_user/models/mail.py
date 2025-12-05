@@ -25,7 +25,7 @@ class MailThread(models.AbstractModel):
         'mail.followers', 'res_id', string='Followers', groups='base.group_user,customer_project_user.group_project_customer_user')
     message_partner_ids = fields.Many2many(
         comodel_name='res.partner', string='Followers (Partners)',
-        compute='_get_followers', search='_search_follower_partners',
+        compute='_get_followers', # search='_search_follower_partners',
         groups='base.group_user,customer_project_user.group_project_customer_user')
     message_channel_ids = fields.Many2many(
         comodel_name='mail.channel', string='Followers (Channels)',
@@ -96,16 +96,21 @@ class NewMessage(models.Model):
         """
         # Rules do not apply to administrator
         if self.env.is_superuser():
-            return super(Message, self)._search(
-                args, offset=offset, limit=limit, order=order,
-                count=count, access_rights_uid=access_rights_uid)
-        # Non-employee see only messages with a subtype and not internal
-        if not (self.env['res.users'].has_group('base.group_user') or self.env['res.users'].has_group('customer_project_user.group_project_customer_user')):
+            return super(Message, self)._search(args, offset=offset, limit=limit, order=order)
+            # ~ return super(Message, self)._search(
+                # ~ args, offset=offset, limit=limit, order=order,
+                # ~ access_rights_uid=access_rights_uid) ## 2025-12-04
+        # Non-employee see only messages with a subtype and not internal 
+        ## 2025-12-04
+        # ~ if not (self.env['res.users'].has_group('base.group_user') or self.env['res.users'].has_group('customer_project_user.group_project_customer_user')):
+        if not (self.env.user.has_group('base.group_user') or self.env.user.has_group('customer_project_user.group_project_customer_user')):
             args = expression.AND([self._get_search_domain_share(), args])
         # Perform a super with count as False, to have the ids, not a counter
-        ids = super(Message, self)._search(
-            args, offset=offset, limit=limit, order=order,
-            count=False, access_rights_uid=access_rights_uid)
+        ## 2025-12-04
+        # ~ ids = super(Message, self)._search(
+            # ~ args, offset=offset, limit=limit, order=order,
+            # ~ count=False, access_rights_uid=access_rights_uid)
+        ids = super(Message, self)._search(args, offset=offset, limit=limit, order=order)
         if not ids and count:
             return 0
         elif not ids:
