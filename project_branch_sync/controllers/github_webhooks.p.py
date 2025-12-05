@@ -43,5 +43,6 @@ class GitHubWebHooks(GitHubWebHooks):
         # #elif VERSION <= "17.0"
         project_sync_id = request.env["mail.channel"].sudo().create({"name": f"{uuid.uuid4()}","committer_email": git_dict.get("committer_email", "vertelbot@vertel.se")})
         # #endif
-        project_sync_id.with_delay().sync(git_dict,files)
+        # project_sync_id.with_delay().sync(git_dict,files)
+        project_sync_id.sync(git_dict,files)
         return {"status": "success", "message": "Webhook P-file sync processed successfully."}
