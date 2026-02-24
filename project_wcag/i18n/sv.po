@@ -7,13 +7,15 @@ msgstr ""
 "Project-Id-Version: Odoo Server 14.0-20211214\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-04-21 07:40+0000\n"
-"PO-Revision-Date: 2022-04-21 07:40+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2026-02-24 10:48+0100\n"
+"Last-Translator: Jakob Krabbe <jakob.krabbe@vertel.se>\n"
 "Language-Team: \n"
+"Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: \n"
-"Plural-Forms: \n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Generator: Poedit 3.4.2\n"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__wcag_rules
@@ -23,7 +25,7 @@ msgstr "'Wcag Regler'"
 #. module: project_wcag
 #: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__2
 msgid "*blank*"
-msgstr "Blank"
+msgstr "*blank*"
 
 #. module: project_wcag
 #: model_terms:ir.ui.view,arch_db:project_wcag.add_wcag_rule_wizard_form
@@ -83,7 +85,7 @@ msgstr "Skapad Av"
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__create_date
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__create_date
 msgid "Created on"
-msgstr "Skapad på"
+msgstr "Skapad den"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__description
@@ -131,7 +133,7 @@ msgstr "Misslyckades"
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule__id
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule__id
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #. module: project_wcag
 #: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
@@ -151,7 +153,7 @@ msgstr "Är en lista med wcag-kriterier för denna uppgift/objekt"
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_project_rule____last_update
 #: model:ir.model.fields,field_description:project_wcag.field_wcag_rule____last_update
 msgid "Last Modified on"
-msgstr "Senast redigerad"
+msgstr "Senast redigerad den"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_add_wcag_rule_wizard__write_uid
@@ -202,7 +204,7 @@ msgstr "Anteckningar"
 #. module: project_wcag
 #: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__5
 msgid "OK"
-msgstr ""
+msgstr "Ok"
 
 #. module: project_wcag
 #: model:ir.model.fields.selection,name:project_wcag.selection__project_task_wcag__wcag_state__4
@@ -231,19 +233,19 @@ msgstr "Satt OK pga MC regel"
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__wcag_state
 msgid "State"
-msgstr "Status"
+msgstr "Läge"
 
 #. module: project_wcag
 #: model:ir.model,name:project_wcag.model_project_task
 #: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__task_id
 #: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
 msgid "Task"
-msgstr "Aktivitet"
+msgstr "Uppgift"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_project_task__rule_count
 msgid "Task Count"
-msgstr "Uppgifter"
+msgstr "Antal uppgifter"
 
 #. module: project_wcag
 #: model:ir.model.fields,help:project_wcag.field_wcag_project_rule__project_id
@@ -261,7 +263,7 @@ msgstr "Wcag-reglerna vi mäter varje objekt mot, specifika för varje projekt"
 #: code:addons/project_wcag/models/project_task.py:0
 #, python-format
 msgid "Unexpected file added to task."
-msgstr "Oförväntat filformat."
+msgstr "Oväntad fil tillagd i uppgiften."
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_project_task_wcag__validate_method
@@ -279,12 +281,12 @@ msgstr "W3C Nummer"
 #. module: project_wcag
 #: model_terms:ir.ui.view,arch_db:project_wcag.project_wcag
 msgid "Wcag"
-msgstr ""
+msgstr "Wcag"
 
 #. module: project_wcag
 #: model:ir.actions.act_window,name:project_wcag.action_view_wcag_rules
 msgid "Wcag "
-msgstr ""
+msgstr "Wcag "
 
 #. module: project_wcag
 #: model:ir.ui.menu,name:project_wcag.menu_wcag
@@ -294,7 +296,7 @@ msgstr "Wcag-konfiguration"
 #. module: project_wcag
 #: model_terms:ir.ui.view,arch_db:project_wcag.view_wcag_task_search
 msgid "Wcag Id"
-msgstr ""
+msgstr "Wcag Id"
 
 #. module: project_wcag
 #: model:ir.model.fields,field_description:project_wcag.field_project_project__is_wcag
@@ -325,7 +327,7 @@ msgstr "Wcag-regel"
 #. module: project_wcag
 #: model:ir.model,name:project_wcag.model_add_wcag_rule_wizard
 msgid "Wcag Rule Import Wizard"
-msgstr "Wcag-regel Import Wizard"
+msgstr "Guiden för import av Wcag-regler"
 
 #. module: project_wcag
 #: model:ir.ui.menu,name:project_wcag.menu_wcag_rules
@@ -354,7 +356,7 @@ msgstr "Wcag Address"
 #: model:ir.model.fields,field_description:project_wcag.field_project_task__task_wcag_ids
 #: model_terms:ir.ui.view,arch_db:project_wcag.project_task_form_view
 msgid "Wcags"
-msgstr ""
+msgstr "Wcags"
 
 #. module: project_wcag
 #: model:ir.actions.act_window,name:project_wcag.act_project_project_project_task_wcag_task_report
@@ -369,14 +371,14 @@ msgstr "eller"
 #. module: project_wcag
 #: model:ir.model,name:project_wcag.model_project_task_wcag
 msgid "project.task.wcag"
-msgstr ""
+msgstr "project.task.wcag"
 
 #. module: project_wcag
 #: model:ir.model,name:project_wcag.model_wcag_project_rule
 msgid "wcag.project.rule"
-msgstr ""
+msgstr "wcag.project.rule"
 
 #. module: project_wcag
 #: model:ir.model,name:project_wcag.model_wcag_rule
 msgid "wcag.rule"
-msgstr ""
+msgstr "wcag.rule"
