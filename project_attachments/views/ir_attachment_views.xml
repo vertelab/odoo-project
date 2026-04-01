@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="view_document_file_kanban_sks">
+        <field name="name">ir.attachment kanban sks</field>
+        <field name="model">ir.attachment</field>
+        <field name="inherit_id" ref="mail.view_document_file_kanban"/>
+        <field name="arch" type="xml">
+            <field name="id" position="after">
+                <field name="res_name"/>
+            </field>
+            <field name="name" position="after">
+                <field name="res_name" class="text-truncate text-muted small"/>
+            </field>
+        </field>
+    </record>
+</odoo>

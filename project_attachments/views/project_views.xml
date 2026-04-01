@@ -1,0 +1,12 @@
+<odoo>
+    <data>
+        <record id="project_embedded_action_ir_attachment" model="ir.embedded.actions">
+            <field name="parent_res_model">project.project</field>
+            <field name="sequence">60</field>
+            <field name="name">Attachments</field>
+            <field name="parent_action_id" ref="project.act_project_project_2_project_task_all"/>
+            <field name="python_method">action_open_project_attachments</field>
+            <field name="context">{"from_embedded_action": true}</field>
+        </record>
+    </data>
+</odoo>
