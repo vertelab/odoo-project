@@ -1,22 +1,20 @@
-# -*- coding: utf-8 -*-
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
 from odoo import http
-from odoo.addons.portal.controllers.web import Home
-#from odoo.addons.web.controllers.main import Home
 from odoo.http import request
+from odoo.addons.web.controllers.home import Home
 
 
-class HomeExtended(Home):
+class ProjectCustomerHome(Home):
 
     def _login_redirect(self, uid, redirect=None):
-        if not redirect and not (request.env['res.users'].sudo().browse(request.session.uid).has_group('base.group_user') or request.env['res.users'].sudo().browse(request.session.uid).has_group('customer_project_user.group_project_customer_user')):
-            redirect = '/my'
-        return super(Home, self)._login_redirect(uid, redirect=redirect)
-
-
-    @http.route('/web', type='http', auth="none")
-    def web_client(self, s_action=None, **kw):
-        if request.session.uid and not (request.env['res.users'].sudo().browse(request.session.uid).has_group('base.group_user') or request.env['res.users'].sudo().browse(request.session.uid).has_group('customer_project_user.group_project_customer_user')):
-            return http.local_redirect('/my', query=request.params, keep_hash=True)
-        return super(Home, self).web_client(s_action, **kw)
+        result = super()._login_redirect(uid, redirect=redirect)
+        if result in ('/odoo', '/web', False, None):
+            user = request.env['res.users'].sudo().browse(uid)
+            if user.has_group('customer_project_user.group_project_customer_user'):
+                projects = request.env['project.project'].sudo().search([
+                    '|', ('partner_id', '=', user.partner_id.id),
+                    ('customer_ids', 'in', [user.partner_id.id]),
+                ])
+                if len(projects) == 1:
+                    return '/odoo/project.project/%d/action_view_tasks' % projects.id
+                return '/odoo/project.open_view_project_all'
+        return result

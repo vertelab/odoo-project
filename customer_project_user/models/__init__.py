@@ -1,5 +1,5 @@
-from . import mail
-from . import rating_mixin
 from . import project
-from . import ir_attachment
+from . import res_users
+from . import ir_ui_menu
+from . import ir_rule
 

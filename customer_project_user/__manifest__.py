@@ -37,16 +37,11 @@
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     # ~ 'depends': ['project', 'base', 'hr_timesheet', 'dms', 'contacts', 'portal', 'web', 'project_scrum', 'calendar', 'mail', 'sale_project', 'sale_timesheet'],
-    'depends': ['project', 'base', 'hr_timesheet', 'contacts', 'portal', 'web', 'project_scrum', 'calendar', 'mail', 'sale_project', 'sale_timesheet'],
+    'depends': ['project', 'base', 'hr_timesheet', 'mail', 'sale_project', 'sale_timesheet', 'web'],
     'data': [
         'security/groups.xml',
-        'security/project_access.xml',
-        'security/mail_access.xml',
         'views/menu.xml',
         'views/project_view.xml',
-    ],
-    "qweb": [
-        'static/src/xml/top_bar.xml',
     ],
     'installable': True,
 }
