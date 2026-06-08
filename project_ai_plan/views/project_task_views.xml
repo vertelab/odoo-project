@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_task_ai_plan_form" model="ir.ui.view">
+        <field name="name">project.task.ai.plan.form</field>
+        <field name="model">project.task</field>
+        <field name="inherit_id" ref="project.view_task_form2"/>
+        <field name="arch" type="xml">
+            <page name="description_page" position="after">
+                <page name="ai_plan" string="AI Plan">
+                    <group>
+                        <field name="ai_plan" nolabel="1" placeholder="AI-generated implementation plan..."/>
+                    </group>
+                </page>
+                <page name="ai_usecase" string="AI Use Case">
+                    <group>
+                        <field name="ai_usecase" nolabel="1" placeholder="AI-generated use case description..."/>
+                    </group>
+                    <group string="Mermaid Diagram">
+                        <field name="ai_usecase_mermaid" widget="mermaid" nolabel="1"/>
+                    </group>
+                </page>
+            </page>
+        </field>
+    </record>
+</odoo>
