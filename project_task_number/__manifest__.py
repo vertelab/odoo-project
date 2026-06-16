@@ -32,7 +32,7 @@
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
-    'depends': ['project', "queue_job"],
+    'depends': ['project'],
     'data': [
         'data/sequence.xml',
         'views/project_task_views.xml',
