@@ -9,9 +9,6 @@
             <field name="partner_id" position="after">
                 <field name="number" />
             </field>
-            <field name="name" position="attributes">
-                <attribute name="filter_domain">['|', ('name', 'ilike', self), ('number', 'ilike', self)]</attribute>
-            </field>
         </field>
     </record>
 
@@ -52,10 +49,10 @@
                 <field name="number" />
             </kanban>
             <xpath expr="//field[@name='name']" position="replace">
-                <div class="d-flex align-items-baseline w-100" t-att-title="record.name.raw_value">
-                    <span class="text-muted small me-1 text-nowrap flex-shrink-0">[<field name="number"/>]</span>
-                    <span class="fw-bold fs-5 text-truncate" style="min-width: 0;"><field name="name"/></span>
-                </div>
+                <span class="text-muted small me-2" style="white-space: nowrap;">
+                    [<field name="number"/>]
+                    <field name="name" class="fw-bold fs-5"/>
+                </span>
             </xpath>
         </field>
     </record>
