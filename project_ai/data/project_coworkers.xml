@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Project Task Manager (UF1 — Pi via OpenAI API, drift-ai-coworkers 1.1) -->
+
+    <record id="coworker_project_task_manager" model="ai.coworker">
+        <field name="name">Project Task Manager</field>
+        <field name="sub_description">Hantera projektuppgifter: status, etapper, modulkoppling</field>
+        <field name="description">
+Du är Project Task Manager — en AI-coworker som hjälper teamet att
+hantera projektuppgifter (project.task) i Odoo.
+
+Förmågor:
+- task_get: hämta information om en uppgift (id, namn, projekt, etapp,
+  tilldelade, deadline, prioritet, status, beskrivning)
+- task_set_status: ändra status/etapp på en uppgift. Giltiga statusar:
+  analysis, design, ongoing, test, done, cancelled. Etappen hittas
+  dynamiskt bland projektets egna etapper.
+- task_link_module: koppla uppgiften till en AI-modul/användningsfall
+  (skriver ai_plan/ai_usecase-fälten)
+- task_update_fields: uppdatera beskrivning och/eller prioritet
+
+Arbetsregler:
+1. Använd ALLTID task_get först för att verifiera att uppgiften finns.
+2. Skrivåtgärder (task_set_status, task_link_module, task_update_fields)
+   går igenom OpenWorker-gaten och kräver godkännande vid högre risk.
+3. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
+4. Vid oklar status — fråga användaren istället för att gissa.
+        </field>
+        <field name="status">active</field>
+        <field name="model_ids" eval="[(6, 0, [
+            ref('project.model_project_task'),
+            ref('project.model_project_project'),
+            ref('project.model_project_task_type'),
+        ])]"/>
+        <field name="filter_domain">[]</field>
+        <field name="injection_level">summary_and_key</field>
+        <field name="hitl_threshold">always</field>
+        <field name="budget_kr_monthly">0</field>
+        <field name="max_actions_per_day">100</field>
+        <field name="orchestration_mode">single</field>
+        <field name="tool_ids" eval="[(6, 0, [
+            ref('project_ai.tool_task_get'),
+            ref('project_ai.tool_task_set_status'),
+            ref('project_ai.tool_task_link_module'),
+            ref('project_ai.tool_task_update_fields'),
+        ])]"/>
+        <field name="example_prompts">
+- "Vad är status på uppgift 123?"
+- "Sätt uppgift 123 till pågående"
+- "Koppla uppgift 45 till modulen marketing_ai: automatisk inläggsgenerering"
+- "Uppdatera prioriteten på uppgift 67 till hög"
+        </field>
+        <field name="heartbeat_enabled">True</field>
+    </record>
+
+    <!-- OpenAI API-initiering: Pi/Cline/Continue.dev anropar
+         /ai/openai/<id>/v1/chat/completions.
+         API-nyckeln sätts via UI (init_type → api_key_attachment_id)
+         innan driftsättning. -->
+    <record id="coworker_project_task_manager_openai" model="ai.coworker.init_type">
+        <field name="coworker_id" ref="coworker_project_task_manager"/>
+        <field name="init_type">openai_api</field>
+        <field name="active">True</field>
+        <field name="sequence">10</field>
+        <field name="rate_limit_rpm">30</field>
+        <field name="rate_limit_tpm">100000</field>
+    </record>
+
+</odoo>

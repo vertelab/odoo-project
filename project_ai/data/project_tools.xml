@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Project Task Manager tools (D5: tools som ai.tool, körs i run()-sandboxen) -->
+
+    <record id="tool_task_get" model="ai.tool">
+        <field name="name">task_get</field>
+        <field name="description">Hämta information om en projektuppgift (project.task) i Odoo. Returnerar JSON med id, namn, projekt, etapp, tilldelade, deadline, prioritet, status och beskrivning.</field>
+        <field name="parameters">{"type": "object", "properties": {"task_id": {"type": "integer", "description": "ID för project.task"}}, "required": ["task_id"]}</field>
+        <field name="risk_level">read_only</field>
+        <field name="code"><![CDATA[
+async def execute(task_id):
+    """Hämta projektuppgift."""
+    res = env['ai.coworker'].project_task_get(int(task_id))
+    return json.dumps(res, ensure_ascii=False, default=str)
+]]></field>
+    </record>
+
+    <record id="tool_task_set_status" model="ai.tool">
+        <field name="name">task_set_status</field>
+        <field name="description">Ändra status/etapp på en projektuppgift (project.task). Statusmappning: analysis, design, ongoing (pågår), test, done (klar), cancelled (avbruten). Etappen hittas dynamiskt bland projektets egna etapper.</field>
+        <field name="parameters">{"type": "object", "properties": {"task_id": {"type": "integer", "description": "ID för project.task"}, "status": {"type": "string", "description": "önskad status: analysis/design/ongoing/test/done/cancelled"}}, "required": ["task_id", "status"]}</field>
+        <field name="risk_level">write</field>
+        <field name="code"><![CDATA[
+async def execute(task_id, status):
+    """Sätt status via stage-slumpning."""
+    ok, msg = env['ai.coworker'].project_task_set_status(int(task_id), str(status))
+    return msg
+]]></field>
+    </record>
+
+    <record id="tool_task_link_module" model="ai.tool">
+        <field name="name">task_link_module</field>
+        <field name="description">Koppla en projektuppgift till en AI-modul/användningsfall genom att skriva ai_plan och ai_usecase-fälten på project.task (finns i project_ai_plan).</field>
+        <field name="parameters">{"type": "object", "properties": {"task_id": {"type": "integer", "description": "ID för project.task"}, "module_name": {"type": "string", "description": "modulnamn (t.ex. marketing_ai)"}, "usecase": {"type": "string", "description": "kort beskrivning av AI-användningsfallet"}}, "required": ["task_id", "module_name", "usecase"]}</field>
+        <field name="risk_level">write</field>
+        <field name="code"><![CDATA[
+async def execute(task_id, module_name, usecase):
+    """Länka modul + use case till task (om fälten finns)."""
+    task = env['project.task'].sudo().browse(int(task_id))
+    if not task.exists():
+        return 'Task %s not found' % task_id
+    vals = {}
+    if 'ai_plan' in task._fields:
+        vals['ai_plan'] = 'Modul: %s\n\n%s' % (module_name, usecase)
+    if 'ai_usecase' in task._fields:
+        vals['ai_usecase'] = '<p>%s — <b>%s</b></p>' % (usecase, module_name)
+    if not vals:
+        return 'ai_plan/ai_usecase-fält saknas (installera project_ai_plan)'
+    task.write(vals)
+    return 'Task %s kopplad till modul %s' % (task.name, module_name)
+]]></field>
+    </record>
+
+    <record id="tool_task_update_fields" model="ai.tool">
+        <field name="name">task_update_fields</field>
+        <field name="description">Uppdatera beskrivning och/eller prioritet på en projektuppgift (project.task). Endast dessa två fält — övriga förändringar kräver manuell hantering.</field>
+        <field name="parameters">{"type": "object", "properties": {"task_id": {"type": "integer", "description": "ID för project.task"}, "description": {"type": "string", "description": "ny beskrivning (HTML)"}, "priority": {"type": "string", "description": "prioritet: 0-3"}}, "required": ["task_id"]}</field>
+        <field name="risk_level">write</field>
+        <field name="code"><![CDATA[
+async def execute(task_id, description=None, priority=None):
+    """Uppdatera beskrivning/prioritet på task."""
+    task = env['project.task'].sudo().browse(int(task_id))
+    if not task.exists():
+        return 'Task %s not found' % task_id
+    vals = {}
+    if description is not None:
+        vals['description'] = str(description)
+    if priority is not None:
+        vals['priority'] = int(priority)
+    if not vals:
+        return 'Inga fält att uppdatera'
+    task.write(vals)
+    return 'Task %s uppdaterad' % task.name
+]]></field>
+    </record>
+
+</odoo>
