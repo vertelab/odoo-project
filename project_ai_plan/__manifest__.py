@@ -6,8 +6,9 @@
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ai_plan',
     'license': 'AGPL-3',
-    'depends': ['project', 'project_task_number', 'web_widget_mermaid_field'],
+    'depends': ['project', 'project_task_number', 'web_widget_mermaid_field', 'ai_agent_core'],
     'data': [
+        'data/ai_coworker_data.xml',
         'views/project_task_views.xml',
     ],
     'installable': True,

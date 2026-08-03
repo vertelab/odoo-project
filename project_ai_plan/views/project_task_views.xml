@@ -8,6 +8,8 @@
             <page name="description_page" position="after">
                 <page name="ai_plan" string="AI Plan">
                     <group>
+                        <button name="action_generate_ai_plan" type="object"
+                                string="🤖 Generera AI-plan" class="btn-primary"/>
                         <field name="ai_plan" nolabel="1" placeholder="AI-generated implementation plan..."/>
                     </group>
                 </page>
