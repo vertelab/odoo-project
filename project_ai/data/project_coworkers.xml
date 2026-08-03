@@ -60,7 +60,7 @@ Arbetsregler:
     <record id="coworker_project_task_manager_openai" model="ai.coworker.init_type">
         <field name="coworker_id" ref="coworker_project_task_manager"/>
         <field name="init_type">openai_api</field>
-        <field name="active">True</field>
+        <field name="enabled">True</field>
         <field name="sequence">10</field>
         <field name="rate_limit_rpm">30</field>
         <field name="rate_limit_tpm">100000</field>
