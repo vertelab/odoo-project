@@ -58,7 +58,9 @@ class GitHubWebHooks(GitHubWebHooks):
         if not stage:
             if closing_stages:
                 stage = closing_stages[0]
-        elif len(stage) > 1:
+            else:
+                stage = False
+        else:
             stage = stage[0]
 
         user_ids = [(6,0,[user.id])]
