@@ -17,7 +17,6 @@ class GitHubWebHooks(GitHubWebHooks):
         """
         Hanterar inkommande webhook från GitHub.
         """
-        self.check_signature()
         git_dict = self.get_git_data()
         user = request.env['res.users'].sudo().search([
                     '|',
@@ -26,14 +25,14 @@ class GitHubWebHooks(GitHubWebHooks):
                 ], limit=1)
         if not user:
             user = request.env.ref("base.public_user")
-        _logger.error(f"{user=}")
+        _logger.warning(f"{user=}")
         res_partner_id = request.env['res.partner'].sudo().search([("email", "=", git_dict.get("committer_email"))], limit=1)
         author_id=self.get_author_id(res_partner_id)
-        _logger.error(f"{author_id=}")
+        _logger.warning(f"{author_id=}")
         task = self.find_task(git_dict)
-        _logger.error(f"{task=}")
+        _logger.warning(f"{task=}")
         project = self.find_project(git_dict,task)
-        _logger.error(f"{project=}")
+        _logger.warning(f"{project=}")
         if not task:
             if p_file_sync in git_dict["message"]:
                 task = self.create_task(git_dict,user,project,"P-files Sync")
@@ -45,7 +44,7 @@ class GitHubWebHooks(GitHubWebHooks):
         return {"status": "success", "message": "Webhook processed successfully"}
 
     def get_author_id(self, res_partner_id):
-        _logger.error(f"{res_partner_id.name=}")
+        _logger.warning(f"{res_partner_id.name=}")
         if res_partner_id and res_partner_id.name == "vertelbot":
             author_id = res_partner_id
         else:
