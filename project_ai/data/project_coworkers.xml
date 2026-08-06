@@ -115,7 +115,6 @@ For structured plan generation, respond with JSON:
         <field name="sequence">20</field>
         <field name="channel_alias">project-planner</field>
         <field name="orchestration_mode">supervisor</field>
-        <field name="agent_id" ref="ai_agent_core.agent_odoo_business"/>
         <field name="model_ids" eval="[(6, 0, [
             ref('project.model_project_task'),
             ref('project.model_project_project'),
@@ -133,6 +132,14 @@ For structured plan generation, respond with JSON:
 - "Föreslå en sprintbacklogg för nästa sprint"
         </field>
         <field name="heartbeat_enabled">False</field>
+    </record>
+
+    <!-- Länka Project Planner → Odoo-specialist agent -->
+    <record id="coworker_agent_project_planner" model="ai.coworker.agent">
+        <field name="coworker_id" ref="coworker_project_planner"/>
+        <field name="agent_id" ref="ai_agent_core.agent_odoo_business"/>
+        <field name="role">leader</field>
+        <field name="sequence" eval="10"/>
     </record>
 
     <!-- openai_api: Pi anropar via /ai/v1/ -->
