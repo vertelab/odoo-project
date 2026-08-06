@@ -114,7 +114,8 @@ For structured plan generation, respond with JSON:
         <field name="status">active</field>
         <field name="sequence">20</field>
         <field name="channel_alias">project-planner</field>
-        <field name="orchestration_mode">single</field>
+        <field name="orchestration_mode">supervisor</field>
+        <field name="agent_id" ref="ai_agent_core.agent_odoo_business"/>
         <field name="model_ids" eval="[(6, 0, [
             ref('project.model_project_task'),
             ref('project.model_project_project'),
