@@ -49,10 +49,10 @@
                 <field name="number" />
             </kanban>
             <xpath expr="//field[@name='name']" position="replace">
-                <span class="text-muted small me-2" style="white-space: nowrap;">
-                    [<field name="number"/>]
-                    <field name="name" class="fw-bold fs-5"/>
-                </span>
+                <div class="d-flex align-items-baseline w-100" t-att-title="record.name.raw_value">
+                    <span class="text-muted small me-1 text-nowrap flex-shrink-0">[<field name="number"/>]</span>
+                    <span class="fw-bold fs-5 text-truncate" style="min-width: 0;"><field name="name"/></span>
+                </div>
             </xpath>
         </field>
     </record>
