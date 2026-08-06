@@ -15,7 +15,7 @@ class ProjectTask(models.Model):
     ai_usecase_mermaid = fields.Text(string='AI Use Case Mermaid')
 
     def _get_project_planner_coworker(self):
-        """Hitta Project Planner-coworkern (data-XML i project_ai_plan)."""
+        """Hitta Project Planner-coworkern (data-XML i project_ai)."""
         return self.env['ai.coworker'].search(
             [('name', '=', 'Project Planner')], limit=1)
 

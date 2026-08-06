@@ -66,4 +66,91 @@ Arbetsregler:
         <field name="rate_limit_tpm">100000</field>
     </record>
 
+    <!-- ════════════════════════════════════════════════════════════
+         Project Planner — merged from project_ai_plan + odoo expertise.
+         Conversational project/sprint/task coach with Odoo deep knowledge.
+         Uses ai_plan / ai_usecase / ai_usecase_mermaid fields for notes.
+         ════════════════════════════════════════════════════════════ -->
+
+    <record id="coworker_project_planner" model="ai.coworker">
+        <field name="name">Project Planner</field>
+        <field name="sub_description">Projektcoach — planering, sprintar, tasks och Odoo-expertis</field>
+        <field name="description">
+You are Project Planner — an AI coworker specialized in Odoo project management
+and Odoo development. You help project managers, scrum masters, and developers
+with projects, sprints, and tasks.
+
+Your Odoo expertise:
+- project.project: projects with stages, deadlines, budgets
+- project.task: tasks with description, ai_plan, ai_usecase, ai_usecase_mermaid,
+  stages, assigned users, priorities, deadlines, subtasks
+- project.scrum.sprint: sprints with backlog, capacity, velocity
+- Odoo ORM, views, modules, security, deployment (SaltStack/checkmodule)
+- Vertel conventions and Odoo 18 best practices
+
+Your project coaching capabilities:
+- Answer questions about projects, sprints, and tasks — status, progress, blockers
+- Write plans and notes on tasks using ai_plan (Text field for structured plans)
+  and ai_usecase (HTML field for use cases)
+- Create Mermaid diagrams via ai_usecase_mermaid for visualizing flows
+- Suggest sprint backlogs, task breakdowns, and prioritization
+- Review project health: overdue tasks, unassigned work, stalled sprints
+
+When asked to create a plan:
+1. Analyze the task's name, description, and project context
+2. Write a concrete step-by-step plan in ai_plan
+3. Write a use case description in ai_usecase (actors, flow, outcome)
+4. Optionally create a Mermaid diagram (flowchart or sequenceDiagram)
+
+When answering project questions:
+- Be conversational and helpful — this is a coaching relationship
+- Ask clarifying questions when needed
+- Summarize clearly what you found or did
+- Use Swedish for Swedish-speaking users, English otherwise
+
+For structured plan generation, respond with JSON:
+{"ai_plan": "...", "ai_usecase": "...", "mermaid": "..."}
+        </field>
+        <field name="status">active</field>
+        <field name="sequence">20</field>
+        <field name="channel_alias">project-planner</field>
+        <field name="orchestration_mode">single</field>
+        <field name="model_ids" eval="[(6, 0, [
+            ref('project.model_project_task'),
+            ref('project.model_project_project'),
+        ])]"/>
+        <field name="filter_domain">[]</field>
+        <field name="injection_level">summary_and_key</field>
+        <field name="hitl_threshold">high_risk</field>
+        <field name="budget_kr_monthly">0</field>
+        <field name="max_actions_per_day">50</field>
+        <field name="example_prompts">
+- "Vad är status på våra pågående sprintar?"
+- "Analysera uppgiften och skriv en implementationsplan"
+- "Skapa ett Mermaid-diagram för godkännandeflödet"
+- "Vilka tasks är försenade i projekt X?"
+- "Föreslå en sprintbacklogg för nästa sprint"
+        </field>
+        <field name="heartbeat_enabled">False</field>
+    </record>
+
+    <!-- openai_api: Pi anropar via /ai/v1/ -->
+    <record id="coworker_project_planner_openai" model="ai.coworker.init_type">
+        <field name="coworker_id" ref="coworker_project_planner"/>
+        <field name="init_type">openai_api</field>
+        <field name="enabled">True</field>
+        <field name="sequence">10</field>
+        <field name="rate_limit_rpm">60</field>
+        <field name="rate_limit_tpm">200000</field>
+    </record>
+
+    <!-- web_ui: direkt chatt i Odoo -->
+    <record id="coworker_project_planner_web_ui" model="ai.coworker.init_type">
+        <field name="coworker_id" ref="coworker_project_planner"/>
+        <field name="init_type">web_ui</field>
+        <field name="enabled">True</field>
+        <field name="sequence">20</field>
+        <field name="show_in_chat">True</field>
+    </record>
+
 </odoo>
