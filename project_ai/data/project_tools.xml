@@ -89,7 +89,7 @@ async def execute(task_id, description=None, priority=None):
     <record id="tool_cost_context_get" model="ai.tool">
         <field name="name">cost_context_get</field>
         <field name="description">Läs sessionens kostnadskontext: projekt, uppgift, kund och om kostnaden bekräftats. Använd i början av kostnadsbärande arbete för att avgöra om du behöver fråga efter projekt/kund.</field>
-        <field name="parameters">{}</field>
+        <field name="parameters">{"type": "object", "properties": {}}</field>
         <field name="risk_level">read_only</field>
         <field name="code"><![CDATA[
 async def execute():
