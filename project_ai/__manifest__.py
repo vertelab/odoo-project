@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project: AI Coworkers',
-    'version': '18.0.2.0.0',
+    'version': '18.0.3.0.0',
     'summary': 'AI coworkers for project management — Task Manager + Project Planner',
     'category': 'Project',
     'author': 'Vertel AB',
@@ -16,8 +16,10 @@
     'data': [
         'security/ir.model.access.csv',
         'data/project_tools.xml',
+        'data/project_skills.xml',
         'data/project_coworkers.xml',
         'views/project_task_views.xml',
+        'views/session_views.xml',
     ],
     'installable': True,
     'application': False,

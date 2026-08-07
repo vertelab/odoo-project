@@ -11,6 +11,9 @@
 async def execute(task_id):
     """Hämta projektuppgift."""
     res = env['ai.coworker'].project_task_get(int(task_id))
+    # Kostnadskontext (5.4): registrera vilken task/projekt/kund sessionen
+    # arbetar med.
+    env['ai.coworker']._capture_session_from_task(int(task_id))
     return json.dumps(res, ensure_ascii=False, default=str)
 ]]></field>
     </record>
@@ -47,6 +50,8 @@ async def execute(task_id, module_name, usecase):
     if not vals:
         return 'ai_plan/ai_usecase-fält saknas (installera project_ai_plan)'
     task.write(vals)
+    # Kostnadskontext (5.4)
+    env['ai.coworker']._capture_session_from_task(task.id)
     return 'Task %s kopplad till modul %s' % (task.name, module_name)
 ]]></field>
     </record>
@@ -70,7 +75,73 @@ async def execute(task_id, description=None, priority=None):
     if not vals:
         return 'Inga fält att uppdatera'
     task.write(vals)
+    # Kostnadskontext (5.4)
+    env['ai.coworker']._capture_session_from_task(task.id)
     return 'Task %s uppdaterad' % task.name
+]]></field>
+    </record>
+
+    <!-- Kostnadskontext (session-cost-context 6.1/6.2): alla
+         openai_api-sessioner är kostnadsbärande arbete. Coworkern läser
+         sessionens kontext (cost_context_get) och skriver/bekräftar
+         projekt/kund efter användarens svar (cost_context_set). -->
+
+    <record id="tool_cost_context_get" model="ai.tool">
+        <field name="name">cost_context_get</field>
+        <field name="description">Läs sessionens kostnadskontext: projekt, uppgift, kund och om kostnaden bekräftats. Använd i början av kostnadsbärande arbete för att avgöra om du behöver fråga efter projekt/kund.</field>
+        <field name="parameters">{}</field>
+        <field name="risk_level">read_only</field>
+        <field name="code"><![CDATA[
+async def execute():
+    """Läs sessionens kostnadskontext."""
+    sess = env['ai.coworker.session'].browse(0)
+    if env.context.get('_ai_context_model') == 'ai.coworker.session':
+        sess = env['ai.coworker.session'].browse(
+            int(env.context.get('_ai_context_id') or 0))
+    if not sess.exists():
+        return json.dumps({'error': 'Ingen aktiv session'})
+    def _name(f):
+        return (sess[f].name if f in sess._fields and sess[f] else '')
+    return json.dumps({
+        'project_id': sess.project_id.id if 'project_id' in sess._fields and sess.project_id else None,
+        'project_name': _name('project_id'),
+        'task_id': sess.task_id.id if 'task_id' in sess._fields and sess.task_id else None,
+        'task_name': _name('task_id'),
+        'partner_id': sess.partner_id.id if sess.partner_id else None,
+        'partner_name': _name('partner_id'),
+        'cost_context_confirmed': sess.cost_context_confirmed,
+    }, ensure_ascii=False, default=str)
+]]></field>
+    </record>
+
+    <record id="tool_cost_context_set" model="ai.tool">
+        <field name="name">cost_context_set</field>
+        <field name="description">Sätt sessionens kostnadskontext efter att användaren bekräftat vilket projekt (eller kund) arbetet belastar. Skrivåtgärd — går igenom godkännandegaten.</field>
+        <field name="parameters">{"type": "object", "properties": {"project_id": {"type": "integer", "description": "ID för project.project (valfritt om task_id anges)"}, "task_id": {"type": "integer", "description": "ID för project.task (valfritt)"}, "partner_id": {"type": "integer", "description": "ID för res.partner (valfritt — härleds normalt från projektet)"}}, "required": []}</field>
+        <field name="risk_level">write</field>
+        <field name="code"><![CDATA[
+async def execute(project_id=None, task_id=None, partner_id=None):
+    """Sätt kostnadskontext och bekräfta en gång per session."""
+    sess = env['ai.coworker.session'].browse(0)
+    if env.context.get('_ai_context_model') == 'ai.coworker.session':
+        sess = env['ai.coworker.session'].browse(
+            int(env.context.get('_ai_context_id') or 0))
+    if not sess.exists():
+        return 'Ingen aktiv session'
+    if 'project_id' in sess._fields or 'task_id' in sess._fields:
+        # Domänfält finns (project_ai installerat) — använd bryggans
+        # skrivpunkt + resolver-strategi.
+        sess._capture_context(task=task_id, project=project_id,
+                              partner=partner_id)
+        sess._apply_cost_context_strategy()
+    elif partner_id:
+        sess.partner_id = int(partner_id)
+    sess.cost_context_confirmed = True
+    sess.write({'cost_context_confirmed': True})
+    def _name(f):
+        return (sess[f].name if f in sess._fields and sess[f] else '?')
+    return 'Kostnadskontext satt: projekt=%s, uppgift=%s, kund=%s (bekräftad)' % (
+        _name('project_id'), _name('task_id'), _name('partner_id'))
 ]]></field>
     </record>
 

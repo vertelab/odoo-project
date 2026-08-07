@@ -5,3 +5,7 @@ access_project_ai_coworker_user,project_ai.ai.coworker.user,ai_agent_core.model_
 access_project_ai_coworker_system,project_ai.ai.coworker.system,ai_agent_core.model_ai_coworker,base.group_system,1,1,1,1
 access_project_ai_inittype_user,project_ai.ai.coworker.init_type.user,ai_agent_core.model_ai_coworker_init_type,base.group_user,1,0,0,0
 access_project_ai_inittype_system,project_ai.ai.coworker.init_type.system,ai_agent_core.model_ai_coworker_init_type,base.group_system,1,1,1,1
+access_project_ai_session_user,project_ai.ai.coworker.session.user,ai_agent_core.model_ai_coworker_session,base.group_user,1,0,0,0
+access_project_ai_session_system,project_ai.ai.coworker.session.system,ai_agent_core.model_ai_coworker_session,base.group_system,1,1,1,1
+access_project_ai_session_line_user,project_ai.ai.coworker.session.line.user,ai_agent_core.model_ai_coworker_session_line,base.group_user,1,0,0,0
+access_project_ai_session_line_system,project_ai.ai.coworker.session.line.system,ai_agent_core.model_ai_coworker_session_line,base.group_system,1,1,1,1

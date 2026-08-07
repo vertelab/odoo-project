@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Kostnadskontext-skill (session-cost-context 6.3).
+         Dialogbeteendet: begär och bekräfta projekt/kund en gång per
+         session. Används av coworkers med openai_api-init (alla
+         openai_api-sessioner är kostnadsbärande arbete). Frågetexten
+         konfigureras per coworker via `cost_context_question`. -->
+
+    <record id="skill_cost_context" model="ai.skill">
+        <field name="name">Cost Context — kostnadsbärande arbete</field>
+        <field name="description">Begär och bekräfta kostnadskontext (projekt/kund) för sessionen — en gång per session, aldrig om igen efter bekräftelse.</field>
+        <field name="recipe_text">
+Alla sessioner är kostnadsbärande arbete. Följ detta flöde vid arbete i denna session:
+
+1. Kolla sessionens kostnadskontext med cost_context_get.
+2. Om projekt/uppgift/kund saknas OCH cost_context_confirmed är false:
+   - Fråga användaren vilket projekt arbetet gäller — använd coworkerns
+     konfigurerade frågetext (cost_context_question).
+   - Kan inget projekt anges: fråga efter kund (res.partner) istället.
+3. När användaren svarat: bekräfta att kostnaden belastar projektet/
+   kunden och anropa cost_context_set med projekt_id (eller partner_id).
+4. Ställ ALDRIG om frågan när cost_context_confirmed är satt — den gäller
+   hela sessionen (även efter resume/fork).
+
+Regler:
+- Fråga bara EN gång per session.
+- Bekräfta kort till användaren, t.ex. "Kostnaden belastar [projektet/kunden]".
+- Vid osäkerhet (flera möjliga projekt/kunder) — fråga användaren, gissa inte.
+        </field>
+    </record>
+</odoo>

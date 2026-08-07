@@ -103,4 +103,29 @@ class ProjectTaskAICoworker(models.Model):
             return False, 'No stage found for status %r in project %s' % (
                 status, task.project_id.name or task.project_id.id)
         task.write({'stage_id': stage_id})
+        # Kostnadskontext (session-cost-context 5.4): tagga sessionen med
+        # den arbetade taskens projekt/partner.
+        self._capture_session_from_task(task.id)
         return True, 'Task %s moved to stage %s' % (task.name, status)
+
+    @api.model
+    def _capture_session_from_task(self, task_id):
+        """Tagga den aktuella sessionen med task/projekt/partner-kontext
+        (session-cost-context 5.4).
+
+        Sessionen hämtas ur env-kontexten (`_ai_context_model`/
+        `_ai_context_id`, satta av openai_api-vägen). Tyst no-op om ingen
+        session är aktiv — hooks får aldrig kasta.
+        """
+        try:
+            if self.env.context.get('_ai_context_model') != 'ai.coworker.session':
+                return self.env['ai.coworker.session']
+            sess = self.env['ai.coworker.session'].browse(
+                int(self.env.context.get('_ai_context_id') or 0))
+            if not sess.exists():
+                return self.env['ai.coworker.session']
+            sess._capture_context(task=task_id)
+            return sess
+        except Exception as e:
+            _logger.warning('session capture from task failed: %s', e)
+            return self.env['ai.coworker.session']

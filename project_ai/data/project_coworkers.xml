@@ -25,8 +25,12 @@ Arbetsregler:
    går igenom OpenWorker-gaten och kräver godkännande vid högre risk.
 3. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
 4. Vid oklar status — fråga användaren istället för att gissa.
+5. Följ din Cost Context-skill: alla sessioner är kostnadsbärande —
+   fråga efter projekt (eller kund) en gång om kostnadskontext saknas.
         </field>
         <field name="status">active</field>
+        <field name="cost_context_question">Vilket projekt gäller detta arbete? (eller kund om projekt saknas)</field>
+        <field name="cost_context_partner_strategy">project_partner</field>
         <field name="model_ids" eval="[(6, 0, [
             ref('project.model_project_task'),
             ref('project.model_project_project'),
@@ -43,6 +47,11 @@ Arbetsregler:
             ref('project_ai.tool_task_set_status'),
             ref('project_ai.tool_task_link_module'),
             ref('project_ai.tool_task_update_fields'),
+            ref('project_ai.tool_cost_context_get'),
+            ref('project_ai.tool_cost_context_set'),
+        ])]"/>
+        <field name="skill_ids" eval="[(6, 0, [
+            ref('project_ai.skill_cost_context'),
         ])]"/>
         <field name="example_prompts">
 - "Vad är status på uppgift 123?"
