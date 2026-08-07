@@ -19,7 +19,7 @@
         'data/project_skills.xml',
         'data/project_coworkers.xml',
         'views/project_task_views.xml',
-        'views_ai/session_views.xml',
+        'views/session_views.xml',
     ],
     'installable': True,
     'application': False,
