@@ -11,6 +11,7 @@ partner härledd via task → projekt → partner / projekt → partner.
 """
 
 import logging
+import re
 
 from odoo import fields, models
 
@@ -93,4 +94,40 @@ class AICoworkerSessionProject(models.Model):
             _project_partner_strategy(self)
         except Exception as e:
             _logger.warning('session capture (project) failed: %s', e)
+        return self
+
+    def _session_auto_capture(self, prompt):
+        """Deterministisk kontextfångst ur användarens prompt
+        (session-cost-context):
+
+        - `task <id>` / `uppgift <id>` / `#<id>` → task (→ projekt → kund)
+        - annars: projektnamn som förekommer i prompten (contains-match)
+          → projekt (→ kund)
+
+        Fångar bara när task/projekt saknas ('senast arbetad kontext
+        vinner'). Tyst no-op vid fel — hooks får aldrig kasta.
+        """
+        self.ensure_one()
+        try:
+            text = (prompt or '').strip()
+            if not text:
+                return self
+            if not self.task_id:
+                m = re.search(
+                    r'(?:task|uppgift)\s*#?\s*(\d{2,})', text, re.I)
+                if m:
+                    t = self.env['project.task'].browse(int(m.group(1)))
+                    if t.exists():
+                        self._capture_context(task=t)
+                        return self
+            if not self.project_id:
+                low = text.lower()
+                proj = self.env['project.project'].search(
+                    [('active', 'in', (True, False))], limit=200)
+                for p in proj:
+                    if p.name and p.name.lower() in low:
+                        self._capture_context(project=p)
+                        break
+        except Exception as e:
+            _logger.warning('session auto-capture failed: %s', e)
         return self
