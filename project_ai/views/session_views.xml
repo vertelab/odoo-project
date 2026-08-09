@@ -52,7 +52,7 @@
                 <field name="project_id" type="col"/>
                 <field name="token_input" type="measure"/>
                 <field name="token_output" type="measure"/>
-                <field name="cost_estimated" type="measure"/>
+                <field name="token_sys" type="measure"/>
             </pivot>
         </field>
     </record>

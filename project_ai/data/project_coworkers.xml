@@ -39,8 +39,6 @@ Arbetsregler:
         <field name="filter_domain">[]</field>
         <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">always</field>
-        <field name="budget_kr_monthly">0</field>
-        <field name="max_actions_per_day">100</field>
         <field name="orchestration_mode">single</field>
         <field name="tool_ids" eval="[(6, 0, [
             ref('project_ai.tool_task_get'),
@@ -131,8 +129,6 @@ For structured plan generation, respond with JSON:
         <field name="filter_domain">[]</field>
         <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">high_risk</field>
-        <field name="budget_kr_monthly">0</field>
-        <field name="max_actions_per_day">50</field>
         <field name="example_prompts">
 - "Vad är status på våra pågående sprintar?"
 - "Analysera uppgiften och skriv en implementationsplan"
