@@ -63,6 +63,25 @@ frågetexten från `cost_context_question` och bekräftar belastningen.
 `tests/test_cost_context.py` (taggning, härledning, livscykel, flagga,
 append-only, smartknappar).
 
+## HITL via OpenAI tool_calls (openai-api-pi-orchestration)
+
+När en Pi-agent (eller Cline/Continue.dev) ansluter via
+`/ai/openai/<id>/v1/chat/completions` kan coworkern pausa loopen och
+returnera `request_hitl_input`/`request_hitl_approval`-tool_calls i
+OpenAI-svaret. Klienten exekverar dem (t.ex. via `ctx.ui.confirm`/`input`
+i pi) och svarar med `role:"tool"`-meddelanden i nästa request — loopen
+återupptas.
+
+- Skrivåtgärder (task_set_status, task_link_module, task_update_fields,
+  cost_context_set) utlöser godkännanden via `hitl_threshold`.
+- Kostnadskontext-frågan ("Vilket projekt gäller detta arbete?") skickas
+  som `request_hitl_input` när kontext saknas.
+- Svaret innehåller `system_prompt_add` (instruktion till klienten) och
+  `skill_to_load` (pi-kompatibel skill) — konfigureras via
+  `pi_instruction` på openai_api-init-typen.
+- Gäller ENBART init-typen `openai_api` — övriga init-typer orkestrerar
+  som förut.
+
 ## Odoo 18-regler
 
 - Vyer: `list` (aldrig `tree`), inga defensiva `<delete>`.

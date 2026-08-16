@@ -71,6 +71,19 @@ Arbetsregler:
         <field name="sequence">10</field>
         <field name="rate_limit_rpm">30</field>
         <field name="rate_limit_tpm">100000</field>
+        <field name="pi_instruction">
+Du pratar med Project Task Manager — en AI-coworker som hanterar
+projektuppgifter (project.task) i Odoo.
+
+Arbetsregler:
+1. Be coworkern använda task_get först för att verifiera att uppgiften
+   finns innan statusändringar.
+2. Skrivåtgärder (task_set_status, task_link_module,
+   task_update_fields, cost_context_set) kräver godkännande —
+   svara på coworkerns frågor när de dyker upp.
+3. Fråga efter projekt (kostnadskontext) en gång per session om det
+   saknas — svara med projektet eller kunden.
+        </field>
     </record>
 
     <!-- ════════════════════════════════════════════════════════════
