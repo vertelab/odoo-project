@@ -50,12 +50,16 @@ class AICoworkerSessionProject(models.Model):
         help='Uppgift (project.task) som sessionen arbetar med. '
              'Projekt och kund härleds indirekt via uppgiften.')
 
-    def _capture_context(self, task=None, project=None, partner=None):
-        """En enda skrivpunkt för kostnadskontext (D2).
+    def _capture_context(self, task=None, project=None, partner=None,
+                         object_ref=None, **kwargs):
+        """En enda skrivpunkt för projekt-kostnadskontext (D2).
 
         Härledning: project_id ← task.project_id; partner_id ←
         project.partner_id. Befintliga värden behålls om inget nytt ges
         ("senast arbetad kontext vinner" — inga nollställningar).
+
+        Anropar super() så övriga bryggor (t.ex. prd_ai:s object_id)
+        samlas i MRO-kedjan.
         """
         self.ensure_one()
         vals = {}
@@ -80,7 +84,7 @@ class AICoworkerSessionProject(models.Model):
                 vals['partner_id'] = par.id
         if vals:
             self.write(vals)
-        return self
+        return super()._capture_context(object_ref=object_ref)
 
     def _session_capture_context(self):
         """Core-hook: härled partner via resolver-strategin (project_ai).
@@ -94,32 +98,47 @@ class AICoworkerSessionProject(models.Model):
             _project_partner_strategy(self)
         except Exception as e:
             _logger.warning('session capture (project) failed: %s', e)
-        return self
+        return super()._session_capture_context()
 
     def _session_auto_capture(self, prompt):
         """Deterministisk kontextfångst ur användarens prompt
         (session-cost-context):
 
-        - `task <id>` / `uppgift <id>` / `#<id>` → task (→ projekt → kund)
+        - `T/xxxx` (Vertels task-nummer, t.ex. `T/7836`) → task via
+          `number`-fältet (→ projekt → kund)
+        - `task <id>` / `uppgift <id>` / `#<id>` → task via numeriskt
+          `id` (→ projekt → kund)
         - annars: projektnamn som förekommer i prompten (contains-match)
           → projekt (→ kund)
 
         Fångar bara när task/projekt saknas ('senast arbetad kontext
-        vinner'). Tyst no-op vid fel — hooks får aldrig kasta.
+        vinner'). Tyst no-op vid fel — hooks får aldrig kasta. Anropar
+        super() så övriga bryggor (t.ex. prd_ai:s arbetsobjekt) också
+        fångas.
         """
         self.ensure_one()
         try:
             text = (prompt or '').strip()
             if not text:
-                return self
+                return super()._session_auto_capture(prompt)
             if not self.task_id:
+                # Vertel-format "T/7836" (number-fältet, prefix T/ + padding).
+                m = re.search(r'\bT\s*/\s*(\d{2,})\b', text, re.I)
+                if m:
+                    num = 'T/' + m.group(1)
+                    t = self.env['project.task'].search(
+                        [('number', '=', num)], limit=1)
+                    if t.exists():
+                        self._capture_context(task=t)
+                        return super()._session_auto_capture(prompt)
+                # Numeriskt id (fallback): "task 36779" / "uppgift #36779".
                 m = re.search(
                     r'(?:task|uppgift)\s*#?\s*(\d{2,})', text, re.I)
                 if m:
                     t = self.env['project.task'].browse(int(m.group(1)))
                     if t.exists():
                         self._capture_context(task=t)
-                        return self
+                        return super()._session_auto_capture(prompt)
             if not self.project_id:
                 low = text.lower()
                 proj = self.env['project.project'].search(
@@ -130,4 +149,5 @@ class AICoworkerSessionProject(models.Model):
                         break
         except Exception as e:
             _logger.warning('session auto-capture failed: %s', e)
-        return self
+        # Låt övriga bryggor (t.ex. prd_ai) fånga sin domänkontext.
+        return super()._session_auto_capture(prompt)

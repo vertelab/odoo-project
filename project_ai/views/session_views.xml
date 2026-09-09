@@ -115,4 +115,24 @@
             </xpath>
         </field>
     </record>
+
+    <!-- Session-search: domänfält (project/task) läggs här eftersom de
+         bara finns när project_ai är installerat (core förblir domän-rent). -->
+    <record id="view_ai_session_search_project" model="ir.ui.view">
+        <field name="name">ai.coworker.session.search.project</field>
+        <field name="model">ai.coworker.session</field>
+        <field name="inherit_id" ref="ai_agent_core.view_ai_session_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='pi_session_id']" position="after">
+                <field name="project_id"/>
+                <field name="task_id"/>
+            </xpath>
+            <xpath expr="//filter[@name='group_partner']" position="after">
+                <filter name="group_project" string="Projekt"
+                        context="{'group_by':'project_id'}"/>
+                <filter name="group_task" string="Uppgift"
+                        context="{'group_by':'task_id'}"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>
