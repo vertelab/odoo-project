@@ -20,24 +20,26 @@
         </field>
     </record>
 
-    <!-- Session-form: kontextfälten read-only -->
+    <!-- Session-form: kontextfälten read-only (Kostnadskontext i egen notebook-flik) -->
     <record id="view_ai_session_form_project" model="ir.ui.view">
         <field name="name">ai.coworker.session.form.project</field>
         <field name="model">ai.coworker.session</field>
         <field name="inherit_id" ref="ai_agent_core.view_ai_session_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//sheet" position="inside">
-                <group name="cost_context" string="Kostnadskontext">
-                    <group>
-                        <field name="project_id" readonly="1"/>
-                        <field name="task_id" readonly="1"/>
+            <xpath expr="//notebook" position="inside">
+                <page string="Kostnadskontext" name="cost_tab">
+                    <group name="cost_context">
+                        <group>
+                            <field name="project_id" readonly="1"/>
+                            <field name="task_id" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="partner_id" readonly="1"/>
+                            <field name="pi_session_id" readonly="1"/>
+                            <field name="cost_context_confirmed" readonly="1"/>
+                        </group>
                     </group>
-                    <group>
-                        <field name="partner_id" readonly="1"/>
-                        <field name="pi_session_id" readonly="1"/>
-                        <field name="cost_context_confirmed" readonly="1"/>
-                    </group>
-                </group>
+                </page>
             </xpath>
         </field>
     </record>
