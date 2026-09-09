@@ -163,6 +163,9 @@ For structured plan generation, respond with JSON:
         <field name="filter_domain">[]</field>
         <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">high_risk</field>
+        <field name="skill_ids" eval="[(6, 0, [
+            ref('ai_agent_core.skill_git_identity'),
+        ])]"/>
         <field name="example_prompts">
 - "Vad är status på våra pågående sprintar?"
 - "Analysera uppgiften och skriv en implementationsplan"
