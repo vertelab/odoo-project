@@ -32,7 +32,7 @@
         Long description of module's purpose
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-',
+    'website': 'https://vertel.se/apps/odoo-project/project_branch_sync',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
     'depends': ["project_github_webhook","queue_job"],

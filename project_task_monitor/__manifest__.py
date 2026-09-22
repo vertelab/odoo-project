@@ -28,7 +28,7 @@
         This module adds cron-jobs and triggers that looks for stale tasks and take action using rules on the project
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_task_swot',
+    'website': 'https://vertel.se/apps/odoo-project/project_task_monitor',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',

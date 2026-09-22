@@ -32,7 +32,7 @@
         Embedded action to view attachment connected to task and projects.
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_attachment',
+    'website': 'https://vertel.se/apps/odoo-project/project_attachments',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',

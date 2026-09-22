@@ -5,7 +5,7 @@
     'summary': 'AI coworkers for project management — Task Manager + Project Planner',
     'category': 'Project',
     'author': 'Vertel AB',
-    'website': 'https://vertel.se',
+    'website': 'https://vertel.se/apps/odoo-project/project_ai',
     'license': 'AGPL-3',
     'depends': [
         'project',

@@ -28,7 +28,7 @@
         A new project type that changes the project to a Equity Porfolio, where each task is an equity.
     """,
     'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_task_number',
+    'website': 'https://vertel.se/apps/odoo-project/project_equity_portfolio',
     'license': 'AGPL-3',
     'contributor': '',
     'maintainer': 'Vertel AB',
