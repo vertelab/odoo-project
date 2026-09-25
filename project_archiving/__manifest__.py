@@ -28,9 +28,16 @@
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'A user type for project customers.',
     'category': 'Project', 
-    'description': """
-    A user type for project customers
-    """,
+    'description': '''
+Archiving
+=========
+
+    A user type for project customers.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB <robin.calvin@vertel.se>',
     'website': 'https://vertel.se/apps/odoo-project/project_archiving',

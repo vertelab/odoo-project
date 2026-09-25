@@ -21,12 +21,20 @@
 
 {
     'name': 'Project: Task Number',
-    'version': '1.0',
-    'summary': 'Gives every task an uniq id',
+    'version': '18.0.1.0.0',
+    'summary': 'Gives every task an uniq id.',
     'category': 'Productivity',
-    'description': """
-        This module gives every task a uniq number to be used for instance with webhooks on github
-    """,
+    'description': '''
+Task Number
+===========
+
+    This module gives every task a uniq number to be used for instance with webhooks on github
+
+    Features:
+
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.task.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_number',
     'license': 'AGPL-3',

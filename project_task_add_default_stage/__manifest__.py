@@ -21,16 +21,25 @@
 
 {
     'name': 'Project: Task Add Default Stage',
-    'version': '1.1',
+    'version': '18.0.1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds an option to set default project task stages. These will be applied to all projects.',
     'category': 'Project',
-    'description': """
-        Adds an option to set default project task stages. These will be applied to all projects.\n
-       v1.1 Added option to project weather to use default stages or not.\n
-       v1.0 Initial version.\n
-       \n
-       """,
+    'description': '''
+Task Add Default Stage
+======================
+
+    Adds an option to set default project task stages. These will be applied to all projects.\n
+           v1.1 Added option to project weather to use default stages or not.\n
+           v1.0 Initial version.\n
+           \n
+
+    Features:
+
+        - Automation: Scheduled jobs: Set Default Stages on Projects.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.project, project.task.type.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_add_default_stage',
     'images': ['static/description/banner.png'],

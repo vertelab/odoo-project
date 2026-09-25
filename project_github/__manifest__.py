@@ -20,8 +20,8 @@
 ##############################################################################
 {
     'name': 'Project: Github',
-    'version': '18.0',
-    'summary': "Creates releations between Github and a projec",
+    'version': '18.0.1.0.0',
+    'summary': "Creates releations between Github and a projec.",
     'category': 'Technical',
     'author': 'Vertel AB',
     'website': "https://vertel.se/apps/odoo-project/project_github",
@@ -29,11 +29,18 @@
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'description': """
-   Project.project can be a repo, get issues and other things from github.
-   Project.task can be an Odoo-module
-       
-    """,
+    'description': '''
+Github
+======
+
+    Project.project can be a repo, get issues and other things from github.
+       Project.task can be an Odoo-module
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.project, project.task.
+    ''',
     'depends': ['project'],
     'external_dependencies': {
         'python': ['PyGithub']

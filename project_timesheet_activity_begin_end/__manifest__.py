@@ -23,11 +23,18 @@
     'name': 'Project: Task Timesheet Activities - Begin/End Hours',
     'version': '18.0.1.0.3',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Task Timesheet Activities -- Set start // stop!',
+    'summary': 'Task Timesheet Activities -- Set start // stop!.',
     'category': 'Project',
-    'description': """
-    Task Timesheet Activities -- Set start // stop!
-    """,
+    'description': '''
+Task Timesheet Activities - Begin/End Hours
+===========================================
+
+    Task Timesheet Activities -- Set start // stop!.
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_timesheet_activity_begin_end',

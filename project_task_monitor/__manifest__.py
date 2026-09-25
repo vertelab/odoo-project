@@ -21,12 +21,21 @@
 
 {
     'name': 'Project: Task Monitor',
-    'version': '1.0',
-    'summary': 'Add montitor capabilities to a project',
+    'version': '18.0.1.0.0',
+    'summary': 'Add montitor capabilities to a project.',
     'category': 'Productivity',
-    'description': """
-        This module adds cron-jobs and triggers that looks for stale tasks and take action using rules on the project
-    """,
+    'description': '''
+Task Monitor
+============
+
+    This module adds cron-jobs and triggers that looks for stale tasks and take action using rules on the project
+
+    Features:
+
+        - Automation: Scheduled jobs: Project Monitor Task Checker, Project Monitor Task Checker.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on mail.activity.type, project.project, project.task, project.task.monitor.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_monitor',
     'license': 'AGPL-3',

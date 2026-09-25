@@ -23,14 +23,21 @@
 #
 {
     'name': 'Project: Branch Sync',
-    'version': '1.0',
-    'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.odoo.com""",
+    'version': '18.0.1.0.0',
+    'summary': "Syncs project branches with an external repository.",
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
-    'description': """
-        Long description of module's purpose
-    """,
+    'description': '''
+Branch Sync
+===========
+
+    Syncs project branches with an external repository.
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - UI Integration: Extends 2 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on discuss.channel, mail.channel.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_branch_sync',
     'images': ['static/description/banner.png'],

@@ -23,11 +23,19 @@
     'name': 'Project: Website Project WCAG',
     'version': '18.0.0.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Website Project WCAG',
+    'summary': 'Website Project WCAG.',
     'category': 'Project',
-    'description': """
-        Show Project WCAG on Website
-    """,
+    'description': '''
+Website Project WCAG
+====================
+
+    Website Project WCAG.
+
+    Features:
+
+        - Web integration: Exposes HTTP endpoints for external systems.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/website_project_wcag',

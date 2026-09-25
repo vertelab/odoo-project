@@ -21,13 +21,21 @@
 
 {
     'name': 'Project: Task SWOT',
-    'version': '1.0',
-    'summary': 'add SWOT capabilities to a project',
+    'version': '18.0.1.0.0',
+    'summary': 'Add SWOT capabilities to a project.',
     'category': 'Productivity',
-    'description': """
-        This module add SWOT (or other four field) capabilities to a project. Tasks get this attribute to position it in a quadrant
-        and at project level generate an image
-    """,
+    'description': '''
+Task SWOT
+=========
+
+    This module add SWOT (or other four field) capabilities to a project. Tasks get this attribute to position it in a quadrant
+            and at project level generate an image
+
+    Features:
+
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.project, project.task, project.task.quadrant.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_swot',
     'license': 'AGPL-3',

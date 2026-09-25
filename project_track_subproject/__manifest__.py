@@ -23,11 +23,18 @@
     'name': 'Project: Track Subproject',
     'version': '18.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': 'Project Track Subtask',
+    'summary': 'Project Track Subtask.',
     'category': 'Project',
-    'description': """
-        Adds tracking to changes to Project Subtask, to find why this setting keeps switching.
-    """,
+    'description': '''
+Track Subproject
+================
+
+    Adds tracking to changes to Project Subtask, to find why this setting keeps switching.
+
+    Features:
+
+        - Extends Odoo: Builds on project.project.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_track_subproject',

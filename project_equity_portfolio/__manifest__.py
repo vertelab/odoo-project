@@ -21,12 +21,22 @@
 
 {
     'name': 'Project: Equity Portfolio',
-    'version': '1.0',
-    'summary': 'Each project of this type is a equity portfolio',
+    'version': '18.0.1.0.0',
+    'summary': 'Each project of this type is a equity portfolio.',
     'category': 'Productivity',
-    'description': """
-        A new project type that changes the project to a Equity Porfolio, where each task is an equity.
-    """,
+    'description': '''
+Equity Portfolio
+================
+
+    A new project type that changes the project to a Equity Porfolio, where each task is an equity.
+
+    Features:
+
+        - Automation: Scheduled jobs: Scheduled Get Latest Equity News, Scheduled Get Latest Equity News.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 4 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.equity_research, project.equity_research.topic, project.equity_transaction, project.equity_valuation.
+    ''',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_equity_portfolio',
     'license': 'AGPL-3',

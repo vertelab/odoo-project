@@ -21,8 +21,8 @@
 
 {
     'name': 'Project: Module Monitor',
-    'version': '18.0',
-    'summary': "We have the need to keep track of our modules",
+    'version': '18.0.1.0.0',
+    'summary': "We have the need to keep track of our modules.",
     'category': 'Technical',
     'author': 'Vertel AB',
     'website': "https://vertel.se/apps/odoo-project/project_module_monitor",
@@ -30,13 +30,22 @@
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'description': """
-   We need to keep track of the accurancy of our models.
-   What version do we have? 
-   What version do our valuable clients have?
-   How can we add good quality service by upgrading clients to a newer version of Odoo?
-       
-    """,
+    'description': '''
+Module Monitor
+==============
+
+    We need to keep track of the accurancy of our models.
+       What version do we have? 
+       What version do our valuable clients have?
+       How can we add good quality service by upgrading clients to a newer version of Odoo?
+
+    Features:
+
+        - Automation: Scheduled jobs: Monitor module versions.
+        - Guided Wizards: Step-by-step dialogs for data entry.
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on project.project, project.task, project.task.type.
+    ''',
     'depends': ['project_github'],
     'data': [
         'security/ir.model.access.csv',

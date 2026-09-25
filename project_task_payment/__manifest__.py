@@ -20,8 +20,8 @@
 ##############################################################################
 {
     'name': 'Project: Task Payment',
-    'version': '1.0',
-    'summary': "Employees can get money for complaints",
+    'version': '18.0.1.0.0',
+    'summary': "Employees can get money for complaints.",
     'category': 'Administration',
     'author': 'Vertel AB',
     'website': "https://vertel.se/apps/odoo-project/project_task_payment",
@@ -29,10 +29,18 @@
     'license': 'AGPL-3',
     'maintainer': 'Vertel AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    'description': """
-   Emplayer can have compensation when making complaints at work.
-   This module helps with the theory!
-    """,
+    'description': '''
+Task Payment
+============
+
+    Emplayer can have compensation when making complaints at work.
+       This module helps with the theory!
+
+    Features:
+
+        - UI Integration: Extends 1 view(s) in the Odoo interface.
+        - Extends Odoo: Builds on account.payment, project.task, project.task.type, task_id.
+    ''',
     'depends': ['project', 'account'],
     'data': [
        # 'views/project_views.xml',

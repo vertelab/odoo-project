@@ -23,12 +23,19 @@
     'name': 'Project: Task Offer Action',
     'version': '18.0.0.0.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    'summary': ' Creates an offer from a project task.',
+    'summary': 'Creates an offer from a project task.',
     'category': 'Project',
-    'description': """
-        Creates an offer from a project task. \n
-        14.0.0.0.0 - Initial version \n
-    """,
+    'description': '''
+Task Offer Action
+=================
+
+    Creates an offer from a project task. \n
+            14.0.0.0.0 - Initial version \n
+
+    Features:
+
+        - Demo Data: Ships pre-configured demo data for the industry.
+    ''',
     #'sequence': '1',
     'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_offer_action',
