@@ -21,26 +21,20 @@
 
 {
     'name': 'Project: Mis budget',
-    'version': '18.0.1.0.0',
+    'version': '0.1',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Setup a link between budget and projekt/task.',
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Productivity',
-    'description': '''
-Mis budget
-==========
+    'description': """
+        Flow between project and budget.
 
     Depends:
-        mis_builder_budget
-        git@github.com:OCA/mis-builder.git
-
-    Features:
-
-        - UI Integration: Extends 6 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on budget_item_id, mis.budget, mis.budget.abstract, mis.budget.by.account.
-    ''',
+    mis_builder_budget
+    git@github.com:OCA/mis-builder.git
+    """,
     #'sequence': '1',
     'sequence': '280',
     'author': 'Vertel AB',
@@ -63,3 +57,4 @@ Mis budget
     "auto_install": True,
 
 }
+# vim:expandtab:smartindent:tabstop=4:softtabstop=4:shiftwidth=4:
