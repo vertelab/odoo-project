@@ -27,6 +27,7 @@ AI Coworkers
     'data': [
         'security/ir.model.access.csv',
         'data/okf_artifact_types_project.xml',
+        'data/okf_debug_actions.xml',
         'data/project_tools.xml',
         'data/project_skills.xml',
         'data/project_coworkers.xml',
