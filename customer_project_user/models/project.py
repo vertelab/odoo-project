@@ -113,7 +113,23 @@ class ResPartner(models.Model):
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    customer_ids = fields.Many2many(comodel_name="res.partner", string="Customers")
+    customer_ids = fields.Many2many(
+        comodel_name="res.partner",
+        string="Customers",
+        help=(
+            "Partners who may see this project and its tasks.\n"
+            "\n"
+            "Two things are needed for a customer to get access:\n"
+            "  1. the partner's user must be in the 'Project Customer' group\n"
+            "     (Settings > Users > Access Rights > Project), and\n"
+            "  2. the partner must be listed here.\n"
+            "\n"
+            "This field grants the access; the group grants the rights. "
+            "Adding a partner here without the group gives them nothing, "
+            "and the group without this field gives them an empty project "
+            "list."
+        ),
+    )
 
     @api.model
     def _is_customer_user(self, user=None):
