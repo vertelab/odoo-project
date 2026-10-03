@@ -300,6 +300,53 @@
             <field name="perm_read">1</field>
         </record>
 
+        <!--
+            hr.department: read is required for the menu tree.
+
+            Found by agent-browser negative discovery on 2026-10-03: login
+            returned 500 because `ir.ui.menu.load_menus()` reads hr.department
+            (the Employees menu is built from departments), and the customer
+            had no ACL for it:
+
+                AccessError: Du har inte åtkomst till Avdelning (hr.department)
+
+            Read-only. The Employees menu itself is not reachable — the
+            customer's menu root is restricted to Project by
+            ir_ui_menu.get_user_roots().
+        -->
+        <record model="ir.model.access" id="access_hr_department_customer">
+            <field name="name">hr.department for project customer</field>
+            <field name="model_id" ref="hr.model_hr_department"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <!--
+            res.users: read is required for the session itself.
+
+            Found by agent-browser on 2026-10-03: login returned 403 because
+            Odoo reads res.users while building the session, and the customer
+            had no ACL for it:
+
+                Access Denied by ACLs for operation: read, uid: 513,
+                model: res.users
+                POST /web/login HTTP/1.1" 403
+
+            Read-only. A record rule is NOT added here on purpose: the customer
+            must be able to resolve their own user record and the users of
+            colleagues on their projects, and Odoo's own session code reads
+            this model before any project context exists. The URL bypass is
+            closed by the ACL set as a whole (no base.group_user), not by
+            hiding res.users — a customer who reaches /odoo/res.users sees the
+            user list, which is the same exposure a regular project user has.
+        -->
+        <record model="ir.model.access" id="access_res_users_customer">
+            <field name="name">res.users for project customer</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
         <record model="ir.model.access" id="access_res_currency_customer">
             <field name="name">res.currency for project customer</field>
             <field name="model_id" ref="base.model_res_currency"/>
@@ -349,9 +396,18 @@
             <field name="name">res.partner: only partners on own customer projects</field>
             <field name="model_id" ref="base.model_res_partner"/>
             <!--
-                Written as a self-referencing subquery rather than through
-                helper fields: ir.rule domains are evaluated in SQL, so a
-                non-stored computed field would not work.
+                Written as a plain Odoo domain with relational traversal.
+
+                An earlier version used Python list comprehensions
+                ([p.partner_id.id for p in ...]). ir.rule domains are evaluated
+                by safe_eval, which rejects comprehensions — login returned
+                500 with:
+
+                    KeyError: ('ir.rule', ... 'res.partner', 'read', ...)
+                    safe_eval ... unsafe_eval(c, globals_dict, locals_dict)
+
+                Relational traversal (partner_id.customer_ids) is the supported
+                form and needs no Python.
 
                 A customer may see:
                   - their own partner record
@@ -363,9 +419,9 @@
             <field name="domain_force">['|', '|', '|', '|',
                 ('id', '=', user.partner_id.id),
                 ('id', '=', user.company_id.partner_id.id),
-                ('id', 'in', [p.partner_id.id for p in user.partner_id.customer_project_ids]),
-                ('id', 'in', [c.id for p in user.partner_id.customer_project_ids for c in p.customer_ids]),
-                ('id', 'in', [t.partner_id.id for t in user.partner_id.customer_task_ids])]</field>
+                ('id', 'in', user.partner_id.customer_project_ids.partner_id.ids),
+                ('id', 'in', user.partner_id.customer_project_ids.customer_ids.ids),
+                ('id', 'in', user.partner_id.customer_task_ids.partner_id.ids)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
