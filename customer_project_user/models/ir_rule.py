@@ -99,7 +99,16 @@ ALLOWED_MODELS = [
     "account.analytic.line",
     "account.analytic.account",
     "hr.timesheet.attendance.report",
-    "hr_timesheet.sheet",
+    # hr_timesheet.sheet is deliberately NOT whitelisted.
+    #
+    # It is the timesheet *header* — one per employee per week. A Project
+    # Customer has no timesheet of their own (none of the five has an
+    # hr.employee record) and must not see anyone else's. It was whitelisted
+    # in the first pass by mistake, which is how a customer could end up as a
+    # subscriber on an internal timesheet.
+    #
+    # account.analytic.line stays: that is the individual time entry, and the
+    # customer legitimately reads the ones on their own tasks.
     "hr_timesheet.sheet.line",
     "hr_timesheet.sheet.new.analytic.line",
     # --- Chatter / mail: the customer must be able to comment -------------
