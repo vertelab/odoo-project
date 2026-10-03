@@ -309,6 +309,72 @@
         </record>
 
         <!--
+            res.partner: narrow access only (design D1).
+
+            base.group_partner_manager was NOT used — it grants full CRUD on
+            res.partner, so the customer could browse all 3620 partners
+            (verified 2026-10-03). Instead:
+              - read: needed to display a partner name on their own
+                project/task. The partner LIST is still restricted by
+                ir.rule / the project domain; this only permits resolving
+                names for records they can already see.
+              - create: needed to add a collaborator. No write/unlink — a
+                customer must not edit or delete contact records.
+        -->
+        <record model="ir.model.access" id="access_res_partner_customer">
+            <field name="name">res.partner for project customer</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_write">0</field>
+            <field name="perm_unlink">0</field>
+        </record>
+
+        <!--
+            res.partner record rule: without this, perm_read=True on the ACL
+            means "read every partner" — which is how the customer could list
+            all 3620 (verified 2026-10-03). The ACL grants the *capability*;
+            this rule supplies the *boundary* (design D1: inside the project,
+            nothing outside it).
+
+            A customer may see:
+              - their own partner record (so their user/name resolves)
+              - partners on a project they are shared on (partner_id,
+                customer_ids) — so names render on their own tasks
+              - partners on a task they can see
+              - their own company's partner (so the company name resolves)
+        -->
+        <record id="customer_read_own_partners" model="ir.rule">
+            <field name="name">res.partner: only partners on own customer projects</field>
+            <field name="model_id" ref="base.model_res_partner"/>
+            <!--
+                Written as a self-referencing subquery rather than through
+                helper fields: ir.rule domains are evaluated in SQL, so a
+                non-stored computed field would not work.
+
+                A customer may see:
+                  - their own partner record
+                  - their company's partner
+                  - partners named on a project they are shared on
+                  - partners in customer_ids of such a project
+                  - partners on tasks of such a project
+            -->
+            <field name="domain_force">['|', '|', '|', '|',
+                ('id', '=', user.partner_id.id),
+                ('id', '=', user.company_id.partner_id.id),
+                ('id', 'in', [p.partner_id.id for p in user.partner_id.customer_project_ids]),
+                ('id', 'in', [c.id for p in user.partner_id.customer_project_ids for c in p.customer_ids]),
+                ('id', 'in', [t.partner_id.id for t in user.partner_id.customer_task_ids])]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="global" eval="False"/>
+        </record>
+
+        <!--
             bus.bus: create is required for longpolling. Without it the
             chatter cannot receive updates (design D3).
         -->

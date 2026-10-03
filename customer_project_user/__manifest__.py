@@ -51,6 +51,7 @@ Customer Project User
         'security/groups.xml',
         'views/menu.xml',
         'views/project_view.xml',
+        'data/customer_group_cleanup.xml',
     ],
     'post_init_hook': 'post_init_hook',
     'uninstall_hook': 'uninstall_hook',

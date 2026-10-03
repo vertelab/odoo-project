@@ -5,54 +5,123 @@ from odoo.osv import expression
 CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
 
 
+# ----------------------------------------------------------------------
+# The single authorisation predicate (design D5)
+# ----------------------------------------------------------------------
+#
+# Module-level functions rather than model methods: both project.project and
+# project.task need them, and an abstract mixin in _inherit collided with
+# project.project's own fields (favorite_user_ids table reuse).
+#
+# Access is granted by `partner_id` or `customer_ids` — an explicit grant on
+# the project.
+#
+# `message_partner_ids` is deliberately NOT part of this predicate. It is a
+# mail-thread relation: "anyone who has ever been on the thread", including
+# CCs, followers and mentioned colleagues. The module additionally subscribes
+# partners as a side effect of write()/create(), so including it meant *being
+# emailed granted access*. Closing the URL bypass while leaving that would have
+# closed the front door and left the back door open.
+#
+# This is the single source of truth, used by:
+#   - the ir.rule records in security/groups.xml
+#   - _search() / check_access_rule() below (defence in depth)
+#   - controllers/web.py _login_redirect()
+#
+# The three sites used to disagree (the redirect was narrower than the rules),
+# which made the redirect fall through for customers reachable only via
+# message_partner_ids.
+
+
+def is_customer_user(env, user=None):
+    """True when the given user (default: current) is a project customer."""
+    user = user or env.user
+    return user.has_group(CUSTOMER_GROUP)
+
+
+def customer_project_domain(env, partner=None):
+    """Domain restricting projects to those the given partner is granted.
+
+    Returns an empty list for users without the customer group, so callers can
+    treat "empty" as "no restriction".
+    """
+    partner = partner or env.user.partner_id
+    return [
+        '|',
+        ('partner_id', '=', partner.id),
+        ('customer_ids', 'in', [partner.id]),
+    ]
+
+
+def customer_task_domain(env, partner=None):
+    """Domain restricting tasks to those the given partner is granted.
+
+    A task is reachable when the task itself is granted (partner_id) or its
+    project is granted (project_id.partner_id / project_id.customer_ids).
+    """
+    partner = partner or env.user.partner_id
+    return [
+        '|', '|',
+        ('partner_id', '=', partner.id),
+        ('project_id.customer_ids', 'in', [partner.id]),
+        ('project_id.partner_id', '=', partner.id),
+    ]
+
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+
+    # Reverse relations used by the res.partner record rule in
+    # security/groups.xml. Without a rule, perm_read=True on the ACL means
+    # "read every partner" — which is how a customer could list all 3620
+    # (verified 2026-10-03). The ACL grants the capability; the rule supplies
+    # the boundary (design D1).
+    customer_project_ids = fields.Many2many(
+        comodel_name="project.project",
+        relation="project_project_res_partner_rel",
+        column1="res_partner_id",
+        column2="project_project_id",
+        string="Customer projects",
+        compute="_compute_customer_project_ids",
+    )
+    customer_task_ids = fields.One2many(
+        comodel_name="project.task",
+        inverse_name="partner_id",
+        string="Customer tasks",
+        compute="_compute_customer_task_ids",
+    )
+
+    def _compute_customer_project_ids(self):
+        Project = self.env["project.project"].sudo()
+        for partner in self:
+            partner.customer_project_ids = Project.search(
+                [
+                    "|",
+                    ("partner_id", "=", partner.id),
+                    ("customer_ids", "in", [partner.id]),
+                ]
+            )
+
+    def _compute_customer_task_ids(self):
+        Task = self.env["project.task"].sudo()
+        for partner in self:
+            partner.customer_task_ids = Task.search(
+                [("partner_id", "=", partner.id)]
+            )
+
+
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
     customer_ids = fields.Many2many(comodel_name="res.partner", string="Customers")
 
-    # ------------------------------------------------------------------
-    # The single authorisation predicate (design D5)
-    # ------------------------------------------------------------------
-    #
-    # Access is granted by `partner_id` or `customer_ids` — an explicit grant
-    # on the project.
-    #
-    # `message_partner_ids` is deliberately NOT part of this predicate. It is a
-    # mail-thread relation: "anyone who has ever been on the thread", including
-    # CCs, followers and mentioned colleagues. The module additionally
-    # subscribes partners as a side effect of write()/create() below, so
-    # including it meant *being emailed granted access*. Closing the URL bypass
-    # while leaving that would have closed the front door and left the back
-    # door open.
-    #
-    # This method is the single source of truth. It is used by:
-    #   - the ir.rule records in security/groups.xml
-    #   - _search() / check_access_rule() below (defence in depth)
-    #   - controllers/web.py _login_redirect()
-    #
-    # The three sites used to disagree (the redirect was narrower than the
-    # rules), which made the redirect fall through for customers reachable only
-    # via message_partner_ids.
+    @api.model
+    def _is_customer_user(self, user=None):
+        return is_customer_user(self.env, user)
 
     @api.model
     def _customer_project_domain(self, partner=None):
-        """Domain restricting projects to those the given partner is granted.
-
-        Returns an empty list for users without the customer group, so callers
-        can treat "empty" as "no restriction".
-        """
-        partner = partner or self.env.user.partner_id
-        return [
-            '|',
-            ('partner_id', '=', partner.id),
-            ('customer_ids', 'in', [partner.id]),
-        ]
-
-    @api.model
-    def _is_customer_user(self, user=None):
-        """True when the given user (default: current) is a project customer."""
-        user = user or self.env.user
-        return user.has_group(CUSTOMER_GROUP)
+        return customer_project_domain(self.env, partner)
 
     def _get_customer_domain(self):
         """Customer restriction for the current user, or [] if not a customer."""
@@ -95,22 +164,15 @@ class ProjectProject(models.Model):
 class ProjectTask(models.Model):
     _inherit = "project.task"
 
-    def _get_customer_task_domain(self):
-        """Customer restriction for tasks, or [] if not a customer.
+    @api.model
+    def _is_customer_user(self, user=None):
+        return is_customer_user(self.env, user)
 
-        Mirrors ProjectProject._get_customer_domain(): a task is reachable when
-        the task itself is granted (partner_id) or its project is granted
-        (project_id.partner_id / project_id.customer_ids).
-        """
+    def _get_customer_task_domain(self):
+        """Customer restriction for tasks, or [] if not a customer."""
         if not self._is_customer_user():
             return []
-        partner = self.env.user.partner_id
-        return [
-            '|', '|',
-            ('partner_id', '=', partner.id),
-            ('project_id.customer_ids', 'in', [partner.id]),
-            ('project_id.partner_id', '=', partner.id),
-        ]
+        return customer_task_domain(self.env)
 
     @api.model
     def _search(self, args, **kwargs):
