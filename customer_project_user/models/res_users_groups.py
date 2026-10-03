@@ -143,6 +143,22 @@ ALLOWED_GROUPS = [
     "project.group_project_stages",
     "project.group_project_milestone",
     "project.group_project_task_dependencies",
+    # sales_team.group_sale_salesman_all_leads ("Användare: Alla dokument")
+    #
+    # Required by project.task.task_to_invoice, which carries
+    # groups="sales_team.group_sale_salesman_all_leads". The client reads that
+    # field on every task form, so without the group saving a task fails with:
+    #
+    #   AccessError: Du har inte tillräckliga rättigheter för att komma åt
+    #   fälten "task_to_invoice" på Aktivitet (project.task)
+    #
+    # Found 2026-10-03 by reproducing web_save with the real specification.
+    #
+    # Safety verified on ledningssystem: the group adds exactly one ACL
+    # (project.create.invoice) and the global deny layer still holds, so the
+    # customer sees 0 rows on sale.order, sale.order.line, account.move,
+    # crm.lead, hr.employee and ai.agent.
+    "sales_team.group_sale_salesman_all_leads",
 ]
 
 

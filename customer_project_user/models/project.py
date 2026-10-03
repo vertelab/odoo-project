@@ -212,4 +212,27 @@ class ProjectTask(models.Model):
                 partners = task.project_id.partner_id | task.project_id.customer_ids
                 if partners:
                     task._message_subscribe(partner_ids=partners.ids)
+        # A customer who creates a task must be able to read it back.
+        #
+        # Found by the operator, 2026-10-03: saving a new task as a Project
+        # Customer failed with
+        #
+        #     Tyvärr, Test Kund (id=2347) har inte "läsa" tillgång till:
+        #     - Aktivitet (project.task)
+        #
+        # The task WAS created; the read-back was denied. Odoo's own rule
+        # "Project/Task: employees: follow required for followers" carries the
+        # comment "to subscribe check access to the record, follower is not
+        # enough at creation" and requires ('user_ids', 'in', user.id). A
+        # customer-created task had user_ids empty, so the rule excluded it
+        # from the creator's own view.
+        #
+        # Adding the creator as an assignee is also what a regular project user
+        # gets, so this matches the "same rights as a regular project user"
+        # requirement rather than widening it.
+        for task in tasks:
+            if task.create_uid.id in task.project_id.customer_ids.mapped(
+                "user_ids"
+            ).ids and task.create_uid not in task.user_ids:
+                task.sudo().write({"user_ids": [(4, task.create_uid.id)]})
         return tasks

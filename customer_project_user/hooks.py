@@ -27,6 +27,34 @@ def post_init_hook(env):
     env["res.users"]._customer_apply_landing_action()
 
 
+def post_load_hook(env):
+    """Re-sync the derived security data after every registry load.
+
+    Why this exists (found 2026-10-03)
+    ----------------------------------
+    The deny layer and the ACL mirror are *derived* from the whitelist in
+    models/ir_rule.py and models/res_users_groups.py. Odoo only runs
+    migrations when the manifest version changes, so editing the whitelist
+    without bumping the version left stale rules behind:
+
+        sprint.module was added to ALLOWED_MODELS, but its deny rule survived
+        because 18.0.0.3.0 had already been migrated. The customer saw 0 of
+        2098 modules and the "Modules" dropdown on a task was empty.
+
+    Running the sync on every registry load removes that trap: the whitelist in
+    the code is always the truth, with no version bump required. Both syncs are
+    idempotent and cheap (a handful of searches), and they run as the registry
+    loads rather than per request.
+    """
+    try:
+        env["ir.model.access"]._mirror_sync_customer_acl()
+        env["ir.rule"]._deny_sync_customer_rules()
+    except Exception:  # never break a registry load
+        _logger.exception(
+            "customer_project_user: security sync failed on registry load"
+        )
+
+
 def uninstall_hook(env):
     """Clear mirrored ACL rows and deny rules when the module is uninstalled.
 

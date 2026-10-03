@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!--
+        Customer view for project.project: add the customer_ids field.
+    -->
     <record id="project_edit_project_inherit" model="ir.ui.view">
         <field name="name">project_edit_project_inherit</field>
         <field name="model">project.project</field>
@@ -10,4 +13,5 @@
             </field>
         </field>
     </record>
+
 </odoo>

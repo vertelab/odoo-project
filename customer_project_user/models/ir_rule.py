@@ -93,6 +93,17 @@ ALLOWED_MODELS = [
     "project.scrum.us",
     "project.scrum.business.process",
     "project.sprint.type",
+    # sprint.module / sprint.repo: the task form's "Modules" and "Primary
+    # Module" fields (project.task.module_ids -> sprint.module).
+    #
+    # Found by the operator, 2026-10-03: "jag kan inte välja mellan moduler".
+    # The models were denied by the deny layer, so the customer saw 0 of the
+    # 2098 module records and the dropdown was empty.
+    #
+    # These hold Odoo module names and repository paths — developer metadata
+    # that the project screens display, not customer or business data.
+    "sprint.module",
+    "sprint.repo",
     "project.task.burndown.chart.report",
     "report.project.task.user",
     # --- Time tracking ----------------------------------------------------

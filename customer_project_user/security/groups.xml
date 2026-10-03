@@ -63,8 +63,30 @@
         <record id="customer_read_own_project_task" model="ir.rule">
             <field name="name">task: only tasks on own customer projects</field>
             <field name="model_id" ref="project.model_project_task"/>
-            <!-- D5: same predicate as the project rule — no message_partner_ids. -->
-            <field name="domain_force">['|', '|', ('partner_id', '=', user.partner_id.id), ('project_id.customer_ids','in',[user.partner_id.id]), ('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <!--
+                D5: same predicate as the project rule — no message_partner_ids.
+
+                create_uid was added after the operator hit this while saving a
+                task as a customer:
+
+                    Tyvärr, Test Kund (id=2347) har inte "läsa" tillgång till:
+                    - Aktivitet (project.task)
+
+                The task WAS created; the read-back was denied. Odoo's own rule
+                "Project/Task: employees: follow required for followers"
+                requires ('user_ids', 'in', user.id) at creation (its comment:
+                "to subscribe check access to the record, follower is not
+                enough at creation"), and the task form reads the record back
+                through web_save before user_ids is committed. Adding
+                create_uid here makes the creator's own task readable
+                regardless of whether the assignee write has landed yet — which
+                is what a regular project user gets.
+            -->
+            <field name="domain_force">['|', '|', '|',
+                ('create_uid', '=', user.id),
+                ('partner_id', '=', user.partner_id.id),
+                ('project_id.customer_ids', 'in', [user.partner_id.id]),
+                ('project_id.partner_id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
@@ -110,15 +132,28 @@
             Scope: the customer's own record, and the users who are partners on
             a project or task they are granted. That is what a task form needs
             to render an assignee avatar.
+
+            The project manager and the assigned users were added after the
+            operator hit this while saving a task:
+
+                Access Denied by record rules for operation: read on record
+                ids: [150], uid: 2347, model: res.users
+
+            User 150 is the project manager. The task form reads the project's
+            user_id to render the "Project Manager" field, so without it the
+            form cannot be saved.
         -->
         <record id="customer_read_relevant_users" model="ir.rule">
             <field name="name">res.users: only self and project colleagues</field>
             <field name="model_id" ref="base.model_res_users"/>
-            <field name="domain_force">['|', '|', '|',
+            <field name="domain_force">['|', '|', '|', '|', '|', '|',
                 ('id', '=', user.id),
                 ('partner_id', '=', user.partner_id.id),
                 ('partner_id', 'in', user.partner_id.customer_project_ids.customer_ids.ids),
-                ('partner_id', 'in', user.partner_id.customer_task_ids.partner_id.ids)]</field>
+                ('partner_id', 'in', user.partner_id.customer_project_ids.user_id.partner_id.ids),
+                ('partner_id', 'in', user.partner_id.customer_project_ids.message_partner_ids.ids),
+                ('partner_id', 'in', user.partner_id.customer_task_ids.partner_id.ids),
+                ('partner_id', 'in', user.partner_id.customer_task_ids.user_ids.partner_id.ids)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
@@ -294,6 +329,26 @@
         <record model="ir.model.access" id="access_ir_model_fields_customer">
             <field name="name">ir.model.fields for project customer</field>
             <field name="model_id" ref="base.model_ir_model_fields"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <!--
+            ir.model.fields.selection: read is required by the task form's
+            access_warning field.
+
+            Found 2026-10-03: the customer had no ACL for this model (the stock
+            ACL grants base.group_user r=0), so reading a task failed with
+
+                AccessError: Du har inte åtkomst till Val av fält
+                (ir.model.fields.selection)
+
+            The model holds selection-field values — display metadata, no
+            business data.
+        -->
+        <record model="ir.model.access" id="access_ir_model_fields_selection_customer">
+            <field name="name">ir.model.fields.selection for project customer</field>
+            <field name="model_id" ref="base.model_ir_model_fields_selection"/>
             <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
@@ -503,13 +558,29 @@
                   - partners named on a project they are shared on
                   - partners in customer_ids of such a project
                   - partners on tasks of such a project
+                  - the project manager and assigned users of those projects
+                  - the assigned users of their tasks
+
+                The last two were added on 2026-10-03 after the operator hit
+                this while saving a new task:
+
+                    Tyvärr, Test Kund (id=2347) har inte "läsa" tillgång till:
+                    - Kontakt (res.partner)
+
+                A task form renders the project manager and the assignee
+                avatars, so Odoo reads those partners. Without them the form
+                cannot be saved — the customer saw only 2 partners (themselves
+                and the company) and the write failed on the missing read.
             -->
-            <field name="domain_force">['|', '|', '|', '|',
+            <field name="domain_force">['|', '|', '|', '|', '|', '|', '|',
                 ('id', '=', user.partner_id.id),
                 ('id', '=', user.company_id.partner_id.id),
                 ('id', 'in', user.partner_id.customer_project_ids.partner_id.ids),
                 ('id', 'in', user.partner_id.customer_project_ids.customer_ids.ids),
-                ('id', 'in', user.partner_id.customer_task_ids.partner_id.ids)]</field>
+                ('id', 'in', user.partner_id.customer_project_ids.user_id.partner_id.ids),
+                ('id', 'in', user.partner_id.customer_project_ids.message_partner_ids.ids),
+                ('id', 'in', user.partner_id.customer_task_ids.partner_id.ids),
+                ('id', 'in', user.partner_id.customer_task_ids.user_ids.partner_id.ids)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
