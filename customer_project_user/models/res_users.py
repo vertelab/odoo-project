@@ -1,4 +1,21 @@
-from odoo import models
+from odoo import api, models
+
+CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
+
+# Landing action for Project Customer users.
+#
+# `res.users.action_id` is the documented Odoo mechanism for this:
+#   "If specified, this action will be opened at log on for this user, in
+#    addition to the standard menu."
+#
+# Using it means we do NOT have to touch the portal redirect. The customer
+# still reaches /my (they are share=True, so portal/controllers/web.py sends
+# them there), but the action is what opens on logon — and because the action
+# is project.project, that is where they land.
+#
+# `project.open_view_project_all` is res_model=project.project,
+# view_mode=kanban,list,form (verified on ledningssystem 2026-10-03).
+LANDING_ACTION = 'project.open_view_project_all'
 
 
 class ResUsers(models.Model):
@@ -24,3 +41,45 @@ class ResUsers(models.Model):
     #
     # The customer is a non-internal backend user with an explicit, mirrored
     # ACL set (design D1).
+
+    # ------------------------------------------------------------------
+    # Landing action
+    # ------------------------------------------------------------------
+
+    @api.model
+    def _customer_landing_action_id(self):
+        """Return the landing action id, or False if unavailable."""
+        action = self.env.ref(LANDING_ACTION, raise_if_not_found=False)
+        return action.id if action else False
+
+    def _customer_apply_landing_action(self):
+        """Set action_id on every Project Customer that has none.
+
+        Only fills a blank action_id: an explicit choice made by an
+        administrator is never overwritten. Idempotent.
+        """
+        group = self.env.ref(CUSTOMER_GROUP, raise_if_not_found=False)
+        action_id = self._customer_landing_action_id()
+        if not group or not action_id:
+            return 0
+        customers = self.sudo().search(
+            [('groups_id', 'in', group.id), ('action_id', '=', False)]
+        )
+        if customers:
+            customers.sudo().write({'action_id': action_id})
+        return len(customers)
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        users = super().create(vals_list)
+        users._customer_apply_landing_action()
+        return users
+
+    def write(self, vals):
+        result = super().write(vals)
+        # A user added to the customer group after creation must also get the
+        # landing action. Checking groups_id covers both the plain group write
+        # and the customer-group cleanup, which writes groups_id too.
+        if 'groups_id' in vals:
+            self._customer_apply_landing_action()
+        return result

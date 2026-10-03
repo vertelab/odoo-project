@@ -6,21 +6,39 @@
             <field name="name">Project Customer</field>
             <field name="category_id" ref="base.module_category_services_project"/>
             <!--
-                No implied_ids on purpose.
+                base.group_user IS implied. The operator's decision
+                (2026-10-03) is that the backend is the requirement:
+                "vi vill att det ska vara i backend så det måste vara 1".
 
-                This group must NOT imply base.group_user: that grants the
-                customer the full internal-user surface (460 ACL rows on
-                ledningssystem, 2026-10-03) and makes them internal, which is
-                what leaked customer addresses into internal mail threads.
+                A non-internal user cannot run the backend web client at all,
+                for two independent reasons found on ledningssystem:
 
-                It must NOT imply project.group_project_user either: that group
-                itself implies base.group_user, so the bypass would come back
-                transitively.
+                  1. portal/controllers/web.py redirects every non-internal
+                     user from /odoo to /my.
+                  2. web/models/ir_http.py only emits `user_companies` in
+                     session_info when is_internal_user is true, and the JS
+                     client reads `allowed_companies` unconditionally:
+                         TypeError: Cannot read properties of undefined
+                         (reading 'allowed_companies')
 
-                Instead, the ACLs the customer needs are mirrored from the
-                source groups by the mirror mechanism (see
-                models/ir_model_access.py) without taking the implication.
+                So the customer is internal again. The over-permission that
+                made this group a bypass is NOT solved by withholding the
+                group — it is solved by an explicit deny layer on top:
+                security/customer_deny.xml denies the model families a
+                customer has no business in (ai.*, account.*, hr.*, ir.*,
+                res.users, base_import.*, document.*, calendar.*, ...).
+
+                ir.rule domains are ANDed between groups, so a deny rule
+                always wins over a grant. This is the mechanism that makes
+                "internal user with a narrow surface" work.
+
+                Do NOT imply project.group_project_user: it implies
+                base.group_user transitively (harmless now, but it would also
+                drag in the full project-manager-adjacent surface). The ACLs
+                the customer needs are mirrored from the source groups by
+                models/ir_model_access.py.
             -->
+            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
         </record>
 
         <record id="customer_read_own_project" model="ir.rule">
@@ -47,6 +65,43 @@
             <field name="model_id" ref="project.model_project_task"/>
             <!-- D5: same predicate as the project rule — no message_partner_ids. -->
             <field name="domain_force">['|', '|', ('partner_id', '=', user.partner_id.id), ('project_id.customer_ids','in',[user.partner_id.id]), ('project_id.partner_id', '=', user.partner_id.id)]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_create" eval="True"/>
+            <field name="perm_unlink" eval="True"/>
+            <field name="perm_write" eval="True"/>
+            <field name="global" eval="False"/>
+        </record>
+
+        <!--
+            mail.message: the customer must be able to read the chatter on
+            their own project and tasks.
+
+            Why this rule is needed at all: mail.message has exactly ONE rule
+            in a stock database, and it is attached to
+            "Tjänsteman: Hantera alla sökande" (hr_recruitment). A customer does
+            not hold that group, so *no* rule applies and Odoo denies the whole
+            model — verified on ledningssystem 2026-10-03:
+
+                AccessError: Uh-oh! Looks like you have stumbled upon some
+                top-secret records.
+
+            Odoo's semantics: a model with rules is readable only through an
+            applicable rule. So the customer needs one.
+
+            Scope: messages attached to a project or task the customer can
+            already see, plus messages they authored. Nothing else — the
+            domain deliberately does not use message_partner_ids, which would
+            grant access merely for having been emailed (design D5).
+        -->
+        <record id="customer_read_own_mail_message" model="ir.rule">
+            <field name="name">mail.message: only messages on own projects/tasks</field>
+            <field name="model_id" ref="mail.model_mail_message"/>
+            <field name="domain_force">['|', '|', '|',
+                ('create_uid', '=', user.id),
+                '&amp;', ('model', '=', 'project.project'), ('res_id', 'in', user.partner_id.customer_project_ids.ids),
+                '&amp;', ('model', '=', 'project.task'), ('res_id', 'in', user.partner_id.customer_task_ids.ids),
+                ('author_id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>

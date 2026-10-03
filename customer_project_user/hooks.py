@@ -19,17 +19,22 @@ _logger = logging.getLogger(__name__)
 
 
 def post_init_hook(env):
-    """Run the ACL mirror right after the module is installed."""
+    """Run the ACL mirror and the deny layer right after install."""
     _logger.info("customer_project_user: running ACL mirror (post_init_hook)")
     env["ir.model.access"]._mirror_sync_customer_acl()
+    _logger.info("customer_project_user: running deny layer (post_init_hook)")
+    env["ir.rule"]._deny_sync_customer_rules()
+    env["res.users"]._customer_apply_landing_action()
 
 
 def uninstall_hook(env):
-    """Clear mirrored ACL rows when the module is uninstalled.
+    """Clear mirrored ACL rows and deny rules when the module is uninstalled.
 
-    Without this, uninstalling the module would leave the mirrored rows behind
-    (they belong to a group that is about to disappear, but the rows are
-    ordinary ir.model.access records and are not removed automatically).
+    Without this, uninstalling the module would leave the rows behind (they
+    belong to a group that is about to disappear, but the rows are ordinary
+    ir.model.access / ir.rule records and are not removed automatically).
     """
     _logger.info("customer_project_user: clearing ACL mirror (uninstall_hook)")
     env["ir.model.access"]._mirror_clear_customer_acl()
+    _logger.info("customer_project_user: clearing deny layer (uninstall_hook)")
+    env["ir.rule"]._deny_clear_customer_rules()

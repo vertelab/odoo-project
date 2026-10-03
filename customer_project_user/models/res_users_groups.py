@@ -73,6 +73,25 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 #       feature flags; they default from group membership, and a customer
 #       should see the same task form as a regular project user.
 #       implies: nothing (verified).
+#   base.group_portal
+#       EXCLUDED — it is mutually exclusive with base.group_user.
+#
+#       Odoo allows exactly one user *type* per user
+#       (base/models/res_users.py, _check_one_user_type):
+#
+#           ValidationError: The user cannot have more than one user types.
+#
+#       Adding it to grant the website surface therefore made the customer
+#       permanently non-internal, which in turn made the backend web client
+#       unreachable (portal/controllers/web.py redirects every non-internal
+#       user to /my, and web/models/ir_http.py only emits `user_companies`
+#       when is_internal_user is true — the JS client then dies on
+#       "Cannot read properties of undefined (reading 'allowed_companies')").
+#
+#       The operator's decision (2026-10-03) is that the backend is the
+#       requirement and the website is not: "vi vill att det ska vara i
+#       backend". A customer is an internal user again, with an explicit
+#       deny layer on top (security/customer_deny.xml).
 #   base.group_partner_manager
 #       EXCLUDED — it grants full CRUD on res.partner, so the customer could
 #       browse all 3620 partners (verified 2026-10-03). The narrow need (show a
@@ -102,9 +121,14 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 #   payroll.*                        ← salaries
 #   account.*                        ← accounting
 #   sales_team.*                     ← sales data
-#   maintenance.*, website.*, crm.*, mass_mailing.*, survey.*
+#   maintenance.*, crm.*, mass_mailing.*, survey.*
+#
+#   website.*          ← not granted. The website surface required
+#                        base.group_portal, which is mutually exclusive with
+#                        base.group_user (see above). The backend wins.
 ALLOWED_GROUPS = [
     "customer_project_user.group_project_customer_user",
+    "base.group_user",
     "base.group_multi_currency",
     "uom.group_uom",
     "project.group_project_stages",
