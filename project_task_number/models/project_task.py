@@ -10,6 +10,12 @@ PROJECT_TASK_FIELDS = {
     'number'
 }
 
+# The field default is the translated string _('New') — 'New' in English,
+# 'Ny' in Swedish.  A task that has not yet been assigned a real number
+# carries that placeholder, so the unique index must ignore every translation
+# of it, not just the English one.
+PLACEHOLDER_NUMBERS = ('New', 'Ny')
+
 
 class Task(models.Model):
     _name = "project.task"
@@ -35,12 +41,21 @@ class Task(models.Model):
         unnumbered task.  The uniqueness only matters for real numbers, hence
         the partial index.  ``_sql_constraints`` cannot express a ``WHERE``
         clause, so the index is created directly.
+
+        The placeholder is translated, so every known translation must be
+        excluded.  Measured on ledningssystem 2026-10-03: the table holds 308
+        ``'New'`` and 283 ``'Ny'`` rows.  A ``WHERE number <> 'New'`` clause
+        leaves the 283 Swedish rows in the index and the CREATE fails on the
+        existing duplicates.
         """
+        placeholders = ", ".join(
+            "'%s'" % value for value in PLACEHOLDER_NUMBERS
+        )
         self._cr.execute("""
             CREATE UNIQUE INDEX IF NOT EXISTS project_task_number_uniq
                 ON project_task (number)
-                WHERE number IS NOT NULL AND number <> 'New'
-        """)
+                WHERE number IS NOT NULL AND number NOT IN (%s)
+        """ % placeholders)
 
     @api.constrains('number')
     def _check_number_unique(self):
@@ -50,7 +65,7 @@ class Task(models.Model):
         the IntegrityError into a readable message for the user.
         """
         for task in self:
-            if not task.number or task.number == _('New'):
+            if not task.number or task.number in PLACEHOLDER_NUMBERS:
                 continue
             duplicate = self.search_count([
                 ('number', '=', task.number),
