@@ -1,4 +1,8 @@
+import logging
+
 from odoo import api, models
+
+_logger = logging.getLogger(__name__)
 
 CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
 
@@ -82,4 +86,23 @@ class ResUsers(models.Model):
         # and the customer-group cleanup, which writes groups_id too.
         if 'groups_id' in vals:
             self._customer_apply_landing_action()
+            self._customer_sync_deny_layer()
         return result
+
+    @api.model
+    def _customer_sync_deny_layer(self):
+        """Re-sync the deny layer after a group change.
+
+        The deny set is derived from what customer users can reach, so it
+        changes when a customer's groups change. Without this, a user granted
+        the customer group keeps whatever the other groups gave them until the
+        next module upgrade — which is how hr.employee leaked 46 rows on
+        2026-10-03.
+        """
+        try:
+            self.env['ir.rule']._deny_sync_customer_rules()
+        except Exception:  # never break a user write
+            _logger.exception(
+                "customer_project_user: deny layer sync failed after a "
+                "groups_id write"
+            )

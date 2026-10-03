@@ -94,6 +94,39 @@
             domain deliberately does not use message_partner_ids, which would
             grant access merely for having been emailed (design D5).
         -->
+        <!--
+            res.users: a customer may read the user records they need, and no
+            more.
+
+            res.users is on the deny-layer whitelist because Odoo reads it
+            while building the session — without read access, login itself
+            fails. But whitelisting means no deny rule is generated, and the
+            stock ACL grants read on the whole table.
+
+            Found on ledningssystem 2026-10-03 with a freshly created customer:
+            the user carried Odoo's default groups (including "Administratör"
+            and "Användare: Alla dokument"), so res.users was readable in full.
+
+            Scope: the customer's own record, and the users who are partners on
+            a project or task they are granted. That is what a task form needs
+            to render an assignee avatar.
+        -->
+        <record id="customer_read_relevant_users" model="ir.rule">
+            <field name="name">res.users: only self and project colleagues</field>
+            <field name="model_id" ref="base.model_res_users"/>
+            <field name="domain_force">['|', '|', '|',
+                ('id', '=', user.id),
+                ('partner_id', '=', user.partner_id.id),
+                ('partner_id', 'in', user.partner_id.customer_project_ids.customer_ids.ids),
+                ('partner_id', 'in', user.partner_id.customer_task_ids.partner_id.ids)]</field>
+            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="perm_read" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
+            <field name="global" eval="False"/>
+        </record>
+
         <record id="customer_read_own_mail_message" model="ir.rule">
             <field name="name">mail.message: only messages on own projects/tasks</field>
             <field name="model_id" ref="mail.model_mail_message"/>

@@ -209,6 +209,29 @@ ALLOWED_MODELS = [
     "spreadsheet.dashboard",
     "spreadsheet.dashboard.group",
     "report.paperformat",
+    # website: required by /web/login and the web client shell.
+    #
+    # Found by the operator, 2026-10-03: after base.group_portal was removed,
+    # a logged-in customer hitting /web/login got
+    #
+    #   403: Sorry, Lamine SBIHI (id=513) doesn't have 'read' access to:
+    #   - Website (website)
+    #
+    # The login page, the web client shell and the session bootstrap all read
+    # website / website.menu, so denying them breaks authentication itself.
+    # These are presentation records (site name, menu tree, SEO metadata),
+    # not business data.
+    "website",
+    "website.menu",
+    "website.seo.metadata",
+    "website.page.properties",
+    "website.page.properties.base",
+    # ir.translation: read by /website/translations, which the frontend bundle
+    # fetches on every page load. Denying it made the login page fail with
+    #   Error while fetching translations
+    # and the form never rendered. Found by agent-browser on the public login
+    # page, 2026-10-03.
+    "ir.translation",
     # mail: the chatter surface. Denying these broke activities, the invite
     # wizard and message subtypes — all reachable from a task form.
     "mail.message.subtype",
@@ -295,19 +318,34 @@ class IrRule(models.Model):
 
     @api.model
     def _deny_models_to_cover(self, customer_group):
-        """Every model the customer group can currently reach, minus the
+        """Every model a Project Customer can currently reach, minus the
         whitelist.
 
-        Derived from the ACLs the customer group holds (own + mirrored +
-        inherited), so the deny layer follows the ACL set rather than a
-        hand-maintained model list.
+        Derived from the ACLs held by the customer *users* — not just the
+        customer group.
+
+        Why this matters (found 2026-10-03): the first version looked only at
+        the customer group's own + implied ACLs. A newly created user also
+        carries Odoo's default groups, and one of them — "Officer: Leda alla
+        anställda" (hr.group_hr_manager-ish) — grants hr.employee read. That
+        model therefore never appeared in the group's ACL set, no deny rule was
+        created, and the customer could read 46 employee records:
+
+            hr.employee  46   <-- leaked
+
+        Deriving from the users instead of the group closes that gap: whatever
+        a customer reaches by any route is denied unless whitelisted.
         """
+        customers = self.env["res.users"].sudo().search(
+            [("groups_id", "in", customer_group.id)]
+        )
+        group_ids = set(customer_group.ids)
+        for user in customers:
+            group_ids |= set(user.groups_id.ids)
+            group_ids |= set(user.groups_id.trans_implied_ids.ids)
+
         access = self.env["ir.model.access"].sudo().search(
-            [
-                "|",
-                ("group_id", "=", customer_group.id),
-                ("group_id", "in", customer_group.trans_implied_ids.ids),
-            ]
+            [("group_id", "in", list(group_ids))]
         )
         reachable = {row.model_id.model for row in access if row.model_id}
         return sorted(reachable - set(ALLOWED_MODELS))
@@ -330,13 +368,21 @@ class IrRule(models.Model):
         wanted = self._deny_models_to_cover(customer_group)
         wanted_names = {DENY_PREFIX + model for model in wanted}
 
-        existing = self.sudo().search(
-            [
-                ("groups", "in", customer_group.id),
-                ("name", "like", DENY_PREFIX + "%"),
-            ]
-        )
+        # Match on the name prefix alone. The rules are global now, so a
+        # search on `groups` would miss every one of them and the sync would
+        # recreate them on every run.
+        existing = self.sudo().search([("name", "like", DENY_PREFIX + "%")])
         existing_names = set(existing.mapped("name"))
+
+        # Migrate rules created by the earlier group-scoped version.
+        legacy = existing.filtered(lambda r: not getattr(r, "global") or r.groups)
+        if legacy:
+            legacy.sudo().write({"groups": [(5,)], "global": True})
+            _logger.info(
+                "customer_project_user: migrated %s deny rule(s) from "
+                "group-scoped to global",
+                len(legacy),
+            )
 
         created = removed = 0
 
@@ -362,8 +408,34 @@ class IrRule(models.Model):
                 {
                     "name": name,
                     "model_id": model.id,
-                    "domain_force": "[(0,'=',1)]",
-                    "groups": [(4, customer_group.id)],
+                    # A GLOBAL rule whose domain denies only for customers.
+                    #
+                    # Why global (found 2026-10-03): a rule attached to the
+                    # customer group does not win against a *global* rule that
+                    # grants everything. sale.order has
+                    #
+                    #   [Användare: Alla dokument] All Orders  [(1,'=',1)]
+                    #
+                    # and Odoo ORs global rules with group rules, so the
+                    # customer still saw 154 orders with the group deny rule
+                    # in place. Making the deny rule global makes it AND with
+                    # the rest, and the deny wins:
+                    #
+                    #   group rule,  global=False  -> 154 rows
+                    #   global rule, conditional  -> 0 rows
+                    #
+                    # Why conditional: a plain global [(0,'=',1)] denied the
+                    # model for EVERY user, including internal ones
+                    # (verified: marcus.karlsson@vertel.se also got 0 on
+                    # sale.order). The domain below evaluates to "allow" for
+                    # everyone who is not a Project Customer, so only customers
+                    # are affected.
+                    "domain_force": (
+                        "[(0, '=', 1)] if user.has_group(%r) "
+                        "else [(1, '=', 1)]" % CUSTOMER_GROUP
+                    ),
+                    "groups": [(5,)],
+                    "global": True,
                     "perm_read": True,
                     "perm_write": True,
                     "perm_create": True,
@@ -377,6 +449,27 @@ class IrRule(models.Model):
         if stale:
             removed = len(stale)
             stale.sudo().unlink()
+
+        # Keep the domain current on the rules that stay. Without this, a
+        # change to the deny expression only reaches newly created rules and
+        # existing databases keep the old one.
+        expected = (
+            "[(0, '=', 1)] if user.has_group(%r) else [(1, '=', 1)]"
+            % CUSTOMER_GROUP
+        )
+        to_fix = self.sudo().search(
+            [
+                ("name", "like", DENY_PREFIX + "%"),
+                ("domain_force", "!=", expected),
+            ]
+        )
+        if to_fix:
+            to_fix.sudo().write({"domain_force": expected})
+            _logger.info(
+                "customer_project_user: refreshed the domain on %s deny "
+                "rule(s)",
+                len(to_fix),
+            )
 
         _logger.info(
             "customer_project_user: deny layer synced "
@@ -393,12 +486,7 @@ class IrRule(models.Model):
         customer_group = self._deny_customer_group()
         if not customer_group:
             return 0
-        rules = self.sudo().search(
-            [
-                ("groups", "in", customer_group.id),
-                ("name", "like", DENY_PREFIX + "%"),
-            ]
-        )
+        rules = self.sudo().search([("name", "like", DENY_PREFIX + "%")])
         count = len(rules)
         rules.sudo().unlink()
         _logger.info(
