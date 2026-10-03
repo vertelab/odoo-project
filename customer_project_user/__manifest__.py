@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Customer Project User',
-    'version': '18.0.0.1.0',
+    'version': '18.0.0.2.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'A user type for project customers.',
     'category': 'Project',
@@ -52,5 +52,7 @@ Customer Project User
         'views/menu.xml',
         'views/project_view.xml',
     ],
+    'post_init_hook': 'post_init_hook',
+    'uninstall_hook': 'uninstall_hook',
     'installable': True,
 }

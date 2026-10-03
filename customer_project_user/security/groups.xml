@@ -5,13 +5,35 @@
         <record model="res.groups" id="group_project_customer_user">
             <field name="name">Project Customer</field>
             <field name="category_id" ref="base.module_category_services_project"/>
-            <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+            <!--
+                No implied_ids on purpose.
+
+                This group must NOT imply base.group_user: that grants the
+                customer the full internal-user surface (460 ACL rows on
+                ledningssystem, 2026-10-03) and makes them internal, which is
+                what leaked customer addresses into internal mail threads.
+
+                It must NOT imply project.group_project_user either: that group
+                itself implies base.group_user, so the bypass would come back
+                transitively.
+
+                Instead, the ACLs the customer needs are mirrored from the
+                source groups by the mirror mechanism (see
+                models/ir_model_access.py) without taking the implication.
+            -->
         </record>
 
         <record id="customer_read_own_project" model="ir.rule">
             <field name="name">project: only own customer projects visible</field>
             <field name="model_id" ref="project.model_project_project"/>
-            <field name="domain_force">['|', '|', ('partner_id','=',user.partner_id.id), ('customer_ids','in',[user.partner_id.id]), ('message_partner_ids', 'in', [user.partner_id.id])]</field>
+            <!--
+                D5: access is granted by partner_id or customer_ids only.
+                message_partner_ids was removed — it is a mail-thread relation
+                (anyone ever on the thread), and the module subscribes partners
+                as a side effect of write()/create(), so including it meant
+                being emailed granted access.
+            -->
+            <field name="domain_force">['|', ('partner_id','=',user.partner_id.id), ('customer_ids','in',[user.partner_id.id])]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="False"/>
@@ -23,6 +45,7 @@
         <record id="customer_read_own_project_task" model="ir.rule">
             <field name="name">task: only tasks on own customer projects</field>
             <field name="model_id" ref="project.model_project_task"/>
+            <!-- D5: same predicate as the project rule — no message_partner_ids. -->
             <field name="domain_force">['|', '|', ('partner_id', '=', user.partner_id.id), ('project_id.customer_ids','in',[user.partner_id.id]), ('project_id.partner_id', '=', user.partner_id.id)]</field>
             <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
@@ -155,6 +178,165 @@
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
             <field name="perm_unlink">0</field>
+        </record>
+
+        <!--
+            ============================================================
+            Framework ACL tail (design D3)
+            ============================================================
+
+            A /odoo backend session needs read access to framework models or
+            it does not deny gracefully — it crashes or renders a blank page.
+            These rows replace what was previously inherited from
+            base.group_user. They are deliberately read-only unless noted.
+
+            Derived by negative discovery (task 9) plus the explicit list in
+            design D3. Keep this list minimal: everything the customer can
+            reach here is reachable by URL.
+        -->
+
+        <!-- Model metadata: the web client reads these to decide what to render -->
+        <record model="ir.model.access" id="access_ir_model_customer">
+            <field name="name">ir.model for project customer</field>
+            <field name="model_id" ref="base.model_ir_model"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_model_fields_customer">
+            <field name="name">ir.model.fields for project customer</field>
+            <field name="model_id" ref="base.model_ir_model_fields"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_model_access_customer">
+            <field name="name">ir.model.access for project customer</field>
+            <field name="model_id" ref="base.model_ir_model_access"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <!-- Views, menus and actions: without these the client cannot build a page -->
+        <record model="ir.model.access" id="access_ir_ui_view_customer">
+            <field name="name">ir.ui.view for project customer</field>
+            <field name="model_id" ref="base.model_ir_ui_view"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_ui_menu_customer">
+            <field name="name">ir.ui.menu for project customer</field>
+            <field name="model_id" ref="base.model_ir_ui_menu"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_actions_actions_customer">
+            <field name="name">ir.actions.actions for project customer</field>
+            <field name="model_id" ref="base.model_ir_actions_actions"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_actions_act_window_customer">
+            <field name="name">ir.actions.act_window for project customer</field>
+            <field name="model_id" ref="base.model_ir_actions_act_window"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <!-- Saved filters: the customer may save their own list filters -->
+        <record model="ir.model.access" id="access_ir_filters_customer">
+            <field name="name">ir.filters for project customer</field>
+            <field name="model_id" ref="base.model_ir_filters"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+            <field name="perm_unlink">1</field>
+        </record>
+
+        <!-- Read-only framework data -->
+        <record model="ir.model.access" id="access_ir_config_parameter_customer">
+            <field name="name">ir.config_parameter for project customer</field>
+            <field name="model_id" ref="base.model_ir_config_parameter"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_rule_customer">
+            <field name="name">ir.rule for project customer</field>
+            <field name="model_id" ref="base.model_ir_rule"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_ir_model_data_customer">
+            <field name="name">ir.model.data for project customer</field>
+            <field name="model_id" ref="base.model_ir_model_data"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_res_groups_customer">
+            <field name="name">res.groups for project customer</field>
+            <field name="model_id" ref="base.model_res_groups"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_res_lang_customer">
+            <field name="name">res.lang for project customer</field>
+            <field name="model_id" ref="base.model_res_lang"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_res_company_customer">
+            <field name="name">res.company for project customer</field>
+            <field name="model_id" ref="base.model_res_company"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_res_currency_customer">
+            <field name="name">res.currency for project customer</field>
+            <field name="model_id" ref="base.model_res_currency"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+        </record>
+
+        <!--
+            bus.bus: create is required for longpolling. Without it the
+            chatter cannot receive updates (design D3).
+        -->
+        <record model="ir.model.access" id="access_bus_bus_customer">
+            <field name="name">bus.bus for project customer</field>
+            <field name="model_id" ref="bus.model_bus_bus"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_create">1</field>
+        </record>
+
+        <!-- Mail plumbing: followers and notifications for the chatter -->
+        <record model="ir.model.access" id="access_mail_followers_customer">
+            <field name="name">mail.followers for project customer</field>
+            <field name="model_id" ref="mail.model_mail_followers"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
+        </record>
+
+        <record model="ir.model.access" id="access_mail_notification_customer">
+            <field name="name">mail.notification for project customer</field>
+            <field name="model_id" ref="mail.model_mail_notification"/>
+            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="perm_read">1</field>
+            <field name="perm_write">1</field>
+            <field name="perm_create">1</field>
         </record>
 
     </data>
