@@ -55,14 +55,23 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 # This is an allow-list, not a deny-list: a deny-list would silently permit
 # every group added in the future, which is how the current situation arose.
 #
-# ⚠️ CRITICAL: no entry may imply base.group_user, directly or transitively.
-# Group implication is transitive and Odoo has no "inherit the ACLs but not the
-# implied groups" mechanism, so adding such a group re-opens the URL bypass.
-# Verified against ledningssystem 2026-10-03 — see the note per entry.
+# base.group_user IS allowed, and is the only entry that matters for reaching
+# the backend. The operator's decision (2026-10-03) is that the backend is the
+# requirement: a non-internal user cannot run the web client at all (see the
+# module docstring in models/ir_rule.py for the two independent reasons).
+#
+# The over-permission that made this group a bypass is NOT solved by withholding
+# it — it is solved by the deny layer (models/ir_rule.py), which denies every
+# model not on its own whitelist. Do not re-add a guard forbidding groups that
+# imply base.group_user: it would contradict this list and block the cleanup.
+#
+# Everything else here is a feature flag the project screens need.
 #
 # Justification per entry:
 #   customer_project_user.group_project_customer_user
-#       the point of the module. implies: nothing.
+#       the point of the module.
+#   base.group_user
+#       required for the backend web client. See above.
 #   base.group_multi_currency
 #       projects may show a foreign currency. implies: nothing.
 #   uom.group_uom
@@ -165,21 +174,15 @@ class ResUsers(models.Model):
                 )
 
         base_user = self.env.ref("base.group_user", raise_if_not_found=False)
-        if base_user:
-            offenders = []
-            for group in self.env["res.groups"].browse(ids):
-                if base_user in group.trans_implied_ids:
-                    offenders.append(group.display_name)
-            if offenders:
-                raise UserError(
-                    self.env._(
-                        "customer_project_user: ALLOWED_GROUPS contains "
-                        "group(s) that imply base.group_user: %s. This would "
-                        "re-open the URL bypass. Remove them from the "
-                        "allow-list and mirror their ACLs instead.",
-                        ", ".join(offenders),
-                    )
-                )
+        if base_user and base_user.id not in ids:
+            # base.group_user is expected to be present (see ALLOWED_GROUPS).
+            # If it is missing, the customer cannot reach the backend and the
+            # cleanup would silently lock them out, so say so rather than
+            # proceeding.
+            _logger.warning(
+                "customer_project_user: ALLOWED_GROUPS does not contain "
+                "base.group_user; the customer will not reach the backend"
+            )
         return ids
 
     @api.model
