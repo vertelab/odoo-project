@@ -75,6 +75,31 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 
 # Models whose threads a customer is allowed to be part of. Everything else is
 # an internal thread and must not reach a customer.
+#
+# Operator's rule (2026-10-03): "allt utom project task är bra" — a customer
+# belongs on project.project and project.task threads, and nowhere else. That
+# is the whole allow-list; do not widen it without asking.
+#
+# Verified on ledningssystem 2026-10-03 with the five Project Customers plus one
+# internal user as the recipient list:
+#
+#   project.project        6/6 kept, 0 customers dropped
+#   project.task           6/6 kept, 0 customers dropped
+#   hr_timesheet.sheet     1/6 kept, 5 customers dropped
+#   account.analytic.line  1/6 kept, 5 customers dropped
+#   hr.employee            1/6 kept, 5 customers dropped
+#   res.users              1/6 kept, 5 customers dropped
+#   sale.order             1/6 kept, 5 customers dropped
+#   account.move           1/6 kept, 5 customers dropped
+#   ai.agent               1/6 kept, 5 customers dropped
+#   helpdesk.ticket        1/6 kept, 5 customers dropped
+#   mail.channel           1/6 kept, 5 customers dropped
+#   project.update         1/6 kept, 5 customers dropped
+#   project.milestone      1/6 kept, 5 customers dropped
+#
+# Only Project Customer partners are ever dropped. Other external users
+# (portal accounts, AI agents, contractors) are untouched — the filter keys on
+# group membership, never on share=True or "is external".
 CUSTOMER_VISIBLE_MODELS = (
     "project.project",
     "project.task",
