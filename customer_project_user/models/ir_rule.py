@@ -165,6 +165,54 @@ ALLOWED_MODELS = [
     "ir.logging",
     "ir.profile",
     "ir.http",
+    # Found by the operator's dashboard test, 2026-10-03. The first whitelist
+    # missed these and the backend surfaced it as:
+    #
+    #   Sorry, Lamine SBIHI (id=513) doesn't have 'read' access to:
+    #   - Embedded Actions, Dashboard (ir.embedded.actions: 1)
+    #   Blame the following rules:
+    #   - [customer deny] ir.embedded.actions
+    #
+    # ir.embedded.actions is what the dashboard renders; ir.default and
+    # ir.sequence are read on nearly every form; ir.model.fields.selection is
+    # read whenever a selection field is rendered. None of them carry business
+    # data, so denying them only broke the UI.
+    "ir.embedded.actions",
+    "ir.default",
+    "ir.sequence",
+    "ir.sequence.date_range",
+    "ir.model.fields.selection",
+    "ir.module.category",
+    "ir.actions.client",
+    "ir.actions.act_url",
+    "ir.actions.act_window.view",
+    "ir.actions.act_window.close",
+    "ir.model.constraint",
+    "ir.model.relation",
+    "ir.model.inherit",
+    "ir.property",
+    "ir.binary",
+    "ir.cache",
+    "ir.autovacuum",
+    "ir.cron.trigger",
+    "ir.module.module.dependency",
+    "board.board",
+    "spreadsheet.dashboard",
+    "spreadsheet.dashboard.group",
+    "report.paperformat",
+    # mail: the chatter surface. Denying these broke activities, the invite
+    # wizard and message subtypes — all reachable from a task form.
+    "mail.message.subtype",
+    "mail.activity.plan.template",
+    "mail.alias.domain",
+    "mail.canned.response",
+    "mail.guest",
+    "mail.resend.message",
+    "mail.resend.partner",
+    "mail.scheduled.message",
+    "mail.template.preview",
+    "mail.wizard.invite",
+    "base.module.install.request",
     "base.automation",
     "base.automation.trigger",
     "base.import",
