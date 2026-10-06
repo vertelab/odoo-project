@@ -4,34 +4,65 @@
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 18.0-20251031\n"
+"Project-Id-Version: Odoo Server 18.0-20261006\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-11-03 13:34+0000\n"
-"PO-Revision-Date: 2025-11-03 14:35+0100\n"
-"Last-Translator: \n"
-"Language-Team: \n"
+"POT-Creation-Date: 2026-10-06 14:54+0000\n"
+"PO-Revision-Date: 2026-10-06 16:56+0200\n"
+"Last-Translator: Vertel AB <info@vertel.se>\n"
+"Language-Team: Swedish\n"
 "Language: sv\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Poedit 3.4.2\n"
+"X-Generator: Odoo 18.0\n"
 
 #. module: project_task_payment
+#: model_terms:ir.ui.view,arch_db:project_task_payment.view_task_form2
+msgid "Amount"
+msgstr "Belopp"
+
+#. module: project_task_payment
+#. odoo-python
+#: code:addons/project_task_payment/models/project_task.py:0
 #: model:ir.model.fields,field_description:project_task_payment.field_project_task_type__create_payment
+#: model_terms:ir.ui.view,arch_db:project_task_payment.view_task_form2
 #: model_terms:ir.ui.view,arch_db:project_task_payment.view_task_kanban
 msgid "Create Payment"
 msgstr "Skapa betalning"
 
 #. module: project_task_payment
-#: model:ir.model.fields,field_description:project_task_payment.field_project_task__payment_ids
-msgid "Payment"
-msgstr "Betalning"
+#: model:ir.model.fields,field_description:project_task_payment.field_project_task__payment_count
+msgid "Payment Count"
+msgstr "Antal betalningar"
+
+#. module: project_task_payment
+#: model:ir.model.fields,field_description:project_task_payment.field_project_task__payment_partner_id
+msgid "Payment Recipient"
+msgstr "Betalningsmottagare"
 
 #. module: project_task_payment
 #: model:ir.model,name:project_task_payment.model_account_payment
+#: model:ir.model.fields,field_description:project_task_payment.field_project_task__payment_ids
+#: model_terms:ir.ui.view,arch_db:project_task_payment.view_task_form2
 msgid "Payments"
 msgstr "Betalningar"
+
+#. module: project_task_payment
+#: model:ir.model.fields,help:project_task_payment.field_project_task__payment_partner_id
+msgid ""
+"Person who should receive the payment for this task. This is NOT the task's "
+"customer (partner_id); it is the employee or vendor being compensated."
+msgstr ""
+"Person som ska ta emot betalningen för denna uppgift. Detta är INTE "
+"uppgiftens kund (partner_id), utan den medarbetare eller leverantör som ska "
+"ersättas."
+
+#. module: project_task_payment
+#. odoo-python
+#: code:addons/project_task_payment/models/project_task.py:0
+msgid "Please set a payment recipient on the task before creating a payment."
+msgstr "Ange en betalningsmottagare på uppgiften innan du skapar en betalning."
 
 #. module: project_task_payment
 #: model:ir.model.fields,field_description:project_task_payment.field_project_task__show_payment_button
@@ -42,9 +73,42 @@ msgstr "Visa skapa betalning knapp"
 #: model:ir.model,name:project_task_payment.model_project_task
 #: model:ir.model.fields,field_description:project_task_payment.field_account_payment__task_id
 msgid "Task"
-msgstr "Aktivitet"
+msgstr "Uppgift"
 
 #. module: project_task_payment
 #: model:ir.model,name:project_task_payment.model_project_task_type
 msgid "Task Stage"
-msgstr "Aktivitetsetapper"
+msgstr "Uppgiftsetapper"
+
+#. module: project_task_payment
+#: model:ir.model.fields,help:project_task_payment.field_account_payment__task_id
+msgid "Task this payment compensates."
+msgstr "Uppgift som betalningen ersätter."
+
+#. module: project_task_payment
+#: model:ir.model.fields,help:project_task_payment.field_project_task__show_payment_button
+msgid ""
+"Technical field: True when the task's stage has the 'Create Payment' flag "
+"set. Not stored, so it always reflects the current stage configuration."
+msgstr ""
+"Tekniskt fält: Sant när uppgiftens etapp har flaggan 'Skapa betalning' satt. "
+"Lagras inte, så det speglar alltid etappens aktuella konfiguration."
+
+#. module: project_task_payment
+#: model:ir.model.fields,help:project_task_payment.field_project_task_type__create_payment
+msgid ""
+"When a task reaches a stage with this flag set, the 'Create Payment' button "
+"is shown on the task."
+msgstr ""
+"När en uppgift når en etapp med denna flagga satt visas knappen 'Skapa "
+"betalning' på uppgiften."
+
+#. module: project_task_payment
+#. odoo-python
+#: code:addons/project_task_payment/models/project_task.py:0
+msgid ""
+"You do not have the rights to create payments. Please ask your administrator"
+" to grant you the 'Invoicing' group."
+msgstr ""
+"Du har inte behörighet att skapa betalningar. Be din administratör att ge dig "
+"gruppen 'Fakturering'."

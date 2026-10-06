@@ -20,9 +20,10 @@
 ##############################################################################
 {
     'name': 'Project: Task Payment',
-    'version': '18.0.1.0.0',
-    'summary': "Employees can get money for complaints.",
-    'category': 'Administration',
+    'version': '18.0.1.1.0',
+    # Version ledger: 18.0 = Odoo version. 1 = Major. 1 = Minor (new features). 0 = Bug fixes
+    'summary': "Create a payment from a task, for the person who should be compensated.",
+    'category': 'Project',
     'author': 'Vertel AB',
     'website': "https://vertel.se/apps/odoo-project/project_task_payment",
     'images': ['/static/description/banner.png'], # 560x280 px.
@@ -33,21 +34,37 @@
 Task Payment
 ============
 
-    Emplayer can have compensation when making complaints at work.
-       This module helps with the theory!
+Employees can get money for complaints. This module adds a *Create Payment*
+button to tasks that have reached a stage flagged with **Create Payment**, and
+registers the resulting payment on the task.
 
-    Features:
+Features
+--------
 
-        - UI Integration: Extends 1 view(s) in the Odoo interface.
-        - Extends Odoo: Builds on account.payment, project.task, project.task.type, task_id.
+* A **Create Payment** boolean on task stages (``project.task.type``).
+* A **Payment Recipient** field on the task, holding the person who should
+  receive the money — deliberately separate from the task's customer.
+* A **Create Payment** button in both the task form and the kanban card,
+  visible only on flagged stages and only for users with the *Invoicing* group.
+* A **Payments** stat button and notebook page listing the payments already
+  created for the task.
+* The **Task** is shown on the payment form, so the payment can be traced back.
+
+Notes
+-----
+
+Task stages are shared between projects. Flagging a stage therefore enables the
+button on every task that reaches that stage, in every project using it.
+
+No security rules are shipped: the module only adds fields to existing models,
+and the button is restricted through ``account.group_account_invoice``, which is
+the group required by Odoo core to create an ``account.payment``.
     ''',
     'depends': ['project', 'account'],
     'data': [
-       # 'views/project_views.xml',
         'views/create_payment.xml',
-      ],
+    ],
     'demo': [],
-    'qweb': [],
     'installable': True,
     'application': False,
     'auto_install': False,

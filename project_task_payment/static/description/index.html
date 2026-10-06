@@ -44,26 +44,29 @@
 <body>
 <div class="hero">
   <h1>Project: Task Payment</h1>
-  <p class="subtitle">Employees can get money for complaints.</p>
+  <p class="subtitle">Create a payment from a task, for the person who should be compensated.</p>
   <div class="meta">
     <span>Odoo 18.0</span><span>&middot;</span>
-    <span>Administration</span><span>&middot;</span>
+    <span>Project</span><span>&middot;</span>
     <span>by Vertel Sverige AB</span>
   </div>
 </div>
 <div class="container">
   <section id="overview">
     <h2>Overview</h2>
-    <p>Employees can get money for complaints.</p>
-    <p>It introduces the model(s) <code>ProjectStage</code> to handle this workflow.</p>
-    <p>It extends Odoo's tasks, payments.</p>
+    <p>Employees can get money for complaints. This module adds a
+       <em>Create Payment</em> button to tasks that have reached a stage flagged
+       with <strong>Create Payment</strong>, and registers the resulting payment on
+       the task.</p>
+    <p>It extends Odoo's tasks, task stages and payments.</p>
   </section>
   <section id="features">
     <h2>Key Features</h2>
     <div class="feature-grid">
-      <div class="feature-card"><h4>Dedicated data model</h4><p>Adds its own models: ProjectStage.</p></div>
-      <div class="feature-card"><h4>Actions</h4><p>Adds action_create_payment.</p></div>
-      <div class="feature-card"><h4>UI integration</h4><p>Extends 1 view(s) in the Odoo interface.</p></div>
+      <div class="feature-card"><h4>Stage flag</h4><p>A <em>Create Payment</em> boolean on task stages controls when the button appears.</p></div>
+      <div class="feature-card"><h4>Payment recipient</h4><p>A dedicated recipient field on the task &mdash; separate from the task's customer.</p></div>
+      <div class="feature-card"><h4>Outbound by default</h4><p>The payment opens pre-filled as an outbound supplier payment, with the task attached.</p></div>
+      <div class="feature-card"><h4>Payments on the task</h4><p>A stat button and a notebook page list the payments already created.</p></div>
     </div>
   </section>
   <section id="screenshots">
