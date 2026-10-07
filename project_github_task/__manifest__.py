@@ -23,7 +23,7 @@
 #
 {
     'name': 'Project: Github Task',
-    'version': '1.0',
+    'version': '1.0.1',
     'summary': """
         Short (1 phrase/line) summary of the module's purpose, used as
         subtitle on modules listing or apps.odoo.com""",

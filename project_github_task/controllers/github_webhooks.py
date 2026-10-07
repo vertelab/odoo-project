@@ -53,13 +53,15 @@ class GitHubWebHooks(GitHubWebHooks):
         return author_id
 
     def create_task(self,git_dict,user,project,message=False):
-        closing_stages = list(filter(lambda t: t.is_closed,project.type_ids))
-        stage = list(filter(lambda t: t.name == "Klar!" or t.name == "Done",closing_stages))
-        if not stage:
-            if closing_stages:
-                stage = closing_stages[0]
-        elif len(stage) > 1:
-            stage = stage[0]
+        # Etappval: en AVSLUTANDE etapp, helst "Klar!"/"Done". `stage` måste
+        # vara EN post — förut lämnades listan orörd när exakt en träff fanns
+        # (varken `not stage` eller `len(stage) > 1` slog till), och `stage.id`
+        # kastade "'list' object has no attribute 'id'". Följden var att
+        # GitHub-pushar svarade 200 men aldrig skapade någon uppgift
+        # (ledningssystem 2026-10-07, 106 ggr).
+        closing_stages = project.type_ids.filtered(lambda t: t.is_closed)
+        stage = (closing_stages.filtered(
+            lambda t: t.name in ("Klar!", "Done")) or closing_stages)[:1]
 
         user_ids = [(6,0,[user.id])]
         task_vals = {'project_id': project.id, 'name': git_dict.get("message"),'number': git_dict["task_number"] if git_dict["task_number"] else _("New"),'user_ids': user_ids, "stage_id": stage.id if stage else False}
