@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2025- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2025- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -27,11 +27,11 @@
     'description': """
         A new project type that changes the project to a Equity Porfolio, where each task is an equity.
     """,
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_number',
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'depends': ['project','ai_agent' ],
     'data': [
         'data/action_server.xml',
