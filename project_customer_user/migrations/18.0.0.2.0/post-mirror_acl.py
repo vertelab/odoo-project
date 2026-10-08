@@ -4,8 +4,19 @@
 """Upgrade path for the Project Customer ACL mirror.
 
 Odoo has no post_upgrade_hook, so the mirror is re-synced from a migration
-script. This runs on every ``-u customer_project_user`` once the version in the
+script. This runs on every ``-u project_customer_user`` once the version in the
 manifest reaches 18.0.0.2.0 or later.
+
+NOTE — the historical module name
+---------------------------------
+This migration predates the 18.0.1.0.0 rename (customer_project_user ->
+project_customer_user). The SQL below deliberately keeps
+``d.module = 'customer_project_user'``: it runs against a database whose
+ir.model.data rows still carry the old module name at the point this migration
+is applied, because ``migrations/18.0.1.0.0/post-rename_module.py`` runs only
+after the version reaches 18.0.1.0.0. Do not "fix" the module name here —
+changing it would make the migration miss the group on a database upgraded
+from an older version.
 
 Two jobs
 --------
@@ -33,7 +44,7 @@ def migrate(cr, version):
         return
 
     _logger.info(
-        "customer_project_user: running migration from version %s", version
+        "project_customer_user: running migration from version %s", version
     )
 
     # ------------------------------------------------------------------
@@ -69,7 +80,7 @@ def migrate(cr, version):
             "hr_timesheet.group_hr_timesheet_user",
         ):
             _logger.warning(
-                "customer_project_user: removing stale implication "
+                "project_customer_user: removing stale implication "
                 "%s (gid=%s hid=%s) — it reopens the URL bypass",
                 implied_xmlid,
                 gid,

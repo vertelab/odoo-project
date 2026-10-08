@@ -42,7 +42,7 @@ from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
-CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
+CUSTOMER_GROUP = "project_customer_user.group_project_customer_user"
 
 # Groups whose ACLs are mirrored onto the customer group. Never implied.
 SOURCE_GROUPS = [
@@ -84,7 +84,7 @@ class IrModelAccess(models.Model):
                 groups |= group
             else:
                 _logger.warning(
-                    "customer_project_user: source group %s not found; "
+                    "project_customer_user: source group %s not found; "
                     "its ACLs will not be mirrored",
                     xmlid,
                 )
@@ -145,7 +145,7 @@ class IrModelAccess(models.Model):
         customer_group = self._mirror_customer_group()
         if not customer_group:
             _logger.warning(
-                "customer_project_user: customer group not found; "
+                "project_customer_user: customer group not found; "
                 "ACL mirror skipped"
             )
             return
@@ -194,7 +194,7 @@ class IrModelAccess(models.Model):
             stale.sudo().unlink()
 
         _logger.info(
-            "customer_project_user: ACL mirror synced "
+            "project_customer_user: ACL mirror synced "
             "(created=%s updated=%s removed=%s, sources=%s)",
             created,
             updated,
@@ -225,6 +225,6 @@ class IrModelAccess(models.Model):
         count = len(rows)
         rows.sudo().unlink()
         _logger.info(
-            "customer_project_user: ACL mirror cleared (%s rows)", count
+            "project_customer_user: ACL mirror cleared (%s rows)", count
         )
         return count

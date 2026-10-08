@@ -59,7 +59,7 @@ from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
-CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
+CUSTOMER_GROUP = "project_customer_user.group_project_customer_user"
 
 # Marker so generated rules are recognisable and removable without touching
 # rules a human created by hand.
@@ -371,7 +371,7 @@ class IrRule(models.Model):
         customer_group = self._deny_customer_group()
         if not customer_group:
             _logger.warning(
-                "customer_project_user: customer group not found; "
+                "project_customer_user: customer group not found; "
                 "deny layer skipped"
             )
             return
@@ -390,7 +390,7 @@ class IrRule(models.Model):
         if legacy:
             legacy.sudo().write({"groups": [(5,)], "global": True})
             _logger.info(
-                "customer_project_user: migrated %s deny rule(s) from "
+                "project_customer_user: migrated %s deny rule(s) from "
                 "group-scoped to global",
                 len(legacy),
             )
@@ -477,13 +477,13 @@ class IrRule(models.Model):
         if to_fix:
             to_fix.sudo().write({"domain_force": expected})
             _logger.info(
-                "customer_project_user: refreshed the domain on %s deny "
+                "project_customer_user: refreshed the domain on %s deny "
                 "rule(s)",
                 len(to_fix),
             )
 
         _logger.info(
-            "customer_project_user: deny layer synced "
+            "project_customer_user: deny layer synced "
             "(created=%s removed=%s, allowed=%s denied=%s)",
             created,
             removed,
@@ -501,6 +501,6 @@ class IrRule(models.Model):
         count = len(rules)
         rules.sudo().unlink()
         _logger.info(
-            "customer_project_user: deny layer cleared (%s rules)", count
+            "project_customer_user: deny layer cleared (%s rules)", count
         )
         return count

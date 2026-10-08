@@ -2,7 +2,7 @@ from odoo import api, fields, models, _
 from odoo.exceptions import AccessError
 from odoo.osv import expression
 
-CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
+CUSTOMER_GROUP = 'project_customer_user.group_project_customer_user'
 
 
 # ----------------------------------------------------------------------

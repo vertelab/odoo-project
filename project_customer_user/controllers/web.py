@@ -6,7 +6,7 @@ from odoo.addons.portal.controllers.web import Home as PortalHome
 from odoo.addons.web.controllers.home import Home as WebHome
 from odoo.addons.web.controllers.utils import ensure_db, is_user_internal
 
-CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
+CUSTOMER_GROUP = 'project_customer_user.group_project_customer_user'
 PROJECT_ACTION = 'project.open_view_project_all'
 
 

@@ -6,7 +6,7 @@ class IrUiMenu(models.Model):
 
     @api.model
     def get_user_roots(self):
-        if self.env.user.has_group('customer_project_user.group_project_customer_user'):
+        if self.env.user.has_group('project_customer_user.group_project_customer_user'):
             project_root = self.env.ref('project.menu_main_pm', raise_if_not_found=False)
             if project_root:
                 return self.search([('id', '=', project_root.id)])

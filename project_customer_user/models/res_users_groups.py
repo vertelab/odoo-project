@@ -48,7 +48,7 @@ from odoo.exceptions import UserError
 
 _logger = logging.getLogger(__name__)
 
-CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
+CUSTOMER_GROUP = "project_customer_user.group_project_customer_user"
 
 # Groups a Project Customer is ALLOWED to keep. Everything else is removed.
 #
@@ -68,7 +68,7 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 # Everything else here is a feature flag the project screens need.
 #
 # Justification per entry:
-#   customer_project_user.group_project_customer_user
+#   project_customer_user.group_project_customer_user
 #       the point of the module.
 #   base.group_user
 #       required for the backend web client. See above.
@@ -136,7 +136,7 @@ CUSTOMER_GROUP = "customer_project_user.group_project_customer_user"
 #                        base.group_portal, which is mutually exclusive with
 #                        base.group_user (see above). The backend wins.
 ALLOWED_GROUPS = [
-    "customer_project_user.group_project_customer_user",
+    "project_customer_user.group_project_customer_user",
     "base.group_user",
     "base.group_multi_currency",
     "uom.group_uom",
@@ -184,7 +184,7 @@ class ResUsers(models.Model):
                 ids.append(group.id)
             else:
                 _logger.warning(
-                    "customer_project_user: allowed group %s not found; "
+                    "project_customer_user: allowed group %s not found; "
                     "skipping",
                     xmlid,
                 )
@@ -196,7 +196,7 @@ class ResUsers(models.Model):
             # cleanup would silently lock them out, so say so rather than
             # proceeding.
             _logger.warning(
-                "customer_project_user: ALLOWED_GROUPS does not contain "
+                "project_customer_user: ALLOWED_GROUPS does not contain "
                 "base.group_user; the customer will not reach the backend"
             )
         return ids
@@ -213,7 +213,7 @@ class ResUsers(models.Model):
         customer_group = self.env.ref(CUSTOMER_GROUP, raise_if_not_found=False)
         if not customer_group:
             _logger.warning(
-                "customer_project_user: customer group not found; "
+                "project_customer_user: customer group not found; "
                 "cleanup skipped"
             )
             return []
@@ -239,7 +239,7 @@ class ResUsers(models.Model):
 
             if not dry_run and to_remove:
                 _logger.warning(
-                    "customer_project_user: removing %s group(s) from %s: %s",
+                    "project_customer_user: removing %s group(s) from %s: %s",
                     len(to_remove),
                     user.login,
                     ", ".join(to_remove.mapped("display_name")),
@@ -256,7 +256,7 @@ class ResUsers(models.Model):
                 ]
                 if missing:
                     _logger.info(
-                        "customer_project_user: adding %s allowed group(s) "
+                        "project_customer_user: adding %s allowed group(s) "
                         "to %s",
                         len(missing),
                         user.login,

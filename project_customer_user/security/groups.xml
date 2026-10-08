@@ -6,6 +6,16 @@
             <field name="name">Project Customer</field>
             <field name="category_id" ref="base.module_category_services_project"/>
             <!--
+                Module name: this module was renamed from customer_project_user
+                to project_customer_user in 18.0.1.0.0, so the group's xmlid is
+                now project_customer_user.group_project_customer_user. The
+                group's own name (group_project_customer_user) is unchanged —
+                only the module prefix moved. The rename is carried by
+                migrations/18.0.1.0.0/post-rename_module.py, which re-points
+                ir.model.data so this res.groups row (and its
+                res_groups_users_rel memberships) is kept, not re-created.
+            -->
+            <!--
                 base.group_user IS implied. The operator's decision
                 (2026-10-03) is that the backend is the requirement:
                 "vi vill att det ska vara i backend så det måste vara 1".
@@ -52,7 +62,7 @@
                 being emailed granted access.
             -->
             <field name="domain_force">['|', ('partner_id','=',user.partner_id.id), ('customer_ids','in',[user.partner_id.id])]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="False"/>
             <field name="perm_unlink" eval="False"/>
@@ -87,7 +97,7 @@
                 ('partner_id', '=', user.partner_id.id),
                 ('project_id.customer_ids', 'in', [user.partner_id.id]),
                 ('project_id.partner_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
@@ -154,7 +164,7 @@
                 ('partner_id', 'in', user.partner_id.customer_project_ids.message_partner_ids.ids),
                 ('partner_id', 'in', user.partner_id.customer_task_ids.partner_id.ids),
                 ('partner_id', 'in', user.partner_id.customer_task_ids.user_ids.partner_id.ids)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_write" eval="False"/>
             <field name="perm_create" eval="False"/>
@@ -170,7 +180,7 @@
                 '&amp;', ('model', '=', 'project.project'), ('res_id', 'in', user.partner_id.customer_project_ids.ids),
                 '&amp;', ('model', '=', 'project.task'), ('res_id', 'in', user.partner_id.customer_task_ids.ids),
                 ('author_id', '=', user.partner_id.id)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
@@ -182,7 +192,7 @@
             <field name="name">mail.subtype: hide internal subtypes</field>
             <field name="model_id" ref="mail.model_mail_message_subtype"/>
             <field name="domain_force">[('internal', '=', False)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
@@ -194,7 +204,7 @@
             <field name="name">mail.compose: only own messages</field>
             <field name="model_id" ref="mail.model_mail_compose_message"/>
             <field name="domain_force">[('create_uid', '=', user.id)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_unlink" eval="True"/>
@@ -206,7 +216,7 @@
         <record model="ir.model.access" id="access_project_scrum_us_customer">
             <field name="name">project.scrum.us for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_us"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -216,7 +226,7 @@
         <record model="ir.model.access" id="access_project_scrum_sprint_customer">
             <field name="name">project.scrum.sprint for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_sprint"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -226,7 +236,7 @@
         <record model="ir.model.access" id="access_project_scrum_meeting_customer">
             <field name="name">project.scrum.meeting for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_meeting"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -236,7 +246,7 @@
         <record model="ir.model.access" id="access_project_scrum_actors_customer">
             <field name="name">project.scrum.actors for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_actors"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -246,7 +256,7 @@
         <record model="ir.model.access" id="access_project_scrum_tags_customer">
             <field name="name">project.scrum.tags for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_tags"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -256,7 +266,7 @@
         <record model="ir.model.access" id="access_project_scrum_test_customer">
             <field name="name">project.scrum.test for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_test"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -266,7 +276,7 @@
         <record model="ir.model.access" id="access_project_sprint_type_customer">
             <field name="name">project.sprint.type for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_sprint_type"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -276,7 +286,7 @@
         <record model="ir.model.access" id="access_project_scrum_business_process_customer">
             <field name="name">project.scrum.business.process for project customer</field>
             <field name="model_id" ref="project_scrum.model_project_scrum_business_process"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -286,7 +296,7 @@
         <record model="ir.model.access" id="access_related_ticket_lines_customer">
             <field name="name">related.ticket.lines for project customer</field>
             <field name="model_id" ref="project_scrum.model_related_ticket_lines"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -296,7 +306,7 @@
         <record model="ir.model.access" id="access_project_task_type_customer">
             <field name="name">project.task.type for project customer</field>
             <field name="model_id" ref="project.model_project_task_type"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">0</field>
             <field name="perm_create">0</field>
@@ -322,14 +332,14 @@
         <record model="ir.model.access" id="access_ir_model_customer">
             <field name="name">ir.model for project customer</field>
             <field name="model_id" ref="base.model_ir_model"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_model_fields_customer">
             <field name="name">ir.model.fields for project customer</field>
             <field name="model_id" ref="base.model_ir_model_fields"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
@@ -349,14 +359,14 @@
         <record model="ir.model.access" id="access_ir_model_fields_selection_customer">
             <field name="name">ir.model.fields.selection for project customer</field>
             <field name="model_id" ref="base.model_ir_model_fields_selection"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_model_access_customer">
             <field name="name">ir.model.access for project customer</field>
             <field name="model_id" ref="base.model_ir_model_access"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
@@ -364,28 +374,28 @@
         <record model="ir.model.access" id="access_ir_ui_view_customer">
             <field name="name">ir.ui.view for project customer</field>
             <field name="model_id" ref="base.model_ir_ui_view"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_ui_menu_customer">
             <field name="name">ir.ui.menu for project customer</field>
             <field name="model_id" ref="base.model_ir_ui_menu"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_actions_actions_customer">
             <field name="name">ir.actions.actions for project customer</field>
             <field name="model_id" ref="base.model_ir_actions_actions"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_actions_act_window_customer">
             <field name="name">ir.actions.act_window for project customer</field>
             <field name="model_id" ref="base.model_ir_actions_act_window"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
@@ -393,7 +403,7 @@
         <record model="ir.model.access" id="access_ir_filters_customer">
             <field name="name">ir.filters for project customer</field>
             <field name="model_id" ref="base.model_ir_filters"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
             <field name="perm_create">1</field>
@@ -404,42 +414,42 @@
         <record model="ir.model.access" id="access_ir_config_parameter_customer">
             <field name="name">ir.config_parameter for project customer</field>
             <field name="model_id" ref="base.model_ir_config_parameter"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_rule_customer">
             <field name="name">ir.rule for project customer</field>
             <field name="model_id" ref="base.model_ir_rule"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_ir_model_data_customer">
             <field name="name">ir.model.data for project customer</field>
             <field name="model_id" ref="base.model_ir_model_data"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_res_groups_customer">
             <field name="name">res.groups for project customer</field>
             <field name="model_id" ref="base.model_res_groups"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_res_lang_customer">
             <field name="name">res.lang for project customer</field>
             <field name="model_id" ref="base.model_res_lang"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_res_company_customer">
             <field name="name">res.company for project customer</field>
             <field name="model_id" ref="base.model_res_company"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
@@ -460,7 +470,7 @@
         <record model="ir.model.access" id="access_hr_department_customer">
             <field name="name">hr.department for project customer</field>
             <field name="model_id" ref="hr.model_hr_department"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
@@ -486,14 +496,14 @@
         <record model="ir.model.access" id="access_res_users_customer">
             <field name="name">res.users for project customer</field>
             <field name="model_id" ref="base.model_res_users"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
         </record>
 
         <record model="ir.model.access" id="access_res_currency_customer">
             <field name="name">res.currency for project customer</field>
             <field name="model_id" ref="base.model_res_currency"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
         </record>
@@ -514,7 +524,7 @@
         <record model="ir.model.access" id="access_res_partner_customer">
             <field name="name">res.partner for project customer</field>
             <field name="model_id" ref="base.model_res_partner"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_create">1</field>
             <field name="perm_write">0</field>
@@ -581,7 +591,7 @@
                 ('id', 'in', user.partner_id.customer_project_ids.message_partner_ids.ids),
                 ('id', 'in', user.partner_id.customer_task_ids.partner_id.ids),
                 ('id', 'in', user.partner_id.customer_task_ids.user_ids.partner_id.ids)]</field>
-            <field name="groups" eval="[(4, ref('customer_project_user.group_project_customer_user'))]"/>
+            <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
             <field name="perm_create" eval="True"/>
             <field name="perm_write" eval="False"/>
@@ -596,7 +606,7 @@
         <record model="ir.model.access" id="access_bus_bus_customer">
             <field name="name">bus.bus for project customer</field>
             <field name="model_id" ref="bus.model_bus_bus"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_create">1</field>
         </record>
@@ -605,7 +615,7 @@
         <record model="ir.model.access" id="access_mail_followers_customer">
             <field name="name">mail.followers for project customer</field>
             <field name="model_id" ref="mail.model_mail_followers"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
             <field name="perm_create">1</field>
@@ -614,7 +624,7 @@
         <record model="ir.model.access" id="access_mail_notification_customer">
             <field name="name">mail.notification for project customer</field>
             <field name="model_id" ref="mail.model_mail_notification"/>
-            <field name="group_id" ref="customer_project_user.group_project_customer_user"/>
+            <field name="group_id" ref="project_customer_user.group_project_customer_user"/>
             <field name="perm_read">1</field>
             <field name="perm_write">1</field>
             <field name="perm_create">1</field>

@@ -4,7 +4,7 @@ from odoo import api, models
 
 _logger = logging.getLogger(__name__)
 
-CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
+CUSTOMER_GROUP = 'project_customer_user.group_project_customer_user'
 
 # Landing action for Project Customer users.
 #
@@ -103,6 +103,6 @@ class ResUsers(models.Model):
             self.env['ir.rule']._deny_sync_customer_rules()
         except Exception:  # never break a user write
             _logger.exception(
-                "customer_project_user: deny layer sync failed after a "
+                "project_customer_user: deny layer sync failed after a "
                 "groups_id write"
             )
