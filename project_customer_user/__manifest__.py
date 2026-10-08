@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2022- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -20,19 +20,13 @@
 ##############################################################################
 
 {
-    'name': 'Project: Project Customer User',
-    'version': '18.0.1.1.0',
+    'name': 'Project: Customer Project User',
+    'version': '18.0.0.3.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
-    #
-    # 18.0.1.0.0 — module renamed from customer_project_user, and the chatter
-    # notification filter widened from a model-name allow-list to the
-    # customer's project scope. The version bump is what makes Odoo run
-    # migrations/18.0.1.0.0/post-rename_module.py, which re-points the module's
-    # ir.model.data rows so the existing group (and its memberships) survives.
     'summary': 'A user type for project customers.',
     'category': 'Project',
     'description': '''
-Project Customer User
+Customer Project User
 =====================
 
     A user type for project customers.
@@ -44,18 +38,13 @@ Project Customer User
         - Extends Odoo: Builds on project.project, project.task.
     ''',
     #'sequence': '1',
-    'author': 'Vertel AB',
-    'website': 'https://vertel.se/apps/odoo-project/project_customer_user',
+    'author': 'Vertel Sverige AB',
+    'website': 'https://vertel.se/apps/odoo-project/customer_project_user',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
     'contributor': '',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-project',
-    # NOTE: the technical name changed (customer_project_user ->
-    # project_customer_user). Odoo does not move ir.model.data rows when a
-    # module is renamed, so an installed database needs
-    # migrations/18.0.1.0.0/post-rename_module.py to run before this module's
-    # XML is loaded. See design.md D1/D2.
     # ~ 'depends': ['project', 'base', 'hr_timesheet', 'dms', 'contacts', 'portal', 'web', 'project_scrum', 'calendar', 'mail', 'sale_project', 'sale_timesheet'],
     'depends': ['project', 'base', 'hr_timesheet', 'mail', 'sale_project', 'sale_timesheet', 'web', 'project_scrum'],
     'data': [

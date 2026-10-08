@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2022- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2022- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -36,12 +36,12 @@ Task Timesheet Activities - Begin/End Hours
         - UI Integration: Extends 1 view(s) in the Odoo interface.
     ''',
     #'sequence': '1',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_timesheet_activity_begin_end',
     'images': ['static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
-    'contributor': 'Verified Email Europe AB, Hemangi Rupareliya, Vertel AB,',
-    'maintainer': 'Vertel AB',
+    'contributor': 'Verified Email Europe AB, Hemangi Rupareliya, Vertel Sverige AB,',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': [
         'hr_timesheet',

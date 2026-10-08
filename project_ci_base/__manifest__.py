@@ -37,7 +37,7 @@ Continuous integration Base
         - UI Integration: Extends 4 view(s) in the Odoo interface.
         - Extends Odoo: Builds on create_date, project.ci, project.ci.branch, project.ci.branch.line.
     ''',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ci_base',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

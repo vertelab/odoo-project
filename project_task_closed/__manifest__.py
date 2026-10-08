@@ -37,7 +37,7 @@ Task Close
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on project.task, project.task.type.
     ''',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_task_closed',
     'images': ['static/description/banner.png'], 
     'license': 'AGPL-3',

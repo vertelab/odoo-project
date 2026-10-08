@@ -15,7 +15,7 @@ AI Coworkers
         - Extends Odoo: Builds on ai.coworker, ai.coworker.session, project.project, project.task.
     ''',
     'category': 'Project',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ai',
     'license': 'AGPL-3',
     'depends': [

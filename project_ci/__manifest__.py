@@ -38,7 +38,7 @@ Continuous integration
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on project.project.
     ''',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ci',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

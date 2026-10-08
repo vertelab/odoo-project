@@ -2,7 +2,7 @@
 ##############################################################################
 #
 #    Odoo SA, Open Source Management Solution, third party addon
-#    Copyright (C) 2024- Vertel AB (<https://vertel.se>).
+#    Copyright (C) 2024- Vertel Sverige AB (<https://vertel.se>).
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as
@@ -24,11 +24,11 @@
     # Version ledger: 18.0 = Odoo version. 1 = Major. 1 = Minor (new features). 0 = Bug fixes
     'summary': "Create a payment from a task, for the person who should be compensated.",
     'category': 'Project',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': "https://vertel.se/apps/odoo-project/project_task_payment",
     'images': ['/static/description/banner.png'], # 560x280 px.
     'license': 'AGPL-3',
-    'maintainer': 'Vertel AB',
+    'maintainer': 'Vertel Sverige AB',
     'repository': 'https://github.com/vertelab/odoo-project',
     'description': '''
 Task Payment
