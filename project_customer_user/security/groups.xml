@@ -188,17 +188,89 @@
             <field name="global" eval="False"/>
         </record>
 
-        <record id="group_mail_message_subtype_project_customer_rule" model="ir.rule">
-            <field name="name">mail.subtype: hide internal subtypes</field>
-            <field name="model_id" ref="mail.model_mail_message_subtype"/>
-            <field name="domain_force">[('internal', '=', False)]</field>
+        <!--
+            mail.message.subtype: NO restriction.
+
+            This rule used to force [('internal', '=', False)], on the theory
+            that a customer should not see internal notes. It had to go
+            (operator decision, 2026-10-08) because it broke the chatter
+            entirely rather than hiding anything.
+
+            Why: the chatter reads `subtype_id` to render EVERY message, not
+            just internal ones. Denying the internal subtypes therefore made
+            every message carrying them unrenderable. Measured on
+            ledningssystem 2026-10-08 on the test task:
+
+                messages readable by ACL:  3 of 7
+                of those, renderable:      0 of 3
+
+            All three were blocked because their subtype was `Note` (id 2,
+            internal = t) — a subtype used by 822 ordinary comments and
+            57 000+ notifications in this database. The customer saw an empty
+            chatter, including their own messages.
+
+            The operator's rule: inside a project they are shared on, the
+            customer sees everything on project.project and project.task.
+            What must stay protected is time data, not chatter — see the
+            account.analytic.line rule below.
+        -->
+
+        <!--
+            account.analytic.line: only time entries on the customer's own
+            projects.
+
+            The deny layer whitelists this model with the comment "the customer
+            legitimately reads the ones on their own tasks" — but no record
+            rule ever bounded it to those. Measured on ledningssystem
+            2026-10-08, the test customer could read 121 time entries belonging
+            to two other users across 13 projects they are not shared on. The
+            only applicable rule was the global multi-company one; the customer
+            holds none of the stock timesheet group rules.
+
+            This rule supplies the missing boundary. It mirrors
+            customer_task_domain(): entries on a project the partner is shared
+            on (partner_id or customer_ids). Entries on the customer's own
+            projects stay readable, which is the same exposure a regular
+            project user has.
+
+            Note the deliberate absence of a `user_id = user.id` term: the
+            customer has no hr.employee record and records no time of their
+            own, so scoping by user would return nothing and hide the entries
+            on their own tasks.
+        -->
+        <record id="customer_read_own_analytic_lines" model="ir.rule">
+            <field name="name">account.analytic.line: only own customer projects</field>
+            <field name="model_id" ref="analytic.model_account_analytic_line"/>
+            <field name="domain_force">['|',
+                ('project_id.partner_id', '=', user.partner_id.id),
+                ('project_id.customer_ids', 'in', [user.partner_id.id])]</field>
             <field name="groups" eval="[(4, ref('project_customer_user.group_project_customer_user'))]"/>
             <field name="perm_read" eval="True"/>
-            <field name="perm_create" eval="True"/>
-            <field name="perm_unlink" eval="True"/>
-            <field name="perm_write" eval="True"/>
+            <field name="perm_write" eval="False"/>
+            <field name="perm_create" eval="False"/>
+            <field name="perm_unlink" eval="False"/>
             <field name="global" eval="False"/>
         </record>
+
+        <!--
+            hr_timesheet.sheet: deny outright.
+
+            This is the timesheet *header* — one per employee per week. A
+            Project Customer has no timesheet of their own (none of them has an
+            hr.employee record) and must not see anyone else's. It is
+            deliberately NOT in the deny layer's ALLOWED_MODELS, so the deny
+            layer already covers it; this rule is belt-and-braces for the case
+            where the model is reached through a relation rather than a search.
+
+            The operator's rule: "så länge dom inte läggs till som följare på
+            tidsrapporter är det lugnt".
+
+            NOTE: hr_timesheet_sheet is an OCA module and is NOT a dependency
+            of this one, so the record is created in Python rather than as XML.
+            A hard `ref` here would make the module fail to install on any
+            instance that does not have the OCA addon. See
+            models/ir_rule.py::_ensure_timesheet_sheet_rule().
+        -->
 
         <record id="group_compose_message_project_customer_rule" model="ir.rule">
             <field name="name">mail.compose: only own messages</field>

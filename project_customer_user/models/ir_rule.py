@@ -328,6 +328,57 @@ class IrRule(models.Model):
         return self.env.ref(CUSTOMER_GROUP, raise_if_not_found=False)
 
     @api.model
+    def _ensure_timesheet_sheet_rule(self):
+        """Deny hr.timesheet.sheet to customers, if the OCA addon is present.
+
+        Created here rather than in security/groups.xml because
+        ``hr_timesheet_sheet`` is an OCA module and is NOT a dependency of this
+        one. A hard ``ref`` in the XML would make this module fail to install
+        on any instance that does not ship the OCA addon.
+
+        The timesheet header is one row per employee per week. A Project
+        Customer has no timesheet of their own (none of them has an
+        hr.employee record) and must not see anyone else's. The operator's
+        rule, 2026-10-08: "så länge dom inte läggs till som följare på
+        tidsrapporter är det lugnt".
+
+        Idempotent: creates the rule once, then leaves it alone.
+        """
+        if "hr.timesheet.sheet" not in self.env:
+            return
+        customer_group = self._deny_customer_group()
+        if not customer_group:
+            return
+        name = "hr.timesheet.sheet: never visible to customers"
+        existing = self.sudo().search(
+            [("name", "=", name), ("model_id.model", "=", "hr.timesheet.sheet")],
+            limit=1,
+        )
+        if existing:
+            return
+        model = self.env["ir.model"].sudo().search(
+            [("model", "=", "hr.timesheet.sheet")], limit=1
+        )
+        if not model or not self.env["hr.timesheet.sheet"]._table:
+            return
+        self.sudo().create(
+            {
+                "name": name,
+                "model_id": model.id,
+                "domain_force": "[(0, '=', 1)]",
+                "groups": [(4, customer_group.id)],
+                "perm_read": True,
+                "perm_write": True,
+                "perm_create": True,
+                "perm_unlink": True,
+                "global": False,
+            }
+        )
+        _logger.info(
+            "project_customer_user: created the hr.timesheet.sheet deny rule"
+        )
+
+    @api.model
     def _deny_models_to_cover(self, customer_group):
         """Every model a Project Customer can currently reach, minus the
         whitelist.
@@ -368,6 +419,7 @@ class IrRule(models.Model):
     @api.model
     def _deny_sync_customer_rules(self):
         """Make the deny rules match the whitelist. Idempotent."""
+        self._ensure_timesheet_sheet_rule()
         customer_group = self._deny_customer_group()
         if not customer_group:
             _logger.warning(

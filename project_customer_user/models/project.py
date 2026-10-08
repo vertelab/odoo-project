@@ -84,9 +84,11 @@ class ResPartner(models.Model):
         string="Customer projects",
         compute="_compute_customer_project_ids",
     )
-    customer_task_ids = fields.One2many(
+    customer_task_ids = fields.Many2many(
         comodel_name="project.task",
-        inverse_name="partner_id",
+        relation="project_task_res_partner_customer_rel",
+        column1="res_partner_id",
+        column2="project_task_id",
         string="Customer tasks",
         compute="_compute_customer_task_ids",
     )
@@ -103,10 +105,30 @@ class ResPartner(models.Model):
             )
 
     def _compute_customer_task_ids(self):
+        """Tasks of the projects this partner is shared on (design D7, alt A).
+
+        The scope is the *project*, not the task's own ``partner_id``.
+
+        Why (measured on ledningssystem 2026-10-08): the previous version
+        searched ``[("partner_id", "=", partner.id)]``, but no task on the test
+        project has a ``partner_id`` — they carry ``user_ids`` instead. So this
+        field was always empty, the ``mail.message`` record rule's task branch
+        matched nothing, and the customer saw only messages they had authored
+        themselves (3 of 7 on the test task). The chatter looked broken: other
+        users' messages simply never appeared.
+
+        Using the project scope makes this agree with ``customer_task_domain()``
+        below and with the ``project.project`` record rule, so a task reachable
+        through the project list is always reachable through the message rules.
+        """
         Task = self.env["project.task"].sudo()
         for partner in self:
             partner.customer_task_ids = Task.search(
-                [("partner_id", "=", partner.id)]
+                [
+                    "|",
+                    ("project_id.partner_id", "=", partner.id),
+                    ("project_id.customer_ids", "in", [partner.id]),
+                ]
             )
 
 
