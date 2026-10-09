@@ -1,21 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!--
+        AI-flikar på projektuppgiften.
+
+        AI Plan-fliken syns bara för projektanvändare/-ledare — INTE för
+        kunder (project_customer_user.group_project_customer_user). Kunden
+        är internal user (beslut 2026-10-03), så groups="base.group_user"
+        räcker inte; kundgruppen implicerar medvetet inte
+        project.group_project_user (se project_customer_user/security/groups.xml).
+
+        Knappen "Generera AI-plan" togs bort 2026-10-09 (T/12020): planen
+        skapas i dialog enligt skill_ai_plan_workflow, inte automatiskt.
+    -->
     <record id="view_task_ai_plan_form" model="ir.ui.view">
         <field name="name">project.task.ai.plan.form</field>
         <field name="model">project.task</field>
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <page name="description_page" position="after">
-                <page name="ai_plan" string="AI Plan">
+                <page name="ai_plan" string="AI Plan"
+                      groups="project.group_project_manager,project.group_project_user">
                     <group>
-                        <button name="action_generate_ai_plan" type="object"
-                                string="🤖 Generera AI-plan" class="btn-primary"/>
                         <field name="ai_plan" nolabel="1" placeholder="AI-generated implementation plan..."/>
                     </group>
                 </page>
-                <page name="ai_usecase" string="AI Use Case">
+                <page name="ai_usecase" string="Use Case">
                     <group>
-                        <field name="ai_usecase" nolabel="1" placeholder="AI-generated use case description..."/>
+                        <field name="ai_usecase" nolabel="1" placeholder="Use case: function and manual tests..."/>
                     </group>
                     <group string="Mermaid Diagram">
                         <field name="ai_usecase_mermaid" widget="mermaid" nolabel="1"/>

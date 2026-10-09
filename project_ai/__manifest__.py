@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project: AI Coworkers',
-    'version': '18.0.3.0.1',
+    'version': '18.0.4.0.0',
     'summary': 'AI coworkers for project management — Task Manager + Project Planner.',
     'description': '''
 AI Coworkers

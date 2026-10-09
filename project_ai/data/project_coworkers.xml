@@ -1,30 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <!-- Project Task Manager (UF1 — Pi via OpenAI API, drift-ai-coworkers 1.1) -->
+    <!-- ════════════════════════════════════════════════════════════════
+         Project — projektmedarbetare (UF1, drift-ai-coworkers 1.1)
+
+         xmlid: coworker_project_task_manager (behålls för att inte bryta
+         referenser i init_type/agent-länkar). Namnet är "Project" sedan
+         2026-10-09 (T/12020) — den FUNKTIONELLA identiteten. Den
+         PERSONLIGA identiteten (hr.employee/res.users/res.partner) ägs av
+         modulen ai_agent_core_vertel: Nils Nord, Programmerare.
+         ════════════════════════════════════════════════════════════════ -->
 
     <record id="coworker_project_task_manager" model="ai.coworker">
-        <field name="name">Project Task Manager</field>
-        <field name="sub_description">Hantera projektuppgifter: status, etapper, modulkoppling</field>
+        <field name="name">Project</field>
+        <field name="sub_description">Projektmedarbetare — uppgifter, planer, sprintar och Odoo-expertis</field>
         <field name="description">
-Du är Project Task Manager — en AI-coworker som hjälper teamet att
-hantera projektuppgifter (project.task) i Odoo.
+Du är Project — en AI-medarbetare som hjälper teamet med projekt och
+projektuppgifter (project.task) i Odoo.
 
-Förmågor:
-- task_get: hämta information om en uppgift (id, namn, projekt, etapp,
-  tilldelade, deadline, prioritet, status, beskrivning)
-- task_set_status: ändra status/etapp på en uppgift. Giltiga statusar:
-  analysis, design, ongoing, test, done, cancelled. Etappen hittas
-  dynamiskt bland projektets egna etapper.
-- task_link_module: koppla uppgiften till en AI-modul/användningsfall
-  (skriver ai_plan/ai_usecase-fälten)
+Förmågor (generiska Odoo-verktyg):
+- odoo_search / odoo_read / odoo_count: sök, läs och räkna poster
+- odoo_create / odoo_write: skapa och uppdatera poster
+- odoo_call_method: kör affärsflöden (action_*/button_*)
+- describe_model: läs en modells schema innan du skriver
+- okf_search: sök kunskap (processer, kontext)
+
+Förmågor (projektgenvägar):
+- task_get: hämta en uppgift (id, namn, projekt, etapp, tilldelade,
+  deadline, prioritet, status, beskrivning)
+- task_set_status: ändra etapp. Giltiga statusar: analysis, design,
+  ongoing, test, done, cancelled. Etappen hittas dynamiskt bland
+  projektets egna etapper.
 - task_update_fields: uppdatera beskrivning och/eller prioritet
 
 Arbetsregler:
-1. Använd ALLTID task_get först för att verifiera att uppgiften finns.
-2. Skrivåtgärder (task_set_status, task_link_module, task_update_fields)
-   går igenom OpenWorker-gaten och kräver godkännande vid högre risk.
-3. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
-4. Vid oklar status — fråga användaren istället för att gissa.
+1. Verifiera ALLTID att uppgiften finns innan du ändrar den.
+2. Följ din AI-plan-skill: läs T-numret, komplettera beskrivningen,
+   föreslå en plan, dokumentera funktion och manuella tester.
+3. Fråga istället för att gissa — särskilt vid oklar status.
+4. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
 5. Följ din Cost Context-skill: alla sessioner är kostnadsbärande —
    fråga efter projekt (eller kund) en gång om kostnadskontext saknas.
         </field>
@@ -43,19 +56,19 @@ Arbetsregler:
         <field name="tool_ids" eval="[(6, 0, [
             ref('project_ai.tool_task_get'),
             ref('project_ai.tool_task_set_status'),
-            ref('project_ai.tool_task_link_module'),
             ref('project_ai.tool_task_update_fields'),
             ref('project_ai.tool_cost_context_get'),
             ref('project_ai.tool_cost_context_set'),
         ])]"/>
         <field name="skill_ids" eval="[(6, 0, [
             ref('project_ai.skill_cost_context'),
+            ref('project_ai.skill_ai_plan_workflow'),
         ])]"/>
         <field name="example_prompts">
-- "Vad är status på uppgift 123?"
-- "Sätt uppgift 123 till pågående"
-- "Koppla uppgift 45 till modulen marketing_ai: automatisk inläggsgenerering"
-- "Uppdatera prioriteten på uppgift 67 till hög"
+- "Visa T/12020"
+- "Föreslå en AI-plan för T/12020"
+- "Sätt T/12020 till pågående"
+- "Vilka uppgifter är försenade i projekt X?"
         </field>
         <field name="heartbeat_enabled">True</field>
     </record>
@@ -72,26 +85,22 @@ Arbetsregler:
         <field name="rate_limit_rpm">30</field>
         <field name="rate_limit_tpm">100000</field>
         <field name="pi_instruction">
-Du pratar med Project Task Manager — en AI-coworker som hanterar
-projektuppgifter (project.task) i Odoo.
+Du pratar med Project — en AI-medarbetare som hanterar projekt och
+projektuppgifter (project.task) i Odoo. Personen bakom heter Nils Nord
+(programmerare).
 
 Arbetsregler:
-1. Be coworkern använda task_get först för att verifiera att uppgiften
-   finns innan statusändringar.
-2. Skrivåtgärder (task_set_status, task_link_module,
-   task_update_fields, cost_context_set) kräver godkännande —
-   svara på coworkerns frågor när de dyker upp.
-3. Fråga efter projekt (kostnadskontext) en gång per session om det
+1. Be coworkern verifiera att uppgiften finns (via T-numret) innan
+   statusändringar.
+2. Skrivåtgärder (odoo_write, odoo_create, odoo_call_method,
+   task_set_status, task_update_fields, cost_context_set) kräver
+   godkännande — svara på coworkerns frågor när de dyker upp.
+3. Följ AI-plan-arbetsflödet: komplettera beskrivningen, föreslå en plan,
+   dokumentera funktion och manuella tester.
+4. Fråga efter projekt (kostnadskontext) en gång per session om det
    saknas — svara med projektet eller kunden.
         </field>
     </record>
-
-    <!-- ════════════════════════════════════════════════════════════
-         Project Planner — merged from project_ai_plan + odoo expertise.
-         Conversational project/sprint/task coach with Odoo deep knowledge.
-         Uses ai_plan / ai_usecase / ai_usecase_mermaid fields for notes.
-         ════════════════════════════════════════════════════════════ -->
-
     <record id="coworker_project_planner" model="ai.coworker">
         <field name="name">Project Planner</field>
         <field name="sub_description">Projektcoach — planering, sprintar, tasks och Odoo-expertis</field>

@@ -1,0 +1,244 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* project_ai
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0-20260701\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2026-10-09 10:01+0000\n"
+"PO-Revision-Date: 2026-10-09 10:01+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: project_ai
+#: model:ir.model,name:project_ai.model_ai_coworker
+msgid "AI Medarbetare"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_task__ai_plan
+#: model_terms:ir.ui.view,arch_db:project_ai.view_task_ai_plan_form
+msgid "AI Plan"
+msgstr "AI-plan"
+
+#. module: project_ai
+#: model:ir.model,name:project_ai.model_ai_coworker_session
+msgid "AI Session"
+msgstr ""
+
+#. module: project_ai
+#: model_terms:ir.ui.view,arch_db:project_ai.view_task_ai_plan_form
+msgid "AI-generated implementation plan..."
+msgstr ""
+
+#. module: project_ai
+#: model_terms:ir.actions.act_window,help:project_ai.action_ai_session_cost_pivot
+msgid ""
+"AI-kostnader per kund och projekt — aggregerade tokens från\n"
+"                sessionerna."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.actions.act_window,name:project_ai.action_ai_session_cost_pivot
+#: model:ir.ui.menu,name:project_ai.menu_ai_session_cost_pivot
+#: model_terms:ir.ui.view,arch_db:project_ai.view_ai_session_pivot
+msgid "AI-kostnadsuppföljning"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__ai_session_count
+#: model:ir.model.fields,field_description:project_ai.field_res_partner__ai_session_count
+#: model:ir.model.fields,field_description:project_ai.field_res_users__ai_session_count
+#: model_terms:ir.ui.view,arch_db:project_ai.view_project_project_form_ai_sessions
+#: model_terms:ir.ui.view,arch_db:project_ai.view_res_partner_form_ai_sessions
+msgid "AI-sessioner"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__ai_token_total
+#: model:ir.model.fields,field_description:project_ai.field_res_partner__ai_token_total
+#: model:ir.model.fields,field_description:project_ai.field_res_users__ai_token_total
+msgid "AI-tokens"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__ai_session_count
+msgid "Antal AI-sessioner som belastar detta projekt."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_res_partner__ai_session_count
+#: model:ir.model.fields,help:project_ai.field_res_users__ai_session_count
+msgid "Antal AI-sessioner som belastar kunden."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model,name:project_ai.model_res_partner
+msgid "Contact"
+msgstr "Kontakt"
+
+#. module: project_ai
+#: model_terms:ir.ui.view,arch_db:project_ai.view_ai_session_form_project
+msgid "Kostnadskontext"
+msgstr ""
+
+#. module: project_ai
+#: model_terms:ir.ui.view,arch_db:project_ai.view_task_ai_plan_form
+msgid "Mermaid Diagram"
+msgstr "Mermaid-diagram"
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__okf_indexed_at
+#: model:ir.model.fields,help:project_ai.field_project_task__okf_indexed_at
+msgid "När OKF-fälten senast genererades."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.actions.server,name:project_ai.action_okf_project_project
+#: model:ir.actions.server,name:project_ai.action_okf_project_task
+msgid "OKF"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_body
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_body
+msgid "OKF Body"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_dirty
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_dirty
+msgid "OKF Dirty"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_indexed_at
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_indexed_at
+msgid "OKF Indexed At"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_links
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_links
+msgid "OKF Links"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_summary
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_summary
+msgid "OKF Summary"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_project__okf_tags
+#: model:ir.model.fields,field_description:project_ai.field_project_task__okf_tags
+msgid "OKF Tags"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__okf_links
+#: model:ir.model.fields,help:project_ai.field_project_task__okf_links
+msgid ""
+"OKF:ns [[länkar]] — referenser till andra poster, som \"res.partner,10\". "
+"Otypade (OKF §6.1): relationen bor i okf_body, inte i länken. Trasiga länkar"
+" är tillåtna — målet kanske ännu inte har ett koncept."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__okf_body
+#: model:ir.model.fields,help:project_ai.field_project_task__okf_body
+msgid ""
+"OKF:ns body — modellens hela text (name, description, notes, arch_db ...). "
+"Materialet, inte det som söks. Fylls av modellens _okf_body_source()."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__okf_summary
+#: model:ir.model.fields,help:project_ai.field_project_task__okf_summary
+msgid ""
+"OKF:ns description — det tunna konceptet som embeddas och söks. Hålls inom "
+"den konfigurerade gränsen (ai_agent_core.okf_summary_max_chars, default "
+"2000)."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model,name:project_ai.model_project_project
+msgid "Project"
+msgstr "Projekt"
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_ai_coworker_session__project_id
+#: model_terms:ir.ui.view,arch_db:project_ai.view_ai_session_search_project
+msgid "Projekt"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_ai_coworker_session__project_id
+msgid ""
+"Projekt som sessionens kostnad belastar. Sätts via task-verktyg, chat-"
+"kontext eller cost_context_set."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__okf_dirty
+#: model:ir.model.fields,help:project_ai.field_project_task__okf_dirty
+msgid ""
+"Satt när OKF-fälten är inaktuella och måste genereras om. Sätts av "
+"create()/write(), rensas av indexeraren."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model,name:project_ai.model_project_task
+msgid "Task"
+msgstr "Uppgift"
+
+#. module: project_ai
+#: model_terms:ir.ui.view,arch_db:project_ai.view_project_project_form_ai_sessions
+#: model_terms:ir.ui.view,arch_db:project_ai.view_res_partner_form_ai_sessions
+msgid "Tokens"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_res_partner__ai_token_total
+#: model:ir.model.fields,help:project_ai.field_res_users__ai_token_total
+msgid "Totala tokens (input+output) för AI-sessionerna på kunden."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_project_project__ai_token_total
+msgid "Totala tokens (input+output) för AI-sessionerna på projektet."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_ai_coworker_session__task_id
+#: model_terms:ir.ui.view,arch_db:project_ai.view_ai_session_search_project
+msgid "Uppgift"
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,help:project_ai.field_ai_coworker_session__task_id
+msgid ""
+"Uppgift (project.task) som sessionen arbetar med. Projekt och kund härleds "
+"indirekt via uppgiften."
+msgstr ""
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_task__ai_usecase
+#: model_terms:ir.ui.view,arch_db:project_ai.view_task_ai_plan_form
+msgid "Use Case"
+msgstr "Användarfall"
+
+#. module: project_ai
+#: model:ir.model.fields,field_description:project_ai.field_project_task__ai_usecase_mermaid
+msgid "Use Case Mermaid"
+msgstr "Användarfall Mermaid"
+
+#. module: project_ai
+#: model_terms:ir.ui.view,arch_db:project_ai.view_task_ai_plan_form
+msgid "Use case: function and manual tests..."
+msgstr ""

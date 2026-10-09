@@ -31,31 +31,6 @@ async def execute(task_id, status):
 ]]></field>
     </record>
 
-    <record id="tool_task_link_module" model="ai.tool">
-        <field name="name">task_link_module</field>
-        <field name="description">Koppla en projektuppgift till en AI-modul/användningsfall genom att skriva ai_plan och ai_usecase-fälten på project.task (finns i project_ai_plan).</field>
-        <field name="parameters">{"type": "object", "properties": {"task_id": {"type": "integer", "description": "ID för project.task"}, "module_name": {"type": "string", "description": "modulnamn (t.ex. marketing_ai)"}, "usecase": {"type": "string", "description": "kort beskrivning av AI-användningsfallet"}}, "required": ["task_id", "module_name", "usecase"]}</field>
-        <field name="risk_level">write</field>
-        <field name="code"><![CDATA[
-async def execute(task_id, module_name, usecase):
-    """Länka modul + use case till task (om fälten finns)."""
-    task = env['project.task'].sudo().browse(int(task_id))
-    if not task.exists():
-        return 'Task %s not found' % task_id
-    vals = {}
-    if 'ai_plan' in task._fields:
-        vals['ai_plan'] = 'Modul: %s\n\n%s' % (module_name, usecase)
-    if 'ai_usecase' in task._fields:
-        vals['ai_usecase'] = '<p>%s — <b>%s</b></p>' % (usecase, module_name)
-    if not vals:
-        return 'ai_plan/ai_usecase-fält saknas (installera project_ai_plan)'
-    task.write(vals)
-    # Kostnadskontext (5.4)
-    env['ai.coworker']._capture_session_from_task(task.id)
-    return 'Task %s kopplad till modul %s' % (task.name, module_name)
-]]></field>
-    </record>
-
     <record id="tool_task_update_fields" model="ai.tool">
         <field name="name">task_update_fields</field>
         <field name="description">Uppdatera beskrivning och/eller prioritet på en projektuppgift (project.task). Endast dessa två fält — övriga förändringar kräver manuell hantering.</field>

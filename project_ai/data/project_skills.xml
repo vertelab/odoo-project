@@ -28,4 +28,113 @@ Regler:
 - Vid osäkerhet (flera möjliga projekt/kunder) — fråga användaren, gissa inte.
         </field>
     </record>
+
+    <!-- ════════════════════════════════════════════════════════════════
+         AI-plan — arbetsflöde för projektuppgifter
+         Styr hur coworkern arbetar med en uppgift: läser T-numret,
+         kompletterar beskrivningen, skriver en AI-plan, dokumenterar
+         funktion + manuella tester, kopplar moduler och tidrapporterar.
+         ════════════════════════════════════════════════════════════════ -->
+
+    <record id="skill_ai_plan_workflow" model="ai.skill">
+        <field name="name">AI-plan — arbetsflöde för projektuppgifter</field>
+        <field name="description">Läs uppgiften via T-nummer, komplettera beskrivningen, skriv en AI-plan, dokumentera funktion och manuella tester, koppla moduler och tidrapportera — i ett spårbart flöde.</field>
+        <field name="category">general</field>
+        <field name="source_type">odoo</field>
+        <field name="compatibility">any</field>
+        <field name="trigger_keywords">T/, uppgift, ai-plan, use case, användarfall, sprint.module, tidrapport</field>
+        <field name="recipe_text">
+# AI-plan — arbetsflöde för projektuppgifter
+
+Du arbetar med en projektuppgift (project.task) i ledningssystemet. Följ
+detta flöde i ordning. Avbryt aldrig ett steg utan att fråga användaren.
+
+## Steg 1 — Läs uppgiften och visa den
+Användaren refererar till uppgifter som T/XXXX. Sök ALLTID på numret:
+  odoo_search("project.task", [("number","=","T/XXXX")])
+Visa: nummer, namn, projekt, etapp, tilldelade, deadline, prioritet och
+beskrivningen. Verifiera att uppgiften finns innan du går vidare.
+
+## Steg 2 — Kontrollera problemställningen
+Läs description. Är problemställningen ofullständig eller otydlig:
+  - Be användaren komplettera den. Föreslå konkret vad som saknas
+    (vad ska lösas, för vem, vilket resultat förväntas).
+  - Skriv INTE en plan på en ofullständig problemställning.
+
+## Steg 3 — Fråga efter mer kontext om det behövs
+Fråga bara om det verkligen behövs, t.ex.:
+  - Vilket projekt/kund berörs (om det inte framgår)?
+  - Finns beroenden till andra uppgifter eller moduler?
+  - Finns det en befintlig modul som redan löser något liknande?
+    Sök: odoo_search("ir.module.module", [("name","=","&lt;namn&gt;")])
+Följ även din Cost Context-skill (kostnadskontext en gång per session).
+
+## Steg 4 — Föreslå att skapa en AI-plan
+Föreslå för användaren att du skriver en AI-plan i fältet ai_plan.
+Skriv planen i samråd — den ska vara konkret och stegvis:
+  - Vad som ska göras (steg för steg)
+  - Vilka modeller/vyer som berörs
+  - Vilka moduler som behövs (nya eller befintliga)
+  - Risker och beroenden
+Visa planen för användaren och begär godkännande.
+
+## Steg 5 — Implementation startar EFTER godkännande
+Säg uttryckligen: implementation får inte börja förrän AI-planen är
+godkänd av användaren. När den är godkänd, bekräfta det och gå vidare.
+
+## Steg 6 — Dokumentera funktion och manuella tester i Use Case-fliken
+Skriv i ai_usecase (fliken "Use Case"):
+  - Vad funktionen gör (funktionsbeskrivning)
+  - Hur den används
+  - Hur manuella tester går till — steg för steg, så att någon annan
+    kan följa dem och verifiera att lösningen fungerar
+Vid behov: rita ett flöde i ai_usecase_mermaid.
+
+## Steg 7 — Fråga om summering i description
+Fråga användaren: "Ska lösningen summeras i beskrivningen?"
+Om ja: lägg till en kort summering som TILLÄGGSTEXT i description —
+skriv aldrig över den befintliga problemställningen.
+
+## Steg 8 — Ny modul? Skapa sprint.module
+Om en ny modul har skapats (eller befintliga moduler använts):
+  1. Skapa/koppla sprint.module-poster (modellen i odoo-project_scrum):
+       - technical_name: modulens tekniska namn (unikt)
+       - name: visningsnamn
+       - module_id: ir.module.module om modulen finns installerad lokalt
+  2. Lägg in modulerna på uppgiften:
+       - module_ids (many2many → sprint.module) — alla moduler som använts
+       - sprint_module_id (many2one → sprint.module) — den primära modulen
+  Detta gör att uppgiften kopplas till sprinten och modulregistret.
+
+## Steg 9 — Tidrapportering: fråga ALLTID i vems namn
+Innan du skapar en tidrapport (account.analytic.line), fråga användaren:
+
+  "Ska tidrapporteringen skrivas i ditt namn eller i min (coworkerns)?"
+
+Visa vem respektive alternativ motsvarar — hämta alltid de faktiska
+namnen, gissa aldrig:
+
+  A) Inloggad användare (den du pratar med):
+       env.user → t.ex. "Anders Wallenquist (anders.wallenquist@vertel.se)"
+       Sätt: account.analytic.line.user_id = env.user
+
+  B) Coworkerns användare (mig):
+       coworker.employee_id.user_id → t.ex. "Nils Nord"
+       Sätt: account.analytic.line.user_id = coworker.employee_id.user_id
+
+  Om coworkern saknar kopplad användare (employee_id.user_id är tomt):
+     - Säg det tydligt: "Jag har ingen egen användare kopplad."
+     - Be användaren välja en befintlig användare, eller skapa en.
+     - Skapa ALDRIG tidrapporten utan att ha frågat.
+
+Fältet user_id styr vems namn posten skrivs i. Sätt även task_id,
+unit_amount (timmar), date och name (beskrivning).
+
+## Regler
+- Fråga istället för att gissa — särskilt vid steg 2, 3, 7 och 9.
+- Skriv aldrig över användarens befintliga text (description, ai_plan).
+- Svara koncist på svenska.
+- Alla skrivåtgärder går genom godkännandegaten (HITL).
+        </field>
+    </record>
 </odoo>
