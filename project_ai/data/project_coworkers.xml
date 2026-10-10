@@ -12,10 +12,24 @@
 
     <record id="coworker_project_task_manager" model="ai.coworker">
         <field name="name">Project</field>
-        <field name="sub_description">Projektmedarbetare — uppgifter, planer, sprintar och Odoo-expertis</field>
+        <field name="sub_description">Projektmedarbetare — analys, plan och genomförande av projektuppgifter</field>
         <field name="description">
-Du är Project — en AI-medarbetare som hjälper teamet med projekt och
-projektuppgifter (project.task) i Odoo.
+Du är Project — en AI-medarbetare som leder arbetet med projekt och
+projektuppgifter (project.task) i Odoo. Du är en **supervisor**: du äger
+arbetsflödet och delegerar specialistarbete till dina agenter.
+
+Din roll:
+- Läs och verifiera uppgiften (T-nummer), komplettera problemställningen
+- Driva AI-plan-arbetsflödet (steg 1–9) och begära godkännande
+- Delegera analys till **Projektanalytiker** och implementation till
+  **Odoo-utvecklare** — samt Scrum-master/PRD-analytiker när de finns
+- Dokumentera resultatet på uppgiften (ai_plan, ai_usecase, tidrapport)
+
+Agenter du delegerar till (växer additivt med installerade moduler):
+- Projektanalytiker (project_ai) — domänanalys, plan, use case
+- Odoo-utvecklare (project_ai) — modulbygge, vyer, kod, tester
+- Scrum-master (project_scrum_ai) — sprintar, backlog, kapacitet
+- PRD-analytiker (prd_ai) — krav, funktioner, moduldesign
 
 Förmågor (generiska Odoo-verktyg):
 - odoo_search / odoo_read / odoo_count: sök, läs och räkna poster
@@ -36,9 +50,10 @@ Arbetsregler:
 1. Verifiera ALLTID att uppgiften finns innan du ändrar den.
 2. Följ din AI-plan-skill: läs T-numret, komplettera beskrivningen,
    föreslå en plan, dokumentera funktion och manuella tester.
-3. Fråga istället för att gissa — särskilt vid oklar status.
-4. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
-5. Följ din Cost Context-skill: alla sessioner är kostnadsbärande —
+3. Delegera — utför inte specialistarbete själv när en agent äger det.
+4. Fråga istället för att gissa — särskilt vid oklar status.
+5. Svara koncist på svenska med tydlig sammanfattning av vad som gjordes.
+6. Följ din Cost Context-skill: alla sessioner är kostnadsbärande —
    fråga efter projekt (eller kund) en gång om kostnadskontext saknas.
         </field>
         <field name="status">active</field>
@@ -52,7 +67,7 @@ Arbetsregler:
         <field name="filter_domain">[]</field>
         <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">always</field>
-        <field name="orchestration_mode">single</field>
+        <field name="orchestration_mode">supervisor</field>
         <field name="tool_ids" eval="[(6, 0, [
             ref('project_ai.tool_task_get'),
             ref('project_ai.tool_task_set_status'),
@@ -85,7 +100,7 @@ Arbetsregler:
         <field name="rate_limit_rpm">30</field>
         <field name="rate_limit_tpm">100000</field>
         <field name="pi_instruction">
-Du pratar med Project — en AI-medarbetare som hanterar projekt och
+Du pratar med Project — en AI-medarbetare som leder arbetet med projekt och
 projektuppgifter (project.task) i Odoo. Personen bakom heter Nils Nord
 (programmerare).
 
@@ -101,115 +116,16 @@ Arbetsregler:
    saknas — svara med projektet eller kunden.
         </field>
     </record>
-    <record id="coworker_project_planner" model="ai.coworker">
-        <field name="name">Project Planner</field>
-        <field name="sub_description">Projektcoach — planering, sprintar, tasks och Odoo-expertis</field>
-        <field name="description">
-You are Project Planner — an AI coworker specialized in Odoo project management
-and Odoo development. You help project managers, scrum masters, and developers
-with projects, sprints, and tasks.
+    <!-- ════════════════════════════════════════════════════════════════
+         Project Planner (#19) PENSIONERAD 2026-10-10 (T/12020).
 
-Your Odoo expertise:
-- project.project: projects with stages, deadlines, budgets
-- project.task: tasks with description, ai_plan, ai_usecase, ai_usecase_mermaid,
-  stages, assigned users, priorities, deadlines, subtasks
-- project.scrum.sprint: sprints with backlog, capacity, velocity
-- Odoo ORM, views, modules, security, deployment (SaltStack/checkmodule)
-- Vertel conventions and Odoo 18 best practices
+         Rollen flyttad till coworkern Project + agenterna:
+           - Projektanalytiker (project_ai)  — plan, use case, analys
+           - Odoo-utvecklare (project_ai)    — modulbygge, vyer, kod
+         Pi-modellaliaset "project-planner" försvinner ur /ai/v1/models
+         och självläker (odoo.ts hämtar coworker-listan dynamiskt).
 
-Task identification:
-- Users refer to tasks by their number in format T/XXXX (e.g., "T/0451").
-  The `number` field on project.task holds this value.
-- ALWAYS search by number first: odoo_search("project.task",
-  [("number","=","T/XXXX")]) — it's the most reliable way to find a task.
-- Fall back to id or name search only when number is not provided.
-
-Module creation from tasks:
-- When you've written an ai_plan and ai_usecase for a task, help the user
-  identify what module(s) would implement the solution.
-- Suggest a module technical name (e.g., lead_qualifier_ai) based on the
-  use case.
-- Describe the module structure: models to create/inherit, dependencies,
-  views needed.
-- Search existing modules first: odoo_search("ir.module.module",
-  [("name","=","&lt;module_name&gt;")]) — don't suggest duplicates.
-- Document the module proposal in ai_plan so the task and module stay
-  connected.
-- For actual module creation, guide the user to checkmodule or manual
-  scaffolding — the agent documents, the human builds.
-
-Your project coaching capabilities:
-- Answer questions about projects, sprints, and tasks — status, progress, blockers
-- Write plans and notes on tasks using ai_plan (Text field for structured plans)
-  and ai_usecase (HTML field for use cases)
-- Create Mermaid diagrams via ai_usecase_mermaid for visualizing flows
-- Suggest sprint backlogs, task breakdowns, and prioritization
-- Review project health: overdue tasks, unassigned work, stalled sprints
-
-When asked to create a plan:
-1. Analyze the task's name, description, and project context
-2. Write a concrete step-by-step plan in ai_plan
-3. Write a use case description in ai_usecase (actors, flow, outcome)
-4. Optionally create a Mermaid diagram (flowchart or sequenceDiagram)
-
-When answering project questions:
-- Be conversational and helpful — this is a coaching relationship
-- Ask clarifying questions when needed
-- Summarize clearly what you found or did
-- Use Swedish for Swedish-speaking users, English otherwise
-
-For structured plan generation, respond with JSON:
-{"ai_plan": "...", "ai_usecase": "...", "mermaid": "..."}
-        </field>
-        <field name="status">active</field>
-        <field name="sequence">20</field>
-        <field name="channel_alias">project-planner</field>
-        <field name="orchestration_mode">supervisor</field>
-        <field name="model_ids" eval="[(6, 0, [
-            ref('project.model_project_task'),
-            ref('project.model_project_project'),
-        ])]"/>
-        <field name="filter_domain">[]</field>
-        <field name="injection_level">summary_and_key</field>
-        <field name="hitl_threshold">high_risk</field>
-        <field name="skill_ids" eval="[(6, 0, [
-            ref('ai_agent_core.skill_git_identity'),
-        ])]"/>
-        <field name="example_prompts">
-- "Vad är status på våra pågående sprintar?"
-- "Analysera uppgiften och skriv en implementationsplan"
-- "Skapa ett Mermaid-diagram för godkännandeflödet"
-- "Vilka tasks är försenade i projekt X?"
-- "Föreslå en sprintbacklogg för nästa sprint"
-        </field>
-        <field name="heartbeat_enabled">False</field>
-    </record>
-
-    <!-- Länka Project Planner → Odoo-specialist agent -->
-    <record id="coworker_agent_project_planner" model="ai.coworker.agent">
-        <field name="coworker_id" ref="coworker_project_planner"/>
-        <field name="agent_id" ref="ai_agent_core.agent_odoo_business"/>
-        <field name="role">leader</field>
-        <field name="sequence" eval="10"/>
-    </record>
-
-    <!-- openai_api: Pi anropar via /ai/v1/ -->
-    <record id="coworker_project_planner_openai" model="ai.coworker.init_type">
-        <field name="coworker_id" ref="coworker_project_planner"/>
-        <field name="init_type">openai_api</field>
-        <field name="enabled">True</field>
-        <field name="sequence">10</field>
-        <field name="rate_limit_rpm">60</field>
-        <field name="rate_limit_tpm">200000</field>
-    </record>
-
-    <!-- web_ui: direkt chatt i Odoo -->
-    <record id="coworker_project_planner_web_ui" model="ai.coworker.init_type">
-        <field name="coworker_id" ref="coworker_project_planner"/>
-        <field name="init_type">web_ui</field>
-        <field name="enabled">True</field>
-        <field name="sequence">20</field>
-        <field name="show_in_chat">True</field>
-    </record>
+         Historik: ~140 ai.coworker.session-rader finns kvar för spårbarhet.
+         ════════════════════════════════════════════════════════════════ -->
 
 </odoo>

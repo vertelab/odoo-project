@@ -8,6 +8,6 @@
   <rect width="560" height="280" fill="url(#bg)" rx="8"/>
   <text x="40" y="100" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="30" fill="#F8FAFC">odoo-project</text>
   <text x="40" y="140" font-family="Inter, system-ui, sans-serif" font-weight="700" font-size="28" fill="#F8FAFC">Project: AI Coworkers</text>
-  <text x="40" y="184" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="16" fill="#E2E8F0"><tspan x="40" dy="0">AI coworkers for project management —</tspan><tspan x="40" dy="24">Task Manager + Project Planner</tspan></text>
+  <text x="40" y="184" font-family="Inter, system-ui, sans-serif" font-weight="400" font-size="16" fill="#E2E8F0"><tspan x="40" dy="0">AI coworker for project management —</tspan><tspan x="40" dy="24">Project + specialist agents</tspan></text>
   <text x="520" y="252" font-family="Inter, system-ui, sans-serif" font-weight="800" font-size="16" fill="#F8FAFC" text-anchor="end">VERTEL</text>
 </svg>
