@@ -168,11 +168,16 @@ class ProjectProject(models.Model):
         return []
 
     @api.model
-    def _search(self, args, **kwargs):
-        domain = self._get_customer_domain()
-        if domain:
-            args = expression.AND([args, domain]) if args else domain
-        return super()._search(args, **kwargs)
+    def _search(self, domain, offset=0, limit=None, order=None):
+        # Odoo 18 calls _search() positionally (domain, offset, limit, order)
+        # from several places, e.g. mail.activity.get_activity_data().
+        # A `(self, args, **kwargs)` signature raised
+        #   TypeError: ProjectProject._search() takes 2 positional arguments
+        #   but 5 were given
+        customer_domain = self._get_customer_domain()
+        if customer_domain:
+            domain = expression.AND([domain, customer_domain]) if domain else customer_domain
+        return super()._search(domain, offset=offset, limit=limit, order=order)
 
     def check_access_rule(self, operation):
         super().check_access_rule(operation)
@@ -213,11 +218,18 @@ class ProjectTask(models.Model):
         return customer_task_domain(self.env)
 
     @api.model
-    def _search(self, args, **kwargs):
-        domain = self._get_customer_task_domain()
-        if domain:
-            args = expression.AND([args, domain]) if args else domain
-        return super()._search(args, **kwargs)
+    def _search(self, domain, offset=0, limit=None, order=None):
+        # Odoo 18 calls _search() positionally (domain, offset, limit, order).
+        # mail.activity.get_activity_data() does
+        #   DocModel._search(domain or [], offset, limit, DocModel._order)
+        # so a `(self, args, **kwargs)` signature raised
+        #   TypeError: ProjectTask._search() takes 2 positional arguments
+        #   but 5 were given
+        # and broke the activity view for every project task.
+        customer_domain = self._get_customer_task_domain()
+        if customer_domain:
+            domain = expression.AND([domain, customer_domain]) if domain else customer_domain
+        return super()._search(domain, offset=offset, limit=limit, order=order)
 
     def check_access_rule(self, operation):
         super().check_access_rule(operation)
