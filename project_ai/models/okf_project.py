@@ -32,6 +32,23 @@ class ProjectProject(models.Model):
         """Bryggans egen typ (okf-mixin D12)."""
         return 'project_project'
 
+    def _okf_summary_source(self):
+        """Projektets EGEN sammanfattning: namn + kund.
+
+        Deterministisk — samma projekt ger samma text varje gång. Utan
+        denna föll sammanfattningen tillbaka på en LLM-tur per post
+        (okf-mixin-install D2/D3).
+
+        Kunden (`partner_id`) är det som gör projektet sökbart vid sidan
+        av namnet. Saknas kunden byggs texten av namnet enbart — ingen
+        tom eller felaktig text uppstår.
+        """
+        self.ensure_one()
+        bits = [self.name or '']
+        if self.partner_id:
+            bits.append('Kund: %s' % self.partner_id.name)
+        return ' — '.join(b for b in bits if b) or None
+
     def _okf_dirty_fields(self):
         """Fält vars ändring gör OKF-fälten inaktuella.
 
@@ -77,6 +94,26 @@ class ProjectTask(models.Model):
     def _okf_artifact_type(self):
         """Bryggans egen typ (okf-mixin D12)."""
         return 'project_task'
+
+    def _okf_summary_source(self):
+        """Uppgiftens EGEN sammanfattning: namn + etapp + projekt.
+
+        Deterministisk — samma uppgift ger samma text varje gång. Utan
+        denna föll sammanfattningen tillbaka på en LLM-tur per post, och
+        `project.task` är den mest indexerade modellen i drift (>15 000
+        koncept, okf-mixin-install D2/D3).
+
+        Etappen och projektet är det som gör uppgiften sökbar vid sidan av
+        namnet. Saknas etappen eller projektet byggs texten av de fält som
+        finns — ingen tom eller felaktig text uppstår.
+        """
+        self.ensure_one()
+        bits = [self.name or '']
+        if self.stage_id:
+            bits.append('Etapp: %s' % self.stage_id.name)
+        if self.project_id:
+            bits.append('Projekt: %s' % self.project_id.name)
+        return ' — '.join(b for b in bits if b) or None
 
     def _okf_dirty_fields(self):
         """Fält vars ändring gör OKF-fälten inaktuella.
