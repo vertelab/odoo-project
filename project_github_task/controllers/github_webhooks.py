@@ -17,7 +17,7 @@ class GitHubWebHooks(GitHubWebHooks):
         """
         Hanterar inkommande webhook från GitHub.
         """
-        self.check_signature()
+        # Signaturen verifieras i get_git_data() - se project_github_webhook.
         git_dict = self.get_git_data()
         user = request.env['res.users'].sudo().search([
                     '|',
