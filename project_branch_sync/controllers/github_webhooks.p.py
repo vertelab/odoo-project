@@ -27,9 +27,7 @@ class GitHubWebHooks(GitHubWebHooks):
 
     @http.route(['/sync/pfiles'], type='json', auth="public", methods=["POST"], csrf=False)
     def sync_pfiles(self, **payload):       
-        check = self.check_signature()
-        if check:
-            return check
+        # Signaturen verifieras i get_git_data() - se project_github_webhook.
         git_dict = self.get_git_data()
         files = self._get_files(git_dict)
         contains_p_files = any([".p." in file for file in files])
