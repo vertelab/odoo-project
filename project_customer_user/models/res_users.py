@@ -82,10 +82,16 @@ class ResUsers(models.Model):
     def write(self, vals):
         result = super().write(vals)
         # A user added to the customer group after creation must also get the
-        # landing action. Checking groups_id covers both the plain group write
-        # and the customer-group cleanup, which writes groups_id too.
+        # landing action and the allowed feature groups. Checking groups_id
+        # covers both the plain group write and the customer-group cleanup,
+        # which writes groups_id too.
         if 'groups_id' in vals:
             self._customer_apply_landing_action()
+            if not self.env.context.get('pc_skip_allowed_group_sync'):
+                # Grants the allowed feature groups (e.g.
+                # base.group_allow_export) as soon as someone is made a
+                # customer, instead of waiting for the next registry load.
+                self._customer_sync_allowed_groups()
             self._customer_sync_deny_layer()
         return result
 

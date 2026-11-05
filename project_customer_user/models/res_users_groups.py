@@ -122,7 +122,6 @@ CUSTOMER_GROUP = "project_customer_user.group_project_customer_user"
 # Deliberately NOT allowed, among others:
 #   base.group_user                  ← the bypass
 #   base.group_no_one                ← technical features
-#   base.group_allow_export          ← exports everything they can read
 #   base.group_sanitize_override     ← HTML sanitizer bypass
 #   project.group_project_user       ← implies base.group_user
 #   project.group_project_manager    ← all projects
@@ -143,6 +142,36 @@ ALLOWED_GROUPS = [
     "project.group_project_stages",
     "project.group_project_milestone",
     "project.group_project_task_dependencies",
+    # base.group_allow_export ("Access to export feature")
+    #
+    # The operator's report, 2026-11-04: "det finns inte alternativet att
+    # exportera" — a Project Customer had no Export entry in the list cog menu
+    # (and no "Export All").
+    #
+    # Why the group is needed (Odoo 18): the client hides the menu from a group
+    # check, not from the ACLs —
+    #   web/static/src/views/list/list_controller.js
+    #       this.isExportEnable = await user.hasGroup("base.group_allow_export")
+    #   web/static/src/views/list/export_all/export_all.js
+    #       isDisplayed: ... (await user.hasGroup("base.group_allow_export")) ...
+    # and the server refuses the download path without it —
+    #   models.py:export_data()
+    #       if not (self.env.is_admin() or
+    #               self.env.user.has_group('base.group_allow_export')): raise
+    #   web/controllers/json.py (the /json route) — same check.
+    #
+    # Safety: the group is a pure feature flag. It implies nothing (verified:
+    # implied_ids empty on ledningssystem) and grants exactly one ACL row —
+    # ir.exports CRUD, the saved export templates — which the deny layer in
+    # models/ir_rule.py whitelists for the same reason. The export itself is
+    # bounded by what the customer can already READ: export_data() runs as the
+    # requesting user, so the record rules still apply. A customer can export
+    # their own projects and tasks, nothing else.
+    #
+    # The previous comment here ("exports everything they can read") described
+    # the risk correctly but drew the wrong conclusion: exporting what you are
+    # allowed to read is the feature, not a leak.
+    "base.group_allow_export",
     # sales_team.group_sale_salesman_all_leads ("Användare: Alla dokument")
     #
     # Required by project.task.task_to_invoice, which carries
@@ -200,6 +229,55 @@ class ResUsers(models.Model):
                 "base.group_user; the customer will not reach the backend"
             )
         return ids
+
+    @api.model
+    def _customer_sync_allowed_groups(self):
+        """Grant every allowed group to every existing customer.
+
+        Why this exists (2026-11-04)
+        ----------------------------
+        ``ALLOWED_GROUPS`` was only ever applied by the *cleanup* action, which
+        is a manual maintenance step. So adding a group to the allow-list —
+        e.g. ``base.group_allow_export`` so the customer gets an Export entry
+        in the list cog menu — did nothing for the customers that already
+        existed. The allow-list is derived data, exactly like the ACL mirror
+        and the deny layer, and must be re-synced the same way: on install, on
+        upgrade, and on every registry load.
+
+        Additive only: it never removes a group. Removal is the cleanup's job
+        (``_customer_cleanup_plan``), which is deliberately a human decision.
+
+        Idempotent and cheap (one search per allowed group).
+        """
+        customer_group = self.env.ref(CUSTOMER_GROUP, raise_if_not_found=False)
+        if not customer_group:
+            return 0
+        allowed_ids = self._customer_allowed_group_ids()
+        if not allowed_ids:
+            return 0
+
+        customers = self.sudo().search(
+            [("groups_id", "in", customer_group.id), ("active", "in", [True, False])]
+        )
+        changed = 0
+        for user in customers:
+            missing = [gid for gid in allowed_ids if gid not in user.groups_id.ids]
+            if not missing:
+                continue
+            _logger.info(
+                "project_customer_user: granting %s allowed group(s) to %s",
+                len(missing),
+                user.login,
+            )
+            # Guard against re-entry: this write triggers res.users.write(),
+            # which calls this method again. The second pass finds nothing
+            # missing and stops, but the guard keeps it out of the loop
+            # entirely.
+            user.sudo().with_context(pc_skip_allowed_group_sync=True).write(
+                {"groups_id": [(4, gid) for gid in missing]}
+            )
+            changed += 1
+        return changed
 
     @api.model
     def _customer_cleanup_plan(self, dry_run=True):

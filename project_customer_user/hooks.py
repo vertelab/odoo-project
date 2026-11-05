@@ -34,6 +34,7 @@ def post_init_hook(env):
     env["ir.model.access"]._mirror_sync_customer_acl()
     _logger.info("project_customer_user: running deny layer (post_init_hook)")
     env["ir.rule"]._deny_sync_customer_rules()
+    env["res.users"]._customer_sync_allowed_groups()
     env["res.users"]._customer_apply_landing_action()
 
 
@@ -52,13 +53,14 @@ def post_load_hook(env):
         2098 modules and the "Modules" dropdown on a task was empty.
 
     Running the sync on every registry load removes that trap: the whitelist in
-    the code is always the truth, with no version bump required. Both syncs are
-    idempotent and cheap (a handful of searches), and they run as the registry
-    loads rather than per request.
+    the code is always the truth, with no version bump required. All three
+    syncs are idempotent and cheap (a handful of searches), and they run as the
+    registry loads rather than per request.
     """
     try:
         env["ir.model.access"]._mirror_sync_customer_acl()
         env["ir.rule"]._deny_sync_customer_rules()
+        env["res.users"]._customer_sync_allowed_groups()
     except Exception:  # never break a registry load
         _logger.exception(
             "project_customer_user: security sync failed on registry load"

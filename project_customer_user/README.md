@@ -66,3 +66,16 @@ Append its group to `SOURCE_GROUPS` in `models/ir_model_access.py`, and any new
 model the customer must reach to `ALLOWED_MODELS` in `models/ir_rule.py`. The
 syncs run on install, on upgrade, and on every registry load, so no version
 bump is needed for the whitelist to take effect.
+
+## Export
+
+Project Customers hold `base.group_allow_export` ("Access to export feature"),
+so the list view shows **Export** and **Export All**. The group is a pure
+feature flag — it implies nothing and grants one ACL (`ir.exports`, the saved
+export templates). What a customer may export is still bounded by the record
+rules: `export_data()` runs as the requesting user, so they export their own
+projects and tasks and nothing else.
+
+The group is part of `ALLOWED_GROUPS` in `models/res_users_groups.py` and is
+applied automatically by `_customer_sync_allowed_groups()` on install, on
+upgrade and on every registry load.

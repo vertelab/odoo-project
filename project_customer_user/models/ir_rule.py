@@ -180,6 +180,11 @@ ALLOWED_MODELS = [
     "ir.asset",
     "ir.qweb",
     "ir.ui.icon",
+    # ir.exports is the saved-export-template model. It is whitelisted because
+    # the customer holds base.group_allow_export (see ALLOWED_GROUPS in
+    # models/res_users_groups.py): the export dialog saves a template here on
+    # every export, and the ACL for ir.exports is granted by that group alone.
+    # The templates hold field names, never business data.
     "ir.exports",
     "ir.exports.line",
     "ir.logging",
