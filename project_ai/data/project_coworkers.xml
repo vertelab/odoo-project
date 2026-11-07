@@ -65,7 +65,6 @@ Arbetsregler:
             ref('project.model_project_task_type'),
         ])]"/>
         <field name="filter_domain">[]</field>
-        <field name="injection_level">summary_and_key</field>
         <field name="hitl_threshold">always</field>
         <field name="orchestration_mode">supervisor</field>
         <field name="tool_ids" eval="[(6, 0, [
