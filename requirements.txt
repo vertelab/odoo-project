@@ -1,3 +1,10 @@
 GoogleNews
 feedparser
 yfinance
+
+# ── Saknade beroenden — inventering 2026-11-13 ──────────────────────────────
+# project_module_monitor — openpyxl (modulöversikt till Excel).
+# OBS: samma modul importerar även PyGithub — den finns inte i denna fil
+# (den ligger i odoo-prd:s requirements.txt), lägg till om modulen används
+# utan prd-paketet.
+openpyxl
