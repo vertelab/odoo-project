@@ -1,0 +1,16 @@
+<odoo>
+    <data>
+
+        <record id="edit_project" model="ir.ui.view">
+            <field name="name">project.project.form.create.project.ci.button</field>
+            <field name="model">project.project</field>
+            <field name="inherit_id" ref="project.edit_project"/>
+            <field name="arch" type="xml">
+                <header position="inside">
+                    <button name="create_project_ci" string="Run CI Tests" type="object" invisible="not is_odoo_project"/>
+                </header>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -25,6 +25,9 @@
         <record id="project_ci_branch_name_19" model="project.ci.branch.name">
             <field name="name">19</field>
         </record>
+        <record id="project_ci_branch_name_20" model="project.ci.branch.name">
+            <field name="name">20</field>
+        </record>
 
     </data>
 </odoo>
