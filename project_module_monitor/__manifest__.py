@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Module Monitor',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': "We have the need to keep track of our modules.",
     'category': 'Technical',
     'author': 'Vertel AB',

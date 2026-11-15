@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Project: Task Payment',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     # Version ledger: 18.0 = Odoo version. 1 = Major. 1 = Minor (new features). 0 = Bug fixes
     'summary': "Create a payment from a task, for the person who should be compensated.",
     'category': 'Project',

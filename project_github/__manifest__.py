@@ -20,7 +20,7 @@
 ##############################################################################
 {
     'name': 'Project: Github',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'summary': "Creates releations between Github and a projec.",
     'category': 'Technical',
     'author': 'Vertel AB',

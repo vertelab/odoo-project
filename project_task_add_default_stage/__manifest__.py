@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Task Add Default Stage',
-    'version': '18.0.1.1.0',
+    'version': '1.1.0',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Adds an option to set default project task stages. These will be applied to all projects.',
     'category': 'Project',

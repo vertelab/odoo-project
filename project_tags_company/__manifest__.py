@@ -2,7 +2,7 @@
     'name': 'Project Tags Company',
 'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_tags_company',
-    'version': '18.0.1.0.0',
+    'version': '1.0.0',
     'category': 'Project',
     'summary': 'Add company_id to project.tags.',
     'description': '''

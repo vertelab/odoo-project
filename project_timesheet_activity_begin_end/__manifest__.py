@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Task Timesheet Activities - Begin/End Hours',
-    'version': '18.0.1.0.3',
+    'version': '1.0.3',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'Task Timesheet Activities -- Set start // stop!.',
     'category': 'Project',
