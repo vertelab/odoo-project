@@ -43,7 +43,7 @@ Continuous integration Base
     'license': 'AGPL-3',
     'depends': ["project"],
     'data': [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "data/project_ci_branch_data.xml",
         "views/project_views.xml",
         "views/project_ci_views.xml",
