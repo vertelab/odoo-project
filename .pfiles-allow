@@ -4,18 +4,12 @@ customer_project_user/data/customer_group_cleanup.xml
 customer_project_user/migrations/18.0.0.2.0/post-mirror_acl.py
 customer_project_user/migrations/18.0.0.3.0/post-sync_security.py
 customer_project_user/models/ir_model_access.py
-customer_project_user/models/ir_rule.py
 customer_project_user/models/ir_ui_menu.py
-customer_project_user/models/mail_guard.py
-customer_project_user/models/project.py
-customer_project_user/models/res_users.py
-customer_project_user/models/res_users_groups.py
-customer_project_user/security/groups.xml
+customer_project_user/security/ir.access.csv
 customer_project_user/static/description/index.html
 customer_project_user/views/menu.xml
 customer_project_user/views/project_view.xml
 project_ai/data/okf_artifact_types_project.xml
-project_ai/data/okf_debug_actions.xml
 project_ai/data/project_coworkers.xml
 project_ai/data/project_skills.xml
 project_ai/data/project_tools.xml
@@ -25,6 +19,7 @@ project_ai/models/project_ai.py
 project_ai/models/project_project.py
 project_ai/models/project_task.py
 project_ai/models/res_partner.py
+project_ai/security/ir.access.csv
 project_ai/security/ir.model.access.csv
 project_ai/static/description/index.html
 project_ai/tests/test_cost_context.py
@@ -51,6 +46,7 @@ project_ci_base/models/project_ci.py
 project_ci_base/models/project_ci_branch.py
 project_ci_base/models/project_ci_branch_line.py
 project_ci_base/models/project_ci_branch_name.py
+project_ci_base/security/ir.access.csv
 project_ci_base/security/ir.model.access.csv
 project_ci_base/static/description/index.html
 project_ci_base/views/project_ci_branch_line_views.xml
@@ -59,6 +55,7 @@ project_ci_base/views/project_ci_views.xml
 project_ci_base/views/project_views.xml
 project_equity_portfolio/data/ai_quest.xml
 project_equity_portfolio/data/task_type.xml
+project_equity_portfolio/security/ir.access.csv
 project_equity_portfolio/security/ir.model.access.csv
 project_equity_portfolio/static/description/index.html
 project_github/models/project.py
@@ -83,6 +80,7 @@ project_hr_validation/views/purchase_order_views.xml
 project_mis_budget/static/description/index.html
 project_module_monitor/data/cron.xml
 project_module_monitor/models/project.py
+project_module_monitor/security/ir.access.csv
 project_module_monitor/security/ir.model.access.csv
 project_module_monitor/static/description/index.html
 project_module_monitor/views/project_views.xml
@@ -92,9 +90,8 @@ project_module_monitor/wizard/make_module_monitor.py
 project_module_monitor/wizard/make_module_monitor.xml
 project_tags_company/setup.py
 project_tags_company/models/project_tags.py
-project_tags_company/security/ir_rule.xml
+project_tags_company/security/ir.access.csv
 project_tags_company/static/description/index.html
-project_task_add_default_stage/data/add_defaults.xml
 project_task_add_default_stage/models/project_project.py
 project_task_add_default_stage/models/project_task_type.py
 project_task_add_default_stage/static/description/index.html
@@ -104,6 +101,7 @@ project_task_closed/models/project.py
 project_task_closed/security/ir.model.access.csv
 project_task_closed/static/description/index.html
 project_task_closed/views/project_views.xml
+project_task_monitor/security/ir.access.csv
 project_task_monitor/security/ir.model.access.csv
 project_task_monitor/static/description/index.html
 project_task_number/security/ir.model.access.csv
@@ -114,6 +112,7 @@ project_task_payment/models/project_task.py
 project_task_payment/static/description/index.html
 project_task_payment/tests/test_task_payment.py
 project_task_payment/views/create_payment.xml
+project_task_swot/security/ir.access.csv
 project_task_swot/security/ir.model.access.csv
 project_task_swot/static/description/index.html
 project_task_weekno/models/project_task.py
@@ -129,13 +128,13 @@ project_wcag/data/wcag_rules.xml
 project_wcag/models/project.py
 project_wcag/models/project_task.py
 project_wcag/models/wcag.py
+project_wcag/security/ir.access.csv
 project_wcag/security/ir.model.access.csv
 project_wcag/static/description/index.html
 project_wcag/views/project_task_view.xml
 project_wcag/views/project_view.xml
 project_wcag/wizard/add_rules_to_project_wizard.py
 project_wcag/wizard/add_rules_to_project_wizard.xml
-website_project_wcag/controllers/main.py
 website_project_wcag/static/description/index.html
 website_project_wcag/views/portal_templates.xml
 website_project_wcag/views/project_task_wcag_template.xml
