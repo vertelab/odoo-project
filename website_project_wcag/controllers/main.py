@@ -9,7 +9,7 @@ from collections import OrderedDict, defaultdict
 from odoo.addons.website.controllers.main import QueryURL
 from odoo.tools import groupby as groupbyelem
 
-from odoo.osv.expression import OR
+from odoo.fields import Domain
 
 
 class ProjectWCAGeController(http.Controller):
@@ -83,7 +83,7 @@ class ProjectWCAGeController(http.Controller):
         if search and search_in:
             search_domain = []
             if search_in in ('content', 'all'):
-                search_domain = OR([search_domain, ['|', ('name', 'ilike', search), ('description', 'ilike', search)]])
+                search_domain = Domain.OR([Domain(search_domain), Domain(['|', ('name', 'ilike', search), ('description', 'ilike', search)])])
             domain += search_domain
 
         # task count
@@ -156,10 +156,10 @@ class ProjectWCAGeController(http.Controller):
         if search and search_in:
             search_domain = []
             if search_in in ('all'):
-                search_domain = OR([search_domain, [('display_wcag_name', 'ilike', search)]])
+                search_domain = Domain.OR([Domain(search_domain), Domain([('display_wcag_name', 'ilike', search)])])
             if search_in in ('state'):
                 print()
-                search_domain = OR([search_domain, [('wcag_state', 'ilike', search)]])
+                search_domain = Domain.OR([Domain(search_domain), Domain([('wcag_state', 'ilike', search)])])
             domain += search_domain
 
         # task count

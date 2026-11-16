@@ -1,6 +1,6 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import AccessError
-from odoo.osv import expression
+from odoo.fields import Domain
 
 CUSTOMER_GROUP = 'customer_project_user.group_project_customer_user'
 
@@ -149,7 +149,7 @@ class ProjectProject(models.Model):
     def _search(self, args, **kwargs):
         domain = self._get_customer_domain()
         if domain:
-            args = expression.AND([args, domain]) if args else domain
+            args = Domain.AND([Domain(args), Domain(domain)]) if args else domain
         return super()._search(args, **kwargs)
 
     def check_access_rule(self, operation):
@@ -194,7 +194,7 @@ class ProjectTask(models.Model):
     def _search(self, args, **kwargs):
         domain = self._get_customer_task_domain()
         if domain:
-            args = expression.AND([args, domain]) if args else domain
+            args = Domain.AND([Domain(args), Domain(domain)]) if args else domain
         return super()._search(args, **kwargs)
 
     def check_access_rule(self, operation):
