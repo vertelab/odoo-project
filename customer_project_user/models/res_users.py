@@ -67,7 +67,7 @@ class ResUsers(models.Model):
         if not group or not action_id:
             return 0
         customers = self.sudo().search(
-            [('groups_id', 'in', group.id), ('action_id', '=', False)]
+            [('group_ids', 'in', group.id), ('action_id', '=', False)]
         )
         if customers:
             customers.sudo().write({'action_id': action_id})
@@ -84,7 +84,7 @@ class ResUsers(models.Model):
         # A user added to the customer group after creation must also get the
         # landing action. Checking groups_id covers both the plain group write
         # and the customer-group cleanup, which writes groups_id too.
-        if 'groups_id' in vals:
+        if 'group_ids' in vals:
             self._customer_apply_landing_action()
             self._customer_sync_deny_layer()
         return result

@@ -140,7 +140,7 @@ class MailMessage(models.Model):
             # A project or task thread: customers belong here.
             return partners
         customer_partners = self.env["res.users"].sudo().search(
-            [("groups_id", "in", self.env.ref(CUSTOMER_GROUP).id)]
+            [("group_ids", "in", self.env.ref(CUSTOMER_GROUP).id)]
         ).mapped("partner_id")
         if not customer_partners:
             return partners

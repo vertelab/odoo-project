@@ -220,12 +220,12 @@ class ResUsers(models.Model):
 
         allowed_ids = set(self._customer_allowed_group_ids())
         customers = self.sudo().search(
-            [("groups_id", "in", customer_group.id)]
+            [("group_ids", "in", customer_group.id)]
         )
 
         plan = []
         for user in customers:
-            current = user.groups_id
+            current = user.group_ids
             to_remove = current.filtered(lambda g: g.id not in allowed_ids)
             to_keep = current - to_remove
 
@@ -244,7 +244,7 @@ class ResUsers(models.Model):
                     user.login,
                     ", ".join(to_remove.mapped("display_name")),
                 )
-                user.sudo().write({"groups_id": [(3, g.id) for g in to_remove]})
+                user.sudo().write({"group_ids": [(3, g.id) for g in to_remove]})
 
             # Ensure the allowed feature groups are actually present. Some
             # customers were never direct members of them (they reached the
@@ -252,7 +252,7 @@ class ResUsers(models.Model):
             # silently drop the features unless we add them back explicitly.
             if not dry_run:
                 missing = [
-                    gid for gid in allowed_ids if gid not in user.groups_id.ids
+                    gid for gid in allowed_ids if gid not in user.group_ids.ids
                 ]
                 if missing:
                     _logger.info(
@@ -262,7 +262,7 @@ class ResUsers(models.Model):
                         user.login,
                     )
                     user.sudo().write(
-                        {"groups_id": [(4, gid) for gid in missing]}
+                        {"group_ids": [(4, gid) for gid in missing]}
                     )
 
         return plan

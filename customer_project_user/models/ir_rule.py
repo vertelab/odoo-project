@@ -348,12 +348,12 @@ class IrRule(models.Model):
         a customer reaches by any route is denied unless whitelisted.
         """
         customers = self.env["res.users"].sudo().search(
-            [("groups_id", "in", customer_group.id)]
+            [("group_ids", "in", customer_group.id)]
         )
         group_ids = set(customer_group.ids)
         for user in customers:
-            group_ids |= set(user.groups_id.ids)
-            group_ids |= set(user.groups_id.trans_implied_ids.ids)
+            group_ids |= set(user.group_ids.ids)
+            group_ids |= set(user.group_ids.trans_implied_ids.ids)
 
         access = self.env["ir.model.access"].sudo().search(
             [("group_id", "in", list(group_ids))]
