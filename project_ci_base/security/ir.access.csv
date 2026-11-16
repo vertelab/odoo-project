@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_project_ci,access_project_ci,project.ci,base.group_user,crud,
+access_project_ci_branch,access_project_ci_branch,project.ci.branch,base.group_user,crud,
+access_project_ci_branch_line,access_project_ci_branch_line,project.ci.branch.line,base.group_user,crud,
+access_project_ci_branch_name,access_project_ci_branch_name,project.ci.branch.name,base.group_user,crud,

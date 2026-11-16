@@ -1,0 +1,4 @@
+id,name,model_id,group_id/id,operation,domain
+security_project_module_monitor_wizard,action_project_module_monitor_wizard_view,project.module.monitor.wizard,base.group_user,crud,
+security_project_module_stakeholder_wizard,action_project_module_stakeholder_wizard_view,project.add.stakeholder.wizard,base.group_user,crud,
+security_git_repos,action_git_repos_view,git.repos,base.group_user,crud,

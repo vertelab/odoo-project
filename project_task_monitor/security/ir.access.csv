@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_project_task_monitor,access_project_task_monitor,project.task.monitor,base.group_user,crud,

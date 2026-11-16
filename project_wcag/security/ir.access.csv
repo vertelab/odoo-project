@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+wcag_rule_access,project users can access,wcag.rule,project.group_project_user,crud,
+wcag_rule_project_access,project users can access,wcag.project.rule,project.group_project_user,crud,
+wcag_rule_task_access,project users can access,project.task.wcag,project.group_project_user,crud,
+wcag_rule_wizard_access,project users can access,add.wcag.rule.wizard,project.group_project_user,crud,
