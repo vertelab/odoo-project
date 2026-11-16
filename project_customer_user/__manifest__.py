@@ -21,7 +21,7 @@
 
 {
     'name': 'Project: Customer Project User',
-    'version': '18.0.0.3.2',
+    'version': '18.0.0.3.3',
     # Version ledger: 14.0 = Odoo version. 1 = Major. Non regressionable code. 2 = Minor. New features that are regressionable. 3 = Bug fixes
     'summary': 'A user type for project customers.',
     'category': 'Project',

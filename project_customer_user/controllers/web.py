@@ -6,11 +6,20 @@ from odoo.addons.portal.controllers.web import Home as PortalHome
 from odoo.addons.web.controllers.home import Home as WebHome
 from odoo.addons.web.controllers.utils import ensure_db, is_user_internal
 
+try:
+    # ``website`` äger "/" när den är installerad — vi måste ärva dess index()
+    # vidare. Annars tar vår @http.route() över routen och "/" redirectar alltid
+    # till /odoo, vilket gör sajtens hemsida onåbar (verifierat på aanstoot
+    # 2026-11-16: project_customer_user vann över website.Website.index).
+    from odoo.addons.website.controllers.main import Website as WebsiteHome
+except ImportError:  # website är inte installerad
+    WebsiteHome = PortalHome
+
 CUSTOMER_GROUP = 'project_customer_user.group_project_customer_user'
 PROJECT_ACTION = 'project.open_view_project_all'
 
 
-class ProjectCustomerHome(PortalHome):
+class ProjectCustomerHome(WebsiteHome):
     """Let a Project Customer reach the backend web client, and land in Project.
 
     Why this override exists
@@ -96,13 +105,15 @@ class ProjectCustomerHome(PortalHome):
 
     @http.route()
     def index(self, s_action=None, db=None, **kw):
-        if request.db and request.session.uid and not self._may_use_web_client(
+        # En Project Customer ska till backend. Alla andra — anonyma besökare,
+        # portal-användare, interna — ska få förälderns beteende. Med ``website``
+        # installerad är föräldern website.Website, vars index() renderar sajtens
+        # hemsida ("/"). Att alltid redirecta till /odoo gjorde hemsidan onåbar.
+        if request.db and request.session.uid and self._is_project_customer(
             request.session.uid
         ):
-            return request.redirect_query(
-                '/web/login_successful', query=request.params
-            )
-        return request.redirect_query('/odoo', query=request.params)
+            return request.redirect_query('/odoo', query=request.params)
+        return super().index(s_action=s_action, db=db, **kw)
 
     # ------------------------------------------------------------------
     # Gate 2: the web client itself
