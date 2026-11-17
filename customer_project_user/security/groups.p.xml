@@ -1,5 +1,26 @@
 <?xml version="1.0"?>
 <odoo>
+    <!-- #if VERSION >= "20.0" -->
+    <!--
+        20.0: res.groups.category_id is gone; the scope lives on
+        res.groups.privilege (which keeps category_id). The group is
+        recreated here with privilege_id so ir.access.csv can refer to it.
+        The ir.rule records below are replaced by ir.access.csv.
+    -->
+    <data noupdate="1">
+        <record id="privilege_project_customer" model="res.groups.privilege">
+            <field name="name">Project Customer</field>
+            <field name="sequence">100</field>
+            <field name="category_id" ref="base.module_category_services_project"/>
+        </record>
+
+        <record model="res.groups" id="group_project_customer_user">
+            <field name="name">Project Customer</field>
+            <field name="privilege_id" ref="privilege_project_customer"/>
+        </record>
+    </data>
+    <!-- #endif -->
+
     <!-- #if VERSION <= "19.0" -->
     <data>
 

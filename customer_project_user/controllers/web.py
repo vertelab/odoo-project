@@ -1,4 +1,6 @@
 from odoo import http
+# 20.0: odoo/http.py became a package; the exception moved.
+from odoo.http.session import SessionExpiredException
 from odoo.http import request
 from odoo.exceptions import AccessError
 from odoo.service import security
@@ -120,7 +122,7 @@ class ProjectCustomerHome(PortalHome):
         if kw.get('redirect'):
             return request.redirect(kw.get('redirect'), 303)
         if not security.check_session(request.session, request.env, request):
-            raise http.SessionExpiredException("Session expired")
+            raise SessionExpiredException("Session expired")
         # --- the one changed line: internal users OR Project Customers ---
         if not self._may_use_web_client(request.session.uid):
             return request.redirect('/web/login_successful', 303)
