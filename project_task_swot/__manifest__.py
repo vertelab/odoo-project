@@ -37,7 +37,7 @@
     'data': [
         'views/project_project_views.xml',
         'views/project_task_view.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
     ],
     'application': True,
 }

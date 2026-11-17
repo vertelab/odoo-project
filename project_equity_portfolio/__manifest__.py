@@ -36,7 +36,7 @@
     'data': [
         'data/action_server.xml',
         'data/task_type.xml',
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'wizard/equity_transaction_wizard.xml',
         'views/project_views.xml',
         'views/project_task_views.xml',

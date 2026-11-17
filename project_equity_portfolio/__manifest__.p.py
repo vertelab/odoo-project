@@ -36,7 +36,11 @@
     'data': [
         'data/action_server.xml',
         'data/task_type.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
         'wizard/equity_transaction_wizard.xml',
         'views/project_views.xml',
         'views/project_task_views.xml',

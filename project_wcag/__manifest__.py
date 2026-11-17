@@ -47,7 +47,7 @@ WCAG
     'repository': 'https://github.com/vertelab/odoo-project',
     'depends': ['project',],
     "data": [
-        "security/ir.model.access.csv",
+        "security/ir.access.csv",
         "wizard/add_rules_to_project_wizard.xml",
         "views/project_task_view.xml",
         "views/project_view.xml",

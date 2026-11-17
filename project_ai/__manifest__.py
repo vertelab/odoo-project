@@ -25,7 +25,7 @@ AI Coworkers
         'ai_agent_core',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/okf_artifact_types_project.xml',
         'data/okf_debug_actions.xml',
         'data/project_tools.xml',
