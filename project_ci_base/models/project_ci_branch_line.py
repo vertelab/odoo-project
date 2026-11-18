@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 class ProjectCIBranchLine(models.Model):
     _name = "project.ci.branch.line"
-    _description = ""
+    _description = "Project CI Branch Line"
 
     project_ci_branch_id = fields.Many2one(comodel_name="project.ci.branch")
     line_type = fields.Selection(

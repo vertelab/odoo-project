@@ -23,7 +23,7 @@
 #
 {
     'name': 'Project: Continuous integration',
-    'version': '1.0.0',
+    'version': '1.0',
     'summary': "Adds CI pipeline tracking to projects.",
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': '''
@@ -38,7 +38,7 @@ Continuous integration
         - UI Integration: Extends 1 view(s) in the Odoo interface.
         - Extends Odoo: Builds on project.project.
     ''',
-    'author': 'Vertel AB',
+    'author': 'Vertel Sverige AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ci',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',

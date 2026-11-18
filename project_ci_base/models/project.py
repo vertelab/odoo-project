@@ -23,8 +23,8 @@ class Project(models.Model):
             'name': 'CI',
             'type': 'ir.actions.act_window',
             'res_model': 'project.ci',
-            'view_mode': 'tree,form',
-            'views': [(tree_view.id, 'tree'), (False, 'form')],
+            'view_mode': 'list,form',
+            'views': [(tree_view.id, 'list'), (False, 'form')],
             'target': 'current',
             'domain': [("project_id", '=', self.id)],
         }
@@ -37,8 +37,8 @@ class Project(models.Model):
             'name': 'CI Branch',
             'type': 'ir.actions.act_window',
             'res_model': 'project.ci.branch',
-            'view_mode': 'kanban,tree,form',
-            'views': [(kanban_view.id, 'kanban'), (tree_view.id, 'tree'), (False, 'form')],
+            'view_mode': 'kanban,list,form',
+            'views': [(kanban_view.id, 'kanban'), (tree_view.id, 'list'), (False, 'form')],
             'target': 'current',
             'domain': [("project_id", '=', self.id)],
         }

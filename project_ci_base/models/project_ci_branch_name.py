@@ -6,6 +6,6 @@ _logger = logging.getLogger(__name__)
 
 class ProjectCIBranchName(models.Model):
     _name = "project.ci.branch.name"
-    _description = ""
+    _description = "Project CI Branch Name"
 
     name = fields.Char()
