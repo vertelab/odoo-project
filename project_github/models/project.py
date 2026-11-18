@@ -59,7 +59,7 @@ class ProjectProject(models.Model):
         return False
 
     def get_auth_token(self):
-        authToken = self.env["ir.config_parameter"].sudo().get_param('github_token')
+        authToken = self.env["ir.config_parameter"].sudo().get_str('github_token')
         if not authToken:
             raise UserError("Github token missing, please create a parameter called github_token and paste an token.")
         return authToken
