@@ -63,7 +63,8 @@
   <record id="view_task_kanban" model="ir.ui.view">
     <field name="name">project.task.kanban.create.payment</field>
     <field name="model">project.task</field>
-    <field name="inherit_id" ref="project.view_task_kanban" />
+    <!-- 20.0 moved the kanban card fields into project.view_task_card. -->
+    <field name="inherit_id" ref="project.view_task_card" />
     <field name="arch" type="xml">
       <field name="state" position="after">
         <field name="show_payment_button" />
