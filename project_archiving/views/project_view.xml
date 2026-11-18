@@ -2,7 +2,9 @@
 <odoo>
     <record id="project_archive" model="ir.ui.view">
         <field name="model">project.project</field>
-        <field name="inherit_id" ref="project.view_project_kanban" />
+        <!-- 20.0 moved the project kanban card fields into
+             project.view_project_card. -->
+        <field name="inherit_id" ref="project.view_project_card" />
         <field name="arch" type="xml">
             <field name="privacy_visibility" position="after">
                 <field name="active"/>
