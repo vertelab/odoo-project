@@ -51,17 +51,6 @@
     <record id="view_task_kanban_task_number" model="ir.ui.view">
         <field name="name">task.kanban.task.number</field>
         <field name="model">project.task</field>
-        <!-- #if VERSION >= "20.0" -->
-        <!-- 20.0 split the kanban into an empty <kanban> and a <card> view
-             (project.view_task_card). The card is where the fields live, so
-             the inheritance has to target it. -->
-        <field name="inherit_id" ref="project.view_task_card" />
-        <field name="arch" type="xml">
-            <field name="name" position="before">
-                <span class="text-muted small me-1 text-nowrap flex-shrink-0">[<field name="number"/>]</span>
-            </field>
-        </field>
-        <!-- #else -->
         <field name="inherit_id" ref="project.view_task_kanban" />
         <field name="arch" type="xml">
             <kanban position="inside">
@@ -81,6 +70,5 @@
                 <!-- #endif -->
             </xpath>
         </field>
-        <!-- #endif -->
     </record>
 </odoo>
