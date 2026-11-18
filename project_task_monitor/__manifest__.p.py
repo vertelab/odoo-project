@@ -38,7 +38,11 @@
         'data/server_action.xml',
         'views/project_project_views.xml',
         'views/project_task_view.xml',
+        # #if VERSION >= "20.0"
+        'security/ir.access.csv',
+        # #else
         'security/ir.model.access.csv',
+        # #endif
     ],
     'application': True,
 }

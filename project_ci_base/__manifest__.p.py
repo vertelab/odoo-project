@@ -23,7 +23,7 @@
 #
 {
     'name': 'Project: Continuous integration Base',
-    'version': '1.0',
+    'version': '1.0.0',
     'summary': "Provides base models for CI pipeline tracking in projects.",
     'category': '', # Technical Settings|Localization|Payroll Localization|Account Charts|User types|Invoicing|Sales|Human Resources|Operations|Marketing|Manufacturing|Website|Theme|Administration|Appraisals|Sign|Helpdesk|Administration|Extra Rights|Other Extra Rights|
     'description': '''
@@ -37,7 +37,7 @@ Continuous integration Base
         - UI Integration: Extends 4 view(s) in the Odoo interface.
         - Extends Odoo: Builds on create_date, project.ci, project.ci.branch, project.ci.branch.line.
     ''',
-    'author': 'Vertel Sverige AB',
+    'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ci_base',
     'images': ['static/description/banner.png'],
     'license': 'AGPL-3',
@@ -45,7 +45,7 @@ Continuous integration Base
     'data': [
         # #if VERSION >= "20.0"
         "security/ir.access.csv",
-        # #elif VERSION <= "19.0"
+        # #else
         "security/ir.model.access.csv",
         # #endif
         "data/project_ci_branch_data.xml",

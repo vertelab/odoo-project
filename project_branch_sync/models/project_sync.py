@@ -72,63 +72,6 @@ class MailChannel(models.Model):
             author_id = res_partner_id if res_partner_id else self.env.user.partner_id
         return author_id
 
-
-    # ------------------------------------------------------------------
-    # Edition filtering and verification (added 2026-11-14)
-    # ------------------------------------------------------------------
-
-    def _lowest_edition(self, new_repo_path, source_branch, file):
-        """Return the lowest edition a p-file claims, or None.
-
-        A file with '# #if VERSION >= "20.0"' must not be copied to 12.0:
-        the branch would get code the edition cannot run. The lowest edition
-        mentioned in a VERSION condition is the floor.
-        """
-        result = self.run(
-            ["git", "-C", new_repo_path, "show", f"{source_branch}:{file}"],
-            capture_output=True, text=True,
-        )
-        if result.returncode != 0:
-            return None
-        editions = re.findall(r'VERSION\s*(?:>=|==)\s*"(\d+\.0)"', result.stdout)
-        if not editions:
-            return None
-        return min(editions, key=lambda e: int(e.split(".")[0]))
-
-    def _verify_expansion(self, new_repo_path, branch, file):
-        """Expand the p-file for the branch's edition and check it parses.
-
-        Returns (ok, message). A broken expansion must stop the push for that
-        branch instead of publishing code nobody can load.
-        """
-        out = file.replace(".p.py", ".py").replace(".p.xml", ".xml")
-        expanded = self.run(
-            ["preprocess", "-f", "-D", f"VERSION={branch}", "-o",
-             f"{new_repo_path}/{out}", f"{new_repo_path}/{file}"],
-            capture_output=True, text=True,
-        )
-        if expanded.returncode != 0:
-            return False, f"preprocess failed: {self.stderr_or_stdout(expanded)[:300]}"
-
-        target = f"{new_repo_path}/{out}"
-        if out.endswith(".py"):
-            check = self.run(
-                ["python3", "-c",
-                 f"import ast;ast.parse(open({target!r}).read())"],
-                capture_output=True, text=True,
-            )
-        elif out.endswith(".xml"):
-            check = self.run(
-                ["python3", "-c",
-                 f"import xml.etree.ElementTree as ET;ET.parse({target!r})"],
-                capture_output=True, text=True,
-            )
-        else:
-            return True, "no syntax check for this type"
-        if check.returncode != 0:
-            return False, f"syntax: {self.stderr_or_stdout(check)[:300]}"
-        return True, "ok"
-
     def sync(self,git_dict,files):
         source_branch = git_dict.get("branch")
         self.check_git_login()
@@ -145,28 +88,8 @@ class MailChannel(models.Model):
         for branch in branch_list:
             checkout_branch = self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{branch}"], capture_output=True, text=True)
             _logger.info(f"{checkout_branch.stdout=}")
-            copied = []
             for file in files:
-                floor = self._lowest_edition(new_repo_path, source_branch, file)
-                if floor and int(floor.split(".")[0]) > int(branch.split(".")[0]):
-                    _logger.info(
-                        "skip %s on %s: file requires >= %s", file, branch, floor)
-                    continue
                 self.run(["git", "-C", f"{new_repo_path}", "checkout", f"{source_branch}", f"{file}"], capture_output=True, text=True)
-                copied.append(file)
-            if not copied:
-                continue
-            # Verify before pushing: a broken expansion must not be published.
-            for file in copied:
-                if not (file.endswith(".p.py") or file.endswith(".p.xml")):
-                    continue
-                ok, message = self._verify_expansion(new_repo_path, branch, file)
-                if not ok:
-                    _logger.error(
-                        "expansion failed for %s on %s: %s", file, branch, message)
-                    self.committer_email = git_dict.get("committer_email")
-                    raise UserError(
-                        f"p-file expansion failed: {file} for {branch}: {message}")
             self.run(["git", "-C", f"{new_repo_path}", "add", "."], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "commit", "-m", f"odoobranchpfile {git_dict.get('repo')} from {source_branch}. {p_file_sync} {git_dict.get('task_number', '')}"], capture_output=True, text=True)
             self.run(["git", "-C", f"{new_repo_path}", "push"], capture_output=True, text=True)

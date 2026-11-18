@@ -11,7 +11,11 @@ class Project(models.Model):
 
     def create_project_ci(self):
         if self.project_ci_branch_name_ids:
+            # #if VERSION >= "20.0"
+            report_return_url = self.env['ir.config_parameter'].sudo().get_str('web.base.url', False)
+            # #else
             report_return_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url', False)
+            # #endif
             project_ci_id = self.env["project.ci"].create({"project_id":self.id})
             for branch in self.project_ci_branch_name_ids:
                 project_ci_branch_id = self.env["project.ci.branch"].create({"project_ci_id": project_ci_id.id, "project_ci_branch_name_id": branch.id})

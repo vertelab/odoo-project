@@ -1,22 +1,21 @@
 # -*- coding: utf-8 -*-
 {
     'name': 'Project: AI Coworkers',
-    'version': '18.0.5.1.0',
-    'summary': 'AI coworker for project management — Project (supervisor) + specialist agents.',
+    'version': '3.0.1',
+    'summary': 'AI coworkers for project management — Task Manager + Project Planner.',
     'description': '''
 AI Coworkers
 ============
 
-    AI coworker for project management — Project (supervisor) + specialist agents.
+    AI coworkers for project management — Task Manager + Project Planner.
 
     Features:
 
         - UI Integration: Extends 2 view(s) in the Odoo interface.
         - Extends Odoo: Builds on ai.coworker, ai.coworker.session, project.project, project.task.
-        - Agents: Projektanalytiker (domain analysis) + Odoo-utvecklare (implementation).
     ''',
     'category': 'Project',
-    'author': 'Vertel Sverige AB',
+    'author': 'Vertel AB',
     'website': 'https://vertel.se/apps/odoo-project/project_ai',
     'license': 'AGPL-3',
     'depends': [
@@ -32,7 +31,6 @@ AI Coworkers
         'data/project_tools.xml',
         'data/project_skills.xml',
         'data/project_coworkers.xml',
-        'data/project_agents.xml',
         'views/project_task_views.xml',
         'views/session_views.xml',
     ],
